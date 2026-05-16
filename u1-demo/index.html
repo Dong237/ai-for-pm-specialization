@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · LLM 是什么 — AI for PM</title>
+  <meta name="description" content="销售→PM 转 AI PM 系列课 · Unit 1: AI 是怎么写出诗、改 bug、翻译外语的?一句话答完." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <!-- Excalifont — same font Excalidraw uses, self-hosted (see ./fonts/) -->
+  <!-- LXGW WenKai (Chinese) — open-source brush-style font, loaded via CDN with system fallback -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body data-theme="light">
+
+  <!-- Top bar: progress + theme toggle -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../c1-m1-llm/index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · LLM 是什么</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <!-- Floating step nav (desktop / iPad landscape) -->
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ================================================== -->
+    <!-- ▶ START — hook + preview                            -->
+    <!-- ================================================== -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 1<span class="title-dot">·</span><br/>LLM 到底是个啥?</h1>
+      <p class="hero-sub">为什么它能写七绝, 又会算错 17×23?</p>
+
+      <div class="hero-grid">
+        <!-- The "你" stick figure -->
+        <figure class="you" aria-label="一个困惑的销售/PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 销售 3 年 · PM 半年)</figcaption>
+        </figure>
+
+        <!-- Thought cloud with the questions -->
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">我现在打开 ChatGPT, 问它什么都答得上.</p>
+          <p class="cloud-line">它真的"懂"我说的话吗??</p>
+          <p class="cloud-line">面试要是被问 "LLM 怎么工作的", 我能答清楚吗?</p>
+          <p class="cloud-line accent">—— 今天 10 步, 答完.</p>
+        </div>
+      </div>
+
+      <!-- Preview list -->
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>用一句话给非技术朋友解释 LLM 是什么</li>
+          <li>看穿"AI 答对了"≠ "AI 懂了" 这件事</li>
+          <li>知道 Vitamin 哪些功能能交给 LLM, 哪些不能</li>
+          <li>调 Temperature 这个参数, 要往哪儿拧</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (1) 三件惊叹事                                      -->
+    <!-- ================================================== -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">先承认: LLM 是有点神奇的</h2>
+      <p class="step-lede">在拆解它怎么工作之前, 先看三件事 —— 它真的能做到, 而且五年前没人觉得它能.</p>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1" data-rough="card">
+          <div class="wonder-tag">事 1</div>
+          <h3>写一首七言绝句, 主题"深圳春天"</h3>
+          <pre class="wonder-output">鹏城三月柳含烟,
+深湾水暖鹭鸶眠.
+莲花山上花如海,
+一夜东风到大鹏.</pre>
+          <div class="wonder-note">押韵, 平仄基本对, 还提到了真实地名</div>
+        </article>
+
+        <article class="wonder wonder-2" data-rough="card">
+          <div class="wonder-tag">事 2</div>
+          <h3>这段 Python 报错了, 帮我看看</h3>
+          <pre class="wonder-output">def total(items):
+    return sum(item.price for item in items)
+# AttributeError: 'dict' object 
+# has no attribute 'price'
+</pre>
+          <div class="wonder-note">→ AI 答: "items 是 dict 列表, 用 item['price']"  ✓ 答对了</div>
+        </article>
+
+        <article class="wonder wonder-3" data-rough="card">
+          <div class="wonder-tag">事 3</div>
+          <h3>把这段中文翻译成法语 (带语气)</h3>
+          <pre class="wonder-output">原: 啊呀, 你又迟到了!
+
+→ Ah là là, tu es 
+    encore en retard !</pre>
+          <div class="wonder-note">不只是字面翻译 —— 抓住了"啊呀"的撒娇/责备语气</div>
+        </article>
+      </div>
+
+      <div class="big-question">凭什么???</div>
+      <div class="step-foot">三个不同领域 (诗 / 代码 / 翻译), 一个 AI 都搞定了. 它内部到底在干嘛 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (2) 错猜测 + 真相                                    -->
+    <!-- ================================================== -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两个常见错猜测 —— 都不对</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>猜测 A: AI "懂了" 中文/Python/法语</h3>
+          <p>像人一样, 它有"理解" 这件事在脑子里发生.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            它会一本正经地编不存在的论文; 算 17×23 错; 同一句话两次问答案不一样.
+            真"懂"的东西不会这样.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>猜测 B: AI 是个超级数据库</h3>
+          <p>它存了全互联网的答案, 你问啥它查啥.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            "深圳春天" 这首七绝不在任何数据库里 — 是它当场写的.
+            数据库不会"创作", 它只能"检索".
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">LLM 在做<mark class="hl">一件事, 反复地做</mark>:</p>
+        <p class="truth-line giant">"猜下一个字最可能是啥."</p>
+        <p class="truth-line">就这么简单. 不"懂" 也不"查". 就是<em>猜下一个字</em>.</p>
+        <p class="truth-line muted">→ 七绝是猜了 28 个字. Python 修复是猜了一段代码. 翻译是猜了一句法语. 都是同一件事.</p>
+      </div>
+
+      <div class="step-foot">"猜下一个字" 怎么就能猜出诗? 下一步用一个具体例子拆开 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (3) 今天天气真__                                     -->
+    <!-- ================================================== -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">把这事拆给你看 — 半句话, 你来猜</h2>
+      <p class="step-lede">先别想 AI, 想<strong>你自己</strong>. 我把这句话写一半:</p>
+
+      <div class="prompt-box" data-rough="card">
+        <div class="prompt-leader">输入:</div>
+        <div class="prompt-text">今天天气真<span class="blank">___</span></div>
+      </div>
+
+      <p class="step-lede">你脑子里立刻冒出来一堆候选 —— 不止一个对的答案, 是<em>一堆答案的可能性排序</em>:</p>
+
+      <div class="user-guess" data-rough="card">
+        <div class="user-guess-grid">
+          <span class="guess-item top">好</span>
+          <span class="guess-item">棒</span>
+          <span class="guess-item">不错</span>
+          <span class="guess-item">糟</span>
+          <span class="guess-item">闷</span>
+          <span class="guess-item dim">饿</span>
+        </div>
+        <div class="guess-caption">
+          "好" 大概是你最先想到的. "饿" 你也想得到, 但你知道它<strong>非常不可能</strong>.<br/>
+          这就是"概率分布": 一堆候选, 各有可能性高低.
+        </div>
+      </div>
+
+      <p class="step-lede">现在把同一句话喂给 LLM:</p>
+
+      <div class="pipe-down">↓ 送进 LLM (140GB 的模型) ↓</div>
+
+      <div class="step-foot">出来的不是"一个字", 而是一张概率表 —— 下一步给你看 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (4) AI 内部: 一张概率表                              -->
+    <!-- ================================================== -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">AI 给的不是答案, 是概率表</h2>
+
+      <div class="prob-table" data-rough="prob">
+        <div class="prob-header">
+          <div>候选下一个字</div>
+          <div>概率</div>
+        </div>
+        <div class="prob-row top">
+          <div class="prob-word">好</div>
+          <div class="prob-bar"><div class="bar" data-value="60"><span>60%</span></div></div>
+        </div>
+        <div class="prob-row">
+          <div class="prob-word">棒</div>
+          <div class="prob-bar"><div class="bar" data-value="20"><span>20%</span></div></div>
+        </div>
+        <div class="prob-row">
+          <div class="prob-word">不</div>
+          <div class="prob-bar"><div class="bar" data-value="8"><span>8%</span></div></div>
+        </div>
+        <div class="prob-row">
+          <div class="prob-word">糟</div>
+          <div class="prob-bar"><div class="bar" data-value="5"><span>5%</span></div></div>
+        </div>
+        <div class="prob-row">
+          <div class="prob-word">闷</div>
+          <div class="prob-bar"><div class="bar" data-value="3"><span>3%</span></div></div>
+        </div>
+        <div class="prob-row dim">
+          <div class="prob-word">饿</div>
+          <div class="prob-bar"><div class="bar" data-value="1"><span>1%</span></div></div>
+        </div>
+        <div class="prob-row dim">
+          <div class="prob-word">… (剩下 5 万个候选都接近 0)</div>
+          <div class="prob-bar muted"></div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p>注意 3 件事 ——</p>
+        <ol>
+          <li>AI 给的是<strong>所有候选</strong>的概率, 不只是 top 1</li>
+          <li>"好" 60% 不是因为 AI 觉得"好" 是对的, 是因为<strong>训练时见过太多 "天气真好" 的句子</strong></li>
+          <li>这张表跟你脑子里的排序<em>差不多</em>. 这就是它"像人" 的根源</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">那 60% 这个数到底怎么算出来的? ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (5) 60% 怎么算: 训练 + 推理                          -->
+    <!-- ================================================== -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">60% 怎么来的 — 训练 + 推理两阶段</h2>
+
+      <div class="two-stage">
+        <article class="stage stage-train" data-rough="card">
+          <div class="stage-tag">阶段 1 · 训练 (一次性, 训练完冻住)</div>
+          <ol class="stage-steps">
+            <li><strong>读完互联网</strong> ~10 TB 文本 (维基百科 + 书 + 论坛 + 代码)</li>
+            <li>每读一句话, 遮住一个字, <strong>让模型猜</strong></li>
+            <li>猜错了, 调一下脑子里的"参数" (140 GB 的数字)</li>
+            <li>重复 ~一万亿次. 训练完, 这 140 GB 就是模型的"全部记忆"</li>
+          </ol>
+          <div class="stage-output">→ 出来一个 140 GB 的文件 (模型权重)</div>
+        </article>
+
+        <div class="stage-arrow">↓ 训练完了之后 ↓</div>
+
+        <article class="stage stage-infer" data-rough="card">
+          <div class="stage-tag">阶段 2 · 推理 (你每用一次, 跑一次)</div>
+          <ol class="stage-steps">
+            <li>你输入"今天天气真__"</li>
+            <li>模型查它的 140 GB 记忆, <strong>给所有候选打分</strong></li>
+            <li>"好" 在训练时跟 "天气真" 共现 60% → 输出 60%</li>
+            <li>"饿" 几乎没共现过 → 输出 1%</li>
+          </ol>
+          <div class="stage-output">→ 输出: 概率表</div>
+        </article>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 关键认知:</strong>
+        训练 = 一次性的天文成本 (GPT-4 据估计 $1 亿). 推理 = 每次调用的小钱 ($0.001 量级).
+        <br/>这就是为啥"模型 API 按次收费, 不卖整个模型".
+      </div>
+
+      <div class="step-foot">一个字猜完了, 怎么生成一整段话? ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (6) 循环接龙 — Autoregressive                       -->
+    <!-- ================================================== -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">一个字接一个字 — Autoregressive 接龙</h2>
+      <p class="step-lede">猜完一个字, 把它<em>追加到原句尾</em>, 再猜下一个. 循环.</p>
+
+      <!-- Interactive: click to advance autoregressive demo -->
+      <div class="autoregress" data-rough="card">
+        <div class="ar-display" id="ar-display">
+          <span class="ar-prompt">今天天气真</span><span class="ar-generated" id="ar-generated"></span><span class="ar-cursor">|</span>
+        </div>
+        <div class="ar-rounds" id="ar-rounds">
+          <!-- Rounds appear as user clicks -->
+        </div>
+        <div class="ar-controls">
+          <button id="ar-step" class="btn btn-primary">下一轮 →</button>
+          <button id="ar-reset" class="btn btn-ghost">重来</button>
+          <span class="ar-counter">轮 <span id="ar-count">0</span> / 11</span>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>这个循环有个学名: Autoregressive (自回归).</strong>
+        <p>"七绝" 不是一次输出 28 个字 — 是猜了 28 次, 每次一个 token, 把上一次的输出当下一次的输入.</p>
+        <p class="muted">→ 这也解释了为什么 ChatGPT 是<em>一个字一个字蹦出来</em>的, 不是"想好了一次发". 因为它真的就是一个字一个字算的.</p>
+      </div>
+
+      <div class="step-foot">回到开头那三件事 — 现在能解释了 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (7) 回扣三件事                                       -->
+    <!-- ================================================== -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">回过头看那三件事 — 全是同一件事</h2>
+
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task">写七绝</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">见过几百万首唐诗 + 现代诗. 概率分布偏向"押韵 + 五/七字".</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task">改 Python</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">见过几亿行代码 + Stack Overflow 报错-修复对. 概率分布偏向"修复模式".</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task">中→法翻译</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">见过亿级中法对照. 概率分布偏向"语义对齐 + 语气保留".</div>
+        </div>
+      </div>
+
+      <div class="big-insight" data-rough="big">
+        <p>一句话:</p>
+        <p class="insight-text">LLM 把<mark class="hl">"互联网上各种风格的写作模式"</mark><br/>压缩进了 140 GB.</p>
+        <p>你给它前半句, 它按记忆里的模式接后半句. 就这么个事儿.</p>
+      </div>
+
+      <div class="step-foot">那 "概率最高的字" 一定是它输出的字吗? 不一定 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (8) Temperature 旋钮                                -->
+    <!-- ================================================== -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Temperature — 让 AI "严谨" 还是 "放飞"</h2>
+      <p class="step-lede">概率表是固定的. 但<em>从这张表里挑哪个字</em>, 是可以调的. 这个调节旋钮叫 Temperature.</p>
+
+      <!-- Interactive: temperature slider -->
+      <div class="temp-widget" data-rough="card">
+        <div class="temp-control">
+          <label for="temp-slider">Temperature: <span id="temp-value" class="temp-val">0.7</span></label>
+          <input id="temp-slider" type="range" min="0" max="15" value="7" step="1" />
+          <div class="temp-scale">
+            <span>0 严谨</span>
+            <span>0.7 默认</span>
+            <span>1.5 狂野</span>
+          </div>
+        </div>
+
+        <div class="temp-output" id="temp-output">
+          <div class="temp-prompt">输入: "今天天气真"</div>
+          <div class="temp-result" id="temp-result">→ <span id="temp-words">好.</span></div>
+          <div class="temp-explain" id="temp-explain">T=0.7 时, AI 大概率输出"好" (top), 偶尔"棒". 自然中带点变化.</div>
+        </div>
+
+        <div class="temp-vitamin">
+          <strong>Vitamin 选档建议:</strong>
+          <ul>
+            <li><span class="pill pill-blue">T=0.2</span> 给身体状态总结 / 健康建议 (要稳, 不能瞎编)</li>
+            <li><span class="pill pill-green">T=0.7</span> 跟用户对话 / 情绪安抚 (默认值, 自然)</li>
+            <li><span class="pill pill-amber">T=1.2</span> 生成趣味文案 / 起名 (要点新意)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-foot">理解了 LLM 怎么干活, 现在把它对照 Vitamin ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (9) Vitamin 能 / 不能                                -->
+    <!-- ================================================== -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 哪些能交给 LLM, 哪些不能</h2>
+      <p class="step-lede">一句话规则: <mark class="hl"><strong>"模式" 它擅长. "事实" 它不擅长.</strong></mark></p>
+
+      <div class="can-cant">
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">✓ 能交给 LLM</h3>
+          <ul>
+            <li>把用户的"我有点累" 改写成 3 种温柔提醒</li>
+            <li>根据用户记的早餐, 生成今日饮食小结</li>
+            <li>用户问"经期能跑步吗", 给出参考性回答</li>
+            <li>把医学术语翻译成大白话</li>
+            <li>识别用户输入的情绪, 分类到 5 状态</li>
+            <li>给一段对话总结 3 个关键点</li>
+          </ul>
+        </article>
+
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">✗ 不能交给 LLM</h3>
+          <ul>
+            <li>算用户 BMI (它会算错小数)</li>
+            <li>判断"用户能不能服 X 药" (医疗诊断, 法律风险)</li>
+            <li>查"今天深圳天气几度" (实时数据, 它训练时不知道)</li>
+            <li>记住用户上周三说过啥 (除非你显式塞进 context)</li>
+            <li>生成"绝对正确"的健康建议 (它会自信地编)</li>
+            <li>处理用户身份证号 / 隐私数据 (合规风险)</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"LLM 擅长生成式任务 (改写 / 分类 / 总结), 不擅长精确计算 / 实时数据 / 长期记忆.
+        所以我设计 Vitamin 时, 把数学算 BMI 这种交给规则, 把'用户输入分类到5状态' 这种交给 LLM."</p>
+        <p class="muted">→ 这个判断力, 就是 AI PM 跟普通 PM 的差别.</p>
+      </div>
+
+      <div class="step-foot">作业 + 一句话总结 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (10) 一句话规则 + 作业                                -->
+    <!-- ================================================== -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">LLM 是一个 140 GB 的"模式压缩器" ——<br/>
+          把互联网的写作模式压进权重, 你给前半句, 它按模式接后半句.</p>
+        <p class="one-liner-foot muted">看 AI 产品时, 永远先问: 这是"模式" 任务还是"事实" 任务?</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 ChatGPT / 豆包, 让它帮你写一段"Vitamin 早餐建议". 看 5 次, 每次它说的有哪些"模式相同, 措辞不同" 的地方.</li>
+          <li>问它一个事实题: "深圳今天最高气温几度?" 看它怎么答 (大概率会编).</li>
+          <li>把第 9 步的"能 / 不能" 对照 Vitamin 现有功能, 圈出来 3 个你之前以为该用 AI 但其实该用规则的地方.</li>
+          <li>写 200 字: 用今天学的"猜下一个字" 概念解释给一个非技术朋友听.</li>
+        </ol>
+        <p class="muted">→ 第 4 项是面试自我介绍的素材库. 写下来.</p>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- ■ END                                                -->
+    <!-- ================================================== -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 三件惊叹事 (诗/代码/翻译)</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 错猜测: 不是"懂", 不是"查"</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> "今天天气真__" 你也会猜</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> AI 给的是概率表</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 训练 + 推理两阶段</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> Autoregressive 循环接龙</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 三件事 = 同一件事</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Temperature 旋钮</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 能/不能</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">LLM = 一个用 140 GB 装下"全互联网写作模式" 的猜字机.</p>
+        <p class="end-summary-sub">它不懂. 它没在查. 它在按模式猜下一个字, 一遍遍.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 2): Token</div>
+        <p>今天我们一直说 "猜下一个字" — 这是个善意的小谎言.<br/>
+        AI 看的不是"字", 是"token". 同一句中文, 在 GPT 眼里是 3 块, 在 DeepSeek 眼里是 4 块.</p>
+        <p><strong>这件事直接决定你 Vitamin 一个月烧多少钱.</strong></p>
+        <a class="walk-arrow" href="../c1-m1-llm/u2-token/index.html">继续走 → Unit 2</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1 · Unit 1 · 个人定制版 (for 嘉晴)</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="./rough.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

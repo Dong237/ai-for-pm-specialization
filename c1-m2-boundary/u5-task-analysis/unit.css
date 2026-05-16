@@ -1,0 +1,350 @@
+/* ===== Unit 5 · Task Analysis — unit-specific styles ===== */
+
+/* Scoring criteria table */
+.scoring-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 16px 0;
+}
+.scoring-table th {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+.scoring-table td {
+  padding: 10px 12px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.scoring-table .score-num {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  width: 50px;
+}
+
+/* Quadrant explanation cards */
+.quadrant-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 20px 0;
+}
+@media (max-width: 600px) {
+  .quadrant-grid { grid-template-columns: 1fr; }
+}
+.quadrant-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px 12px 11px 13px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+.quadrant-card:nth-child(1) {
+  border-color: var(--green);
+  transform: rotate(-0.3deg);
+}
+.quadrant-card:nth-child(2) {
+  border-color: var(--amber);
+  transform: rotate(0.4deg);
+}
+.quadrant-card:nth-child(3) {
+  border-color: var(--blue);
+  transform: rotate(0.3deg);
+}
+.quadrant-card:nth-child(4) {
+  border-color: var(--red);
+  transform: rotate(-0.4deg);
+}
+.quadrant-card-icon {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+.quadrant-card h4 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 17px;
+  margin: 0 0 6px;
+}
+.quadrant-card p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* Sub-factor list */
+.factor-list {
+  margin: 16px 0;
+}
+.factor-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.factor-item:last-child { border-bottom: none; }
+.factor-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.factor-num.blue { background: var(--blue-bg); color: var(--blue); border: 1.5px solid var(--blue); }
+.factor-num.green { background: var(--green-bg); color: var(--green); border: 1.5px solid var(--green); }
+.factor-body h4 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+}
+.factor-body p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+/* ===== 2x2 Matrix Widget ===== */
+.matrix-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.matrix-widget h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.matrix-container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 4px;
+  min-height: 400px;
+  margin-bottom: 16px;
+}
+
+.matrix-quadrant {
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: background 0.2s;
+}
+.matrix-quadrant.drag-over {
+  background: var(--blue-bg-soft) !important;
+}
+
+.matrix-quadrant .quad-label {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.matrix-quadrant .quad-desc {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+
+/* Q1: Star (top-right) */
+.quad-star {
+  background: var(--green-bg-soft);
+  border-color: var(--green);
+  grid-column: 2;
+  grid-row: 1;
+}
+.quad-star .quad-label { color: var(--green); }
+
+/* Q2: Question Mark (top-left) */
+.quad-question {
+  background: var(--amber-bg-soft);
+  border-color: var(--amber);
+  grid-column: 1;
+  grid-row: 1;
+}
+.quad-question .quad-label { color: var(--amber); }
+
+/* Q3: Quick Win (bottom-right) */
+.quad-quickwin {
+  background: var(--blue-bg-soft);
+  border-color: var(--blue);
+  grid-column: 2;
+  grid-row: 2;
+}
+.quad-quickwin .quad-label { color: var(--blue); }
+
+/* Q4: Don't Bother (bottom-left) */
+.quad-dont {
+  background: var(--red-bg-soft);
+  border-color: var(--red);
+  grid-column: 1;
+  grid-row: 2;
+}
+.quad-dont .quad-label { color: var(--red); }
+
+/* Axis labels */
+.matrix-axes {
+  position: relative;
+  margin-top: 4px;
+}
+.axis-x-label, .axis-y-label {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+.axis-x-label {
+  text-align: center;
+  margin-top: 8px;
+}
+.axis-y-label {
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: rotate(-90deg) translateX(50%);
+  transform-origin: left center;
+  white-space: nowrap;
+}
+
+/* Feature chips (draggable) */
+.feature-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: var(--shadow-card);
+  max-width: 100%;
+}
+.feature-chip:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow: var(--shadow-elev);
+}
+.feature-chip:active {
+  cursor: grabbing;
+  opacity: 0.8;
+}
+.feature-chip .chip-icon {
+  font-size: 16px;
+}
+.feature-chip.placed {
+  border-width: 1.5px;
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+/* Unplaced feature pool */
+.feature-pool {
+  background: var(--bg-elev);
+  border: 2px dashed var(--border-strong);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  min-height: 50px;
+}
+.pool-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+/* Suggested answer toggle */
+.answer-toggle {
+  margin-top: 12px;
+  text-align: center;
+}
+.answer-content {
+  display: none;
+  margin-top: 12px;
+  text-align: left;
+}
+.answer-content.visible {
+  display: block;
+}
+
+/* Resource table */
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 12px 0;
+}
+.resource-table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.resource-table td {
+  padding: 8px 10px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.resource-table a {
+  color: var(--blue);
+  text-decoration: none;
+}
+.resource-table a:hover { text-decoration: underline; }
+
+/* Mistake card */
+.mistake-list {
+  margin: 16px 0;
+}
+.mistake-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.mistake-item:last-child { border-bottom: none; }
+.mistake-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.mistake-body h4 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: var(--red);
+}
+.mistake-body p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}

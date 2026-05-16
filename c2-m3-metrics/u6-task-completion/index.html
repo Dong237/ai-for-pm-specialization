@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 6 · Task Completion Rate — AI for PM · M2.3</title>
+  <meta name="description" content="Agent 类产品核心指标. 用户任务最终解决了吗? 85%+ 才算生产级." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.3</span></a><div class="topbar-right"><span class="unit-label">Unit 6 · Task Completion Rate</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 6<span class="title-dot">·</span><br/>Task Completion Rate</h1>
+      <p class="hero-sub">AI 推荐了运动方案, 用户最终做完了吗? 这才是真正的成功.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">AI 给了很好的运动建议, 但用户看了就走了...</p>
+          <p class="cloud-line">Acceptance Rate 不低, 可最终做完运动的人很少.</p>
+          <p class="cloud-line accent">—— 需要看的是 Task Completion, 不只是 Accept.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 Task Completion Rate 的定义和与 AR 的区别</li>
+          <li>知道 "完成" 的定义因任务而异</li>
+          <li>看到用户在多步任务中哪里掉队</li>
+          <li>给 Vitamin 的 AI 功能设计任务完成漏斗</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">Acceptance ≠ Completion</h2>
+      <p class="step-lede">上几节学的 Acceptance Rate 看的是 "用户接受了 AI 的输出". 但 "接受" 不等于 "完成任务":</p>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>例子:</strong> AI 推荐了一套运动方案, 用户点了 "采纳" (AR +1)... 然后手机一放, 没做.</p>
+        <p>AR 说 "成功!", TCR 说 "失败!".</p>
+        <p class="muted">→ AR 衡量的是输出质量. TCR 衡量的是<strong>端到端的用户价值交付</strong>.</p>
+      </div>
+      <div class="step-foot">TCR 定义 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">定义: 用户的任务最终完成了吗</h2>
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">公式</div>
+        <p class="truth-line giant">TCR =<br/>成功完成任务数 / 发起任务数</p>
+        <p class="truth-line muted">"完成" 的定义因任务而异 — 你需要先定义什么算 "完成".</p>
+      </div>
+      <p>行业基准: 良好实现的 AI Agent 在结构化任务上能达到 <strong>85-95%</strong> 的 TCR. 低于 80% 需要紧急关注.</p>
+      <div class="step-foot">"完成" 怎么定义 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">定义 "完成": 每个功能不一样</h2>
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>Vitamin 各功能的 "完成" 定义:</strong></p>
+        <ul>
+          <li><strong>AI 聊天:</strong> 用户问了问题 → 看了回答 → 点了 "有帮助" 或执行了建议 = 完成</li>
+          <li><strong>AI 饮食计划:</strong> 生成计划 → 用户记录了至少 1 餐按计划吃 = 完成</li>
+          <li><strong>AI 运动推荐:</strong> 推荐方案 → 用户开始运动 → 运动计时完成 = 完成</li>
+          <li><strong>AI 身体日报:</strong> 生成日报 → 用户完整阅读 (停留 > 30s) = 完成</li>
+        </ul>
+      </div>
+      <p><mark class="hl">关键: "完成" 必须绑定用户价值, 不是绑定产品动作.</mark> "看了 AI 回答" 不算完成, "执行了建议" 才算.</p>
+      <div class="step-foot">为什么很多任务没完成 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">任务掉队的五个常见原因</h2>
+      <div class="callout callout-red" data-rough="card">
+        <ol>
+          <li><strong>等太久:</strong> AI 响应慢, 用户在第 2 步就走了 (→ 看 Latency)</li>
+          <li><strong>输出不行:</strong> AI 给的方案不对, 用户在 "采纳" 前放弃 (→ 看 AR)</li>
+          <li><strong>步骤太多:</strong> 从问题到执行要 6 步, 每步流失 10-20%</li>
+          <li><strong>跨场景切换:</strong> AI 说 "去跑步", 但用户要切换到运动 App → 流失</li>
+          <li><strong>没有闭环:</strong> AI 给了建议但不追踪执行 → 用户忘了</li>
+        </ol>
+      </div>
+      <p>研究表明, 68% 的生产级 AI Agent 在 10 步以内就需要人工介入. 步骤越多, TCR 越低.</p>
+      <div class="step-foot">TCR vs 二元成功/失败 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">超越二元: Milestone Scoring</h2>
+      <p class="step-lede">简单的 "成功/失败" 太粗糙了. 更好的方式是<strong>里程碑评分</strong>:</p>
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>Milestone Scoring 示例 (AI 运动推荐):</strong></p>
+        <ul>
+          <li>打开功能 → 20 分</li>
+          <li>AI 生成方案 → 40 分</li>
+          <li>用户选择方案 → 60 分</li>
+          <li>开始运动 → 80 分</li>
+          <li>完成运动 → 100 分</li>
+        </ul>
+        <p class="muted">→ 即使用户没做完, 你也知道她走到了哪一步. 60 分 ≠ 0 分.</p>
+      </div>
+      <p>Milestone Scoring 让你能做<strong>精细优化</strong>: 如果大部分用户卡在 60→80 (选了但没开始), 说明问题不在 AI, 在产品引导.</p>
+      <div class="step-foot">怎么提高 TCR ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">提高 TCR 的三个策略</h2>
+      <div class="callout callout-green" data-rough="card">
+        <ol>
+          <li><strong>减少步骤:</strong> 能合并就合并. "生成方案 + 一键开始" 比 "生成 → 选择 → 确认 → 开始" 少 2 步.</li>
+          <li><strong>闭环追踪:</strong> AI 给了建议后, 提醒用户执行. "你 2 小时前说要去跑步, 完成了吗?"</li>
+          <li><strong>降低切换成本:</strong> 把执行放在产品内. 不要让用户去别的 App 完成任务.</li>
+        </ol>
+      </div>
+      <p>核心思路: <mark class="hl">TCR 低, 大部分时候不是 AI 的问题, 是产品流程的问题.</mark> AI 给了好建议但用户没执行 → 产品没有做好 "最后一公里".</p>
+      <div class="step-foot">Recovery Rate ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">进阶指标: Recovery Rate</h2>
+      <p class="step-lede">好的 AI 不只是 "一次成功", 还要能 "从失败中恢复":</p>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>Recovery Rate</strong> = AI 遇到错误后, 自动修正并最终完成任务的比例.</p>
+        <p>例如: AI 推荐了一个用户做不了的运动 → 用户说 "换个简单的" → AI 成功推荐一个合适的 = 一次 Recovery.</p>
+        <p class="muted">高 Recovery Rate 说明 AI 有 "韧性" — 不是一次错就完了, 能调整.</p>
+      </div>
+      <p>行业数据: 优秀的 Agent 有 40-60% 的 Recovery Rate. 也就是说, 一半的初次失败可以通过自动重试或对话纠正解决.</p>
+      <div class="step-foot">动手看漏斗 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Task Flow Tracker</h2>
+      <p class="step-lede">选一个 Vitamin 的 AI 功能, 看用户在多步任务中哪里掉队:</p>
+      <div class="task-flow" data-rough="card">
+        <select id="flow-scenario" class="flow-scenario-select">
+          <option value="meal-plan">AI 饮食计划生成</option>
+          <option value="exercise">AI 运动推荐</option>
+          <option value="health-chat">AI 健康问答</option>
+        </select>
+        <div id="flow-steps" class="flow-steps"></div>
+        <div class="flow-summary">
+          <div>
+            <span style="font-size:13px;color:var(--ink-muted);">Task Completion Rate:</span><br/>
+            <span id="flow-tcr" class="flow-tcr">—</span>
+          </div>
+          <div style="font-size:13px;color:var(--ink-soft);max-width:300px;">
+            每一步的用户流失都在告诉你: 产品流程的瓶颈在哪里.
+          </div>
+        </div>
+      </div>
+      <div class="step-foot">Vitamin 的 TCR 目标 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: TCR 目标与优化重点</h2>
+      <div class="prob-table" data-rough="prob">
+        <div class="prob-header"><div>Vitamin 功能</div><div>TCR 目标</div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 健康问答</div><div class="prob-bar"><div class="bar" data-value="55" style="background:var(--green);"><span>50-60%</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 身体日报</div><div class="prob-bar"><div class="bar" data-value="70" style="background:var(--green);"><span>65-75%</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 饮食计划</div><div class="prob-bar"><div class="bar" data-value="42" style="background:var(--amber);"><span>35-45%</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 运动推荐</div><div class="prob-bar"><div class="bar" data-value="35" style="background:var(--amber);"><span>30-40%</span></div></div></div>
+      </div>
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"Task Completion Rate 衡量的是端到端的价值交付, 不只是 AI 输出质量. Acceptance Rate 说的是 '用户觉得建议好', TCR 说的是 '用户真的执行了'. 大部分 TCR 低的原因不是 AI 不行, 是产品流程太长或没有做好闭环."</p>
+      </div>
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Accept ≠ Complete.<br/>TCR 衡量的是端到端的价值交付.<br/>低 TCR 通常是产品流程问题, 不是 AI 问题.</p>
+      </div>
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>画 Vitamin "AI 运动推荐" 的任务完成漏斗: 列出 5-6 步, 估算每步的流失率.</li>
+          <li>找出漏斗中最大的 drop-off 在哪一步, 设计一个产品改进方案.</li>
+          <li>给 Vitamin 的 AI 聊天功能设计一个 "闭环追踪" 方案: AI 给了建议后怎么提醒用户执行?</li>
+          <li>写 100 字: TCR 和 AR 的区别是什么? 什么时候该看 AR, 什么时候该看 TCR?</li>
+        </ol>
+        <div style="margin-top:16px;padding-top:12px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://www.mindstudio.ai/blog/ai-agent-success-metrics" target="_blank" style="color:var(--blue);">AI Agent Success Metrics</a></td><td style="padding:6px 4px;color:var(--ink-muted);">MindStudio</td><td style="padding:6px 4px;color:var(--ink-muted);">Agent TCR 最佳实践</td><td style="padding:6px 4px;color:var(--ink-muted);">15 min</td></tr>
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://machinelearningmastery.com/beyond-accuracy-5-metrics-that-actually-matter-for-ai-agents/" target="_blank" style="color:var(--blue);">5 Metrics for AI Agents</a></td><td style="padding:6px 4px;color:var(--ink-muted);">MLMastery</td><td style="padding:6px 4px;color:var(--ink-muted);">含 Milestone Scoring</td><td style="padding:6px 4px;color:var(--ink-muted);">20 min</td></tr>
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://cloud.google.com/transform/the-kpis-that-actually-matter-for-production-ai-agents" target="_blank" style="color:var(--blue);">Google Cloud: AI Agent KPIs</a></td><td style="padding:6px 4px;color:var(--ink-muted);">Google Cloud</td><td style="padding:6px 4px;color:var(--ink-muted);">生产级 Agent KPI</td><td style="padding:6px 4px;color:var(--ink-muted);">15 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> Accept ≠ Complete</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> TCR 定义</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 定义"完成"</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 掉队五原因</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Milestone Scoring</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 提高TCR三策略</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Recovery Rate</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Task Flow Tracker</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin TCR 目标</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 一句话 + 作业</a>
+      </div>
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 6:</p>
+        <p class="end-summary-big">TCR = 端到端的价值交付.<br/>低 TCR 大多是流程问题, 不是 AI 问题.</p>
+      </div>
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 7): P50 / P95 Latency</div>
+        <p>一半用户等多久? 最慢的 5% 等多久?</p>
+        <p><strong>平均值是骗人的, 要看百分位数.</strong></p>
+        <a class="walk-arrow" href="../u7-latency/index.html">继续走 → Unit 7</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.3 · Unit 6 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

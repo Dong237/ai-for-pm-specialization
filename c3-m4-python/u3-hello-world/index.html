@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · 第一次调用 LLM API — AI for PM · M3.4</title>
+  <meta name="description" content="AI PM 课 · M3.4 Unit 3: 10 行 Python 代码, 从终端发消息给 GPT, 收到回复." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 · 第一次调用 LLM API</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="Step navigation">
+    <ol>
+      <li><a href="#start" data-step="0">&#9654;</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">&#9632;</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 3<span class="title-dot">·</span><br/>第一次调用 LLM API</h1>
+      <p class="hero-sub">10 行代码, 从 Python 发消息给 GPT, 收到回复. 你的第一个 AI 脚本.</p>
+
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">ChatGPT 网页版我天天用, 可 API 是什么?</p>
+          <p class="cloud-line">用 Python 调 API 跟网页聊天有什么不同?</p>
+          <p class="cloud-line accent">-- 今天写出你的第一个 AI 脚本.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步走完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 API 调用跟网页聊天的区别</li>
+          <li>写出 10 行代码的完整 API 调用脚本</li>
+          <li>看懂 API 返回的 JSON 结构</li>
+          <li>知道 system / user / assistant 三种角色</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">网页版 vs API -- 一张图说清</h2>
+      <p class="step-lede">你在 ChatGPT 网页上打字聊天时, 背后发生的事跟 API 调用是<strong>完全一样的</strong>:</p>
+
+      <div class="api-flow">
+        <div class="api-flow-step">你的 Python 脚本<br/><small>(替代网页)</small></div>
+        <div class="api-flow-arrow">&rarr;</div>
+        <div class="api-flow-step">OpenAI API<br/><small>(同一个服务器)</small></div>
+        <div class="api-flow-arrow">&rarr;</div>
+        <div class="api-flow-step">GPT 模型回复<br/><small>(同样的模型)</small></div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>区别在哪?</strong></p>
+        <ul>
+          <li><strong>网页版:</strong> 手动输入, 一次一条, 不能批量</li>
+          <li><strong>API:</strong> 代码调用, 可批量 100 条, 可自动化, 可定制参数</li>
+        </ul>
+        <p class="muted">API 就是 "把网页聊天变成代码能操控的接口".</p>
+      </div>
+
+      <div class="step-foot">理解了? 来看最简单的 API 调用代码 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">10 行代码 -- 你的第一个 API 调用</h2>
+      <p class="step-lede">这就是完整代码. 10 行, 不多也不少:</p>
+
+      <div class="code-block"><span class="cmt"># first_call.py</span>
+<span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+
+load_dotenv()  <span class="cmt"># 从 .env 读取 OPENAI_API_KEY</span>
+
+client = OpenAI()  <span class="cmt"># 自动使用环境变量中的 Key</span>
+
+response = client.chat.completions.create(
+    model=<span class="str">"gpt-4o-mini"</span>,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"你是 Vitamin 健康助手, 用简洁友好的语气回答."</span>},
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"经期可以运动吗?"</span>}
+    ]
+)
+
+print(response.choices[0].message.content)</div>
+
+      <div class="callout callout-amber">
+        <p><strong>为什么选 gpt-4o-mini?</strong> 它是目前性价比最高的模型: 质量接近 GPT-4o, 但价格只有 1/15. 非常适合 PM 做原型和测试.</p>
+      </div>
+
+      <div class="step-foot">来逐行拆解这 10 行代码 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">逐行拆解 -- 每一行在干嘛</h2>
+
+      <table class="compare-table">
+        <thead><tr><th>行号</th><th>代码</th><th>干嘛用</th></tr></thead>
+        <tbody>
+          <tr><td>1-2</td><td><code>from openai import OpenAI</code></td><td>导入 OpenAI 库</td></tr>
+          <tr><td>3</td><td><code>from dotenv import load_dotenv</code></td><td>导入 .env 读取工具</td></tr>
+          <tr><td>4</td><td><code>load_dotenv()</code></td><td>读取 .env 文件里的 Key</td></tr>
+          <tr><td>5</td><td><code>client = OpenAI()</code></td><td>创建 API 客户端 (自动用环境变量的 Key)</td></tr>
+          <tr><td>6-11</td><td><code>client.chat.completions.create(...)</code></td><td>发送请求: 指定模型 + 消息</td></tr>
+          <tr><td>12</td><td><code>print(...message.content)</code></td><td>打印 AI 的回复文本</td></tr>
+        </tbody>
+      </table>
+
+      <div class="step-foot">最关键的是 messages 这个参数 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">三种角色: system / user / assistant</h2>
+      <p class="step-lede">messages 是一个列表, 每条消息有一个 "角色". 就像一个聊天群:</p>
+
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--purple);">system</div>
+          <div class="recall-arrow">&rarr;</div>
+          <div class="recall-explain"><strong>设定角色</strong> -- 告诉 AI "你是谁", 定义行为边界. 用户看不到.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--blue);">user</div>
+          <div class="recall-arrow">&rarr;</div>
+          <div class="recall-explain"><strong>用户输入</strong> -- 就是你要问 AI 的问题.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--green);">assistant</div>
+          <div class="recall-arrow">&rarr;</div>
+          <div class="recall-explain"><strong>AI 回复</strong> -- AI 之前的回答. 多轮对话时用.</div>
+        </div>
+      </div>
+
+      <div class="code-block"><span class="cmt"># 多轮对话示例</span>
+messages = [
+    {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"你是 Vitamin 健康助手."</span>},
+    {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"经期可以运动吗?"</span>},
+    {<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: <span class="str">"可以! 建议低强度运动..."</span>},
+    {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"那瑜伽呢?"</span>}  <span class="cmt"># 接着聊</span>
+]</div>
+
+      <div class="callout callout-blue">
+        <p><strong>PM 要点:</strong> system prompt 就是你的 "产品说明书". 它决定 AI 的人格、语气、知识边界. 你写好 system prompt = 你定义了产品.</p>
+      </div>
+
+      <div class="step-foot">代码理解了, 来看 API 返回的数据长什么样 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">API 返回的 JSON -- 不只是文字</h2>
+      <p class="step-lede">API 返回的不是纯文字, 是一个结构化的 JSON 对象:</p>
+
+      <div class="code-block"><span class="cmt"># 打印完整返回</span>
+print(response)
+
+<span class="cmt"># 输出类似:</span>
+{
+  <span class="str">"id"</span>: <span class="str">"chatcmpl-abc123"</span>,
+  <span class="str">"model"</span>: <span class="str">"gpt-4o-mini"</span>,
+  <span class="str">"choices"</span>: [{
+    <span class="str">"message"</span>: {
+      <span class="str">"role"</span>: <span class="str">"assistant"</span>,
+      <span class="str">"content"</span>: <span class="str">"经期可以适当运动..."</span>
+    }
+  }],
+  <span class="str">"usage"</span>: {
+    <span class="str">"prompt_tokens"</span>: 42,       <span class="cmt"># 你发的 token 数</span>
+    <span class="str">"completion_tokens"</span>: 98,   <span class="cmt"># AI 回复的 token 数</span>
+    <span class="str">"total_tokens"</span>: 140         <span class="cmt"># 总计 (这个数决定费用)</span>
+  }
+}</div>
+
+      <div class="callout callout-amber">
+        <p><strong>usage 字段是 PM 的好朋友!</strong> 它告诉你每次调用花了多少 token. 后面 Unit 7 会教你用它算成本.</p>
+      </div>
+
+      <div class="step-foot">来看更多参数: temperature, max_tokens ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">三个最常用的参数</h2>
+      <p class="step-lede">除了 model 和 messages, 你还会经常用到这三个:</p>
+
+      <div class="code-block">response = client.chat.completions.create(
+    model=<span class="str">"gpt-4o-mini"</span>,
+    messages=[...],
+    temperature=<span class="op">0.3</span>,       <span class="cmt"># 控制创意度 (0=严谨, 1=创意)</span>
+    max_tokens=<span class="op">500</span>,        <span class="cmt"># 限制回复最大长度</span>
+    n=<span class="op">1</span>                     <span class="cmt"># 生成几条回复 (默认 1)</span>
+)</div>
+
+      <table class="compare-table">
+        <thead><tr><th>参数</th><th>作用</th><th>Vitamin 推荐值</th></tr></thead>
+        <tbody>
+          <tr><td><code>temperature</code></td><td>创意度 (0-2)</td><td>健康建议: 0.2-0.3, 聊天: 0.7</td></tr>
+          <tr><td><code>max_tokens</code></td><td>回复最大 token 数</td><td>200-500 (防止长篇大论)</td></tr>
+          <tr><td><code>n</code></td><td>生成几条候选</td><td>1 (省钱, 除非做 A/B 测试)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="step-foot">参数都清楚了, 来看完整的可复制模板 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">可复制模板 -- 你以后每次调 API 都从这里开始</h2>
+      <p class="step-lede">把这段代码存为 <code>template.py</code>, 以后每个脚本都从它复制:</p>
+
+      <div class="code-block"><span class="cmt"># template.py — PM 的 API 调用模板</span>
+<span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+
+load_dotenv()
+client = OpenAI()
+
+<span class="kw">def</span> <span class="fn">ask_ai</span>(question, system_prompt=<span class="str">"你是一个有帮助的助手."</span>):
+    <span class="str">"""给 AI 发一个问题, 返回回答文本."""</span>
+    response = client.chat.completions.create(
+        model=<span class="str">"gpt-4o-mini"</span>,
+        messages=[
+            {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: system_prompt},
+            {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: question}
+        ],
+        temperature=<span class="op">0.3</span>,
+        max_tokens=<span class="op">500</span>
+    )
+    <span class="kw">return</span> response.choices[0].message.content
+
+<span class="cmt"># 使用</span>
+answer = ask_ai(<span class="str">"经期可以运动吗?"</span>, <span class="str">"你是 Vitamin 健康助手."</span>)
+print(answer)</div>
+
+      <div class="callout callout-green">
+        <p><strong>PM 技巧:</strong> 把 API 调用封装成 <code>ask_ai()</code> 函数后, 你每次调用只需要一行代码. 后面批量处理 100 条数据, 就是循环调这个函数.</p>
+      </div>
+
+      <div class="step-foot">来试试交互式 Code Runner ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Code Runner -- 看看 API 调用长什么样</h2>
+      <p class="step-lede">点 "Run" 按钮, 模拟一次真实的 API 调用 (含返回和 token 计数):</p>
+
+      <div class="code-runner" id="code-runner">
+        <div class="cr-header">
+          <span class="cr-filename">first_call.py</span>
+          <button class="cr-run-btn">&#9654; Run</button>
+        </div>
+        <div class="cr-code"><span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+
+load_dotenv()
+client = OpenAI()
+
+response = client.chat.completions.create(
+    model=<span class="str">"gpt-4o-mini"</span>,
+    messages=[
+        {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: <span class="str">"你是 Vitamin 健康助手."</span>},
+        {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"经期可以运动吗?"</span>}
+    ],
+    temperature=<span class="op">0.3</span>
+)
+print(response.choices[0].message.content)</div>
+        <div class="cr-output">Click "Run" to execute...</div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>注意:</strong> 每次点 Run, AI 的回复会略有不同 (因为 temperature=0.3 不是 0). 这就是我们之前学的 "概率采样".</p>
+      </div>
+
+      <div class="step-foot">代码能跑了, 来看 Vitamin 的 API 调用设计 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 案例 -- system prompt 设计</h2>
+      <p class="step-lede">Vitamin 的 system prompt 就是你这个产品的 "灵魂". 初版长这样:</p>
+
+      <div class="code-block">system_prompt = <span class="str">"""你是 Vitamin, 一个女性健康 AI 助手.
+
+规则:
+1. 用温暖、亲切的语气, 像好朋友一样说话
+2. 回复控制在 200 字以内
+3. 涉及具体医疗诊断时, 提醒用户咨询医生
+4. 不要使用专业术语, 用大白话解释
+5. 根据用户当前的身体状态 (5 态之一) 给出建议
+
+你知道的 5 种身体状态:
+- 经期 (menstrual)
+- 卵泡期 (follicular)
+- 排卵期 (ovulatory)
+- 黄体期 (luteal)
+- 无特殊状态 (normal)
+"""</span></div>
+
+      <div class="callout callout-amber">
+        <p><strong>PM 产品思维:</strong> system prompt 就是你写给 AI 的 PRD. 它定义了:</p>
+        <ul>
+          <li><strong>人格</strong> -- 温暖好朋友 (不是冷冰冰的医疗机器人)</li>
+          <li><strong>边界</strong> -- 不做诊断, 提醒就医</li>
+          <li><strong>格式</strong> -- 200 字以内, 大白话</li>
+          <li><strong>知识</strong> -- 5 种身体状态</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">作业 + 一句话总结 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">API 调用 = client.chat.completions.create().<br/>10 行代码, 一个函数, 搞定.</p>
+        <p class="one-liner-foot muted">会调 API = 会让 AI 替你打工. 你是 PM, 不是工程师, 调通就够了.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>在你的 vitamin-api 项目里创建 <code>first_call.py</code>, 复制 Step 2 的代码, 真实跑一遍.</li>
+          <li>修改 system prompt: 把 Vitamin 换成你自己的产品概念, 跑 3 个不同问题.</li>
+          <li>试试改 temperature: 分别设 0, 0.5, 1.2, 同一个问题跑 3 遍, 观察回复有什么不同.</li>
+          <li>把 Step 7 的 <code>ask_ai()</code> 函数存为 <code>template.py</code>, 以后每个脚本都从它开始.</li>
+        </ol>
+
+        <div style="margin-top:16px;">
+          <strong>资源延伸:</strong>
+          <table class="compare-table" style="margin-top:8px;">
+            <thead><tr><th>类型</th><th>资源</th><th>说明</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>📖</td><td><a href="https://platform.openai.com/docs/quickstart" target="_blank">OpenAI Quickstart</a></td><td>官方入门教程</td><td>10 min</td></tr>
+              <tr><td>🛠</td><td><a href="https://platform.openai.com/tokenizer" target="_blank">OpenAI Tokenizer</a></td><td>在线看 token 怎么切分</td><td>5 min</td></tr>
+              <tr><td>📖</td><td><a href="https://github.com/openai/openai-python" target="_blank">openai-python GitHub</a></td><td>Python SDK 源码和示例</td><td>15 min</td></tr>
+              <tr><td>📺</td><td><a href="https://www.youtube.com/results?search_query=openai+api+python+first+call+2025" target="_blank">YouTube: 第一次调 API</a></td><td>视频教程跟着做</td><td>15 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 网页 vs API 的区别</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 10 行代码第一次调用</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 逐行拆解</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> system/user/assistant</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> JSON 返回结构</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> temperature/max_tokens</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 可复制模板</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Code Runner 演示</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin system prompt</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">10 行代码 + 一个 system prompt = 你的第一个 AI 脚本.</p>
+        <p class="end-summary-sub">API 不神秘, 就是 "用代码替代网页聊天".</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 4): Try/Except 错误处理</div>
+        <p>你的脚本能跑了, 但现实中<strong>会出错</strong>: 网络断了, Key 过期了, 被限频了.</p>
+        <p>下一节学 try/except, 让你的脚本遇到错误时不会崩溃.</p>
+        <a class="walk-arrow" href="../u4-error-handling/index.html">继续走 &rarr; Unit 4</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer"><p>AI for PM · Module 3.4 · Unit 3 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

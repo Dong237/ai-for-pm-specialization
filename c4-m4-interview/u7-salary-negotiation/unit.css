@@ -1,0 +1,235 @@
+/* U7: Salary Negotiation — unit-specific styles */
+
+.offer-comparator {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.offer-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.offer-column {
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.offer-column:nth-child(1) { border-color: var(--blue); }
+.offer-column:nth-child(2) { border-color: var(--green); }
+.offer-column:nth-child(3) { border-color: var(--amber); }
+
+.offer-column-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.offer-column:nth-child(1) .offer-column-title { color: var(--blue); }
+.offer-column:nth-child(2) .offer-column-title { color: var(--green); }
+.offer-column:nth-child(3) .offer-column-title { color: var(--amber); }
+
+.offer-field {
+  margin-bottom: 10px;
+}
+
+.offer-field label {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.offer-field input, .offer-field select {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--bg-elev);
+  color: var(--ink);
+  font-family: "LXGW WenKai Screen", system-ui, sans-serif;
+}
+
+.offer-field input:focus, .offer-field select:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+/* Weights */
+.weights-section {
+  margin: 20px 0;
+  padding: 16px;
+  background: var(--bg-elev);
+  border-radius: 10px;
+  border: 1px dashed var(--border-strong);
+}
+
+.weights-section h4 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 15px;
+  margin: 0 0 12px;
+  color: var(--ink-soft);
+}
+
+.weight-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+  font-size: 13px;
+}
+
+.weight-label {
+  width: 100px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.weight-row input[type="range"] {
+  flex: 1;
+  height: 6px;
+}
+
+.weight-value {
+  width: 30px;
+  text-align: right;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Results */
+.offer-results {
+  margin: 20px 0;
+}
+
+.offer-score-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.offer-score-name {
+  width: 80px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.offer-score-track {
+  flex: 1;
+  height: 24px;
+  background: var(--bg-elev);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.offer-score-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.offer-score-bar:nth-child(1) .offer-score-fill { background: var(--blue); }
+.offer-score-bar:nth-child(2) .offer-score-fill { background: var(--green); }
+.offer-score-bar:nth-child(3) .offer-score-fill { background: var(--amber); }
+
+.offer-score-bar:nth-child(1) .offer-score-name { color: var(--blue); }
+.offer-score-bar:nth-child(2) .offer-score-name { color: var(--green); }
+.offer-score-bar:nth-child(3) .offer-score-name { color: var(--amber); }
+
+/* Winner badge */
+.offer-winner {
+  text-align: center;
+  margin: 16px 0;
+  padding: 12px;
+  background: var(--green-bg);
+  border: 2px solid var(--green);
+  border-radius: 10px;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+/* Negotiation templates */
+.nego-template {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.nego-template-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.nego-script {
+  background: var(--bg-elev);
+  border-left: 3px solid var(--green);
+  padding: 14px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin: 10px 0;
+}
+
+.nego-blank {
+  display: inline-block;
+  border-bottom: 2px solid var(--blue);
+  min-width: 60px;
+  color: var(--blue);
+  font-weight: 600;
+  text-align: center;
+  padding: 0 4px;
+}
+
+/* Tactics list */
+.tactic-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 12px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.tactic-card:nth-child(odd) { transform: rotate(-0.3deg); }
+.tactic-card:nth-child(even) { transform: rotate(0.2deg); }
+
+.tactic-name {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.tactic-script {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}

@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · Chain-of-Thought — AI for PM · M3.1</title>
+  <meta name="description" content="Prompt Engineering · Unit 4: 让模型先想后答. 加一句 step by step, 准确率提 10-20%." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.1</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 4 · CoT</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>让 AI 先想, 再答</h1>
+      <p class="hero-sub">三个字 "step by step", 准确率能提 10-20%. 这不是魔法, 是有原理的.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你 · PM">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head" /><circle cx="42" cy="28" r="2" fill="currentColor" /><circle cx="58" cy="28" r="2" fill="currentColor" /><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" /><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <figcaption>(你 · AI PM)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">AI 回答复杂问题时经常"一步到位"地答错</p>
+          <p class="cloud-line">有人说加一句"请一步一步思考"就好了?</p>
+          <p class="cloud-line">这到底是玄学还是科学?</p>
+          <p class="cloud-line accent">—— 科学. 今天告诉你原理.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 Chain-of-Thought 为什么能提升准确率</li>
+          <li>掌握 3 种 CoT 写法 (Zero-shot / Manual / Auto)</li>
+          <li>知道什么任务适合 CoT, 什么不适合</li>
+          <li>亲眼看到同一个问题 + / - CoT 的输出对比</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">复杂问题: AI 直接答经常错</h2>
+      <p class="step-lede">看一个 Vitamin 场景. 用户说: "最近总是头疼, 想吃甜的, 情绪不太稳." AI 需要判断她处于哪个身体状态.</p>
+      <div class="callout callout-red">
+        <strong>直接让 AI 答:</strong>
+        <p>"根据你的描述, 你可能处于<strong>经期</strong>."</p>
+        <p class="muted">→ 错了. 头疼+嗜甜+情绪不稳 = 经前期(PMS), 不是经期. AI 跳过了分析, 直接猜了一个最常见的答案.</p>
+      </div>
+      <p class="step-lede">问题不是 AI 不知道, 而是它<mark class="hl">没有"想"就直接"答"了</mark>.</p>
+      <div class="step-foot">怎么让它"想"? ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Chain-of-Thought: 让 AI 展示推理过程</h2>
+      <div class="truth-bubble">
+        <div class="truth-tag">核心概念</div>
+        <p class="truth-line big">Chain-of-Thought (CoT) = <mark class="hl">让模型先写推理步骤, 再给最终答案.</mark></p>
+        <p class="truth-line giant">"请一步一步分析, 然后给出结论."</p>
+        <p class="truth-line muted">→ 就这一句话, Wei et al. (2022) 在 Google 的论文中证明: 大模型的数学推理准确率提升了 10-20%.</p>
+      </div>
+      <div class="callout callout-blue">
+        <strong>为什么有效?</strong>
+        <p>LLM 是"一个 token 一个 token 往后猜"的(回忆 Module 1). 当你让它先输出推理步骤, 这些步骤就变成了后续 token 的<strong>额外上下文</strong>. 等于给它自己"打了个草稿", 再基于草稿给答案.</p>
+      </div>
+      <div class="step-foot">有哪几种 CoT 写法? ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">三种 CoT 写法, 从简单到精细</h2>
+      <div class="callout callout-amber">
+        <p><span class="pill pill-blue">Level 1: Zero-shot CoT</span></p>
+        <p>在 Prompt 末尾加一句: <code>"Let's think step by step."</code> 或 <code>"请一步一步分析."</code></p>
+        <p class="muted">→ 最简单, 大部分场景够用. 适合 PM 日常.</p>
+      </div>
+      <div class="callout callout-green">
+        <p><span class="pill pill-green">Level 2: Manual CoT</span></p>
+        <p>在 Few-shot 示例中, 手动写出推理步骤作为示例, 让 AI 学着来:</p>
+        <div style="background:var(--bg-card);padding:10px;border-radius:6px;font-family:monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre-wrap;">问: 头疼+嗜甜+情绪波动 → 什么状态?
+思考: 头疼可能是经前或经期. 嗜甜与孕酮相关, 是经前特征. 情绪波动在经前3-7天常见. 三者叠加 → 经前期.
+答: 经前期</div>
+      </div>
+      <div class="callout callout-blue">
+        <p><span class="pill pill-amber">Level 3: Structured CoT</span></p>
+        <p>用 XML Tags (U5 会详细讲) 把推理和答案分开:</p>
+        <div style="background:var(--bg-card);padding:10px;border-radius:6px;font-family:monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre-wrap;">&lt;thinking&gt;逐步分析...&lt;/thinking&gt;
+&lt;answer&gt;经前期&lt;/answer&gt;</div>
+        <p class="muted">→ 最精确, 方便程序提取答案, 忽略推理过程.</p>
+      </div>
+      <div class="step-foot">哪些任务适合 CoT? ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">适合 CoT 的任务 vs 不适合的</h2>
+      <div class="can-cant">
+        <article class="can-list">
+          <h3 class="can-head">适合 CoT</h3>
+          <ul>
+            <li>多步推理 (症状分析 → 状态判断)</li>
+            <li>数学/逻辑问题</li>
+            <li>需要权衡多因素的决策</li>
+            <li>需要解释"为什么"的场景</li>
+            <li>分类有多个可能结果的情况</li>
+          </ul>
+        </article>
+        <article class="cant-list">
+          <h3 class="cant-head">不适合 CoT</h3>
+          <ul>
+            <li>简单的一问一答 (浪费 token)</li>
+            <li>纯创意写作 (CoT 反而让文风变死板)</li>
+            <li>实时性要求极高 (CoT 增加延迟)</li>
+            <li>翻译任务 (直接翻就行)</li>
+            <li>简单分类 (情绪正/负/中, 不需要推理)</li>
+          </ul>
+        </article>
+      </div>
+      <div class="step-foot">CoT 的代价是什么? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">CoT 的代价: 更多 token + 更高延迟</h2>
+      <div class="callout callout-amber">
+        <strong>使用 CoT 的成本:</strong>
+        <ol>
+          <li><strong>Token 增加:</strong> 推理过程本身也是 output token, 可能增加 50-200 token</li>
+          <li><strong>延迟增加:</strong> 多输出的 token = 多等待的时间 (每 100 token ≈ 0.5 秒)</li>
+          <li><strong>费用增加:</strong> output token 通常比 input 贵 2-5 倍</li>
+        </ol>
+      </div>
+
+      <div class="accuracy-compare">
+        <div class="acc-card without">
+          <h4>不用 CoT</h4>
+          <div class="acc-big">72%</div>
+          <div class="acc-detail">快, 便宜, 但复杂问题容易错</div>
+        </div>
+        <div class="acc-card with">
+          <h4>用 CoT</h4>
+          <div class="acc-big">91%</div>
+          <div class="acc-detail">慢 0.5-1 秒, 贵 20%, 但准确</div>
+        </div>
+      </div>
+
+      <p class="step-lede"><mark class="hl">Vitamin 建议: 健康状态判断(高风险)用 CoT, 日常闲聊(低风险)不用.</mark></p>
+      <div class="step-foot">一个实用技巧: 隐藏推理过程 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">用户不需要看到"思考过程"</h2>
+      <p class="step-lede">CoT 的推理步骤是给 AI 用的, 用户只需要看到最终答案.</p>
+      <div class="callout callout-green">
+        <strong>解决方案: 分段输出, 程序提取</strong>
+        <div style="background:var(--bg-card);padding:10px;border-radius:6px;font-family:monospace;font-size:12px;line-height:1.6;margin:8px 0;white-space:pre-wrap;">Prompt: "请先在 &lt;thinking&gt; 标签中分析, 然后在 &lt;answer&gt; 标签中给出面向用户的回复."
+
+AI 输出:
+&lt;thinking&gt;
+用户描述头疼和嗜甜, 结合经前3-7天特征...
+&lt;/thinking&gt;
+
+&lt;answer&gt;
+你好! 根据你的描述, 你现在可能处于经前期. 建议多补充镁元素, 用坚果代替甜食哦~
+&lt;/answer&gt;</div>
+        <p class="muted">→ 程序只提取 &lt;answer&gt; 里的内容展示给用户, &lt;thinking&gt; 部分留给日志.</p>
+      </div>
+      <div class="step-foot">更高级的 CoT 变体 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">CoT 进阶: Self-Consistency + Tree of Thoughts</h2>
+      <div class="callout callout-blue">
+        <p><strong>Self-Consistency (自洽性):</strong></p>
+        <p>同一个问题让 AI 用 CoT 回答 3-5 次, 取多数一致的答案. 就像让 3 个医生会诊, 多数意见更可靠.</p>
+        <p class="muted">→ 代价是 3-5 倍调用次数, 但对高风险决策(如健康建议)值得.</p>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>Tree of Thoughts (ToT):</strong></p>
+        <p>让 AI 同时探索多条推理路径, 自我评估每条路径的可行性, 然后选最优的. 像下棋时提前想 3 步.</p>
+        <p class="muted">→ 太复杂, PM 了解概念即可, 实际用 Level 1-2 的 CoT 就够了.</p>
+      </div>
+      <div class="step-foot">来看互动对比 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手看: 同一个问题, 有 / 无 CoT 的输出</h2>
+      <p class="step-lede">点击切换"无 CoT"和"有 CoT", 对比输出质量:</p>
+
+      <div class="cot-widget">
+        <div class="cot-toggle-bar">
+          <button class="cot-toggle-btn active" data-mode="without">无 CoT (直接答)</button>
+          <button class="cot-toggle-btn" data-mode="with">有 CoT (先想后答)</button>
+        </div>
+        <div class="cot-panels">
+          <div id="cot-panel-without" class="cot-panel active">
+            <div class="cot-prompt-display">Prompt: "根据用户描述, 判断身体状态."
+<span class="cot-question">用户输入: "最近总是头疼, 而且很想吃甜的, 情绪也不太稳定. 我现在是什么状态?"</span></div>
+            <div id="cot-without-response" class="cot-response wrong">根据你的描述, 你可能处于经期. 建议多休息, 注意保暖.</div>
+            <div id="cot-without-verdict" class="cot-verdict fail">错误: 头疼+想吃甜+情绪不稳 → 经前期(PMS), 不是经期.</div>
+          </div>
+          <div id="cot-panel-with" class="cot-panel">
+            <div class="cot-prompt-display">Prompt: "根据用户描述, <strong>请先一步一步分析症状, 然后判断身体状态.</strong>"
+<span class="cot-question">用户输入: "最近总是头疼, 而且很想吃甜的, 情绪也不太稳定. 我现在是什么状态?"</span></div>
+            <div class="cot-thinking">
+              <div class="cot-thinking-label">AI 的思考过程:</div>
+              <div id="cot-with-thinking">让我分析用户的症状:
+1. 头疼 → 可能出现在经前期或经期
+2. 想吃甜的 → 典型的经前期(PMS)症状, 与孕酮水平变化有关
+3. 情绪不稳定 → 经前期常见, 通常在月经前 3-7 天
+综合判断: 三个症状同时出现, 最符合经前期(PMS)的特征模式.</div>
+            </div>
+            <div id="cot-with-response" class="cot-response right">根据症状分析, 你很可能处于经前期(PMS). 头疼、嗜甜和情绪波动是经前 3-7 天的典型组合. 建议: 适量补充镁元素, 用坚果代替甜食, 保持规律作息.</div>
+            <div id="cot-with-verdict" class="cot-verdict pass">正确: 三步推理, 准确识别为经前期.</div>
+          </div>
+        </div>
+      </div>
+      <div class="step-foot">Vitamin 怎么用 CoT ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 实战: 哪些功能加 CoT</h2>
+      <div class="callout callout-green">
+        <strong>加 CoT 的功能 (高风险, 需要推理):</strong>
+        <ul class="check-list">
+          <li><span class="pill pill-blue">身体状态判断</span> — 需要综合多个症状推理</li>
+          <li><span class="pill pill-blue">健康建议生成</span> — 需要结合状态+历史给出个性化建议</li>
+          <li><span class="pill pill-blue">异常信号识别</span> — 需要判断是否要建议就医</li>
+        </ul>
+      </div>
+      <div class="callout callout-amber">
+        <strong>不加 CoT 的功能 (低风险, 简单):</strong>
+        <ul class="check-list">
+          <li><span class="pill pill-green">日常打招呼</span> — "早上好" 不需要推理</li>
+          <li><span class="pill pill-green">情绪分类</span> — 简单的正/负/中分类, Few-shot 就够</li>
+          <li><span class="pill pill-green">文案生成</span> — 创意任务, CoT 反而让文风变死板</li>
+        </ul>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今日作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">复杂问题加一句 "请先分析再回答",<br/>准确率提 10-20%, 成本多 20%.</p>
+        <p class="one-liner-foot muted">CoT 的本质: 让 AI 给自己打草稿.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>在 ChatGPT 里测试: 同一个复杂问题 (如"这个产品需求优先级怎么排"), 分别用直接问和加 "step by step" 的方式, 对比输出.</li>
+          <li>给 Vitamin 的"身体状态判断"Prompt 加上 CoT 指令, 用 &lt;thinking&gt; 和 &lt;answer&gt; 标签分段.</li>
+          <li>找一个你工作中的决策类问题, 用 CoT 写一次 Prompt, 看 AI 的推理是否合理.</li>
+          <li>写 100 字: 给产品团队解释"为什么 CoT 能让 AI 更准, 以及什么时候不该用".</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>资源</th><th>来源</th><th>值得看的原因</th><th>时间</th></tr></thead>
+          <tbody>
+            <tr><td>📄</td><td><a href="https://arxiv.org/abs/2201.11903" target="_blank">CoT 原论文 (Wei et al.)</a></td><td>arXiv</td><td>开创性论文, 证明 CoT 有效</td><td>30 min</td></tr>
+            <tr><td>📖</td><td><a href="https://www.promptingguide.ai/techniques/cot" target="_blank">Prompt Guide · CoT</a></td><td>promptingguide.ai</td><td>最清晰的 CoT 技巧汇总</td><td>15 min</td></tr>
+            <tr><td>📖</td><td><a href="https://learnprompting.org/docs/intermediate/chain_of_thought" target="_blank">Learn Prompting · CoT</a></td><td>learnprompting.org</td><td>有交互练习的教程</td><td>15 min</td></tr>
+            <tr><td>📖</td><td><a href="https://www.ibm.com/think/topics/chain-of-thoughts" target="_blank">IBM · What is CoT?</a></td><td>IBM</td><td>企业视角的 CoT 解读</td><td>10 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 直接答经常错</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> CoT 核心概念</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 三种写法</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 适合 vs 不适合</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 代价: token + 延迟</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 隐藏思考过程</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 进阶: SC + ToT</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> CoT 对比器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 哪些加 CoT</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">CoT = 让 AI 给自己打草稿. 复杂问题必加, 简单问题省掉.</p>
+        <p class="end-summary-sub">先想后答, 就是这么简单.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 5): XML Tags 结构化</div>
+        <p>CoT 里我们用了 <code>&lt;thinking&gt;</code> 和 <code>&lt;answer&gt;</code> 标签 — 这只是 XML Tags 的冰山一角.</p>
+        <p>Anthropic 最标志性的 Prompt 技巧: <strong>用 XML 标签给 Prompt 划分区域</strong>, 模型理解更准, 输出更可控.</p>
+        <a class="walk-arrow" href="../u5-xml-tags/index.html">继续走 → Unit 5</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 3.1 · Unit 4 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

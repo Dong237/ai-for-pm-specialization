@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 2 · STAR 法讲 AI 项目 — AI for PM</title>
+  <meta name="description" content="用 STAR 方法把你的 AI 项目讲成一个让面试官印象深刻的故事." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M4.4</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 · STAR 法讲 AI 项目</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 2<span class="title-dot">·</span><br/>STAR 法讲 AI 项目</h1>
+      <p class="hero-sub">"说说你做过的 AI 项目?" — 你能在 2 分钟里讲出一个让人记住的故事吗?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="准备讲项目的你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 带着 Vitamin 项目去面试)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">"说说你做过的 AI 项目" — 面试必问.</p>
+          <p class="cloud-line">我做了 Vitamin, 功能很多, 但怎么组织语言?</p>
+          <p class="cloud-line">说太多怕啰嗦, 说太少怕没深度...</p>
+          <p class="cloud-line accent">—— STAR 法, 2 分钟, 结构清晰.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>用 STAR 结构把 Vitamin 项目讲成 2 分钟故事</li>
+          <li>知道 S/T/A/R 各占多少时间 (20/10/60/10)</li>
+          <li>避免"说我们不说我" 等常见错误</li>
+          <li>拿到一份可直接面试使用的 STAR 逐字稿</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">面试官问 "说说你的项目", 在考什么?</h2>
+      <p class="step-lede">他不是真的想听你的项目 — 他在考你<mark class="hl">能不能结构化地讲清楚一件事</mark>.</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p>面试官内心的评分表:</p>
+        <ul>
+          <li><strong>逻辑清晰</strong> — 有没有结构? 还是想到哪说到哪?</li>
+          <li><strong>主角是你</strong> — 你做了什么? 而不是团队做了什么?</li>
+          <li><strong>有数据</strong> — 结果怎么样? 有没有可量化的 impact?</li>
+          <li><strong>有深度</strong> — 为什么这么做? 有没有 trade-off 的思考?</li>
+        </ul>
+      </div>
+
+      <p>好消息: 有一个万能结构, 能同时满足以上 4 点. 它叫 <strong>STAR</strong>.</p>
+
+      <div class="step-foot">先看没有结构 vs 有结构的对比 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">没有结构 vs 有结构 — 差距有多大?</h2>
+
+      <div class="compare-box">
+        <div class="compare-bad">
+          <div class="compare-label">✗ 没有结构 (流水账)</div>
+          <div class="compare-text">
+            "我做了一个 AI App 叫 Vitamin, 就是一个女性健康的产品, 有很多功能, 比如记录身体状态, 还能跟 AI 对话, 我们用了 GPT, 然后做了 RAG, 效果还不错, 用户反馈挺好的..."
+          </div>
+        </div>
+        <div class="compare-good">
+          <div class="compare-label">✓ STAR 结构 (有层次)</div>
+          <div class="compare-text">
+            "<strong>[S]</strong> 我在一家女性健康创业公司做 AI PM, 产品 Vitamin 日活 1 万, 但 D30 留存只有 15%.
+            <strong>[T]</strong> 我的目标是 3 个月内把留存提到 25%.
+            <strong>[A]</strong> 我做了 4 件事: 用户调研发现核心痛点, 设计 AI 智能记录功能, 选了 RAG + GPT-4o-mini 方案, 灰度上线验证.
+            <strong>[R]</strong> 留存到 28%, Token 成本 $108/月."
+          </div>
+        </div>
+      </div>
+
+      <p>同样的项目, 用 STAR 讲, 面试官觉得你<strong>逻辑清晰、有 impact、有技术判断力</strong>. 不用 STAR, 面试官觉得你"说了很多, 但不知道你做了啥".</p>
+
+      <div class="step-foot">拆开 STAR 的每个字母 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">S — Situation: 用 20 秒设定背景</h2>
+
+      <div class="star-step-card" data-rough="card" style="border-color:var(--blue);transform:rotate(-0.3deg);">
+        <div class="star-step-letter" style="color:var(--blue);">S</div>
+        <div class="star-step-title">Situation = 背景设定</div>
+        <p>回答 3 个问题: <strong>你在哪家公司?</strong> <strong>产品是什么?</strong> <strong>面临什么问题?</strong></p>
+        <div class="callout callout-blue" style="margin-top:14px;">
+          <strong>Vitamin 示范:</strong>
+          <p>"我在一家女性健康创业公司担任 AI PM. 产品 Vitamin 是一款基于 5 状态身体追踪的 AI App, 日活约 10,000. 但数据显示 D30 留存率只有 15%, 用户流失严重."</p>
+        </div>
+        <p class="muted" style="font-size:13px;">时间: ~20 秒 | 占比: 20% | 关键: 给面试官足够的背景, 但不啰嗦.</p>
+      </div>
+
+      <div class="step-foot">T = 你的任务是什么 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">T — Task: 用 10 秒说清你的目标</h2>
+
+      <div class="star-step-card" data-rough="card" style="border-color:var(--amber);transform:rotate(0.3deg);">
+        <div class="star-step-letter" style="color:var(--amber);">T</div>
+        <div class="star-step-title">Task = 你的具体任务</div>
+        <p>回答: <strong>你要解决什么问题?</strong> <strong>目标是什么 (量化)?</strong> <strong>有什么约束?</strong></p>
+        <div class="callout callout-amber" style="margin-top:14px;">
+          <strong>Vitamin 示范:</strong>
+          <p>"我的目标是: 在 3 个月内通过引入 AI 功能, 将 D30 留存率从 15% 提升到 25%. 约束: 月 Token 成本不超过 $200, 团队只有 2 个后端工程师."</p>
+        </div>
+        <p class="muted" style="font-size:13px;">时间: ~10 秒 | 占比: 10% | 关键: 目标要有数字, 有约束条件.</p>
+      </div>
+
+      <div class="step-foot">A = 你做了什么 (最重要的部分) ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">A — Action: 用 60 秒讲你做了什么</h2>
+      <p class="step-lede">这是 STAR 的<mark class="hl">灵魂部分</mark>, 占 60% 的时间. 用 "我做了 N 件事" 来组织.</p>
+
+      <div class="time-bar">
+        <div class="time-bar-segment">S 20%</div>
+        <div class="time-bar-segment">T 10%</div>
+        <div class="time-bar-segment">A 60%</div>
+        <div class="time-bar-segment">R 10%</div>
+      </div>
+
+      <div class="star-step-card" data-rough="card" style="border-color:var(--green);transform:rotate(-0.2deg);">
+        <div class="star-step-letter" style="color:var(--green);">A</div>
+        <div class="star-step-title">Action = 你的具体行动</div>
+        <p>格式: <strong>"我做了 N 件事"</strong> → 然后一件件讲. 每件事要包含: 做了什么 + 为什么这么做.</p>
+        <div class="callout callout-green" style="margin-top:14px;">
+          <strong>Vitamin 示范:</strong>
+          <p>"我做了 4 件事:</p>
+          <ol style="font-size:14px;line-height:1.6;">
+            <li><strong>用户调研</strong> — 访谈了 20 个流失用户, 发现 60% 觉得 '每天手动记录太麻烦'.</li>
+            <li><strong>方案设计</strong> — 设计了 AI 智能记录: 用户说一句话, AI 自动提取情绪、饮食、运动信息.</li>
+            <li><strong>技术选型</strong> — 对比了 Prompt / RAG / Fine-tune, 选了 RAG + GPT-4o-mini. 建了 100 条评测集, F1 = 0.87.</li>
+            <li><strong>灰度验证</strong> — 先给 10% 用户开放, 幻觉率从 8% 降到 2% 后才全量上线."</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="step-foot">R = 结果怎么样 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">R — Result: 用 10 秒收尾, 全是数字</h2>
+
+      <div class="star-step-card" data-rough="card" style="border-color:var(--red);transform:rotate(0.3deg);">
+        <div class="star-step-letter" style="color:var(--red);">R</div>
+        <div class="star-step-title">Result = 可量化的结果</div>
+        <p>规则: <strong>每个结果都要有数字</strong>. "效果不错" 是零分, "留存从 15% 到 28%" 是满分.</p>
+        <div class="callout callout-red" style="margin-top:14px;">
+          <strong>Vitamin 示范:</strong>
+          <p>"上线 6 周后: D30 留存率 15% → 28%, 超过目标. 月 Token 成本 $108, 远低于 $200 预算. NPS 从 32 提升到 51. AI 功能日均使用率 73%."</p>
+        </div>
+        <p class="muted" style="font-size:13px;">时间: ~10 秒 | 占比: 10% | 关键: 即使结果不完美, 也要说学到了什么.</p>
+      </div>
+
+      <div class="step-foot">STAR 最常见的 3 个坑 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">三个必须避免的 STAR 陷阱</h2>
+
+      <div class="three-cards">
+        <article class="wonder" data-rough="card" style="border-color:var(--red);">
+          <div class="wonder-tag" style="transform:rotate(-2deg);">坑 1</div>
+          <h3>说 "我们" 不说 "我"</h3>
+          <div class="wonder-note">"我们做了一个 AI 功能" — 面试官不知道你做了什么. 改成: "<strong>我</strong>主导了技术选型, <strong>我</strong>建了评测集, <strong>我</strong>推动了灰度上线."</div>
+        </article>
+        <article class="wonder" data-rough="card" style="border-color:var(--amber);">
+          <div class="wonder-tag" style="transform:rotate(-2deg);">坑 2</div>
+          <h3>Action 太短, Situation 太长</h3>
+          <div class="wonder-note">花 1 分钟讲背景, 10 秒讲 Action — 本末倒置. Action 要占 60%, 是你展示能力的核心.</div>
+        </article>
+        <article class="wonder" data-rough="card" style="border-color:var(--blue);">
+          <div class="wonder-tag" style="transform:rotate(-2deg);">坑 3</div>
+          <h3>Result 没有数字</h3>
+          <div class="wonder-note">"效果还不错, 用户反馈挺好" = 零分. "留存 15% → 28%, NPS +19" = 满分. 没有数据, 就说 "留存有明显提升, 从 X 到 Y".</div>
+        </article>
+      </div>
+
+      <div class="step-foot">现在用工具写出你自己的 STAR 故事 ↓</div>
+    </section>
+
+    <!-- (8) Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">STAR Builder — 写你的面试故事</h2>
+      <p class="step-lede">在下面 4 个面板里填写你的 Vitamin 项目经历. 点 "填入范例" 看示范, 或直接写你自己的版本.</p>
+
+      <div id="star-builder" class="star-builder">
+        <div class="star-panels"></div>
+
+        <div class="star-controls">
+          <button id="star-preview-btn" class="btn btn-primary">查看演讲稿 ↓</button>
+          <button id="star-example" class="btn btn-ghost">填入范例</button>
+          <button id="star-reset" class="btn btn-ghost">清空</button>
+        </div>
+
+        <div id="star-preview" class="star-preview">
+          <div class="star-preview-title">你的 STAR 演讲稿</div>
+          <div class="star-preview-text">
+            <span style="color:var(--ink-faint);font-style:italic;">在上方填写内容, 这里会自动生成你的 STAR 故事...</span>
+          </div>
+        </div>
+
+        <div class="star-stats">
+          <div class="star-stat">字数: <span class="star-stat-num" id="star-word-count">0</span></div>
+          <div class="star-stat">预计时长: <span class="star-stat-num" id="star-time-est">0</span> 分钟</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>练法:</strong> 写完后, 计时朗读一遍. 目标: 90 秒 - 2 分钟. 太长就砍 Situation, 太短就充实 Action.
+      </div>
+
+      <div class="step-foot">看完整版 Vitamin STAR 故事 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin STAR 故事 — 完整逐字稿</h2>
+      <p class="step-lede">这就是你面试时可以直接用的版本. 照着练 10 遍, 烂熟于心.</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><span style="display:inline-block;padding:2px 8px;border-radius:4px;background:var(--blue-bg);color:var(--blue);font-weight:600;font-size:13px;">S</span> 我在一家女性健康创业公司担任唯一的 AI PM. 产品 Vitamin 是一款基于 5 状态身体追踪的 AI App, 日活约 10,000. 数据显示 D7 留存 40%, 但 D30 留存只有 15%, 用户流失严重.</p>
+        <p><span style="display:inline-block;padding:2px 8px;border-radius:4px;background:var(--amber-bg);color:var(--amber);font-weight:600;font-size:13px;">T</span> 我的目标是在 3 个月内通过 AI 功能将 D30 留存率从 15% 提升到 25%. 约束: 月 Token 成本不超过 $200, 团队只有 2 个后端工程师.</p>
+        <p><span style="display:inline-block;padding:2px 8px;border-radius:4px;background:var(--green-bg);color:var(--green);font-weight:600;font-size:13px;">A</span> 我做了 4 件事. 第一, 用户调研: 我访谈了 20 个流失用户, 发现 60% 觉得 "每天手动记录太麻烦". 第二, 方案设计: 我设计了 AI 智能记录功能, 用户说一句话就能自动提取情绪、饮食、运动信息. 第三, 技术选型: 我对比了 Prompt / RAG / Fine-tune 三种方案, 选了 RAG + GPT-4o-mini 的组合, 建了 100 条评测集, F1 达到 0.87. 第四, 灰度验证: 先给 10% 用户开放, 监控幻觉率, 从 8% 降到 2% 后才全量上线.</p>
+        <p><span style="display:inline-block;padding:2px 8px;border-radius:4px;background:var(--red-bg);color:var(--red);font-weight:600;font-size:13px;">R</span> 上线 6 周后, D30 留存率从 15% 提升到 28%, 超过目标. 月 Token 成本控制在 $108. 用户 NPS 从 32 提升到 51. AI 功能日均使用率达到 73%.</p>
+      </div>
+
+      <p class="muted">总时长: 约 90 秒. 面试官如果想听更多, 他会追问 — 那时候你再展开细节.</p>
+
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">STAR = 20% 背景 + 10% 任务 + 60% 行动 + 10% 结果.<br/>
+          Action 是灵魂, Result 全是数字.</p>
+        <p class="one-liner-foot muted">面试前把 STAR 稿练 10 遍, 到脱口而出.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>用上面的 STAR Builder 写出你自己版本的 Vitamin 故事. 不要照抄范例, 用你自己的语言.</li>
+          <li>计时朗读: 目标 90 秒. 录音, 听是否有"我们"出现 (改成"我").</li>
+          <li>再准备 1 个非 Vitamin 的 STAR 故事 (可以是销售经历、团队合作), 作为备选.</li>
+          <li>找一个朋友当面试官, 让他问 "说说你做过的 AI 项目", 你用 STAR 回答, 请他打分.</li>
+        </ol>
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📖</td>
+              <td><a href="https://www.indeed.com/career-advice/interviewing/how-to-use-the-star-interview-response-technique" target="_blank" style="color:var(--blue);">STAR Interview Technique</a></td>
+              <td style="color:var(--ink-muted);">Indeed</td>
+              <td style="color:var(--ink-muted);">最经典的 STAR 教程</td>
+              <td style="color:var(--ink-muted);">15 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📖</td>
+              <td><a href="https://capd.mit.edu/resources/the-star-method-for-behavioral-interviews/" target="_blank" style="color:var(--blue);">MIT STAR Method Guide</a></td>
+              <td style="color:var(--ink-muted);">MIT CAPD</td>
+              <td style="color:var(--ink-muted);">含练习 worksheet</td>
+              <td style="color:var(--ink-muted);">20 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📺</td>
+              <td><a href="https://resources.biginterview.com/behavioral-interviews/star-interview-method/" target="_blank" style="color:var(--blue);">Big Interview: STAR Method</a></td>
+              <td style="color:var(--ink-muted);">BigInterview</td>
+              <td style="color:var(--ink-muted);">视频 + 示范</td>
+              <td style="color:var(--ink-muted);">25 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">🛠</td>
+              <td><a href="https://nspire.ai/blog/behavioral-interview-questions-2026-the-star-method-mastery-guide/" target="_blank" style="color:var(--blue);">2026 STAR Mastery Guide</a></td>
+              <td style="color:var(--ink-muted);">nSpire AI</td>
+              <td style="color:var(--ink-muted);">AI 辅助 STAR 练习</td>
+              <td style="color:var(--ink-muted);">30 min</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 项目题考什么</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 结构 vs 流水账</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> S = 背景 20%</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> T = 任务 10%</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> A = 行动 60%</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> R = 结果 10%</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 三个陷阱</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> STAR Builder</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 逐字稿</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">STAR = Situation + Task + Action + Result. Action 是灵魂, Result 全是数字.</p>
+        <p class="end-summary-sub">说"我", 不说"我们". 练到脱口而出.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 3): Demo 演示三分钟法则</div>
+        <p>STAR 讲完项目后, 面试官可能会说:<br/>
+        <strong>"能给我 Demo 一下吗?"</strong></p>
+        <p>3 分钟 Demo, 怎么分配时间? 30s 痛点 + 30s 方案 + 60s 演示 + 30s 数据 + 30s 反思.</p>
+        <a class="walk-arrow" href="../u3-demo-rules/index.html">继续走 → Unit 3</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 4 · Module 4 · Unit 2 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

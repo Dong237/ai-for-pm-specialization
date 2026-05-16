@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · Try/Except 错误处理 — AI for PM · M3.4</title>
+  <meta name="description" content="AI PM 课 · M3.4 Unit 4: 5 种 API 常见报错, 每种一个 try/except 方案." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 4 · Try/Except</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="Step navigation">
+    <ol>
+      <li><a href="#start" data-step="0">&#9654;</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">&#9632;</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>Try/Except 错误处理</h1>
+      <p class="hero-sub">你的脚本会出错 -- 网络断了, Key 过期了, 被限频了. 学会让它 "优雅地摔倒".</p>
+
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">跑 100 条数据跑到第 47 条突然报错, 前面 46 条白跑了??</p>
+          <p class="cloud-line">try/except 是什么? 听着像写给工程师的东西...</p>
+          <p class="cloud-line accent">-- 今天学 5 种错误 + 5 种解决方案.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步走完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 try/except 的逻辑 (就是 "万一出错怎么办")</li>
+          <li>处理 5 种最常见的 API 错误</li>
+          <li>让脚本遇错不崩, 自动重试或跳过</li>
+          <li>写出健壮的 ask_ai() 函数</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">没有 try/except 时会怎样?</h2>
+      <p class="step-lede">你的脚本跑到第 47 条数据时, 网络突然断了:</p>
+
+      <div class="code-block"><span class="cmt"># 没有错误处理的脚本</span>
+<span class="kw">for</span> i <span class="kw">in</span> range(100):
+    answer = ask_ai(questions[i])  <span class="cmt"># 第 47 次, 网络断了</span>
+    print(answer)
+
+<span class="err"># Traceback (most recent call last):
+#   ...
+# openai.APIConnectionError: Connection error.
+# 程序崩溃, 前面 46 条的结果全丢了</span></div>
+
+      <div class="callout callout-red">
+        <p><strong>问题:</strong> 没有 try/except, 一个错误就让整个脚本崩溃. 100 条数据, 跑了 46 条就全废了.</p>
+      </div>
+
+      <div class="step-foot">try/except 就是解决这个问题的 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">try/except = "试一下, 出错了怎么办"</h2>
+      <p class="step-lede">一句话理解: <mark class="hl">try 里放可能出错的代码, except 里放出错后的应急方案.</mark></p>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">类比</div>
+        <p class="truth-line big">就像你去餐厅点餐:</p>
+        <p class="truth-line"><strong>try:</strong> "我要一个牛排" (正常操作)</p>
+        <p class="truth-line"><strong>except:</strong> "如果牛排没了, 给我换个鸡排" (Plan B)</p>
+        <p class="truth-line muted">没有 except = 餐厅说 "没有", 你就饿着走了. 有 except = 总能吃上饭.</p>
+      </div>
+
+      <div class="code-block"><span class="cmt"># 最简单的 try/except</span>
+<span class="kw">try</span>:
+    answer = ask_ai(<span class="str">"经期可以运动吗?"</span>)
+    print(answer)
+<span class="kw">except</span> Exception <span class="kw">as</span> e:
+    print(<span class="str">f"出错了: </span>{e}<span class="str">"</span>)
+    print(<span class="str">"跳过这条, 继续下一条"</span>)</div>
+
+      <div class="step-foot">来看 API 调用中最常见的 5 种错误 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">5 种常见 API 错误一览</h2>
+
+      <table class="compare-table">
+        <thead><tr><th>错误类型</th><th>HTTP 码</th><th>原因</th><th>频率</th></tr></thead>
+        <tbody>
+          <tr><td><strong>AuthenticationError</strong></td><td>401</td><td>Key 无效/过期</td><td>偶尔</td></tr>
+          <tr><td><strong>RateLimitError</strong></td><td>429</td><td>调用太快, 超过限频</td><td>常见</td></tr>
+          <tr><td><strong>APIConnectionError</strong></td><td>--</td><td>网络问题</td><td>偶尔</td></tr>
+          <tr><td><strong>BadRequestError</strong></td><td>400</td><td>参数错误/token 超限</td><td>偶尔</td></tr>
+          <tr><td><strong>InternalServerError</strong></td><td>500</td><td>OpenAI 服务器问题</td><td>少见</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-blue">
+        <p><strong>PM 视角:</strong> 429 (限频) 是你跑批量脚本时最常遇到的. 500 (服务器错误) 不是你的锅, 等一等重试就好.</p>
+      </div>
+
+      <div class="step-foot">来一个一个看怎么处理 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">401 AuthenticationError -- Key 无效</h2>
+
+      <div class="code-block"><span class="kw">from</span> openai <span class="kw">import</span> AuthenticationError
+
+<span class="kw">try</span>:
+    answer = ask_ai(question)
+<span class="kw">except</span> AuthenticationError:
+    print(<span class="str">"API Key 无效! 请检查:"</span>)
+    print(<span class="str">"1. .env 里的 Key 是否正确"</span>)
+    print(<span class="str">"2. Key 是否已过期/被 Revoke"</span>)
+    print(<span class="str">"3. 账户余额是否为 0"</span>)
+    <span class="cmt"># 这种错误不需要重试, 直接停下来修 Key</span>
+    exit(1)</div>
+
+      <div class="step-foot">下一个: 最常见的 429 限频 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">429 RateLimitError -- 调太快了</h2>
+      <p class="step-lede">API 有调用频率限制. 超了就返回 429. 解决方案: <mark class="hl">等一下再重试</mark>.</p>
+
+      <div class="code-block"><span class="kw">import</span> time
+<span class="kw">from</span> openai <span class="kw">import</span> RateLimitError
+
+<span class="kw">def</span> <span class="fn">ask_ai_safe</span>(question, max_retries=3):
+    <span class="kw">for</span> attempt <span class="kw">in</span> range(max_retries):
+        <span class="kw">try</span>:
+            <span class="kw">return</span> ask_ai(question)
+        <span class="kw">except</span> RateLimitError:
+            wait = 2 ** attempt  <span class="cmt"># 指数退避: 1s, 2s, 4s</span>
+            print(<span class="str">f"限频了, 等 </span>{wait}<span class="str">s 后重试..."</span>)
+            time.sleep(wait)
+    <span class="kw">return</span> <span class="str">"[ERROR] 重试 3 次仍失败"</span></div>
+
+      <div class="callout callout-amber">
+        <p><strong>指数退避 (Exponential Backoff):</strong> 第一次等 1 秒, 第二次等 2 秒, 第三次等 4 秒. 越等越久, 给 API 喘息时间. 这是业界标准做法.</p>
+      </div>
+
+      <div class="step-foot">继续看网络错误和服务器错误 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">网络错误 + 服务器错误 -- 等一等重试</h2>
+
+      <div class="code-block"><span class="kw">from</span> openai <span class="kw">import</span> APIConnectionError, InternalServerError
+
+<span class="kw">try</span>:
+    answer = ask_ai(question)
+<span class="kw">except</span> APIConnectionError:
+    print(<span class="str">"网络断了, 检查 WiFi 或 VPN"</span>)
+    <span class="cmt"># 等 5 秒后重试</span>
+    time.sleep(5)
+<span class="kw">except</span> InternalServerError:
+    print(<span class="str">"OpenAI 服务器出问题了, 等 10s 重试"</span>)
+    time.sleep(10)
+    <span class="cmt"># 不是你的锅, 过一会就好</span></div>
+
+      <div class="step-foot">把所有错误类型合在一起, 写一个完整的函数 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">完整版: 带错误处理的 ask_ai()</h2>
+      <p class="step-lede">把所有错误处理合在一个函数里, 以后你直接用这个:</p>
+
+      <div class="code-block"><span class="kw">import</span> time
+<span class="kw">from</span> openai <span class="kw">import</span> (
+    OpenAI, AuthenticationError, RateLimitError,
+    APIConnectionError, BadRequestError, InternalServerError
+)
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+
+load_dotenv()
+client = OpenAI()
+
+<span class="kw">def</span> <span class="fn">ask_ai</span>(question, system_prompt=<span class="str">"你是 Vitamin 健康助手."</span>, max_retries=3):
+    <span class="kw">for</span> attempt <span class="kw">in</span> range(max_retries):
+        <span class="kw">try</span>:
+            resp = client.chat.completions.create(
+                model=<span class="str">"gpt-4o-mini"</span>,
+                messages=[
+                    {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: system_prompt},
+                    {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: question}
+                ],
+                temperature=0.3, max_tokens=500
+            )
+            <span class="kw">return</span> resp.choices[0].message.content
+
+        <span class="kw">except</span> AuthenticationError:
+            print(<span class="str">"Key 无效, 停止运行."</span>)
+            exit(1)
+        <span class="kw">except</span> RateLimitError:
+            wait = 2 ** attempt
+            print(<span class="str">f"限频, 等 </span>{wait}<span class="str">s..."</span>)
+            time.sleep(wait)
+        <span class="kw">except</span> APIConnectionError:
+            print(<span class="str">"网络错误, 等 5s..."</span>)
+            time.sleep(5)
+        <span class="kw">except</span> (BadRequestError, InternalServerError) <span class="kw">as</span> e:
+            print(<span class="str">f"API 错误: </span>{e}<span class="str">"</span>)
+            time.sleep(3)
+
+    <span class="kw">return</span> <span class="str">"[ERROR] 重试失败"</span></div>
+
+      <div class="step-foot">来用 Error Simulator 看看各种错误的样子 ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Error Simulator -- 点击查看每种错误</h2>
+      <p class="step-lede">点选不同的错误类型, 看报错信息和对应的处理代码:</p>
+
+      <div class="error-sim" id="error-sim">
+        <div class="error-sim-title">API Error Simulator</div>
+
+        <div class="error-tabs">
+          <button class="error-tab" data-error="auth">401 Auth</button>
+          <button class="error-tab" data-error="rate">429 Rate Limit</button>
+          <button class="error-tab" data-error="network">Network Error</button>
+          <button class="error-tab" data-error="bad">400 Bad Request</button>
+          <button class="error-tab" data-error="server">500 Server Error</button>
+        </div>
+
+        <div class="error-display" data-error="auth">
+          <div class="error-msg">openai.AuthenticationError: Error code: 401
+Incorrect API key provided: sk-proj-xxx...xxx.
+You can find your API key at https://platform.openai.com/account/api-keys</div>
+          <div class="error-explain"><strong>原因:</strong> Key 打错了, 过期了, 或者账户余额为 0.</div>
+          <div class="error-fix"><span style="color:var(--green);font-weight:600;"># 处理方案:</span>
+except AuthenticationError:
+    print("Key 无效! 检查 .env 文件")
+    exit(1)  # 停下来, 不要重试</div>
+        </div>
+
+        <div class="error-display" data-error="rate">
+          <div class="error-msg">openai.RateLimitError: Error code: 429
+Rate limit reached for gpt-4o-mini in organization org-xxx
+on requests per min (RPM): Limit 500, Used 500, Requested 1.
+Please retry after 1.2s.</div>
+          <div class="error-explain"><strong>原因:</strong> 1 分钟内调用太多次, 超过了 API 限制.</div>
+          <div class="error-fix"><span style="color:var(--green);font-weight:600;"># 处理方案: 指数退避重试</span>
+except RateLimitError:
+    wait = 2 ** attempt  # 1s, 2s, 4s
+    time.sleep(wait)</div>
+        </div>
+
+        <div class="error-display" data-error="network">
+          <div class="error-msg">openai.APIConnectionError: Connection error.
+(Unable to connect to api.openai.com)</div>
+          <div class="error-explain"><strong>原因:</strong> WiFi 断了, VPN 掉了, 或者 DNS 解析失败.</div>
+          <div class="error-fix"><span style="color:var(--green);font-weight:600;"># 处理方案: 等网络恢复</span>
+except APIConnectionError:
+    print("检查网络连接 / VPN")
+    time.sleep(5)</div>
+        </div>
+
+        <div class="error-display" data-error="bad">
+          <div class="error-msg">openai.BadRequestError: Error code: 400
+This model's maximum context length is 128000 tokens.
+However, your messages resulted in 135000 tokens.</div>
+          <div class="error-explain"><strong>原因:</strong> 输入太长, 超过了模型的 context window. 或者参数格式错误.</div>
+          <div class="error-fix"><span style="color:var(--green);font-weight:600;"># 处理方案: 缩短输入</span>
+except BadRequestError as e:
+    print(f"请求有问题: {e}")
+    # 截断输入, 或跳过这条</div>
+        </div>
+
+        <div class="error-display" data-error="server">
+          <div class="error-msg">openai.InternalServerError: Error code: 500
+The server had an error while processing your request.
+Sorry about that!</div>
+          <div class="error-explain"><strong>原因:</strong> OpenAI 服务器出了问题, 不是你的锅.</div>
+          <div class="error-fix"><span style="color:var(--green);font-weight:600;"># 处理方案: 等一下重试</span>
+except InternalServerError:
+    print("OpenAI 服务器问题, 等 10s")
+    time.sleep(10)</div>
+        </div>
+      </div>
+
+      <div class="step-foot">来看 Vitamin 脚本需要怎样的错误处理 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 案例 -- 健壮的批量脚本</h2>
+      <p class="step-lede">Vitamin 跑 100 条用例时, 错误处理是生命线:</p>
+
+      <div class="can-cant">
+        <article class="can-list">
+          <h3 class="can-head">&#10003; 带错误处理的效果</h3>
+          <ul>
+            <li>第 47 条遇到 429 &rarr; 等 2s 重试, 成功</li>
+            <li>第 63 条网络断了 &rarr; 等 5s, 恢复, 继续</li>
+            <li>第 89 条输入太长 &rarr; 跳过, 记录 "[ERROR]"</li>
+            <li>100 条跑完, 97 条成功, 3 条记录为错误</li>
+            <li>没有浪费前面的劳动成果</li>
+          </ul>
+        </article>
+        <article class="cant-list">
+          <h3 class="cant-head">&#10007; 没有错误处理</h3>
+          <ul>
+            <li>第 47 条出错 &rarr; 程序崩溃</li>
+            <li>前 46 条结果全丢了</li>
+            <li>你要从头再跑一遍</li>
+            <li>可能同样的位置再次出错</li>
+            <li>浪费时间 + 浪费 API 费用</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="step-foot">作业 + 一句话总结 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">try/except 不是写给工程师的, 是写给你的脚本的 "安全气囊".</p>
+        <p class="one-liner-foot muted">凡是调 API 的代码, 都包在 try/except 里. 没有例外.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>把 Step 7 的完整 ask_ai() 函数复制到你的 <code>template.py</code> 里, 替换之前没有错误处理的版本.</li>
+          <li>故意把 .env 里的 Key 改错, 跑脚本, 看是不是正确捕获了 AuthenticationError.</li>
+          <li>在循环里调 ask_ai() 10 次, 每次打印 "第 N 条成功" 或 "第 N 条失败", 观察日志.</li>
+          <li>思考: Vitamin 上线后, 如果 OpenAI 的 API 挂了 2 小时, 用户端应该显示什么?</li>
+        </ol>
+
+        <div style="margin-top:16px;">
+          <strong>资源延伸:</strong>
+          <table class="compare-table" style="margin-top:8px;">
+            <thead><tr><th>类型</th><th>资源</th><th>说明</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>📖</td><td><a href="https://platform.openai.com/docs/guides/error-codes" target="_blank">OpenAI Error Codes 文档</a></td><td>官方错误码完整列表</td><td>10 min</td></tr>
+              <tr><td>📖</td><td><a href="https://codelucky.com/how-to-avoid-http-error-429-python-api-tutorial/" target="_blank">429 Rate Limit 处理教程</a></td><td>最全的 429 解决方案</td><td>15 min</td></tr>
+              <tr><td>🛠</td><td><a href="https://github.com/alexwlchan/handling-http-429-with-tenacity" target="_blank">Tenacity 重试库示例</a></td><td>Python 自动重试的进阶方案</td><td>10 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 没有 try/except 的崩溃</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> try/except = Plan B</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 5 种常见错误</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 401 Key 无效</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 429 限频 + 指数退避</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 网络 + 服务器错误</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 完整版 ask_ai()</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Error Simulator</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 健壮脚本</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">try/except = 安全气囊. 凡调 API, 必包 try.</p>
+        <p class="end-summary-sub">指数退避 (1s, 2s, 4s) 是处理 429 的标准姿势.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 5): 批量调用 + Rate Limiting</div>
+        <p>错误处理学会了, 下一步: <strong>100 条数据批量调 API</strong>.</p>
+        <p>直接全部丢进去会怎样? 为什么需要 Rate Limiting? 下节课见.</p>
+        <a class="walk-arrow" href="../u5-batch/index.html">继续走 &rarr; Unit 5</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer"><p>AI for PM · Module 3.4 · Unit 4 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

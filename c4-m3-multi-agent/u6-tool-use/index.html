@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>U6 · Tool Use (Function Calling) — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M4.3 U6: LLM 调用外部工具, Coze插件的本质." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M4.3</span></a><div class="topbar-right"><span class="unit-label">Unit 6 · Tool Use</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 6<span class="title-dot">·</span><br/>Tool Use</h1>
+      <p class="hero-sub">让 LLM 调用外部工具 — 查天气、查日历、查数据库. Coze "插件" 的本质就是这个.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head" /><circle cx="42" cy="28" r="2" fill="currentColor" /><circle cx="58" cy="28" r="2" fill="currentColor" /><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" /><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">LLM 自己不能查天气、查数据库...</p>
+          <p class="cloud-line">那 ChatGPT 怎么能搜网页、画图、跑代码的?</p>
+          <p class="cloud-line">答案: Function Calling — LLM 学会了"叫外卖".</p>
+          <p class="cloud-line accent">—— 看看这个魔法是怎么工作的.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>理解 Function Calling 的工作原理</li><li>看到 LLM 生成的 JSON 调用指令长什么样</li><li>通过可视化器追踪 3 个完整的 Tool Call 流程</li><li>为 Vitamin 设计工具列表</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">LLM 的核心局限: 只能"说", 不能"做"</h2>
+      <p class="step-lede">LLM 本质上只做一件事: 输入文本 → 输出文本. 它不能访问网络, 不能查数据库, 不能设置闹钟. <mark class="hl">它是一个纯文本生成器</mark>.</p>
+      <div class="callout callout-red">
+        <p><strong>没有 Tool Use 的 LLM:</strong></p>
+        <p>用户: "深圳今天几度?" → LLM: "大概 25-30 度吧" (编的, 因为它不能查天气)</p>
+        <p>用户: "帮我设一个明天的提醒" → LLM: "好的, 我帮你设好了" (假的, 它根本没有这个能力)</p>
+      </div>
+      <div class="step-foot">Function Calling 怎么解决这个问题? ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Function Calling = LLM 学会了"叫外卖"</h2>
+      <div class="truth-bubble"><div class="truth-tag">核心概念</div>
+        <p class="truth-line big">Tool Use 的本质:</p>
+        <p class="truth-line giant">LLM 不执行工具,<br/>它只是<mark class="hl">决定调用哪个工具 + 传什么参数</mark></p>
+        <p class="truth-line muted">真正执行的是你的后端代码. LLM 只是"点菜", 厨房(后端)才做菜.</p>
+      </div>
+      <div class="arch-row">
+        <div class="arch-box user-box">用户提问</div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-box llm-box">LLM 决策<br/><small>生成 function_call JSON</small></div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-box tool-box">工具执行<br/><small>你的后端代码</small></div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-box data-box">返回数据</div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-box llm-box">LLM 整合回答</div>
+      </div>
+      <div class="step-foot">具体流程长什么样? ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">第 1 步: 告诉 LLM "你有哪些工具可以用"</h2>
+      <p class="step-lede">在调用 LLM 之前, 你需要定义工具列表 (Tool Schema). 用 JSON 描述每个工具的名字、功能、参数.</p>
+      <div class="callout callout-blue" style="font-family:'Cascadia Code','SF Mono',monospace;font-size:13px;overflow-x:auto;">
+<pre style="margin:0;white-space:pre-wrap;">{
+  "tools": [{
+    "name": "get_weather",
+    "description": "获取指定城市的实时天气",
+    "parameters": {
+      "city": {"type": "string", "description": "城市名"},
+      "date": {"type": "string", "description": "日期"}
+    }
+  }]
+}</pre>
+      </div>
+      <p>这就是 Coze 里"创建插件"时你填的那些字段 — 名称、描述、参数. 本质是在给 LLM 一份"工具菜单".</p>
+      <div class="step-foot">LLM 怎么决定要不要调用工具? ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">第 2 步: LLM 决定 — "这个问题需要工具吗?"</h2>
+      <p class="step-lede">LLM 看到用户问题 + 工具列表, 它会判断: 自己能答就直接答, 需要外部数据就生成 function_call.</p>
+      <div class="callout callout-amber">
+        <p><strong>"你好" → LLM 直接回答</strong> (不需要工具)</p>
+        <p><strong>"深圳今天几度?" → LLM 生成 function_call</strong> (需要实时数据)</p>
+        <p class="muted">LLM 的决策基于: 问题是否需要它不知道的信息 + 工具列表里有没有能回答这个问题的工具.</p>
+      </div>
+      <div class="step-foot">function_call 长什么样? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">第 3 步: LLM 输出结构化的调用指令</h2>
+      <p class="step-lede">LLM 不会输出自然语言, 而是输出一段结构化的 JSON — 这是它和工具之间的"合同".</p>
+      <div class="callout callout-blue" style="font-family:'Cascadia Code','SF Mono',monospace;font-size:13px;overflow-x:auto;">
+<pre style="margin:0;white-space:pre-wrap;">{
+  "function_call": {
+    "name": "get_weather",
+    "arguments": {
+      "city": "深圳",
+      "date": "2026-05-15"
+    }
+  }
+}</pre>
+      </div>
+      <p>注意: LLM 是<strong>生成了这段 JSON</strong>, 不是执行了它. 你的后端代码拿到这段 JSON, 解析参数, 去调真正的天气 API.</p>
+      <div class="step-foot">工具返回数据之后呢? ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">第 4 步: 工具返回 → LLM 整合回答</h2>
+      <p class="step-lede">工具返回了真实数据, 你把数据塞回 LLM 的 context, LLM 用自然语言把数据"翻译"给用户.</p>
+      <div class="callout callout-green" style="font-family:'Cascadia Code','SF Mono',monospace;font-size:13px;overflow-x:auto;">
+<pre style="margin:0;white-space:pre-wrap;">// 工具返回:
+{"temp": 28, "condition": "多云", "aqi": 45}
+
+// LLM 整合后回答:
+"今天深圳28度, 多云, 空气质量优!
+ 适合户外运动, 但记得涂防晒~"</pre>
+      </div>
+      <p>看到了吗? LLM 做了两件事: (1) 用真实数据回答, 不编造; (2) 加上了人性化的语气和建议.</p>
+      <div class="step-foot">这和 Coze 插件有什么关系? ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Coze 插件 = Function Calling 的可视化包装</h2>
+      <p class="step-lede">Coze/Dify/扣子 里的"插件", 本质就是 Function Calling 的封装:</p>
+      <div class="callout callout-blue">
+        <ul style="margin:0;">
+          <li><strong>插件名称</strong> = function name (get_weather)</li>
+          <li><strong>插件描述</strong> = function description</li>
+          <li><strong>输入参数</strong> = function parameters (city, date)</li>
+          <li><strong>API 地址</strong> = 你的后端服务 URL</li>
+          <li><strong>返回值</strong> = function result (JSON 数据)</li>
+        </ul>
+        <p class="muted" style="margin-top:12px;">平台只是帮你省去了写代码的步骤, 底层逻辑完全一样.</p>
+      </div>
+      <div class="callout callout-amber"><strong>PM 认知升级:</strong> 当你在 Coze 里"配置插件"时, 你实际上是在给 LLM 写 Tool Schema. 理解这个, 你就知道为什么有些插件"不被调用" — 是因为你的 description 写得不够好, LLM 判断不了什么时候该用它.</div>
+      <div class="step-foot">来看完整的 Tool Call 流程 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Tool Call 可视化器</h2>
+      <p class="step-lede">3 个 Vitamin 场景, 每个点"下一步"看完整的 Tool Call 流程.</p>
+      <div id="tool-visualizer" class="tool-visualizer">
+        <div id="tool-tabs" class="tool-scenario-tabs"></div>
+        <div id="tool-flow" class="tool-flow"></div>
+        <div class="tool-controls">
+          <button id="tool-step-btn" class="btn btn-primary">下一步 →</button>
+          <button id="tool-reset" class="btn btn-ghost">重来</button>
+          <span class="tool-counter" id="tool-counter">0 / 5</span>
+        </div>
+      </div>
+      <div class="step-foot">Vitamin 的工具设计 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 5 个核心工具</h2>
+      <div class="callout callout-blue">
+        <table style="width:100%;font-size:14px;border-collapse:collapse;">
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;font-weight:600;">get_cycle_status</td><td style="padding:8px;">查询用户当前经期阶段、天数、预计下次日期</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;font-weight:600;">query_nutrition</td><td style="padding:8px;">查询食物营养成分, 计算一餐的热量/蛋白质/微量元素</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;font-weight:600;">get_diet_log</td><td style="padding:8px;">读取用户的饮食记录 (过去N天)</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;font-weight:600;">set_reminder</td><td style="padding:8px;">为用户设置定时提醒 (喝水/吃药/运动)</td></tr>
+          <tr><td style="padding:8px;font-weight:600;">get_weather</td><td style="padding:8px;">获取用户所在城市的天气 (用于户外运动建议)</td></tr>
+        </table>
+      </div>
+      <div class="callout callout-red"><strong>面试金句:</strong><p>"Vitamin 的 Tool Use 设计: 我定义了 5 个核心工具, 每个工具有明确的输入输出 Schema. LLM 通过 Function Calling 自动判断何时调用哪个工具, 用真实数据替代幻觉."</p></div>
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话</div><p class="one-liner-text">Tool Use = LLM 生成调用指令 + 后端执行 + 数据返回.<br/>Coze 插件的本质就是 Function Calling.</p></div>
+      <div class="callout callout-green"><strong>课后作业 (30 分钟):</strong><ol>
+        <li>为 Vitamin 写出 5 个工具的完整 Tool Schema (JSON 格式).</li>
+        <li>在 Coze 或 Dify 上创建一个带工具调用的简单 Bot.</li>
+        <li>设计 3 个场景: 用户提问 → LLM 应该调用哪个工具 → 期望返回什么数据.</li>
+        <li>写 200 字: "为什么 Tool Use 比让 LLM 直接编造答案更好?"</li>
+      </ol></div>
+      <div class="callout callout-blue"><strong>资源延伸:</strong>
+        <table class="resource-table"><thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead><tbody>
+          <tr><td>📖</td><td><a href="https://www.promptingguide.ai/applications/function_calling" target="_blank">Function Calling Guide</a></td><td>最全面的 Function Calling 教程</td><td>20 min</td></tr>
+          <tr><td>📖</td><td><a href="https://www.youngju.dev/blog/llm/2026-03-03-llm-function-calling-tool-use-guide.en" target="_blank">Complete LLM Tool Use Guide</a></td><td>从设计模式到生产部署</td><td>25 min</td></tr>
+          <tr><td>🎮</td><td><a href="https://mbrenndoerfer.com/writing/function-calling-llm-structured-tools" target="_blank">Interactive Function Calling Demo</a></td><td>交互式体验 Tool Use 流程</td><td>10 min</td></tr>
+          <tr><td>📖</td><td><a href="https://huggingface.co/docs/hugs/guides/function-calling" target="_blank">HuggingFace Function Calling</a></td><td>开源模型的 Function Calling 实现</td><td>15 min</td></tr>
+        </tbody></table>
+      </div>
+      <div class="step-foot">完成 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> LLM只能说不能做</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> LLM学会"叫外卖"</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 告诉LLM有哪些工具</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> LLM决定要不要调用</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 输出JSON调用指令</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 工具返回→整合回答</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Coze插件=封装</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Tool Call可视化</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 5个工具</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 6:</p><p class="end-summary-big">Tool Use = LLM "点菜" + 后端 "做菜".<br/>真实数据替代幻觉, Coze插件的底层原理.</p></div>
+      <div class="next-card"><div class="next-tag">下节课 (Unit 7): Multi-Agent 路由设计</div><p>Agent 有了工具, 下一步: 多个 Agent 怎么分工? 用户说"我心情不好", 该交给情绪 Agent 还是营养 Agent?</p><p><strong>路由 = Multi-Agent 的大脑.</strong></p><a class="walk-arrow" href="../u7-routing/index.html">继续走 → Unit 7</a></div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Course 4 · Module 3 · Unit 6 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

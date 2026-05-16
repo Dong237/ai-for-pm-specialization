@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 8 · Vitamin Bot 完整搭建 — AI for PM · M3.2</title>
+  <meta name="description" content="把前 7 节的产物组合起来, 搭出 Vitamin 身体翻译器 Bot, 录 3 分钟 Demo." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM &middot; M3.2</span></a><div class="topbar-right"><span class="unit-label">Unit 8 &middot; Vitamin Bot</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">&#9654;</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">&#9632;</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 8<span class="title-dot">&middot;</span><br/>Vitamin Bot: 终极组装</h1>
+      <p class="hero-sub">7 节课的所有产物, 今天全部组装. 搭出一个真正能跑的 Vitamin 身体翻译器.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="你"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 &middot; 准 AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">学了 7 节, 该出成果了!</p>
+          <p class="cloud-line">怎么把所有东西组装成一个完整产品?</p>
+          <p class="cloud-line accent">-- 今天, 出活!</p>
+        </div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>把 U2-U7 的产物组装成完整的 Vitamin Bot</li><li>用手机录 3 分钟 Demo 视频</li><li>获得一个可分享的 Bot 链接</li><li>写出简历中"AI PM 项目经历"的核心段落</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1"><div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">7 节课, 你已经拥有了什么</h2>
+      <div class="callout callout-blue">
+        <table style="width:100%;font-size:14px;border-collapse:collapse;">
+          <tr style="border-bottom:2px solid var(--border-strong);"><th style="padding:8px;text-align:left;">单元</th><th style="padding:8px;text-align:left;">产物</th></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">U1 平台总览</td><td style="padding:8px;">Coze 4 模块认知地图</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">U2 Hello World</td><td style="padding:8px;">一个空白 Bot</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">U3 Persona</td><td style="padding:8px;">Vitamin 完整人设 Prompt</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">U4 知识库</td><td style="padding:8px;">3 个健康主题知识库</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">U5 工作流</td><td style="padding:8px;">5 节点工作流</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">U6 插件</td><td style="padding:8px;">天气 + 计算器 + 搜索插件</td></tr>
+          <tr><td style="padding:8px;">U7 调试发布</td><td style="padding:8px;">调试方法 + 发布流程</td></tr>
+        </table>
+      </div>
+      <p class="step-lede">今天把这些<mark class="hl">像拼乐高一样组装起来</mark>.</p>
+      <div class="step-foot">组装清单来了 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2"><div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">组装清单: 7 步完成</h2>
+      <p class="step-lede">点击每个步骤, 标记为已完成:</p>
+
+      <!-- Interactive: Assembly checklist -->
+      <div class="assembler">
+        <div class="assembler-header"><h3>&#128295; Vitamin Bot 组装清单</h3></div>
+        <div class="assembler-body">
+          <div class="assembly-progress"><div id="assembly-progress-fill" class="assembly-progress-fill"></div></div>
+          <div id="assembly-progress-text" class="assembly-progress-text">0/7 完成 (0%)</div>
+
+          <ul class="assembly-checklist">
+            <li class="assembly-item"><span class="assembly-check"></span><span class="assembly-label">创建 Bot, 取名"Vitamin 身体翻译器"</span><span class="assembly-source">U2</span></li>
+            <li class="assembly-item"><span class="assembly-check"></span><span class="assembly-label">粘贴 Vitamin 完整 Persona Prompt</span><span class="assembly-source">U3</span></li>
+            <li class="assembly-item"><span class="assembly-check"></span><span class="assembly-label">创建并挂载 3 个知识库</span><span class="assembly-source">U4</span></li>
+            <li class="assembly-item"><span class="assembly-check"></span><span class="assembly-label">搭建工作流: 意图 -> 检索 -> 生成</span><span class="assembly-source">U5</span></li>
+            <li class="assembly-item"><span class="assembly-check"></span><span class="assembly-label">安装天气 + 计算器插件</span><span class="assembly-source">U6</span></li>
+            <li class="assembly-item"><span class="assembly-check"></span><span class="assembly-label">调试 15 个 case, 修复问题</span><span class="assembly-source">U7</span></li>
+            <li class="assembly-item"><span class="assembly-check"></span><span class="assembly-label">发布到 Web SDK, 获取分享链接</span><span class="assembly-source">U7</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="step-foot">每一步的注意事项 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3"><div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Step 1-2: Bot + Persona</h2>
+      <div class="callout callout-green"><p><strong>创建 Bot:</strong></p><ul>
+        <li>名称: "Vitamin 身体翻译器"</li>
+        <li>描述: "专注女性健康的 AI 助手, 帮你解读身体信号"</li>
+        <li>模型: 选豆包 (中文好, 免费额度大)</li>
+        <li>粘贴 U3 的完整 Persona Prompt 到左栏</li>
+        <li>设置欢迎语 (U4 的示例)</li>
+      </ul></div>
+      <div class="callout callout-amber"><p><strong>注意:</strong> 人设 Prompt 是最影响体验的部分. 如果只做一件事, 做好这个.</p></div>
+      <div class="step-foot">Step 3: 知识库 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4"><div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Step 3: 挂载知识库</h2>
+      <div class="callout callout-blue"><p><strong>3 个知识库:</strong></p><ol>
+        <li><strong>经期健康百科</strong> -- 上传 5 状态的医学科普文档</li>
+        <li><strong>营养饮食指南</strong> -- 上传饮食建议、食物营养表</li>
+        <li><strong>运动与睡眠</strong> -- 上传运动建议、睡眠改善内容</li>
+      </ol><p>没有现成资料? 从百度百科 / 丁香医生 / 知乎科普复制几篇文章也行. <strong>MVP 阶段, 内容够用就行</strong>.</p></div>
+      <div class="step-foot">Step 4: 工作流 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5"><div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Step 4-5: 工作流 + 插件</h2>
+      <div class="callout callout-green"><p><strong>工作流:</strong> 用 U5 的 5 节点设计:</p><p>开始 -> 意图识别 (LLM) -> 知识库检索 -> 回复生成 (LLM) -> 结束</p><p>如果时间紧, <strong>可以先不建工作流</strong> -- 直接用 Bot + 知识库也能工作, 工作流是加分项.</p></div>
+      <div class="callout callout-amber"><p><strong>插件:</strong> 至少安装天气查询 + 搜索, 让 Bot 能回答"今天适合运动吗"这类依赖实时数据的问题.</p></div>
+      <div class="step-foot">Step 6-7: 调试 + 发布 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6"><div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Step 6-7: 调试 + 发布</h2>
+      <div class="callout callout-blue"><p><strong>调试 15 个 Case:</strong></p><ul>
+        <li>5 种身体状态各 2 个问题 = 10 个</li>
+        <li>2 个边界 case (医疗诊断 / 无关话题)</li>
+        <li>3 个插件相关 (天气 / 计算 / 搜索)</li>
+      </ul></div>
+      <div class="callout callout-green"><p><strong>发布:</strong></p><ol>
+        <li>发布到 Web SDK</li>
+        <li>把链接保存好 -- 这是你面试时要展示的</li>
+        <li>发给 2-3 个朋友测试, 收集反馈</li>
+      </ol></div>
+      <div class="step-foot">组装完了, 看最终效果 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7"><div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">最终效果: Vitamin Bot 预览</h2>
+      <p class="step-lede">这就是你搭出来的 Vitamin Bot -- 试试跟它对话:</p>
+
+      <!-- Interactive: Phone frame with Vitamin Bot preview -->
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div id="phone-screen" class="phone-screen"></div>
+        <div class="phone-input-bar">
+          <input type="text" id="phone-input" placeholder="问 Vitamin..." />
+          <button id="phone-send" class="btn btn-primary">发送</button>
+        </div>
+      </div>
+      <div class="step-foot">现在, 录 Demo ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8"><div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">录 3 分钟 Demo 视频</h2>
+      <div class="callout callout-amber"><p><strong>Demo 视频脚本 (3 分钟):</strong></p><ol>
+        <li><strong>0:00-0:30</strong> -- 自我介绍 + "我用 Coze 搭了 Vitamin Bot"</li>
+        <li><strong>0:30-1:00</strong> -- 展示 Bot 首页 + 欢迎语</li>
+        <li><strong>1:00-1:30</strong> -- 演示问答 1: 健康咨询类 (如"经期头疼怎么办")</li>
+        <li><strong>1:30-2:00</strong> -- 演示问答 2: 带知识库引用的回答</li>
+        <li><strong>2:00-2:30</strong> -- 演示问答 3: 带插件调用 (如天气 + 运动建议)</li>
+        <li><strong>2:30-3:00</strong> -- 总结: 用了哪些能力, 未来还能加什么</li>
+      </ol></div>
+      <div class="callout callout-green"><p><strong>录屏工具:</strong></p><ul>
+        <li>手机: iOS 自带录屏 / Android 录屏工具</li>
+        <li>电脑: OBS (免费) / Mac 自带 QuickTime</li>
+        <li>建议用手机录 -- 展示在手机上跑 Bot 的效果更真实</li>
+      </ul></div>
+      <div class="step-foot">录完了, 怎么放进简历? ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9"><div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">简历里怎么写这段经历</h2>
+      <div class="callout callout-green">
+        <p><strong>简历模板:</strong></p>
+        <pre style="background:var(--bg-elev);padding:14px;border-radius:8px;font-size:13px;border:1px dashed var(--border);margin:8px 0;white-space:pre-wrap;line-height:1.6;">Vitamin 身体翻译器 Bot | AI PM 独立项目
+
+- 使用 Coze (扣子) 零代码平台, 独立搭建女性健康 AI Bot
+- 设计 Persona Prompt (Markdown 结构化), 覆盖 5 种身体状态
+- 搭建 RAG 知识库 (3 个主题域, 段落切分 + 混合检索)
+- 编排 5 节点工作流 (意图识别 -> 知识检索 -> 回复生成)
+- 集成天气 + 计算器插件, 实现实时数据驱动的运动建议
+- 调试 15 个 case 后发布, 用户测试好评率 80%+
+
+[Demo 视频链接] [Bot 体验链接]</pre>
+      </div>
+      <div class="callout callout-amber"><p><strong>面试时怎么讲:</strong></p><p>"我独立用 Coze 搭了一个女性健康 AI Bot. 从 Prompt 设计到知识库到工作流到发布, 全流程走通. 这不是一个玩具 -- 它有知识库支持回答专业问题, 有工作流做意图路由, 有插件查实时数据. 这是一个能真正帮用户解决问题的 AI 产品 MVP."</p></div>
+      <div class="step-foot">最后一件事 -- 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10"><div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 最终作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话</div><p class="one-liner-text">Demo > Deck.<br/>一个能跑的 Bot 胜过 100 页 PPT.</p><p class="one-liner-foot muted">面试时打开手机, 给面试官看你做的 Vitamin Bot -- 这就是 AI PM 的说服力.</p></div>
+
+      <div class="callout callout-green"><strong>最终作业 (本周完成):</strong><ol>
+        <li><strong>组装</strong>: 按照本节清单, 在 Coze 上组装完整的 Vitamin Bot.</li>
+        <li><strong>调试</strong>: 测试 15 个 case, 修复所有重大问题.</li>
+        <li><strong>发布</strong>: 发布到 Web SDK, 保存分享链接.</li>
+        <li><strong>录屏</strong>: 用手机录 3 分钟 Demo 视频, 按第 8 步的脚本.</li>
+        <li><strong>简历</strong>: 把项目经历按第 9 步的模板更新到简历.</li>
+      </ol><p class="muted"><strong>这是整个 M3.2 的终极产出.</strong> 完成后你就拥有了: 可演示的 Bot 链接 + Demo 视频 + 简历项目段落. 面试三件套齐了.</p></div>
+
+      <div class="callout callout-blue"><strong>资源延伸:</strong><table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+        <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 4px;">&#127918;</td><td><a href="https://www.coze.cn" target="_blank" rel="noopener">Coze 官网</a></td><td>coze.cn</td><td>搭建你的 Bot</td><td>按需</td></tr>
+        <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://zhuanlan.zhihu.com/p/1930683594159916034" target="_blank" rel="noopener">扣子保姆级入门教程</a></td><td>知乎</td><td>4 步搞懂智能体搭建</td><td>15 min</td></tr>
+        <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://cozehq.medium.com/building-an-all-in-one-personal-assistant-with-cozes-multi-agent-mode-e0f695137edf" target="_blank" rel="noopener">Multi-Agent Mode</a></td><td>Medium</td><td>进阶: 多 Agent 协作</td><td>15 min</td></tr>
+        <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 4px;">&#128250;</td><td><a href="https://www.bzfree.com/doc/coze" target="_blank" rel="noopener">扣子实战全流程</a></td><td>bzfree.com</td><td>从零到发布视频教程</td><td>30 min</td></tr>
+        <tr><td style="padding:6px 4px;">&#128736;</td><td><a href="https://github.com/coze-dev/coze-studio" target="_blank" rel="noopener">Coze Studio 开源</a></td><td>GitHub</td><td>想自部署的进阶选择</td><td>1 hr</td></tr>
+      </table></div>
+      <div class="step-foot">走完了 -- Module 3.2 全部完成! ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 7 节课产物汇总</a><a href="#s2" class="recap-cell"><span class="rc-num">2</span> 组装清单</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Bot + Persona</a><a href="#s4" class="recap-cell"><span class="rc-num">4</span> 知识库挂载</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 工作流 + 插件</a><a href="#s6" class="recap-cell"><span class="rc-num">6</span> 调试 + 发布</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Vitamin Bot 预览</a><a href="#s8" class="recap-cell"><span class="rc-num">8</span> 录 Demo 视频</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> 简历怎么写</a><a href="#s10" class="recap-cell"><span class="rc-num">10</span> 最终作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 8:</p>
+        <p class="end-summary-big">Demo > Deck. 一个能跑的 Vitamin Bot 胜过 100 页 PPT.</p>
+        <p class="end-summary-sub">你现在有了: Bot 链接 + Demo 视频 + 简历段落. 面试三件套齐了.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">Module 3.2 完成! 下一站: Module 3.3</div>
+        <p>Coze 实操搞定了. 下一个模块深入 <strong>RAG 知识库搭建</strong> -- Embed, Retrieve, Augment.</p>
+        <p>Vitamin 的医学知识库该怎么组织? Chunk 多大? 引用怎么显示? M3.3 会一一回答.</p>
+        <a class="walk-arrow" href="../index.html">回到模块总览 &rarr;</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM &middot; Module 3.2 &middot; Unit 8 &middot; 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

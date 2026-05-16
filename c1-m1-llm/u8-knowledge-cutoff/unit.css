@@ -1,0 +1,357 @@
+/* ============================================
+   Unit 8 · 知识截止 (Knowledge Cutoff) — unit-specific
+   ============================================ */
+
+/* ===== Knowledge Timeline Widget ===== */
+.timeline-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.timeline-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.timeline-controls label {
+  font-weight: 600;
+  font-size: 14px;
+  min-width: 70px;
+}
+.timeline-controls select {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 15px;
+  padding: 6px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 600;
+}
+.timeline-controls select:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+/* Patch toggle buttons */
+.patch-toggles {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+.patch-btn {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 13px;
+  padding: 6px 14px;
+  border: 2px solid;
+  border-radius: 6px 8px 7px 9px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.15s, background 0.15s, opacity 0.15s;
+  background: var(--bg-card);
+  color: var(--ink);
+}
+.patch-btn:hover { transform: translateY(-2px); }
+.patch-btn:active { transform: translateY(1px); }
+.patch-btn-rag {
+  border-color: var(--green);
+}
+.patch-btn-rag.active {
+  background: var(--green-bg);
+  color: var(--green);
+}
+.patch-btn-web {
+  border-color: var(--blue);
+}
+.patch-btn-web.active {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+
+/* Timeline track */
+.timeline-track {
+  position: relative;
+  height: 60px;
+  margin: 30px 0 20px;
+}
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--border-strong);
+  border-radius: 2px;
+  transform: translateY(-50%);
+}
+.timeline-year {
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  padding-top: 18px;
+}
+.timeline-year::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 12px;
+  background: var(--border-strong);
+}
+.timeline-cutoff-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid var(--red);
+  background: var(--red-bg);
+  z-index: 5;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.timeline-cutoff-marker.active {
+  width: 20px;
+  height: 20px;
+  background: var(--red);
+  box-shadow: 0 0 0 4px var(--red-bg), 0 0 12px rgba(239, 68, 68, 0.4);
+}
+.timeline-cutoff-label {
+  position: absolute;
+  bottom: calc(50% + 18px);
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--red);
+  white-space: nowrap;
+  transition: opacity 0.3s;
+}
+.timeline-cutoff-label.active {
+  font-size: 13px;
+  color: var(--red);
+}
+.timeline-cutoff-label.inactive {
+  opacity: 0.35;
+}
+
+/* Cutoff zone overlay */
+.timeline-cutoff-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: var(--red-bg-soft);
+  border-left: 3px dashed var(--red);
+  opacity: 0.5;
+  transition: left 0.4s ease;
+  border-radius: 0 8px 8px 0;
+  z-index: 1;
+}
+
+/* Question cards grid */
+.timeline-questions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 18px 0 12px;
+}
+.q-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 8px 10px 9px 11px;
+  padding: 10px 12px;
+  font-size: 13px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.q-card .q-year {
+  font-size: 11px;
+  color: var(--ink-muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.q-card .q-text {
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.q-card.known {
+  border-color: var(--green);
+  background: var(--green-bg-soft);
+}
+.q-card.known .q-badge {
+  color: var(--green);
+}
+.q-card.unknown {
+  border-color: var(--red);
+  background: var(--red-bg-soft);
+}
+.q-card.unknown .q-badge {
+  color: var(--red);
+}
+.q-card.patched {
+  border-color: var(--green);
+  background: var(--green-bg-soft);
+  border-style: dashed;
+}
+.q-card.patched .q-badge {
+  color: var(--green);
+}
+.q-badge {
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 6px;
+  min-height: 16px;
+}
+
+/* Timeline legend */
+.timeline-legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.legend-dot.green { background: var(--green); }
+.legend-dot.red { background: var(--red); }
+.legend-dot.green-dashed {
+  background: var(--green-bg);
+  border: 1.5px dashed var(--green);
+}
+
+/* ===== Cutoff comparison table ===== */
+.cutoff-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 12px 0;
+}
+.cutoff-table th {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.cutoff-table td {
+  padding: 8px 12px;
+  border-bottom: 1px dashed var(--border);
+}
+.cutoff-table tr:last-child td { border-bottom: none; }
+.cutoff-table .cutoff-date {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-weight: 700;
+  color: var(--red);
+  font-size: 16px;
+}
+
+/* ===== RAG flow diagram ===== */
+.rag-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.rag-step {
+  background: var(--bg-card);
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 80px;
+}
+.rag-step:nth-child(1) { border-color: var(--amber); color: var(--amber); }
+.rag-step:nth-child(3) { border-color: var(--blue); color: var(--blue); }
+.rag-step:nth-child(5) { border-color: var(--green); color: var(--green); }
+.rag-step:nth-child(7) { border-color: var(--purple); color: var(--purple); }
+.rag-arrow {
+  font-size: 18px;
+  color: var(--ink-faint);
+}
+
+/* ===== Web search flow ===== */
+.web-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.web-step {
+  background: var(--bg-card);
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 80px;
+}
+.web-step:nth-child(1) { border-color: var(--ink-muted); }
+.web-step:nth-child(3) { border-color: var(--blue); color: var(--blue); }
+.web-step:nth-child(5) { border-color: var(--green); color: var(--green); }
+.web-step:nth-child(7) { border-color: var(--amber); color: var(--amber); }
+.web-arrow {
+  font-size: 18px;
+  color: var(--ink-faint);
+}
+
+/* ===== Resource table ===== */
+.resource-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; }
+.resource-table th { text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--border-strong); font-size: 13px; color: var(--ink-muted); }
+.resource-table td { padding: 8px 10px; border-bottom: 1px dashed var(--border); vertical-align: top; }
+.resource-table tr:last-child td { border-bottom: none; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .timeline-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .patch-toggles {
+    margin-left: 0;
+  }
+  .timeline-questions {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+  .timeline-track {
+    height: 50px;
+  }
+  .rag-flow, .web-flow {
+    flex-direction: column;
+  }
+  .rag-arrow, .web-arrow {
+    transform: rotate(90deg);
+  }
+}

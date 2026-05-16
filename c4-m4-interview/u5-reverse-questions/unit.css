@@ -1,0 +1,176 @@
+/* U5: 反向提问 — unit-specific styles */
+
+.qbank {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 0;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.qbank-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--border);
+  overflow-x: auto;
+}
+
+.qbank-tab {
+  flex: 1;
+  padding: 12px 8px;
+  text-align: center;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: var(--bg-elev);
+  color: var(--ink-soft);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.qbank-tab.active {
+  background: var(--bg-card);
+  color: var(--ink);
+  border-bottom: 3px solid var(--blue);
+}
+
+.qbank-tab:hover:not(.active) {
+  background: var(--bg-card);
+}
+
+.qbank-content {
+  padding: 20px;
+}
+
+.qbank-item {
+  padding: 14px 0;
+  border-bottom: 1px dashed var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.qbank-item:last-child { border-bottom: none; }
+
+.qbank-item-text {
+  flex: 1;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.qbank-item-text strong { color: var(--ink); }
+
+.qbank-item-note {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.qbank-stars {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.qbank-stars button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  color: var(--ink-faint);
+  transition: color 0.15s;
+}
+
+.qbank-stars button.filled { color: var(--amber); }
+
+/* Add your own */
+.qbank-add {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.qbank-add input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--bg-elev);
+  color: var(--ink);
+  font-family: "LXGW WenKai Screen", system-ui, sans-serif;
+}
+
+.qbank-add input:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+/* Badge */
+.qbank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 16px 0;
+}
+
+.qbank-badge.ready {
+  background: var(--green-bg);
+  border: 2px solid var(--green);
+  color: var(--green);
+}
+
+.qbank-badge.not-ready {
+  background: var(--amber-bg);
+  border: 2px solid var(--amber);
+  color: var(--amber);
+}
+
+/* Category cards */
+.cat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+
+.cat-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.cat-card:nth-child(1) { border-color: var(--red); transform: rotate(-0.4deg); }
+.cat-card:nth-child(2) { border-color: var(--blue); transform: rotate(0.3deg); }
+.cat-card:nth-child(3) { border-color: var(--green); transform: rotate(-0.2deg); }
+.cat-card:nth-child(4) { border-color: var(--amber); transform: rotate(0.4deg); }
+
+.cat-card-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.cat-card-name {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.cat-card-count {
+  font-size: 12px;
+  color: var(--ink-muted);
+}

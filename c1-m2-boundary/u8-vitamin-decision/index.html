@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 8 · Vitamin 5 状态拆解实操 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M1.2 Unit 8: 把 Vitamin 5 个身体状态拆成 '必须 AI / 都可以 / 必须规则' 三档, 产出决策表." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.2</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 8 · Vitamin 拆解</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 8<span class="title-dot">·</span><br/>Vitamin 5 状态<br/>拆解实操</h1>
+      <p class="hero-sub">Module 1.2 的终极 boss —— 把理论全部用在 Vitamin 上, 产出一份决策表.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M44 36 Q50 40 56 36" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="30" y2="58" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="70" y2="58" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 准备打 boss)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">前 7 课学了一堆框架...</p>
+          <p class="cloud-line">AI 能做什么、不能做什么、什么时候该用规则...</p>
+          <p class="cloud-line">现在要全用在 Vitamin 上!</p>
+          <p class="cloud-line accent">—— 15 个功能, 逐个拆解.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>回顾整个 M1.2 的核心框架</li>
+          <li>把 Vitamin 5 个状态 × 15 个子功能逐个分析</li>
+          <li>亲手把每个功能拖进 "必须 AI / 都可以 / 必须规则"</li>
+          <li>产出一份完整的 Vitamin 决策表 — 面试直接用</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">终极 Boss: 从理论到实操</h2>
+      <p class="step-lede">过去 7 个 Unit, 你学了这些武器:</p>
+
+      <div class="arsenal-grid">
+        <div class="arsenal-item" data-rough="card">
+          <div class="ar-unit">U1</div>
+          <div class="ar-name">R / W / C 分类</div>
+          <div class="ar-desc">任何 AI 需求 = Reading, Writing, 或 Chatting</div>
+        </div>
+        <div class="arsenal-item" data-rough="card">
+          <div class="ar-unit">U2-4</div>
+          <div class="ar-name">三大死穴</div>
+          <div class="ar-desc">精确计算、长上下文、稳定性</div>
+        </div>
+        <div class="arsenal-item" data-rough="card">
+          <div class="ar-unit">U5</div>
+          <div class="ar-name">Task Analysis</div>
+          <div class="ar-desc">Feasibility × Value 矩阵</div>
+        </div>
+        <div class="arsenal-item" data-rough="card">
+          <div class="ar-unit">U6</div>
+          <div class="ar-name">AI vs 规则决策树</div>
+          <div class="ar-desc">6 条判断标准</div>
+        </div>
+        <div class="arsenal-item" data-rough="card">
+          <div class="ar-unit">U7</div>
+          <div class="ar-name">准确率门槛</div>
+          <div class="ar-desc">"错了会怎样" 决定上线门槛</div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>今天的任务:</strong> 把这 5 个武器<em>同时</em>用在 Vitamin 的 15 个子功能上.</p>
+        <p>产出: 一张完整的 <mark class="hl">"必须 AI / 都可以 / 必须规则"</mark> 决策表.</p>
+      </div>
+
+      <div class="step-foot">先快速回顾一下判断标准 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">60 秒回顾: 三档分类标准</h2>
+
+      <div class="three-columns-preview">
+        <div class="tcp-col tcp-ai" data-rough="card">
+          <h3>必须 AI</h3>
+          <ul>
+            <li>输入是非结构化的 (自然语言、图片)</li>
+            <li>需要生成/创作/改写</li>
+            <li>需要模式识别 (情绪、分类)</li>
+            <li>规则写不完 (太多 if-else)</li>
+            <li>需要个性化 (千人千面)</li>
+          </ul>
+        </div>
+        <div class="tcp-col tcp-either" data-rough="card">
+          <h3>都可以</h3>
+          <ul>
+            <li>规则能做, 但 AI 做得更好</li>
+            <li>数据量大了以后 AI 有优势</li>
+            <li>当前用规则, 未来可切 AI</li>
+            <li>准确率要求中等 (80-90%)</li>
+            <li>有明确的降级方案</li>
+          </ul>
+        </div>
+        <div class="tcp-col tcp-rules" data-rough="card">
+          <h3>必须规则</h3>
+          <ul>
+            <li>输入是结构化数字</li>
+            <li>需要 100% 确定性</li>
+            <li>是纯计算/查表/日期</li>
+            <li>错了后果极其严重</li>
+            <li>有法规/合规要求</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>记住:</strong> "都可以" 不是 "无所谓" — 它意味着 <mark class="hl">"现在用规则上线, 数据够了切 AI"</mark>, 是一种渐进策略.</p>
+      </div>
+
+      <div class="step-foot">好, 现在看 Vitamin 的 5 个状态和 15 个子功能 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Vitamin 5 状态 × 15 子功能 全景图</h2>
+      <p class="step-lede">Vitamin 追踪女性 5 种身体状态, 每种状态有 3 个核心子功能:</p>
+
+      <div class="states-overview">
+        <div class="state-group" data-rough="card" data-state="period">
+          <div class="sg-header sg-period">
+            <span class="sg-icon">🌙</span>
+            <span class="sg-name">经期</span>
+          </div>
+          <div class="sg-features">
+            <div class="sg-feat">情绪识别</div>
+            <div class="sg-feat">痛经程度评估</div>
+            <div class="sg-feat">用药提醒时间计算</div>
+          </div>
+        </div>
+
+        <div class="state-group" data-rough="card" data-state="fertility">
+          <div class="sg-header sg-fertility">
+            <span class="sg-icon">🌸</span>
+            <span class="sg-name">备孕</span>
+          </div>
+          <div class="sg-features">
+            <div class="sg-feat">排卵期预测</div>
+            <div class="sg-feat">营养建议生成</div>
+            <div class="sg-feat">体温数据分析</div>
+          </div>
+        </div>
+
+        <div class="state-group" data-rough="card" data-state="pregnancy">
+          <div class="sg-header sg-pregnancy">
+            <span class="sg-icon">🤰</span>
+            <span class="sg-name">孕期</span>
+          </div>
+          <div class="sg-features">
+            <div class="sg-feat">每周发育说明生成</div>
+            <div class="sg-feat">紧急症状判断</div>
+            <div class="sg-feat">产检日期计算</div>
+          </div>
+        </div>
+
+        <div class="state-group" data-rough="card" data-state="postpartum">
+          <div class="sg-header sg-postpartum">
+            <span class="sg-icon">👶</span>
+            <span class="sg-name">产后</span>
+          </div>
+          <div class="sg-features">
+            <div class="sg-feat">情绪支持对话</div>
+            <div class="sg-feat">喂养量计算</div>
+            <div class="sg-feat">恢复建议生成</div>
+          </div>
+        </div>
+
+        <div class="state-group" data-rough="card" data-state="menopause">
+          <div class="sg-header sg-menopause">
+            <span class="sg-icon">🍂</span>
+            <span class="sg-name">更年期</span>
+          </div>
+          <div class="sg-features">
+            <div class="sg-feat">症状分类识别</div>
+            <div class="sg-feat">HRT 药物交互查询</div>
+            <div class="sg-feat">心理安慰对话</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="step-lede">接下来, 一组一组分析. 先从经期开始 ↓</p>
+      <div class="step-foot">看每个子功能该归到哪一档 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">经期: 3 个功能逐个分析</h2>
+
+      <div class="analysis-cards">
+        <article class="analysis-card ac-ai" data-rough="card">
+          <div class="ac-badge badge-ai">必须 AI</div>
+          <h3>🌙 情绪识别</h3>
+          <div class="ac-check">
+            <div class="ac-row"><span class="ac-q">输入类型?</span> <span class="ac-a">自然语言 (用户日记、对话)</span></div>
+            <div class="ac-row"><span class="ac-q">能用规则?</span> <span class="ac-a ac-no">不能 — "今天好烦" "心情超差" 表达方式太多</span></div>
+            <div class="ac-row"><span class="ac-q">需要什么?</span> <span class="ac-a">NLP 情感分析 (Reading 类)</span></div>
+            <div class="ac-row"><span class="ac-q">错了会怎样?</span> <span class="ac-a">情绪分错 → 推荐不匹配, 体验差但不危险</span></div>
+          </div>
+          <div class="ac-verdict">→ 典型的 AI 场景: 非结构化输入 + 模式识别</div>
+        </article>
+
+        <article class="analysis-card ac-either" data-rough="card">
+          <div class="ac-badge badge-either">都可以</div>
+          <h3>🌙 痛经程度评估</h3>
+          <div class="ac-check">
+            <div class="ac-row"><span class="ac-q">输入类型?</span> <span class="ac-a">可以是 1-10 分量表 (结构化), 也可以是自然语言描述</span></div>
+            <div class="ac-row"><span class="ac-q">能用规则?</span> <span class="ac-a">能 — 1-3 分轻度, 4-6 中度, 7-10 重度</span></div>
+            <div class="ac-row"><span class="ac-q">AI 优势?</span> <span class="ac-a">如果用户打字描述 "痛到走不动", AI 能更精准判断</span></div>
+            <div class="ac-row"><span class="ac-q">策略?</span> <span class="ac-a">先用量表规则上线, 以后加 NLP 增强</span></div>
+          </div>
+          <div class="ac-verdict">→ 规则能做 80%, AI 能做更好 — 先规则后 AI</div>
+        </article>
+
+        <article class="analysis-card ac-rules" data-rough="card">
+          <div class="ac-badge badge-rules">必须规则</div>
+          <h3>🌙 用药提醒时间计算</h3>
+          <div class="ac-check">
+            <div class="ac-row"><span class="ac-q">输入类型?</span> <span class="ac-a">结构化数据 (药名 + 间隔时间 + 上次服药时间)</span></div>
+            <div class="ac-row"><span class="ac-q">能用规则?</span> <span class="ac-a ac-yes">能 — 纯时间计算: 上次 + 间隔 = 下次</span></div>
+            <div class="ac-row"><span class="ac-q">错了会怎样?</span> <span class="ac-a ac-no">提醒错了 → 漏服或重复服药 → 严重</span></div>
+            <div class="ac-row"><span class="ac-q">AI 优势?</span> <span class="ac-a">无 — AI 算时间不如规则, 而且不确定性太高</span></div>
+          </div>
+          <div class="ac-verdict">→ 纯计算 + 错了后果严重 → 必须规则</div>
+        </article>
+      </div>
+
+      <div class="step-foot">接下来看备孕和孕期 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">备孕 + 孕期: 6 个功能分析</h2>
+
+      <div class="compact-analysis">
+        <h3 class="ca-state">🌸 备孕</h3>
+        <div class="ca-grid">
+          <div class="ca-item ca-either">
+            <div class="ca-badge badge-either">都可以</div>
+            <strong>排卵期预测</strong>
+            <p>规则: 月经周期-14 天. AI: 结合体温+症状更准. <em>先规则, 数据够了切 AI.</em></p>
+          </div>
+          <div class="ca-item ca-ai">
+            <div class="ca-badge badge-ai">必须 AI</div>
+            <strong>营养建议生成</strong>
+            <p>需要根据个人情况生成个性化文案. 规则只能给通用表格. <em>Writing 类, 必须 AI.</em></p>
+          </div>
+          <div class="ca-item ca-either">
+            <div class="ca-badge badge-either">都可以</div>
+            <strong>体温数据分析</strong>
+            <p>简单趋势用规则 (>36.7°C 连续 3 天). 复杂模式 AI 更好. <em>渐进策略.</em></p>
+          </div>
+        </div>
+
+        <h3 class="ca-state">🤰 孕期</h3>
+        <div class="ca-grid">
+          <div class="ca-item ca-ai">
+            <div class="ca-badge badge-ai">必须 AI</div>
+            <strong>每周发育说明生成</strong>
+            <p>需要生成自然语言, 每周不同, 个性化. <em>Writing 类, 规则写不完.</em></p>
+          </div>
+          <div class="ca-item ca-either">
+            <div class="ca-badge badge-either">都可以</div>
+            <strong>紧急症状判断</strong>
+            <p>常见症状用规则 (出血→就医). 罕见组合用 AI. <em>规则兜底 + AI 增强, 必须人工审核.</em></p>
+          </div>
+          <div class="ca-item ca-rules">
+            <div class="ca-badge badge-rules">必须规则</div>
+            <strong>产检日期计算</strong>
+            <p>末次月经 + 固定周数 = 产检日. 纯日历计算. <em>100% 确定性, 不能用 AI.</em></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-foot">还剩产后和更年期 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">产后 + 更年期: 6 个功能分析</h2>
+
+      <div class="compact-analysis">
+        <h3 class="ca-state">👶 产后</h3>
+        <div class="ca-grid">
+          <div class="ca-item ca-ai">
+            <div class="ca-badge badge-ai">必须 AI</div>
+            <strong>情绪支持对话</strong>
+            <p>需要共情、倾听、个性化回应. 产后抑郁筛查 + 陪伴. <em>Chatting 类, 规则做不到.</em></p>
+          </div>
+          <div class="ca-item ca-rules">
+            <div class="ca-badge badge-rules">必须规则</div>
+            <strong>喂养量计算</strong>
+            <p>体重 × 系数 = 每顿奶量. 纯公式. <em>错了影响婴儿健康, 必须 100% 准确.</em></p>
+          </div>
+          <div class="ca-item ca-ai">
+            <div class="ca-badge badge-ai">必须 AI</div>
+            <strong>恢复建议生成</strong>
+            <p>根据个人恢复进度生成个性化建议. <em>Writing 类, 需要个性化.</em></p>
+          </div>
+        </div>
+
+        <h3 class="ca-state">🍂 更年期</h3>
+        <div class="ca-grid">
+          <div class="ca-item ca-ai">
+            <div class="ca-badge badge-ai">必须 AI</div>
+            <strong>症状分类识别</strong>
+            <p>更年期症状表现多样 (潮热/失眠/情绪). 自然语言输入 → NLP 分类. <em>Reading 类.</em></p>
+          </div>
+          <div class="ca-item ca-rules">
+            <div class="ca-badge badge-rules">必须规则</div>
+            <strong>HRT 药物交互查询</strong>
+            <p>药物交互是医学数据库查表. 错了有生命危险. <em>必须 100% 准确, 查数据库.</em></p>
+          </div>
+          <div class="ca-item ca-ai">
+            <div class="ca-badge badge-ai">必须 AI</div>
+            <strong>心理安慰对话</strong>
+            <p>需要共情和个性化. 更年期情绪波动大, 需要温暖的对话. <em>Chatting 类.</em></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>分析完了!</strong> 15 个功能的分布:</p>
+        <p style="font-size:20px;text-align:center;margin:12px 0;">
+          <span class="pill pill-green" style="font-size:16px;">必须 AI: 7 个</span>
+          <span class="pill pill-amber" style="font-size:16px;">都可以: 4 个</span>
+          <span style="display:inline-block;padding:1px 10px;border-radius:999px;font-size:16px;font-weight:600;margin-right:6px;background:var(--red-bg);color:var(--red);">必须规则: 4 个</span>
+        </p>
+      </div>
+
+      <div class="step-foot">接下来看最终决策表的格式 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">决策表: 你要交付的产物</h2>
+      <p class="step-lede">在公司里, 这张表是你作为 AI PM 的<em>核心交付物</em>. 它告诉工程团队: 哪些功能用 AI 实现, 哪些用规则, 以及为什么.</p>
+
+      <div class="decision-table-preview" data-rough="card">
+        <table class="dt-table">
+          <thead>
+            <tr>
+              <th>状态</th>
+              <th>功能</th>
+              <th>分类</th>
+              <th>理由</th>
+              <th>准确率门槛</th>
+              <th>安全网</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="3" class="dt-state">🌙 经期</td>
+              <td>情绪识别</td>
+              <td><span class="pill pill-green">AI</span></td>
+              <td>NLP 分类</td>
+              <td>80%</td>
+              <td>用户确认</td>
+            </tr>
+            <tr>
+              <td>痛经评估</td>
+              <td><span class="pill pill-amber">都可以</span></td>
+              <td>可量表可 NLP</td>
+              <td>80%</td>
+              <td>量表兜底</td>
+            </tr>
+            <tr>
+              <td>用药提醒</td>
+              <td><span style="display:inline-block;padding:1px 10px;border-radius:999px;font-size:13px;font-weight:600;background:var(--red-bg);color:var(--red);">规则</span></td>
+              <td>纯时间计算</td>
+              <td>100%</td>
+              <td>-</td>
+            </tr>
+            <tr class="dt-more">
+              <td colspan="6">... (完整版在第 9 步)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>关键:</strong> 这张表不是你一个人拍脑袋的 —— 它基于你在 U1-U7 学的<em>所有框架</em>. 每个 "为什么" 都有理论支撑.</p>
+      </div>
+
+      <div class="step-foot">现在轮到你动手了 — 来做拖拽分类 ↓</div>
+    </section>
+
+    <!-- (8) WIDGET -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: 决策分类板</h2>
+      <p class="step-lede">把 15 个功能卡片拖到对应的列 (或在手机上点击选择). 全部放好后点 "查看答案".</p>
+
+      <div class="decision-board" id="decision-board">
+        <!-- Unplaced cards pool -->
+        <div class="db-pool" id="db-pool">
+          <h3 class="db-pool-title">待分类的功能 (<span id="db-remaining">15</span> 个)</h3>
+          <div class="db-pool-cards" id="db-pool-cards">
+            <!-- Cards inserted by JS -->
+          </div>
+        </div>
+
+        <!-- Mobile: category selector (shown on small screens) -->
+        <div class="db-mobile-hint">提示: 点击卡片选择分类</div>
+
+        <!-- Three columns -->
+        <div class="db-columns">
+          <div class="db-col db-col-ai" id="col-ai" data-category="ai">
+            <div class="db-col-header db-h-ai">必须 AI</div>
+            <div class="db-col-count">(<span class="col-count">0</span>)</div>
+            <div class="db-col-drop" data-category="ai"></div>
+          </div>
+          <div class="db-col db-col-either" id="col-either" data-category="either">
+            <div class="db-col-header db-h-either">都可以</div>
+            <div class="db-col-count">(<span class="col-count">0</span>)</div>
+            <div class="db-col-drop" data-category="either"></div>
+          </div>
+          <div class="db-col db-col-rules" id="col-rules" data-category="rules">
+            <div class="db-col-header db-h-rules">必须规则</div>
+            <div class="db-col-count">(<span class="col-count">0</span>)</div>
+            <div class="db-col-drop" data-category="rules"></div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="db-controls">
+          <button id="db-check" class="btn btn-primary" disabled>查看答案 (先放完 15 个)</button>
+          <button id="db-reset" class="btn btn-ghost">重来</button>
+        </div>
+
+        <!-- Results -->
+        <div class="db-results" id="db-results" style="display:none;">
+          <div class="db-score" id="db-score"></div>
+          <div class="db-detail" id="db-detail"></div>
+        </div>
+      </div>
+
+      <div class="step-foot">分完了? 看看参考答案和完整决策表 ↓</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 完整决策表 (参考答案)</h2>
+      <p class="step-lede">这是综合 U1-U7 所有框架后的推荐分类:</p>
+
+      <div class="full-decision-table" data-rough="card">
+        <table class="fdt">
+          <thead>
+            <tr>
+              <th>状态</th>
+              <th>功能</th>
+              <th>分类</th>
+              <th>核心理由</th>
+              <th>门槛</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="fdt-state-start">
+              <td rowspan="3" class="fdt-state">🌙<br/>经期</td>
+              <td>情绪识别</td>
+              <td><span class="pill pill-green">AI</span></td>
+              <td>NLP 情感分析, 非结构化输入</td>
+              <td>80%</td>
+            </tr>
+            <tr><td>痛经程度评估</td><td><span class="pill pill-amber">都可以</span></td><td>量表规则可做, AI 增强</td><td>80%</td></tr>
+            <tr><td>用药提醒计算</td><td><span class="pill pill-red">规则</span></td><td>纯时间计算, 错了危险</td><td>100%</td></tr>
+
+            <tr class="fdt-state-start">
+              <td rowspan="3" class="fdt-state">🌸<br/>备孕</td>
+              <td>排卵期预测</td>
+              <td><span class="pill pill-amber">都可以</span></td>
+              <td>简单公式可做, AI 更精准</td>
+              <td>85%</td>
+            </tr>
+            <tr><td>营养建议生成</td><td><span class="pill pill-green">AI</span></td><td>个性化生成, Writing 类</td><td>80%</td></tr>
+            <tr><td>体温数据分析</td><td><span class="pill pill-amber">都可以</span></td><td>简单趋势用规则, 复杂模式用 AI</td><td>85%</td></tr>
+
+            <tr class="fdt-state-start">
+              <td rowspan="3" class="fdt-state">🤰<br/>孕期</td>
+              <td>发育说明生成</td>
+              <td><span class="pill pill-green">AI</span></td>
+              <td>自然语言生成, 每周不同</td>
+              <td>85%</td>
+            </tr>
+            <tr><td>紧急症状判断</td><td><span class="pill pill-amber">都可以</span></td><td>常见症状用规则, AI 增强 + 人工审核</td><td>95%</td></tr>
+            <tr><td>产检日期计算</td><td><span class="pill pill-red">规则</span></td><td>纯日历计算</td><td>100%</td></tr>
+
+            <tr class="fdt-state-start">
+              <td rowspan="3" class="fdt-state">👶<br/>产后</td>
+              <td>情绪支持对话</td>
+              <td><span class="pill pill-green">AI</span></td>
+              <td>共情对话, Chatting 类</td>
+              <td>75%</td>
+            </tr>
+            <tr><td>喂养量计算</td><td><span class="pill pill-red">规则</span></td><td>体重×系数, 纯公式</td><td>100%</td></tr>
+            <tr><td>恢复建议生成</td><td><span class="pill pill-green">AI</span></td><td>个性化生成, Writing 类</td><td>80%</td></tr>
+
+            <tr class="fdt-state-start">
+              <td rowspan="3" class="fdt-state">🍂<br/>更年期</td>
+              <td>症状分类识别</td>
+              <td><span class="pill pill-green">AI</span></td>
+              <td>多维症状 NLP 分类</td>
+              <td>85%</td>
+            </tr>
+            <tr><td>HRT 药物交互</td><td><span class="pill pill-red">规则</span></td><td>医学数据库查表, 错了致命</td><td>100%</td></tr>
+            <tr><td>心理安慰对话</td><td><span class="pill pill-green">AI</span></td><td>共情对话, Chatting 类</td><td>75%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"我在设计 Vitamin 时, 把每个功能按 '必须 AI / 都可以 / 必须规则' 三档分类. 判断标准是: 输入是否结构化、是否需要生成/模式识别、错了后果多严重. 比如情绪识别必须用 AI, 因为自然语言输入规则写不完; 但用药提醒必须用规则, 因为纯时间计算且错了后果严重. 这 15 个功能, 7 个用 AI、4 个用规则、4 个渐进式从规则切 AI."</p>
+      </div>
+
+      <div class="step-foot">最后 — 规则 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 课后作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">每个功能都有归属 ——<br/>AI 做生成和识别,<br/>规则做计算和查表.</p>
+        <p class="one-liner-foot muted">不是 "全用 AI" 也不是 "全用规则", 而是按特点各归其位.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (45 分钟 — 这是 M1.2 的最终产出):</strong>
+        <ol>
+          <li><strong>产出 Vitamin 决策文档:</strong> 把第 9 步的决策表复制到你的笔记里, 每行加上 "为什么" 的一句话理由. 这就是你的面试材料.</li>
+          <li><strong>补充安全网:</strong> 对 "都可以" 那 4 个功能, 各写一个 "先用规则上线 → 数据够了切 AI" 的具体时间表 (比如 "用户量到 1 万时, 排卵期预测从规则切 AI").</li>
+          <li><strong>挑战自己:</strong> 找一个你自己在做的产品 (或你熟悉的产品), 列出 5 个功能, 做同样的三档分类. 看看和 Vitamin 有什么不同.</li>
+          <li><strong>模拟面试:</strong> 用第 9 步的金句, 对着镜子或录音练习 3 遍. 控制在 60 秒内说完. 这是你面试 AI PM 岗位时最有杀伤力的回答之一.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead>
+            <tr><th>类型</th><th>资源</th><th>来源</th><th>价值</th><th>时间</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>📖</td>
+              <td>How to Choose Between Rules-Based vs ML Systems</td>
+              <td><a href="https://www.techtarget.com/searchenterpriseai/feature/How-to-choose-between-a-rules-based-vs-machine-learning-system" target="_blank">TechTarget</a></td>
+              <td>决策框架, 含实际案例</td>
+              <td>10 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>Rule-Based vs ML AI: Which Produces Better Results?</td>
+              <td><a href="https://www.pecan.ai/blog/rule-based-vs-machine-learning-ai-which-produces-better-results/" target="_blank">Pecan AI</a></td>
+              <td>对比两种方案的优劣</td>
+              <td>10 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>AI 产品经理从需求到落地全流程拆解</td>
+              <td><a href="https://www.woshipm.com/ai/6255314.html" target="_blank">人人都是产品经理</a></td>
+              <td>中文, AI PM 完整工作流</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>传统规则引擎与 AI 的优劣势比较</td>
+              <td><a href="https://blog.csdn.net/wpzlykfkc/article/details/143187303" target="_blank">CSDN</a></td>
+              <td>中文, 规则引擎 vs AI 深度对比</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>What Is a Minimum Viable AI Product?</td>
+              <td><a href="https://sloanreview.mit.edu/article/what-is-a-minimum-viable-ai-product/" target="_blank">MIT Sloan Review</a></td>
+              <td>AI MVP 的最佳实践</td>
+              <td>15 min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾整个 Module 1.2 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 终极 Boss: 理论 → 实操</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 三档分类标准回顾</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> 5 状态 × 15 功能全景</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> 经期: 逐个分析</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 备孕 + 孕期分析</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 产后 + 更年期分析</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 决策表格式</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> 拖拽分类板</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> 完整决策表</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 8:</p>
+        <p class="end-summary-big">Vitamin 15 个功能: 7 个 AI, 4 个规则, 4 个渐进.</p>
+        <p class="end-summary-sub">每个分类都有框架支撑 — 这不是拍脑袋, 是方法论.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下一个模块: Module 1.3 · AI 行业图景</div>
+        <p>Module 1.2 完成! 你现在能判断任何功能该用 AI 还是规则, 产出完整决策表.</p>
+        <p>接下来要选模型了: <strong>OpenAI vs DeepSeek vs Qwen, 哪个最适合 Vitamin?</strong></p>
+        <p>从 3 层堆栈到 6 维度横评, 给 Vitamin 选出最优模型.</p>
+        <a class="walk-arrow" href="../../c1-m3-landscape/u1-three-layers/index.html">继续走 → Module 1.3</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.2 · Unit 8 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

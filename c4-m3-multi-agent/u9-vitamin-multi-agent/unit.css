@@ -1,0 +1,177 @@
+/* U9: Vitamin Multi-Agent Capstone — unit-specific styles */
+
+.blueprint {
+  background: var(--bg-card);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-elev);
+  position: relative;
+}
+
+.blueprint-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--ink);
+}
+
+/* Architecture layout */
+.arch-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.arch-layer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.arch-component {
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid;
+  position: relative;
+  min-width: 120px;
+}
+
+.arch-component:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-elev);
+}
+
+.arch-component.active {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-elev);
+}
+
+.arch-component.user { background: var(--bg-elev); border-color: var(--ink-faint); }
+.arch-component.router { background: var(--amber-bg); border-color: var(--amber); }
+.arch-component.nutrition { background: var(--green-bg); border-color: var(--green); }
+.arch-component.cycle { background: var(--blue-bg); border-color: var(--blue); }
+.arch-component.mood { background: var(--purple-bg); border-color: var(--purple); }
+.arch-component.memory { background: var(--red-bg-soft); border-color: var(--red); }
+.arch-component.tools { background: var(--bg-elev); border-color: var(--ink-muted); font-size: 12px; }
+
+.arch-connector {
+  color: var(--ink-faint);
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Component detail panel */
+.component-detail {
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: var(--bg-elev);
+  border-radius: 10px;
+  border-left: 4px solid var(--blue);
+  min-height: 80px;
+  display: none;
+}
+
+.component-detail.show { display: block; }
+
+.component-detail h4 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+
+.component-detail p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 4px 0;
+}
+
+/* Simulation trace */
+.sim-trace {
+  margin: 16px 0;
+  display: none;
+}
+
+.sim-trace.show { display: block; }
+
+.sim-trace-step {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 6px;
+  animation: slideIn 0.4s ease;
+  border-left: 4px solid;
+}
+
+.sim-trace-step.user-step { background: var(--bg-elev); border-color: var(--ink-faint); }
+.sim-trace-step.router-step { background: var(--amber-bg-soft); border-color: var(--amber); }
+.sim-trace-step.agent-step { background: var(--blue-bg-soft); border-color: var(--blue); }
+.sim-trace-step.tool-step { background: var(--green-bg-soft); border-color: var(--green); font-family: "Cascadia Code","SF Mono",monospace; font-size: 12px; }
+.sim-trace-step.handoff-step { background: var(--purple-bg); border-color: var(--purple); }
+.sim-trace-step.answer-step { background: var(--green-bg); border-color: var(--green); font-weight: 600; }
+
+.sim-trace-label {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: white;
+  margin-right: 6px;
+}
+
+.user-step .sim-trace-label { background: var(--ink-muted); }
+.router-step .sim-trace-label { background: var(--amber); }
+.agent-step .sim-trace-label { background: var(--blue); }
+.tool-step .sim-trace-label { background: var(--green); }
+.handoff-step .sim-trace-label { background: var(--purple); }
+.answer-step .sim-trace-label { background: var(--green); }
+
+/* Capstone checklist */
+.capstone-checklist {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.capstone-item {
+  background: var(--bg-card);
+  border: 2px solid var(--green);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.capstone-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.resource-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; }
+.resource-table th { text-align: left; padding: 8px; border-bottom: 2px solid var(--border-strong); font-size: 13px; color: var(--ink-muted); }
+.resource-table td { padding: 8px; border-bottom: 1px dashed var(--border); vertical-align: top; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

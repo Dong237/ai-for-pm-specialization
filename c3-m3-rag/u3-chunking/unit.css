@@ -1,0 +1,88 @@
+/* Unit 3 · Chunk Slicer — unit-specific styles */
+
+.chunk-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+.chunk-controls {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 16px; align-items: flex-end;
+}
+.chunk-control-group { flex: 1; min-width: 180px; }
+.chunk-control-group label {
+  display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px;
+}
+.chunk-val {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  color: var(--red); font-size: 18px;
+}
+.chunk-textarea {
+  width: 100%; min-height: 120px; max-height: 200px;
+  background: var(--bg-elev); border: 1.5px solid var(--border-strong);
+  border-radius: 8px; padding: 12px; font-size: 14px;
+  font-family: inherit; color: var(--ink); resize: vertical;
+  line-height: 1.6;
+}
+.chunk-textarea:focus { outline: 2px solid var(--blue); border-color: var(--blue); }
+.chunk-output {
+  margin-top: 16px;
+}
+.chunk-output-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.chunk-output-header h4 {
+  margin: 0; font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+}
+.chunk-stats { font-size: 13px; color: var(--ink-muted); }
+.chunk-list { display: flex; flex-direction: column; gap: 8px; }
+.chunk-item {
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  position: relative;
+  transition: border-color 0.2s;
+}
+.chunk-item:hover { border-color: var(--blue); }
+.chunk-item-num {
+  position: absolute; top: -8px; left: 10px;
+  background: var(--blue-bg); color: var(--blue);
+  padding: 1px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 700;
+}
+.chunk-item .overlap-zone {
+  background: var(--amber-bg);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+.chunk-item .content-zone { color: var(--ink); }
+
+/* Size recommendation cards */
+.size-recs {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px; margin: 20px 0;
+}
+.size-rec {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 10px; padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+.size-rec:nth-child(1) { transform: rotate(-0.5deg); border-color: var(--blue); }
+.size-rec:nth-child(2) { transform: rotate(0.3deg); border-color: var(--green); }
+.size-rec:nth-child(3) { transform: rotate(-0.4deg); border-color: var(--amber); }
+.size-rec .rec-size {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 28px; font-weight: 700;
+}
+.size-rec .rec-label { font-size: 14px; font-weight: 600; margin: 4px 0; }
+.size-rec .rec-use { font-size: 12px; color: var(--ink-muted); }

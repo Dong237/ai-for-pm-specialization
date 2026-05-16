@@ -1,0 +1,322 @@
+/* ============================================
+   Unit 8 · Vitamin 5 模型横评 — unit-specific
+   ============================================ */
+
+/* ---- Data table (reused pattern) ---- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 8px 0;
+}
+.data-table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+.data-table td {
+  padding: 8px 10px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.row-highlight { background: var(--amber-bg-soft); }
+.row-highlight td { font-weight: 600; }
+
+/* ---- Candidate cards ---- */
+.candidate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+@media (max-width: 600px) {
+  .candidate-grid { grid-template-columns: 1fr; }
+}
+.candidate-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px 14px 13px 15px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+.candidate-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  border: 2px solid;
+  margin-bottom: 8px;
+}
+.candidate-card h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+.candidate-meta {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+.candidate-highlight {
+  display: inline-block;
+  background: var(--amber-bg);
+  border: 1px solid var(--amber);
+  border-radius: 4px;
+  padding: 2px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.candidate-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ---- Weight bars ---- */
+.weight-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 8px 0;
+}
+.weight-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 50px;
+  gap: 10px;
+  align-items: center;
+}
+@media (max-width: 500px) {
+  .weight-row { grid-template-columns: 80px 1fr 40px; }
+}
+.weight-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.weight-bar-track {
+  height: 16px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.weight-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 8px;
+  transition: width 0.6s ease;
+}
+.weight-pct {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: right;
+}
+
+/* ---- Evaluation widget ---- */
+.eval-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+  overflow-x: auto;
+}
+.eval-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* ---- Eval board table ---- */
+.eval-board {
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+.eval-table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.eval-table th {
+  padding: 10px 8px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+.eval-table th:first-child {
+  text-align: left;
+  min-width: 140px;
+}
+.eval-table td {
+  padding: 10px 8px;
+  border-bottom: 1px dashed var(--border);
+  text-align: center;
+  vertical-align: middle;
+}
+.eval-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+}
+.eval-table tr:last-child td { border-bottom: none; }
+.eval-table .total-col {
+  background: var(--amber-bg-soft);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+}
+.eval-table .winner-row {
+  background: var(--green-bg-soft);
+}
+.eval-table .winner-row td:first-child {
+  color: var(--green);
+}
+
+/* ---- Stars ---- */
+.star-group {
+  display: inline-flex;
+  gap: 2px;
+}
+.star {
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--ink-faint);
+  transition: color 0.15s, transform 0.15s;
+  user-select: none;
+  line-height: 1;
+}
+.star:hover { transform: scale(1.2); }
+.star.filled {
+  color: var(--amber);
+}
+.star.filled-blue {
+  color: var(--blue);
+}
+
+/* ---- Eval result ---- */
+.eval-result {
+  background: var(--green-bg);
+  border: 2px solid var(--green);
+  border-radius: 10px;
+  padding: 16px 20px;
+  text-align: center;
+  display: none;
+  animation: fadeInUp 0.5s ease;
+}
+.eval-result.visible { display: block; }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.eval-winner-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+.eval-winner-score {
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+
+/* ---- Report template ---- */
+.report-template {
+  background: var(--bg-card);
+  border: 2px solid var(--blue);
+  border-radius: 12px 14px 13px 15px;
+  padding: 0;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transform: rotate(-0.2deg);
+}
+.report-header {
+  background: var(--blue-bg);
+  padding: 18px 22px;
+  border-bottom: 2px solid var(--blue);
+}
+.report-header h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+.report-date {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin: 0;
+}
+.report-section {
+  padding: 14px 22px;
+  border-bottom: 1px dashed var(--border);
+}
+.report-section:last-child { border-bottom: none; }
+.report-section h4 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blue);
+  margin: 0 0 6px;
+}
+.report-section p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+  line-height: 1.6;
+}
+.report-rec {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.report-rec-main {
+  background: var(--green-bg-soft);
+  border: 1.5px solid var(--green);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 15px;
+}
+.report-rec-backup {
+  background: var(--amber-bg-soft);
+  border: 1.5px solid var(--amber);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+.report-rec-reason {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+/* ---- Resource table ---- */
+.resource-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; }
+.resource-table th { text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--border-strong); font-size: 13px; color: var(--ink-muted); }
+.resource-table td { padding: 8px 10px; border-bottom: 1px dashed var(--border); vertical-align: top; }
+.resource-table tr:last-child td { border-bottom: none; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

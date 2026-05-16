@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · 幻觉 (Hallucination) — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 7: AI 会自信满满地编造事实. 这叫幻觉. 它不是 bug, 是 AI 的本性." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M1</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 7 · 幻觉 (Hallucination)</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">·</span><br/>幻觉 (Hallucination)</h1>
+      <p class="hero-sub">AI 最危险的特性: 它会自信满满地编造事实, 而且自己不知道.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM · 被 AI 骗过)</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">我让 AI 推荐一篇论文, 它给了标题、作者、期刊...</p>
+          <p class="cloud-line">我去 Google Scholar 搜 — <strong>根本不存在.</strong></p>
+          <p class="cloud-line accent">—— 它是怎么做到一本正经地编出来的?</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解幻觉是 AI 的 <strong>本性</strong>, 不是 bug</li>
+          <li>知道什么场景幻觉最多, 什么场景最少</li>
+          <li>掌握 5 种检测和缓解幻觉的策略</li>
+          <li>给 Vitamin 设计防幻觉的安全机制</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) 那篇不存在的论文 -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">AI 自信满满地给了我一篇假论文</h2>
+      <p class="step-lede">我问 ChatGPT: "推荐一篇关于经期疼痛管理的最新综述论文."</p>
+      <p>它回答:</p>
+
+      <div class="fake-cite">
+        <div class="fake-cite-tag">AI 输出</div>
+        <p class="cite-title">"Comprehensive Review of Menstrual Pain Management: From NSAIDs to Digital Therapeutics"</p>
+        <p class="cite-meta">Zhang, W., & Roberts, A. (2023). The Lancet Women's Health, 4(2), 112-128. doi: 10.1016/S2468-2667(23)00045-3</p>
+        <div class="cite-verdict">
+          <strong>现实:</strong> 作者不存在. 期刊名错了 (Lancet 没有 "Women's Health" 子刊). 卷号、页码、DOI 全是编的. 但格式完美, 看起来 100% 像真的.
+        </div>
+      </div>
+
+      <p>如果你不去查, 你会<mark class="hl">完全相信</mark>这是一篇真论文. 这就是幻觉 (Hallucination).</p>
+      <p>而且注意: AI 给这个回答的 "语气" 和给真实信息时<strong>一模一样</strong>. 没有犹豫, 没有 "我不确定", 没有任何警告信号.</p>
+
+      <div class="step-foot">那 AI 是在 "撒谎" 吗? ↓</div>
+    </section>
+
+    <!-- (2) 错误直觉 vs 真相 -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">AI 不是在 "撒谎" — 它根本不知道什么是真</h2>
+      <p class="step-lede">你的第一反应可能是 "AI 在骗我". 但这是错的:</p>
+
+      <div class="two-wrong">
+        <div class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>"AI 在撒谎"</h3>
+          <p>撒谎需要<em>知道</em>真相, 然后故意说假话. AI 不具备这个能力.</p>
+          <div class="wrong-why">它不知道什么是 "真的". 它没有 "事实数据库" 可以核对.</div>
+        </div>
+        <div class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>"AI 出 bug 了"</h3>
+          <p>Bug 意味着程序没按设计运行. 但幻觉恰恰是 AI <em>按设计运行</em>的结果.</p>
+          <div class="wrong-why">它被训练来生成 "最可能的下一个词". 它做到了, 只是 "最可能" ≠ "正确".</div>
+        </div>
+      </div>
+
+      <div class="truth-bubble" data-rough="big">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">AI 是一台<mark class="hl">概率机器</mark>.</p>
+        <p class="truth-line giant">它选的是 "最可能的下一个词",<br/>不是 "正确的下一个词".</p>
+        <p class="truth-line muted">在它眼里, 编造一个假论文引用和写出真论文引用, 调用的是完全相同的机制: 选概率最高的 token.</p>
+      </div>
+
+      <div class="step-foot">为什么概率机制会导致幻觉? ↓</div>
+    </section>
+
+    <!-- (3) 为什么会幻觉 -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">概率 ≠ 知识 — 幻觉的根本原因</h2>
+      <p class="step-lede">上几节课学了: AI 的核心是 <mark class="hl">next-token prediction</mark>. 这个机制本身就注定了幻觉.</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">AI 学到的是:</p>
+        <p>"在 '经期疼痛管理的综述论文' 这种 context 后面, 通常会出现 '作者名 + 期刊名 + 年份 + 页码' 这种格式."</p>
+        <p style="margin-top:10px;font-weight:600;color:var(--red);">它学的是格式和模式, 不是事实.</p>
+      </div>
+
+      <p>类比一下:</p>
+      <div class="callout callout-amber" data-rough="card">
+        <p>你让一个从没吃过饭的人看了 1000 份菜单. 然后让他写一份新菜单.</p>
+        <p>他写出来的会<strong>格式完美</strong> — 菜名、价格、描述都有.</p>
+        <p>但菜可能不存在: "清蒸时间" "红烧概率" "铁板梯度下降".</p>
+        <p style="margin-top:8px;color:var(--ink-muted);font-style:italic;">他学会了 "菜单长什么样", 但不知道 "什么能吃".</p>
+      </div>
+
+      <p>这就是 LLM: 它学会了语言的<strong>统计模式</strong>, 但没有 "事实" 的概念. 它不区分 "真" 和 "假" — 它只知道 "概率高" 和 "概率低".</p>
+
+      <div class="step-foot">什么时候幻觉最多? ↓</div>
+    </section>
+
+    <!-- (4) 幻觉高发区 -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">幻觉高发区: 越偏僻, 越危险</h2>
+      <p class="step-lede">不是所有场景幻觉概率一样. 有些地方是 "重灾区":</p>
+
+      <div class="three-cards">
+        <div class="wonder wonder-1">
+          <div class="wonder-tag">高危</div>
+          <h3>学术引用</h3>
+          <p class="wonder-note">作者名、期刊名、年份、页码 — 组合太多, 训练数据里很多论文只出现过一次. AI 会 "拼凑" 出看起来合理但不存在的引用.</p>
+        </div>
+        <div class="wonder wonder-2">
+          <div class="wonder-tag">高危</div>
+          <h3>精确数字</h3>
+          <p class="wonder-note">"维生素 D 每天摄入 2000IU" vs "2500IU" — AI 很可能给出一个 "合理但不准确" 的数字. 因为它见过很多类似的数字, 会选 "看起来对" 的.</p>
+        </div>
+        <div class="wonder wonder-3">
+          <div class="wonder-tag">高危</div>
+          <h3>冷门话题</h3>
+          <p class="wonder-note">训练数据越少的话题, AI 能依赖的 "真实模式" 就越少, 只能靠 "猜" — 而它的猜永远听起来很自信.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <p class="callout-head">PM 要记住的规律:</p>
+        <p><mark class="hl">训练数据越稀疏 → 幻觉概率越高</mark></p>
+        <p>这就是为什么:</p>
+        <ul>
+          <li>"英语 + 热门话题" 幻觉少 (训练数据多)</li>
+          <li>"小语种 + 专业领域" 幻觉多 (训练数据少)</li>
+          <li>精确数字 / 引用 / 代码 API 版本号 → 重灾区</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">什么时候幻觉少? ↓</div>
+    </section>
+
+    <!-- (5) 幻觉低发区 -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">幻觉低发区: 常识 + 高频话题</h2>
+      <p class="step-lede">也有 AI 几乎不会搞错的领域:</p>
+
+      <div class="callout callout-green" data-rough="card">
+        <p class="callout-head">幻觉概率极低的场景:</p>
+        <ul>
+          <li><strong>基础科学常识:</strong> "水的化学式是 H2O" — 训练数据里出现了几百万次</li>
+          <li><strong>知名人物基本信息:</strong> "爱因斯坦是物理学家" — 几乎不可能错</li>
+          <li><strong>通用语法和翻译:</strong> 翻译 "Hello" 为 "你好" — 语言模式极其稳定</li>
+          <li><strong>常见编程模式:</strong> 写一个 for 循环 — 见过太多次了</li>
+        </ul>
+      </div>
+
+      <div class="big-insight" data-rough="big">
+        <p>规律:</p>
+        <p class="insight-text">训练数据中出现次数越多的知识,<br/><mark class="hl">幻觉概率越低</mark>.<br/>这是纯统计规律, 没有例外.</p>
+      </div>
+
+      <p>但要注意: 即使是 "常识" 级别的问题, AI 偶尔也会出错. <strong>概率低 ≠ 概率为零</strong>. 在安全敏感场景 (医疗、法律、金融), 即使 0.1% 的幻觉率也不可接受.</p>
+
+      <div class="step-foot">幻觉不是非黑即白的 ↓</div>
+    </section>
+
+    <!-- (6) 幻觉光谱 -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">幻觉光谱: 从 "小错" 到 "完全捏造"</h2>
+      <p class="step-lede">幻觉不是 "有或没有", 而是一个<mark class="hl">连续谱</mark>:</p>
+
+      <div class="spectrum">
+        <div class="spectrum-band spectrum-level-1">
+          <div class="spectrum-label">Level 1</div>
+          <div>细节偏差</div>
+          <div class="spectrum-example">"论文发表于 2019 年" (实际 2018)</div>
+        </div>
+        <div class="spectrum-band spectrum-level-2">
+          <div class="spectrum-label">Level 2</div>
+          <div>数字捏造</div>
+          <div class="spectrum-example">"研究涉及 2,347 名参与者" (编的)</div>
+        </div>
+        <div class="spectrum-band spectrum-level-3">
+          <div class="spectrum-label">Level 3</div>
+          <div>编造引用</div>
+          <div class="spectrum-example">整篇论文不存在但格式完美</div>
+        </div>
+        <div class="spectrum-band spectrum-level-4">
+          <div class="spectrum-label">Level 4</div>
+          <div>自信胡说</div>
+          <div class="spectrum-example">"芹菜汁可以治疗乳腺癌"</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p class="callout-head">最危险的是 Level 2-3:</p>
+        <p>Level 4 的胡说八道一般人能识别. 但 Level 2-3 — <strong>大部分内容正确, 关键细节是编的</strong> — 这才是最难发现的. 因为你读完觉得 "这也太专业了, 应该是真的吧".</p>
+        <p style="margin-top:8px;">对 Vitamin 来说: "黄体期基础代谢率升高" 是真的, 但 "升高 23.7%" 是 AI 编的精确数字. 用户不会去查这个数字.</p>
+      </div>
+
+      <div class="step-foot">怎么应对幻觉? ↓</div>
+    </section>
+
+    <!-- (7) 检测 & 缓解策略 -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">5 种对抗幻觉的策略</h2>
+      <p class="step-lede">你不能消除幻觉, 但你可以<mark class="hl">管理</mark>它:</p>
+
+      <div class="strat-grid">
+        <div class="strat-card">
+          <div class="strat-icon">1</div>
+          <h4>RAG (检索增强生成)</h4>
+          <p>让 AI 先从你的知识库里检索, 再基于检索结果回答. 幻觉率大幅降低, 因为答案有 "原材料" 支撑.</p>
+        </div>
+        <div class="strat-card">
+          <div class="strat-icon">2</div>
+          <h4>要求引用来源</h4>
+          <p>在 prompt 里要求 "引用具体来源". AI 可能还是编, 但至少你能去验证. 比 "直接给结论" 好查.</p>
+        </div>
+        <div class="strat-card">
+          <div class="strat-icon">3</div>
+          <h4>交叉验证</h4>
+          <p>同一个问题问两个不同的模型, 或者同一个模型问两次. 如果答案不一致, 大概率有幻觉.</p>
+        </div>
+        <div class="strat-card">
+          <div class="strat-icon">4</div>
+          <h4>降低 Temperature</h4>
+          <p>T=0 时模型选概率最高的 token, 幻觉概率最低 (但不是零). 事实性任务永远用低温度.</p>
+        </div>
+        <div class="strat-card">
+          <div class="strat-icon">5</div>
+          <h4>Human-in-the-Loop</h4>
+          <p>关键决策前必须经过人工审核. 产品设计上: 不要让 AI 输出直接到达用户, 加一层人工确认.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">PM 心法:</p>
+        <p>不要问 "怎么让 AI 不幻觉" — 这在当前技术下<strong>不可能</strong>.</p>
+        <p>要问 <mark class="hl">"当 AI 幻觉时, 我的产品如何保护用户"</mark>.</p>
+      </div>
+
+      <div class="step-foot">来测试一下你的幻觉识别能力 ↓</div>
+    </section>
+
+    <!-- (8) 互动 Quiz -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Confidence vs Correctness Quiz</h2>
+      <p class="step-lede">下面 6 条是 AI 生成的健康/科学声明. 有些是真的, 有些是幻觉. <mark class="hl">你能分辨吗?</mark></p>
+
+      <div class="quiz-widget" data-rough="card">
+        <div class="quiz-header">
+          <div class="quiz-progress" id="quiz-progress-text">0 / 6 已回答</div>
+          <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0%"></div></div>
+          <div style="font-size:13px;color:var(--ink-muted);">每条声明, 判断它是 "真实" 还是 "幻觉". 回答后会揭示真相和 AI 的 "置信度".</div>
+        </div>
+
+        <div id="quiz-container">
+          <!-- Cards built by unit.js -->
+        </div>
+
+        <div class="quiz-summary" id="quiz-summary">
+          <p class="quiz-score" id="quiz-score"></p>
+          <p class="quiz-takeaway" id="quiz-takeaway"></p>
+          <p style="font-size:14px;color:var(--ink-soft);margin-top:12px;font-weight:600;">关键 takeaway: 每条声明的 AI 置信度都在 93-97%. 无论真假, AI 的 "语气" 没有区别.</p>
+          <div class="quiz-reset-wrap">
+            <button class="btn btn-ghost" id="quiz-reset">再试一次</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <p class="callout-head">这个 quiz 说明了什么?</p>
+        <p>AI 说真话和说假话时, <strong>confidence 完全一样</strong>. 你不能靠 "语气" 判断 AI 是否在幻觉. 唯一的方法是 <mark class="hl">去验证</mark>.</p>
+      </div>
+
+      <div class="step-foot">在 Vitamin 里, 幻觉意味着什么? ↓</div>
+    </section>
+
+    <!-- (9) Vitamin case study -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 健康幻觉可能致命</h2>
+      <p class="step-lede">Vitamin 是女性健康 AI app, 做 5 个州的身体追踪. <mark class="hl">健康领域的幻觉风险是最高级别的.</mark></p>
+
+      <div class="callout callout-red" data-rough="card">
+        <p class="callout-head">假设 Vitamin 幻觉了:</p>
+        <ul>
+          <li>"经期期间可以大量服用布洛芬, 每天最多 3200mg" — <strong>危险!</strong> 虽然布洛芬确实用于经期, 但 3200mg 是 AI 编的数字, 实际最大日剂量因人而异.</li>
+          <li>"根据 2023 年 WHO 指南, 黄体期不应进行高强度运动" — <strong>编的!</strong> WHO 没有这个指南, 但用户会信.</li>
+          <li>"孕早期体温升高 0.3-0.5°C 是正常的" — 大方向对, 但精确范围是 AI 编的, 可能误导用户的自我判断.</li>
+        </ul>
+      </div>
+
+      <div class="can-cant">
+        <div class="can-list">
+          <h3 class="can-head">Vitamin 该做</h3>
+          <ul>
+            <li>所有健康建议附带 disclaimer: "此信息仅供参考, 不替代医生诊断"</li>
+            <li>用 RAG 对接循证医学数据库 (如 UpToDate, WHO 指南)</li>
+            <li>关键数字 (剂量、温度范围) 只从审核过的数据源获取, 不让 AI 生成</li>
+            <li>设置 Temperature=0, 最大化事实性</li>
+            <li>建立 "不确定时说不确定" 的 prompt 机制</li>
+          </ul>
+        </div>
+        <div class="cant-list">
+          <h3 class="cant-head">Vitamin 绝不能</h3>
+          <ul>
+            <li>让 AI 直接生成药物剂量建议</li>
+            <li>让 AI 输出 "根据研究表明..." 而不提供可验证的来源</li>
+            <li>在没有 disclaimer 的情况下给出健康结论</li>
+            <li>信任 AI 生成的任何精确数字 (温度、剂量、百分比)</li>
+            <li>假设 "AI 说得很自信所以应该是对的"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="disclaimer-example">
+        <div class="disclaimer-example-tag">Vitamin 界面示例</div>
+        <p><strong>AI 输出:</strong> "黄体期 (排卵后 ~14 天) 基础体温通常会略微升高, 这是孕激素作用的正常反应."</p>
+        <div class="disclaimer-text">
+          "以上信息由 AI 生成, 基于一般性健康知识. 每个人的身体情况不同, 具体数值请以你的医生建议为准. Vitamin 不提供医疗诊断."
+        </div>
+      </div>
+
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) 规则 + 作业 -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">AI 不区分真假, 它只选概率最高的词.<br/>你的产品必须替用户验证.</p>
+        <p class="one-liner-foot muted">高 confidence ≠ 高 correctness. 永远记住这一点.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 ChatGPT, 让它推荐 3 篇关于 "menstrual health technology" 的学术论文. 去 Google Scholar 逐一验证 — 记录哪些是真的, 哪些是幻觉.</li>
+          <li>给 Vitamin 的 5 种身体追踪状态 (经期、排卵期、黄体期、卵泡期、孕早期), 各列 1 条 "AI 可能幻觉的高危场景" 和对应的防护措施.</li>
+          <li>写一段 Vitamin 的 system prompt (100 字以内), 要求 AI 在不确定时明确说 "我不确定" 而不是编造答案.</li>
+          <li>用 100 字向老板解释: "为什么我们不能让 AI 直接给用户健康建议, 即使 AI 看起来很自信?"</li>
+        </ol>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>论文</td><td><a href="https://arxiv.org/abs/2311.05232" target="_blank" rel="noopener">Survey on Hallucination in LLMs</a></td><td>2023 年最全面的幻觉综述, 分类体系清晰</td><td>45 min</td></tr>
+              <tr><td>指南</td><td><a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener">OpenAI Prompt Engineering Guide</a></td><td>"减少幻觉" 是其中一章, 有实用技巧</td><td>20 min</td></tr>
+              <tr><td>中文</td><td><a href="https://zhuanlan.zhihu.com/p/642648601" target="_blank" rel="noopener">知乎: LLM 幻觉问题全面解析</a></td><td>中文讲解幻觉的产生原因和缓解方法</td><td>15 min</td></tr>
+              <tr><td>视频</td><td><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener">IBM: What Are AI Hallucinations?</a></td><td>5 分钟视觉化解释, 适合快速入门</td><td>5 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 不存在的假论文</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> AI 不是在撒谎</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 概率 ≠ 知识</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 幻觉高发区</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 幻觉低发区</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 幻觉光谱</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 5 种缓解策略</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Confidence Quiz</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 防幻觉</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 7:</p>
+        <p class="end-summary-big">AI 不知道什么是真, 什么是假.<br/>它只知道什么词 "最可能" 出现在这里.<br/>你的产品必须替用户验证.</p>
+        <p class="end-summary-sub">Confidence ≠ Correctness. 这是每个 AI PM 必须内化的真理.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 8): 知识截止 (Knowledge Cutoff)</div>
+        <p>幻觉是 AI "编造" 不知道的东西. 但还有一种情况 ——<br/>
+          <strong>AI 的知识有一个截止日期. 截止日期之后的事, 它真的不知道.</strong></p>
+        <p>这和幻觉不同: 不是 "编错了", 而是 "根本没学过". 下节课拆开看.</p>
+        <a class="walk-arrow" href="../u8-knowledge-cutoff/index.html">继续走 → Unit 8</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1 · Unit 7 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

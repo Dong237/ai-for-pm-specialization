@@ -1,0 +1,673 @@
+/* ============================================
+   Unit 8 · Vitamin 6 候选场景取舍 (Capstone) — unit-specific styles
+   ============================================ */
+
+/* ===== Candidate Cards Grid (Step 2) ===== */
+.candidate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+@media (max-width: 700px) {
+  .candidate-grid { grid-template-columns: 1fr; }
+}
+
+.candidate-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px 14px 13px 15px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.candidate-card:nth-child(1) { transform: rotate(-0.4deg); }
+.candidate-card:nth-child(2) { transform: rotate(0.3deg); }
+.candidate-card:nth-child(3) { transform: rotate(-0.2deg); }
+.candidate-card:nth-child(4) { transform: rotate(0.5deg); }
+.candidate-card:nth-child(5) { transform: rotate(-0.3deg); }
+.candidate-card:nth-child(6) { transform: rotate(0.2deg); }
+.candidate-card:hover {
+  transform: translateY(-3px) rotate(-0.5deg);
+  box-shadow: var(--shadow-elev);
+}
+
+.cand-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.cand-icon { font-size: 28px; flex-shrink: 0; }
+.cand-header h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 17px;
+  margin: 0 0 4px;
+}
+.cand-badges {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.cand-aug {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  background: var(--bg-elev);
+  padding: 1px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+.cand-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0 0 12px;
+}
+
+.cand-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.cand-roi, .cand-ttv, .cand-path {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+.cand-roi-high { background: var(--green-bg); color: var(--green); }
+.cand-roi-medium { background: var(--amber-bg); color: var(--amber); }
+.cand-roi-low { background: var(--bg-elev); color: var(--ink-muted); }
+.cand-ttv-fast { background: var(--green-bg); color: var(--green); }
+.cand-ttv-medium { background: var(--amber-bg); color: var(--amber); }
+.cand-ttv-slow { background: var(--red-bg); color: var(--red); }
+.cand-path { background: var(--blue-bg); color: var(--blue); }
+
+/* ===== Score Tables (Steps 3-4) ===== */
+.score-table {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 4px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+  overflow-x: auto;
+}
+.score-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.score-table th, .score-table td {
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: 1px dashed var(--border);
+}
+.score-table th {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-weight: 600;
+  background: var(--bg-elev);
+}
+.score-table th:first-child, .score-table td:first-child {
+  text-align: left;
+}
+.score-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+}
+.score-high { background: var(--green-bg); color: var(--green); }
+.score-medium { background: var(--amber-bg); color: var(--amber); }
+.score-low { background: var(--bg-elev); color: var(--ink-muted); border: 1px solid var(--border); }
+
+/* ===== 2×2 Matrix Explanation (Step 5) ===== */
+.matrix-explain {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.matrix-grid-static {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 8px;
+  position: relative;
+}
+.matrix-y-label {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  padding: 4px 0;
+}
+.matrix-x-label {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  padding: 4px 0;
+}
+
+.quad {
+  padding: 20px 16px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 100px;
+  text-align: center;
+}
+.quad-tl { background: var(--green-bg); border: 2px solid var(--green); }
+.quad-tr { background: var(--blue-bg); border: 2px solid var(--blue); }
+.quad-bl { background: var(--amber-bg); border: 2px solid var(--amber); }
+.quad-br { background: var(--red-bg); border: 2px solid var(--red); }
+
+.quad-label { font-weight: 700; font-size: 16px; }
+.quad-desc { font-size: 12px; color: var(--ink-soft); }
+.quad-action {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-top: 4px;
+  background: var(--bg-card);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* ===== Placement List (Step 6) ===== */
+.placement-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0;
+}
+.placement {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+}
+.placement:nth-child(odd) { transform: rotate(-0.3deg); }
+.placement:nth-child(even) { transform: rotate(0.3deg); }
+
+.placement-quad {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.quad-green { background: var(--green-bg); color: var(--green); }
+.quad-blue { background: var(--blue-bg); color: var(--blue); }
+.quad-amber { background: var(--amber-bg); color: var(--amber); }
+.quad-red { background: var(--red-bg); color: var(--red); }
+
+.placement-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.placement-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.placement-item:last-child { border-bottom: none; }
+.placement-item strong { font-size: 15px; }
+.placement-reason {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+/* ===== Roadmap (Step 7) ===== */
+.roadmap {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.roadmap-phase {
+  padding: 16px 0;
+  border-bottom: 2px dashed var(--border);
+}
+.roadmap-phase:last-child { border-bottom: none; }
+
+.roadmap-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.roadmap-tag {
+  padding: 3px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+}
+.tag-p1 { background: var(--green-bg); color: var(--green); }
+.tag-p2 { background: var(--blue-bg); color: var(--blue); }
+.tag-p3 { background: var(--amber-bg); color: var(--amber); }
+
+.roadmap-time {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.roadmap-phase h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 17px;
+  margin: 0 0 12px;
+}
+
+.roadmap-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.roadmap-feature {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 6px 0;
+}
+.rf-icon { font-size: 20px; flex-shrink: 0; }
+.roadmap-feature strong { display: block; font-size: 14px; }
+.rf-detail { font-size: 12px; color: var(--ink-muted); }
+
+.roadmap-milestone {
+  background: var(--amber-bg-soft);
+  border: 1px dashed var(--amber);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--amber);
+}
+
+/* ===== Matrix Widget (Step 8) ===== */
+.matrix-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.mw-progress {
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-bottom: 16px;
+}
+
+/* Matrix grid */
+.mw-matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 8px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.mw-y-label {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  padding: 2px 0;
+}
+.mw-x-label {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  padding: 2px 0;
+}
+
+.mw-quadrant {
+  min-height: 130px;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-width 0.2s, background 0.2s;
+  position: relative;
+}
+#q-tl { background: var(--green-bg-soft); border: 2px dashed var(--green); }
+#q-tr { background: var(--blue-bg-soft); border: 2px dashed var(--blue); }
+#q-bl { background: var(--amber-bg-soft); border: 2px dashed var(--amber); }
+#q-br { background: var(--red-bg-soft); border: 2px dashed var(--red); }
+
+.mw-quadrant.drag-over {
+  border-width: 3px;
+  border-style: solid;
+}
+#q-tl.drag-over { background: var(--green-bg); }
+#q-tr.drag-over { background: var(--blue-bg); }
+#q-bl.drag-over { background: var(--amber-bg); }
+#q-br.drag-over { background: var(--red-bg); }
+
+.mw-q-label {
+  font-weight: 700;
+  font-size: 14px;
+}
+.mw-q-sub {
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+/* Cards in tray */
+.mw-card-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  min-height: 48px;
+  padding: 12px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  border: 1px dashed var(--border);
+}
+
+.mw-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  cursor: grab;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+.mw-card:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow: var(--shadow-elev);
+}
+.mw-card:active, .mw-card.dragging {
+  cursor: grabbing;
+  opacity: 0.7;
+  transform: scale(0.95);
+}
+
+.mw-card-icon { font-size: 16px; }
+.mw-card-name { white-space: nowrap; }
+.mw-card-type {
+  font-size: 10px;
+  color: var(--ink-muted);
+  background: var(--bg-elev);
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+
+/* Cards placed in quadrants */
+.mw-quadrant .mw-card {
+  border-width: 1.5px;
+  font-size: 12px;
+  padding: 6px 10px;
+}
+.mw-card.correct { border-color: var(--green); background: var(--green-bg-soft); }
+.mw-card.incorrect { border-color: var(--amber); background: var(--amber-bg-soft); }
+.mw-card .check-mark {
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+/* Actions */
+.mw-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+/* Result */
+.mw-result {
+  padding: 16px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  border: 1.5px solid var(--border-strong);
+  margin-bottom: 16px;
+}
+.mw-result .result-score {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.mw-result .result-detail {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* Roadmap output */
+.mw-roadmap-output {
+  padding: 16px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  border: 1.5px solid var(--green);
+  position: relative;
+}
+.mw-roadmap-output h4 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+.roadmap-phase-output {
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.roadmap-phase-output:last-child { border-bottom: none; }
+.rpo-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.rpo-features {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 4px 0 0;
+}
+.copy-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 12px;
+  padding: 4px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--ink-muted);
+}
+.copy-btn:hover { border-color: var(--ink); color: var(--ink); }
+.copy-btn.copied { color: var(--green); border-color: var(--green); }
+
+/* ===== Full Picture (Step 9) ===== */
+.full-picture {
+  background: var(--bg-card);
+  border: 2px solid var(--blue);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.fp-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px dashed var(--border);
+}
+.fp-section {
+  margin-bottom: 16px;
+}
+.fp-section h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: var(--blue);
+}
+.fp-section p { font-size: 14px; margin: 0 0 6px; color: var(--ink-soft); }
+.fp-section ul { padding-left: 20px; margin: 0; font-size: 14px; color: var(--ink-soft); }
+.fp-section li { padding: 3px 0; }
+
+.fp-matrix-mini {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+@media (max-width: 500px) {
+  .fp-matrix-mini { grid-template-columns: 1fr; }
+}
+.fp-q {
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+.fp-q strong { margin-bottom: 4px; }
+.fp-q-green { background: var(--green-bg-soft); border: 1.5px solid var(--green); }
+.fp-q-blue { background: var(--blue-bg-soft); border: 1.5px solid var(--blue); }
+.fp-q-amber { background: var(--amber-bg-soft); border: 1.5px solid var(--amber); }
+
+/* ===== Completion Card ===== */
+.completion-card {
+  background: linear-gradient(135deg, var(--amber-bg-soft), var(--green-bg-soft));
+  border: 3px solid var(--amber);
+  border-radius: 16px;
+  padding: 32px 28px;
+  margin: 28px 0;
+  text-align: center;
+  box-shadow: var(--shadow-elev);
+  position: relative;
+}
+[data-theme="dark"] .completion-card {
+  background: linear-gradient(135deg, var(--amber-bg), var(--green-bg));
+}
+
+.completion-badge {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+.completion-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: clamp(24px, 5vw, 32px);
+  margin: 0 0 8px;
+}
+.completion-sub {
+  color: var(--ink-soft);
+  font-size: 15px;
+  margin: 0 0 20px;
+}
+
+.completion-outputs, .completion-skills {
+  text-align: left;
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  background: var(--bg-card);
+  border-radius: 10px;
+}
+.completion-outputs h4, .completion-skills h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--blue);
+}
+.completion-outputs .check-list li { font-size: 14px; }
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.skill-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.next-card-course {
+  border-color: var(--amber);
+  background: var(--amber-bg-soft);
+}
+[data-theme="dark"] .next-card-course { background: var(--amber-bg); }
+
+/* ===== Resource Table ===== */
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 12px;
+}
+.resource-table th {
+  text-align: left;
+  font-size: 12px;
+  color: var(--ink-muted);
+  padding: 6px 8px;
+  border-bottom: 2px solid var(--border);
+}
+.resource-table td {
+  padding: 8px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.resource-table td:first-child { text-align: center; width: 30px; }
+.resource-table td:last-child { white-space: nowrap; width: 60px; }
+.resource-table a {
+  color: var(--blue);
+  text-decoration: none;
+}
+.resource-table a:hover { text-decoration: underline; }
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .matrix-widget { padding: 14px; }
+  .mw-quadrant { min-height: 100px; padding: 10px; }
+  .mw-q-label { font-size: 12px; }
+  .mw-card { font-size: 11px; padding: 6px 10px; }
+  .mw-card-type { display: none; }
+  .completion-card { padding: 20px 16px; }
+}

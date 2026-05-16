@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · Tokenizer 中英文差异 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 3: 同样意思的句子, 中文 token 数通常是英文的 1.5-2 倍. 这直接影响中文 AI 产品的成本." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 · Tokenizer 中英文差异</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+
+      <h1 class="hero-title">Unit 3<span class="title-dot">·</span><br/>中文为什么更 "贵"?</h1>
+      <p class="hero-sub">同样意思, 中文 token 数 ≈ 英文的 1.5 倍. 这不是语言的问题, 是 tokenizer 的问题.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 学完 Unit 2)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">上节课我发现 "维他命" = 3 tokens, "Vitamin" = 1 token.</p>
+          <p class="cloud-line">如果 Vitamin 是中文产品, 每次调 API 都比英文产品贵?</p>
+          <p class="cloud-line">有没有办法解决?</p>
+          <p class="cloud-line accent">—— 今天弄清楚.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道中文 token 数为什么通常比英文多</li>
+          <li>理解 UTF-8 编码对 tokenizer 的影响</li>
+          <li>能对比不同模型对中文的 token 效率</li>
+          <li>给 Vitamin 选一个 "中文友好" 的模型</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) 账单惊吓 -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">一封让 PM 冒汗的账单</h2>
+      <p class="step-lede">假设你给 Vitamin 写了一段健康建议 prompt:</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>英文版:</strong> "You should drink more water and get enough sleep during your period."<br/>
+        <span class="pill pill-blue">~14 tokens (GPT-4)</span></p>
+        <p style="margin-top:12px;"><strong>中文版:</strong> "经期期间你应该多喝水，保证充足的睡眠。"<br/>
+        <span class="pill pill-amber">~18 tokens (GPT-4)</span></p>
+      </div>
+
+      <p>同样的意思, 中文多了 <strong>29%</strong> 的 token.</p>
+      <p>而且这还是<em>一句话</em>. 如果是一个完整的 system prompt + 多轮对话, 差距会更大.</p>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>PM 的直觉:</strong>
+        <p>"等一下... Vitamin 是中文产品. 如果每次对话都多花 30-50% 的 token, 一个月下来, 我的 API 成本直接涨了 30-50%?"</p>
+        <p><strong>答: 对. 但好消息是, 选对模型可以大幅缩小这个差距.</strong></p>
+      </div>
+
+      <div class="step-foot">先搞清楚: 为什么中文 token 多? ↓</div>
+    </section>
+
+    <!-- (2) 两个错猜测 -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两个猜测 — 一对一错</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">△</div>
+          <h3>猜测 A: 中文字多, 所以 token 多</h3>
+          <p>中文一个字信息量大, 字数其实<em>少</em>于英文.</p>
+          <div class="wrong-why">
+            <strong>不完全对:</strong>
+            "经期应该多喝水" = 7 个字. 英文 "Drink more water during period" = 6 个词. 中文字数并不多 — 问题不在信息量.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>猜测 B: 中文语言更复杂</h3>
+          <p>中文语法更难, 所以 AI 需要更多 token 理解?</p>
+          <div class="wrong-why">
+            <strong>完全不对:</strong>
+            Token 只是切分方式, 跟语法难度无关. 日文甚至比中文更 "贵" — 因为混了汉字 + 假名 + 罗马字.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">中文 token 多, 是因为 <mark class="hl">tokenizer 是英文数据训出来的</mark>.</p>
+        <p class="truth-line giant">训练数据偏谁, 谁就被压缩得更好.</p>
+        <p class="truth-line">GPT-4 的训练语料约 90% 是英文. 英文的常见组合被充分合并成大积木, 中文的组合合并不够.</p>
+        <p class="truth-line muted">→ 好消息: 中国公司的模型 (DeepSeek, Qwen) 用了更多中文数据训练 tokenizer, 差距小很多.</p>
+      </div>
+
+      <div class="step-foot">来看根因: UTF-8 编码的影响 ↓</div>
+    </section>
+
+    <!-- (3) UTF-8 根因 -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">根因: 一个中文字 = 3 个字节</h2>
+      <p class="step-lede">BPE tokenizer 的输入不是 "字符", 而是 <mark class="hl">字节 (byte)</mark>. 这就是差距的物理根源.</p>
+
+      <div class="byte-demo" data-rough="card">
+        <div class="byte-row">
+          <span class="byte-char" style="color:var(--blue);">A</span>
+          <span class="byte-arrow">→</span>
+          <div class="byte-blocks">
+            <span class="byte-block">0x41</span>
+          </div>
+          <span class="byte-count" style="color:var(--blue);">1 byte</span>
+        </div>
+        <div class="byte-row">
+          <span class="byte-char" style="color:var(--red);">中</span>
+          <span class="byte-arrow">→</span>
+          <div class="byte-blocks">
+            <span class="byte-block">0xE4</span>
+            <span class="byte-block">0xB8</span>
+            <span class="byte-block">0xAD</span>
+          </div>
+          <span class="byte-count" style="color:var(--red);">3 bytes</span>
+        </div>
+        <div class="byte-row">
+          <span class="byte-char" style="color:var(--red);">好</span>
+          <span class="byte-arrow">→</span>
+          <div class="byte-blocks">
+            <span class="byte-block">0xE5</span>
+            <span class="byte-block">0xA5</span>
+            <span class="byte-block">0xBD</span>
+          </div>
+          <span class="byte-count" style="color:var(--red);">3 bytes</span>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>BPE 的起点是字节. 所以:</strong>
+        <ol>
+          <li>英文 "hello" = 5 bytes → BPE 起步轻松, 很快合并成 1 token</li>
+          <li>中文 "你好" = 6 bytes → BPE 起步要处理更多字节</li>
+          <li>如果训练数据里 "你好" 出现得够多, BPE <em>会</em>把这 6 bytes 合并成 1 token</li>
+          <li>但如果不够多 (因为训练数据 90% 英文), 就只能拆成 "你" + "好" 两个 token</li>
+        </ol>
+        <p class="muted">→ 这就是为什么 "你好" 在 GPT-4 里是 1 token (够常见), 但 "维他命" 是 3 token (不够常见).</p>
+      </div>
+
+      <div class="step-foot">来看具体数据: 5 组等义句子的对比 ↓</div>
+    </section>
+
+    <!-- (4) 5 组对比 -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">5 组等义句子, 看差距</h2>
+      <p class="step-lede">同样意思的句子, 中英文 token 数差多少? 用 GPT-4 的 tokenizer 来切:</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <table class="model-table">
+          <thead>
+            <tr>
+              <th>场景</th>
+              <th>英文 tokens</th>
+              <th>中文 tokens</th>
+              <th>倍率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>问候</td>
+              <td>6</td>
+              <td>8</td>
+              <td>1.3x</td>
+            </tr>
+            <tr>
+              <td>健康建议</td>
+              <td>14</td>
+              <td class="worst">18</td>
+              <td class="worst">1.3x</td>
+            </tr>
+            <tr>
+              <td>产品介绍</td>
+              <td>15</td>
+              <td class="worst">22</td>
+              <td class="worst">1.5x</td>
+            </tr>
+            <tr>
+              <td>技术描述</td>
+              <td>15</td>
+              <td class="worst">20</td>
+              <td class="worst">1.3x</td>
+            </tr>
+            <tr>
+              <td>长段落</td>
+              <td>38</td>
+              <td class="worst">56</td>
+              <td class="worst">1.5x</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>规律:</p>
+      <ul>
+        <li><strong>短文本</strong>: 差距较小 (~1.3x), 因为常见词已被合并</li>
+        <li><strong>长文本</strong>: 差距拉大 (~1.5x), 罕见组合被逐字切</li>
+        <li><strong>平均</strong>: 中文约 <mark class="hl">1.3-1.5 倍</mark> 于等义英文</li>
+      </ul>
+
+      <div class="step-foot">但这只是 GPT-4 的情况. 中国模型呢? ↓</div>
+    </section>
+
+    <!-- (5) 不同模型的效率 -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">不同模型, 中文效率大不同</h2>
+      <p class="step-lede">GPT-4 的 tokenizer 偏英文. 但中国公司的模型, 专门为中文优化了 tokenizer:</p>
+
+      <div class="callout callout-green" data-rough="card">
+        <table class="model-table">
+          <thead>
+            <tr>
+              <th>模型</th>
+              <th>词表大小</th>
+              <th>"健康建议"句 tokens</th>
+              <th>中文效率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>GPT-4</td>
+              <td>~100K</td>
+              <td class="worst">18</td>
+              <td class="worst">基准</td>
+            </tr>
+            <tr>
+              <td>DeepSeek V3</td>
+              <td>~128K</td>
+              <td class="best">11</td>
+              <td class="best">提升 39%</td>
+            </tr>
+            <tr>
+              <td>Qwen (通义)</td>
+              <td>~152K</td>
+              <td class="best">10</td>
+              <td class="best">提升 44%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="muted" style="margin-top:12px;">→ 同一句中文, Qwen 只需要 GPT-4 一半多的 token. 差距巨大.</p>
+      </div>
+
+      <p>为什么中国模型更高效?</p>
+      <ul>
+        <li><strong>更大的词表</strong>: 128K-152K vs 100K, 能装更多中文常见组合</li>
+        <li><strong>更多中文训练数据</strong>: 中文组合被充分合并成大积木</li>
+        <li><strong>专门优化</strong>: 阿里 / DeepSeek 把中文压缩效率作为设计目标</li>
+      </ul>
+
+      <div class="step-foot">这对产品成本意味着什么? ↓</div>
+    </section>
+
+    <!-- (6) 产品成本影响 -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">选对 tokenizer = 省钱</h2>
+      <p class="step-lede">Token 效率 + 单价, 双重影响你的账单:</p>
+
+      <div class="cost-projection">
+        <div class="proj-card proj-expensive" data-rough="card">
+          <div class="proj-model">GPT-4o</div>
+          <div style="font-size:13px;color:var(--ink-muted);">中文 token 效率低 + 单价高</div>
+          <div class="proj-cost">¥3,000<span style="font-size:16px;color:var(--ink-muted);">/月</span></div>
+          <div class="proj-note">1000 DAU · 5 次/天 · 500 tokens/次</div>
+        </div>
+        <div class="proj-card proj-cheap" data-rough="card">
+          <div class="proj-model">DeepSeek V3</div>
+          <div style="font-size:13px;color:var(--ink-muted);">中文效率高 + 单价低</div>
+          <div class="proj-cost">¥90<span style="font-size:16px;color:var(--ink-muted);">/月</span></div>
+          <div class="proj-note">同样用量, 便宜 33 倍</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>成本差距来自两个维度:</strong>
+        <ol>
+          <li><strong>Token 效率</strong>: 同一句中文, DeepSeek 只需 GPT-4 的 ~60% token → 省 40%</li>
+          <li><strong>单价</strong>: DeepSeek V3 ≈ ¥2/百万 token, GPT-4o ≈ ¥60/百万 token → 省 30 倍</li>
+          <li><strong>叠加效果</strong>: 0.6 × (1/30) ≈ <mark class="hl">总成本仅为 GPT-4o 的 3%</mark></li>
+        </ol>
+        <p class="muted">→ 对中文产品来说, tokenizer 效率是选型的重要维度. 但别忘了, 质量也很重要.</p>
+      </div>
+
+      <div class="step-foot">但中文不是在所有场景都更贵 — 有个反直觉 ↓</div>
+    </section>
+
+    <!-- (7) 反直觉 -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">一个反直觉: 中文不是永远更贵</h2>
+      <p class="step-lede">中英文 token 差距不是固定的, 跟<em>内容类型</em>有关:</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <table class="model-table">
+          <thead>
+            <tr>
+              <th>内容类型</th>
+              <th>中/英 倍率 (GPT-4)</th>
+              <th>原因</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>短问候</td>
+              <td class="best">~1.0-1.3x</td>
+              <td>"你好"、"谢谢" 等超常见词已被合并</td>
+            </tr>
+            <tr>
+              <td>日常对话</td>
+              <td>~1.3x</td>
+              <td>常见词多, 差距不大</td>
+            </tr>
+            <tr>
+              <td>专业文档</td>
+              <td class="worst">~1.5-2.0x</td>
+              <td>专业术语少见, 被逐字切</td>
+            </tr>
+            <tr>
+              <td>代码 / 数字</td>
+              <td class="best">~1.0x</td>
+              <td>都是 ASCII, 没有差异</td>
+            </tr>
+            <tr>
+              <td>JSON 结构</td>
+              <td class="best">~1.0x</td>
+              <td>键名是英文, 只有值是中文</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>实用技巧:</strong></p>
+      <ul>
+        <li>System prompt 中的<em>指令部分</em>可以用英文写 → 省 token</li>
+        <li>JSON 输出格式的键名用英文 → 省 token</li>
+        <li>但用户看到的内容 (回复、建议) 必须是中文 → 这部分没法省</li>
+      </ul>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>一个 Vitamin 的 prompt 优化例子:</strong>
+        <p>优化前 (全中文):<br/><code>你是一个女性健康助手。请根据用户的身体状态给出建议。</code><br/>→ ~16 tokens</p>
+        <p>优化后 (指令用英文):<br/><code>You are a women's health assistant. Respond in Chinese based on user body state.</code><br/>→ ~18 tokens</p>
+        <p class="muted">→ 这个例子差不多. 但如果 system prompt 有几百字, 差距就明显了. 通常混合方式效果最好.</p>
+      </div>
+
+      <div class="step-foot">好了, 来动手对比 ↓</div>
+    </section>
+
+    <!-- (8) 互动 widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: 并排对比, 看差距</h2>
+      <p class="step-lede">选一组句子, 切换不同模型, 看中英文 token 数的差距:</p>
+
+      <div class="compare-widget" data-rough="card">
+        <!-- Sentence pair selector -->
+        <div class="compare-selector">
+          <button class="compare-btn active" data-pair="greeting">日常问候</button>
+          <button class="compare-btn" data-pair="health">健康建议</button>
+          <button class="compare-btn" data-pair="product">Vitamin 介绍</button>
+          <button class="compare-btn" data-pair="technical">技术描述</button>
+          <button class="compare-btn" data-pair="long">长段落</button>
+        </div>
+
+        <!-- Model selector -->
+        <div class="compare-selector" style="margin-bottom:16px;">
+          <span style="font-size:13px;color:var(--ink-muted);margin-right:8px;align-self:center;">模型:</span>
+          <button class="compare-btn model-btn active" data-model="gpt4">GPT-4</button>
+          <button class="compare-btn model-btn" data-model="deepseek">DeepSeek V3</button>
+          <button class="compare-btn model-btn" data-model="qwen">Qwen</button>
+        </div>
+
+        <!-- Side-by-side panels -->
+        <div class="compare-panel">
+          <div class="compare-side side-en">
+            <div class="compare-lang">🇺🇸 English</div>
+            <div class="compare-text" id="compare-en-text"></div>
+            <div class="token-bar-wrap">
+              <div class="token-bar-label"><span>Token 数</span><span id="compare-en-bar-num">0</span></div>
+              <div class="token-bar-track">
+                <div class="token-bar-fill" id="compare-en-bar"></div>
+              </div>
+            </div>
+            <div class="compare-count" id="compare-en-count">0</div>
+          </div>
+          <div class="compare-side side-zh">
+            <div class="compare-lang">🇨🇳 中文</div>
+            <div class="compare-text" id="compare-zh-text"></div>
+            <div class="token-bar-wrap">
+              <div class="token-bar-label"><span>Token 数</span><span id="compare-zh-bar-num">0</span></div>
+              <div class="token-bar-track">
+                <div class="token-bar-fill" id="compare-zh-bar"></div>
+              </div>
+            </div>
+            <div class="compare-count" id="compare-zh-count">0</div>
+          </div>
+        </div>
+
+        <!-- Multiplier badge -->
+        <div class="multiplier-badge">
+          <div class="multiplier-num" id="multiplier-num">1.3x</div>
+          <div class="multiplier-label" id="multiplier-label">中文比英文多 30% tokens</div>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>试试:</strong>
+        <ol>
+          <li>点 "长段落", 看倍率变化</li>
+          <li>切换到 DeepSeek V3 — 中文 token 数是不是少了很多?</li>
+          <li>再切到 Qwen — 中文效率最高的那个</li>
+        </ol>
+        <p class="muted">→ 结论: 模型选择对中文产品的 token 效率影响巨大.</p>
+      </div>
+
+      <div class="step-foot">把这些知识用到 Vitamin 上 ↓</div>
+    </section>
+
+    <!-- (9) Vitamin 案例 -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 选模型的 "中文税" 计算</h2>
+      <p class="step-lede"><mark class="hl">Vitamin 是中文产品. 选模型时, tokenizer 的中文效率是关键考量维度.</mark></p>
+
+      <div class="can-cant">
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">✓ 中文友好模型</h3>
+          <ul>
+            <li><strong>DeepSeek V3</strong>: 中文 token 效率比 GPT-4 高 ~39%</li>
+            <li><strong>Qwen (通义)</strong>: 中文效率最优, 比 GPT-4 高 ~44%</li>
+            <li><strong>GLM (智谱)</strong>: 中文优化, 效率接近 DeepSeek</li>
+            <li>单价也更低 → token 省 + 价格省 = 双重优势</li>
+          </ul>
+        </article>
+
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">✗ 中文 "贵" 的模型</h3>
+          <ul>
+            <li><strong>GPT-4 / GPT-4o</strong>: 英文优化, 中文效率低</li>
+            <li><strong>Claude</strong>: 中文支持好但 tokenizer 偏英文</li>
+            <li><strong>Llama</strong>: Meta 出品, 中文效率最低</li>
+            <li>如果必须用, 要在成本预算里加 "中文税"</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"选模型不只看'谁最聪明', 还要看 tokenizer 的中文压缩效率. 同一个中文 prompt, 在 Qwen 上只需要 GPT-4 一半的 token. 对中文产品来说, 这直接决定成本和用户体验."</p>
+        <p class="muted">→ 面试官问 "为什么选这个模型", 这句话就是加分项.</p>
+      </div>
+
+      <div class="step-foot">最后, 一句话 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) 规则 + 作业 -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">中文 token ≈ 英文的 1.5 倍 (用 GPT 时).<br/>
+          选中文友好模型 (DeepSeek / Qwen) 可以<br/>缩小到 ≈ 1.0 倍.</p>
+        <p class="one-liner-foot muted">做中文 AI 产品, 第一个决策就是: 选对 tokenizer.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://tiktokenizer.vercel.app/" target="_blank" rel="noopener">tiktokenizer.vercel.app</a>, 输入 Vitamin 的完整 system prompt (中文), 记下 token 数. 然后翻译成英文, 再记一次. 比较差多少.</li>
+          <li>把同一段 Vitamin prompt 分别粘到 GPT-4 和 DeepSeek 的 tokenizer 里, 记下各自的 token 数, 算省了多少.</li>
+          <li>用 U2 的成本公式, 分别算 Vitamin 用 GPT-4o 和 DeepSeek V3 的月成本. 差几倍?</li>
+          <li>写 3 条 "Vitamin 模型选型建议", 每条说清楚: 选谁, 为什么, 省多少.</li>
+        </ol>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead>
+              <tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>🎮</td>
+                <td><a href="https://tiktokenizer.vercel.app/" target="_blank" rel="noopener">Tiktokenizer</a></td>
+                <td>在线对比不同模型的 token 切分, 支持 GPT-4 / Claude</td>
+                <td>5 min</td>
+              </tr>
+              <tr>
+                <td>📺</td>
+                <td><a href="https://www.youtube.com/watch?v=zduSFxRajkE" target="_blank" rel="noopener">Karpathy: Let's build the GPT Tokenizer</a></td>
+                <td>从零实现 BPE, 最清楚的讲解, 看前 30 分钟就够</td>
+                <td>30 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://huggingface.co/learn/nlp-course/en/chapter6/5" target="_blank" rel="noopener">HuggingFace: BPE Tokenization</a></td>
+                <td>图文并茂, 配合代码示例讲 BPE 细节</td>
+                <td>20 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://zhuanlan.zhihu.com/p/631463712" target="_blank" rel="noopener">知乎: LLM Tokenizer 详解</a></td>
+                <td>中文视角讲 tokenizer, 包含中英文效率对比数据</td>
+                <td>15 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 账单惊吓: 中文多 30%</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 不是语言复杂, 是训练偏</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> UTF-8: 1 中文字 = 3 字节</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 5 组句子实测对比</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> DeepSeek/Qwen 效率高 40%</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 选对 tokenizer = 省钱</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 中文不是永远更贵</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 并排对比器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 模型选型</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">中文 AI 产品有 "中文税": 同样意思多 ~50% token.<br/>选中文友好模型可以省一大半.</p>
+        <p class="end-summary-sub">Tokenizer 选型 = PM 的第一个成本决策.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 4): Context Window</div>
+        <p>现在你知道 token 是什么、怎么计费了. 但有个更大的限制 ——<br/>
+          模型一次能 "看" 多少 token? 这就是 <strong>Context Window</strong>.</p>
+        <p><strong>它是 Vitamin 多轮对话的天花板. 满了之后, AI 会 "失忆".</strong></p>
+        <a class="walk-arrow" href="../u4-context-window/index.html">继续走 → Unit 4</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1 · Unit 3 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · P50/P95 Latency — AI for PM · M2.3</title>
+  <meta name="description" content="一半用户等多久(P50), 最慢5%等多久(P95). 平均值是骗人的." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.3</span></a><div class="topbar-right"><span class="unit-label">Unit 7 · P50/P95 Latency</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">·</span><br/>P50 / P95 Latency</h1>
+      <p class="hero-sub">平均响应 2 秒听起来不错 — 但有 5% 的用户等了 10 秒.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M44 38 Q50 36 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">"平均响应时间 2 秒" — 老板觉得不错?</p>
+          <p class="cloud-line">但 5% 的用户等了 10 秒, 然后走了...</p>
+          <p class="cloud-line accent">—— 平均值在骗你. 要看 P50 和 P95.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解为什么平均延迟是骗人的</li>
+          <li>知道 P50 / P95 / P99 分别代表什么</li>
+          <li>看懂延迟直方图, 找到长尾问题</li>
+          <li>给 Vitamin 设定延迟 SLO (服务水平目标)</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">平均值在骗你</h2>
+      <p class="step-lede">10 个用户的响应时间:</p>
+      <p style="font-family:monospace;font-size:15px;">0.5s, 0.8s, 1.0s, 1.2s, 1.5s, 1.8s, 2.0s, 2.5s, 3.0s, <strong style="color:var(--red);">12.0s</strong></p>
+      <p>平均值 = <strong>2.6 秒</strong>. 看起来还行?</p>
+      <p>但最后那个用户等了 <strong>12 秒</strong>! 她已经关掉 App 走了.</p>
+      <div class="callout callout-red" data-rough="card">
+        <p><strong>平均值的问题:</strong> 一个极端值就能把平均拉高或拉低. 它没法告诉你 "最差的那批用户体验有多差".</p>
+        <p class="muted">API 延迟分布是 "长尾" 的: 大部分很快, 少部分很慢 — 而且慢的那些可能慢得离谱.</p>
+      </div>
+      <div class="step-foot">什么是百分位数 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">P50, P95, P99 — 三个百分位数</h2>
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">定义</div>
+        <p class="truth-line big"><strong>P50 (中位数):</strong> 一半用户的体验比这快, 一半比这慢.</p>
+        <p class="truth-line big"><strong>P95:</strong> 95% 的用户体验比这快. 只有 5% 更慢.</p>
+        <p class="truth-line big"><strong>P99:</strong> 99% 的用户体验比这快. 最差的 1%.</p>
+      </div>
+      <p>同样的数据:</p>
+      <ul>
+        <li>平均值: 2.6s (被极端值拉高了)</li>
+        <li><span style="color:var(--blue);font-weight:700;">P50: 1.5s</span> — "一个正常用户的真实感受"</li>
+        <li><span style="color:var(--red);font-weight:700;">P95: 3.0s</span> — "最慢的那 5% 有多慢"</li>
+        <li><span style="color:var(--red);font-weight:700;">P99: 12.0s</span> — "灾难级体验"</li>
+      </ul>
+      <p><mark class="hl">P50 看 "正常体验", P95 看 "最差体验". 两个一起看才是完整画面.</mark></p>
+      <div class="step-foot">AI 产品的延迟基准 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">AI 产品的延迟基准</h2>
+      <div class="prob-table" data-rough="prob">
+        <div class="prob-header"><div>场景</div><div>P95 目标</div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">简单问答 (短回复)</div><div class="prob-bar"><div class="bar" data-value="30" style="background:var(--green);"><span>≤ 3s</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">复杂对话 (长回复)</div><div class="prob-bar"><div class="bar" data-value="50" style="background:var(--amber);"><span>≤ 5s</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">内容生成 (文案/摘要)</div><div class="prob-bar"><div class="bar" data-value="80" style="background:var(--amber);"><span>≤ 8s</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">Agent 多步任务</div><div class="prob-bar"><div class="bar" data-value="100" style="background:var(--red);"><span>≤ 15s</span></div></div></div>
+      </div>
+      <p class="muted">经验法则: P95 ≤ 5s 对大部分 AI 聊天产品是合格的.</p>
+      <div class="step-foot">为什么 AI 特别慢 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">AI 延迟的四个来源</h2>
+      <div class="callout callout-blue" data-rough="card">
+        <ol>
+          <li><strong>Token 生成:</strong> LLM 是一个字一个字生成的. 回复越长, 越慢.</li>
+          <li><strong>队列等待:</strong> 高峰期 API 请求排队. P95 飙升但 P50 不变 = 队列问题.</li>
+          <li><strong>网络延迟:</strong> 到 API 服务器的往返时间, 海外 API 尤其明显.</li>
+          <li><strong>预处理:</strong> RAG 检索、context 拼接等, 在 LLM 开始生成前的准备工作.</li>
+        </ol>
+      </div>
+      <p>为什么 P95 和 P50 差很多? 因为 <mark class="hl">P95 的飙升往往来自队列等待</mark>: 大部分请求秒回, 但偶尔赶上排队就等 10 秒.</p>
+      <div class="step-foot">Streaming 缓解感知延迟 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Streaming: 真实延迟没变, 感知延迟大降</h2>
+      <p class="step-lede">ChatGPT 为什么 "一个字一个字蹦出来"? 因为 <strong>Streaming</strong>:</p>
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>不用 Streaming:</strong> 用户等 5 秒 → 突然出来一大段文字. 感知: "卡了 5 秒".</p>
+        <p><strong>用 Streaming:</strong> 0.3 秒后第一个字出现, 然后逐字流出. 总时间还是 5 秒, 但感知: "立刻就有反应".</p>
+      </div>
+      <p>Streaming 不改变真实延迟, 但改变了两个关键指标:</p>
+      <ul>
+        <li><strong>Time to First Token (TTFT):</strong> 第一个字出来的时间. 用 Streaming 后 TTFT 可以从 5s 降到 0.3s.</li>
+        <li><strong>用户感知:</strong> 用户看到 "AI 在打字" → 愿意等. 什么都不显示 → 以为卡了.</li>
+      </ul>
+      <div class="step-foot">怎么降低真实延迟 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">降低延迟的四个手段</h2>
+      <div class="callout callout-green" data-rough="card">
+        <ol>
+          <li><strong>用 Streaming:</strong> TTFT 从 3-5s 降到 < 0.5s. 必做.</li>
+          <li><strong>缩短 Prompt:</strong> 输入 token 越多, 预处理越慢. 精简 system prompt.</li>
+          <li><strong>缓存:</strong> 相似问题用缓存结果, 不重新调 API. Prompt Caching 可省 60%+ 时间.</li>
+          <li><strong>就近部署:</strong> 如果用户在中国, 用国内 API (DeepSeek / 百炼), 不用美西 API.</li>
+        </ol>
+      </div>
+      <p>效果最大的通常是 1 + 3: Streaming 解决感知问题, 缓存解决成本 + 延迟双重问题.</p>
+      <div class="step-foot">SLO 怎么设 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">设定 Latency SLO</h2>
+      <p class="step-lede">SLO (Service Level Objective) = 你对自己的承诺: "我的延迟不会超过 X".</p>
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>推荐做法: 双阈值 SLO</strong></p>
+        <ul>
+          <li><strong>P50 SLO:</strong> ≤ 2s — 保证正常用户体验流畅</li>
+          <li><strong>P95 SLO:</strong> ≤ 5s — 保证最差的 5% 也不至于灾难</li>
+        </ul>
+        <p class="muted">只设一个 SLO 是不够的. P50 好但 P95 差 = 大部分人体验好, 但有人天天被坑.</p>
+      </div>
+      <p>监控: P50 升了 = 系统整体变慢; P95 升了但 P50 没动 = 有一小部分请求被阻塞了 (查队列/网络).</p>
+      <div class="step-foot">看看直方图 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Latency Visualizer</h2>
+      <p class="step-lede">选一个场景, 看延迟分布直方图和 P50/P95 标记:</p>
+      <div class="latency-widget" data-rough="card">
+        <select id="lat-scenario" class="latency-scenario-select">
+          <option value="chat-good">AI 聊天 (优化后)</option>
+          <option value="chat-bad">AI 聊天 (未优化)</option>
+          <option value="summary">AI 日报生成</option>
+        </select>
+        <div style="position:relative;">
+          <div id="lat-histogram" class="histogram"></div>
+          <div id="lat-markers" class="hist-markers"></div>
+        </div>
+        <div class="hist-axis">
+          <span>快 (0s)</span><span>慢 (10s+)</span>
+        </div>
+        <div class="latency-stats">
+          <div class="lat-stat"><span id="stat-p50" class="lat-stat-num">—</span><span class="lat-stat-label">P50</span></div>
+          <div class="lat-stat"><span id="stat-p95" class="lat-stat-num">—</span><span class="lat-stat-label">P95</span></div>
+          <div class="lat-stat"><span id="stat-avg" class="lat-stat-num">—</span><span class="lat-stat-label">Avg</span></div>
+          <div class="lat-stat"><span id="stat-p99" class="lat-stat-num">—</span><span class="lat-stat-label">P99</span></div>
+        </div>
+      </div>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>切换 "优化后" 和 "未优化" 对比:</strong> 看 P95 的变化, 这就是长尾延迟优化的效果.</p>
+      </div>
+      <div class="step-foot">Vitamin 的 SLO ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: Latency SLO 设定</h2>
+      <div class="prob-table" data-rough="prob">
+        <div class="prob-header"><div>Vitamin 功能</div><div>P50 / P95 SLO</div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 聊天</div><div class="prob-bar"><div class="bar" data-value="50" style="background:var(--blue);"><span>P50≤2s / P95≤5s</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 情绪识别</div><div class="prob-bar"><div class="bar" data-value="30" style="background:var(--green);"><span>P50≤1s / P95≤3s</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 身体日报</div><div class="prob-bar"><div class="bar" data-value="40" style="background:var(--blue);"><span>P50≤1.5s / P95≤4s</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 运动推荐</div><div class="prob-bar"><div class="bar" data-value="50" style="background:var(--amber);"><span>P50≤2s / P95≤5s</span></div></div></div>
+      </div>
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"看 AI 延迟不看平均, 看 P50 和 P95. P50 是正常用户体验, P95 是最差体验. 我会设双阈值 SLO: P50 ≤ 2s, P95 ≤ 5s. 如果 P95 飙升但 P50 没动, 说明有队列瓶颈, 不是模型慢."</p>
+      </div>
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">平均延迟在骗你.<br/>P50 看正常体验, P95 看最差体验.<br/>双阈值 SLO: P50 ≤ 2s, P95 ≤ 5s.</p>
+      </div>
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>用 ChatGPT / 豆包 问 10 个问题, 用手机计时器记录每次的响应时间 (从发送到最后一个字出现). 排序后找出 P50 和 P90.</li>
+          <li>比较: 开了 Streaming 和没开 Streaming, 你的感知等待时间差多少?</li>
+          <li>给 Vitamin 的 4 个 AI 功能各写一条 SLO 规则.</li>
+          <li>写 100 字: 为什么 P99 可能比 P50 慢 100 倍? 什么场景会导致这种情况?</li>
+        </ol>
+        <div style="margin-top:16px;padding-top:12px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://oneuptime.com/blog/post/2025-09-15-p50-vs-p95-vs-p99-latency-percentiles/view" target="_blank" style="color:var(--blue);">P50 vs P95 vs P99 Explained</a></td><td style="padding:6px 4px;color:var(--ink-muted);">OneUptime</td><td style="padding:6px 4px;color:var(--ink-muted);">最清晰的百分位讲解</td><td style="padding:6px 4px;color:var(--ink-muted);">10 min</td></tr>
+            <tr><td style="padding:6px 4px;">🛠</td><td style="padding:6px 4px;"><a href="https://projecthelena.com/tools/latency-percentile-calculator/" target="_blank" style="color:var(--blue);">Latency Percentile Calculator</a></td><td style="padding:6px 4px;color:var(--ink-muted);">Project Helena</td><td style="padding:6px 4px;color:var(--ink-muted);">在线计算器, 粘数据即出</td><td style="padding:6px 4px;color:var(--ink-muted);">5 min</td></tr>
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://redis.io/blog/p95-latency/" target="_blank" style="color:var(--blue);">P95 Latency: What & Why</a></td><td style="padding:6px 4px;color:var(--ink-muted);">Redis</td><td style="padding:6px 4px;color:var(--ink-muted);">工程视角深度解读</td><td style="padding:6px 4px;color:var(--ink-muted);">15 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 平均值在骗你</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> P50/P95/P99 定义</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> AI 延迟基准</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 延迟四个来源</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Streaming 魔法</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 降低延迟四手段</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 双阈值 SLO</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Latency Visualizer</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin SLO 设定</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 一句话 + 作业</a>
+      </div>
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 7:</p>
+        <p class="end-summary-big">P50 看正常, P95 看最差.<br/>双阈值 SLO: P50 ≤ 2s, P95 ≤ 5s.</p>
+      </div>
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 8): Cost per Successful Task</div>
+        <p>不看 token 成本, 看每个成功任务花多少钱.</p>
+        <p><strong>一个 50% 失败率的便宜模型, 可能比贵模型更烧钱.</strong></p>
+        <a class="walk-arrow" href="../u8-cost-per-task/index.html">继续走 → Unit 8</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.3 · Unit 7 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

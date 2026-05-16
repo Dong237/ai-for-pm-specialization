@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · Augmentation vs Automation — AI for PM · M1.4</title>
+  <meta name="description" content="AI PM 课 · M1.4 Unit 1: AI 进入产品时, 是替代用户判断还是增强用户判断? 5 级光谱拆解." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.4</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · Augmentation vs Automation</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">&#9654;</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">&#9632;</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">&#9654;</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 1<span class="title-dot">·</span><br/>AI 替你做, 还是帮你做?</h1>
+      <p class="hero-sub">Augmentation vs Automation -- 这个区分决定了你产品的 UX、风险、和用户信任.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你 · PM">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 产品经理)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">我已经知道模型能力和成本了.</p>
+          <p class="cloud-line">但 AI 进入 Vitamin 后, 到底是<strong>替代</strong>用户判断, 还是<strong>辅助</strong>用户判断?</p>
+          <p class="cloud-line">这关系到界面怎么设计、风险怎么管、用户凭什么信你.</p>
+          <p class="cloud-line accent">-- 10 步, 搞清楚.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>掌握 Augmentation vs Automation 的 5 级光谱</li>
+          <li>知道为什么 78.7% 的职场 AI 是 augmentation</li>
+          <li>用 3 个判断因子给 Vitamin 每个功能选级</li>
+          <li>把 8 个 Vitamin 功能放到光谱上, 给出 PM 级别的理由</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">同一个功能, 两种完全不同的体验</h2>
+      <p class="step-lede">假设 Vitamin 要做一个 "今日运动建议" 功能. 想象两种设计:</p>
+
+      <div class="two-apps">
+        <article class="app-card app-auto" data-rough="card">
+          <div class="app-badge">App A · 全自动</div>
+          <div class="app-screen">
+            <div class="screen-header">今日运动</div>
+            <div class="screen-body">
+              <div class="screen-icon">&#129302;</div>
+              <p class="screen-msg"><strong>今天不适合运动.</strong></p>
+              <p class="screen-sub">AI 已根据你的体温、睡眠、经期数据判断.</p>
+              <div class="screen-btn disabled-btn">已自动取消今日运动计划</div>
+            </div>
+          </div>
+          <p class="app-feel">用户感受: "凭什么替我决定?!"</p>
+        </article>
+
+        <article class="app-card app-aug" data-rough="card">
+          <div class="app-badge">App B · 辅助增强</div>
+          <div class="app-screen">
+            <div class="screen-header">今日运动</div>
+            <div class="screen-body">
+              <div class="screen-icon">&#128170;</div>
+              <p class="screen-msg"><strong>根据数据, 你今天偏疲劳.</strong></p>
+              <p class="screen-sub">经期第 2 天 + 昨晚只睡 5 小时. 建议轻运动.</p>
+              <div class="screen-choices">
+                <span class="choice-chip active-chip">散步 30min</span>
+                <span class="choice-chip">瑜伽 20min</span>
+                <span class="choice-chip">照常跑步</span>
+                <span class="choice-chip ghost-chip">今天休息</span>
+              </div>
+            </div>
+          </div>
+          <p class="app-feel good-feel">用户感受: "懂我, 又尊重我."</p>
+        </article>
+      </div>
+
+      <div class="callout callout-blue">
+        <p>同一个功能, 同样的数据, 同一个 AI 模型. 差别不在技术, 在于<mark class="hl">你把 AI 放在了什么位置</mark>.</p>
+        <p>A 是 <strong>Automation</strong> (自动化 -- AI 替你做); B 是 <strong>Augmentation</strong> (增强 -- AI 帮你做).</p>
+      </div>
+
+      <div class="step-foot">这不是一个"好 vs 坏"的选择 -- 是一条光谱. 下一步拆开 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两个直觉 -- 都不完全对</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">&times;</div>
+          <h3>直觉 A: "越自动化越好, 减少用户操作"</h3>
+          <p>用户懒, AI 全自动最省事.</p>
+          <div class="wrong-why">
+            <strong>问题:</strong>
+            健康场景, 用户不信任全自动. "凭什么让 AI 替我决定能不能运动?"
+            自动化 ≠ 体验好. 剥夺控制感 = 流失.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">&times;</div>
+          <h3>直觉 B: "AI 太危险, 只能展示原始数据"</h3>
+          <p>健康产品不能让 AI 做任何判断.</p>
+          <div class="wrong-why">
+            <strong>问题:</strong>
+            如果只给用户一堆数据 (体温 36.4, HRV 42, 经期第 2 天), 没有解读, 用户照样不知道该怎么办.
+            完全不用 AI 的 "安全" 策略, 其实是放弃了产品价值.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">不是 "自动化 vs 增强" 的二选一 --</p>
+        <p class="truth-line giant">是一条<mark class="hl"> 5 级光谱</mark>, 不同功能放在不同位置.</p>
+        <p class="truth-line muted">&rarr; 下一步给你看这条光谱长什么样.</p>
+      </div>
+
+      <div class="step-foot">5 级光谱 -- 从 "全自动" 到 "全人工" ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">5 级光谱: 从全自动到全增强</h2>
+      <p class="step-lede">把 AI 在产品中的参与程度分成 5 级. 从左到右, 人类的控制权逐渐增大:</p>
+
+      <div class="spectrum-diagram">
+        <div class="spectrum-bar">
+          <div class="spectrum-gradient"></div>
+          <div class="spectrum-labels">
+            <span class="sp-label-left">Automation<br/>自动化</span>
+            <span class="sp-label-right">Augmentation<br/>增强</span>
+          </div>
+        </div>
+
+        <div class="spectrum-levels">
+          <div class="sp-level sp-l1">
+            <div class="sp-num">L1</div>
+            <div class="sp-name">全自动</div>
+            <div class="sp-desc">AI 做一切, 无需人参与</div>
+            <div class="sp-icon">&#129302;</div>
+            <div class="sp-example">BMI 计算<br/>闹钟触发</div>
+          </div>
+          <div class="sp-level sp-l2">
+            <div class="sp-num">L2</div>
+            <div class="sp-name">AI 决定<br/>人审批</div>
+            <div class="sp-desc">AI 出结果, 人点 "确认"</div>
+            <div class="sp-icon">&#128269;</div>
+            <div class="sp-example">邮件垃圾过滤<br/>饮食总结</div>
+          </div>
+          <div class="sp-level sp-l3">
+            <div class="sp-num">L3</div>
+            <div class="sp-name">AI 建议<br/>人选择</div>
+            <div class="sp-desc">AI 给多个选项, 人挑一个</div>
+            <div class="sp-icon">&#128161;</div>
+            <div class="sp-example">Grammarly 建议<br/>情绪日记分类</div>
+          </div>
+          <div class="sp-level sp-l4">
+            <div class="sp-num">L4</div>
+            <div class="sp-name">AI 辅助<br/>人主导</div>
+            <div class="sp-desc">人主动提问, AI 给参考</div>
+            <div class="sp-icon">&#129309;</div>
+            <div class="sp-example">Copilot 补全<br/>健康建议生成</div>
+          </div>
+          <div class="sp-level sp-l5">
+            <div class="sp-num">L5</div>
+            <div class="sp-name">全增强</div>
+            <div class="sp-desc">AI 仅提供信息, 人完全决定</div>
+            <div class="sp-icon">&#128100;</div>
+            <div class="sp-example">Tesla 驾驶提醒<br/>紧急症状参考</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>关键理解:</strong> 越往左, AI 权力越大, 效率越高, 但风险也越高. 越往右, 人权力越大, 更安全, 但用户操作更多.</p>
+        <p>没有 "最好的级别" -- 只有 "最适合这个功能的级别".</p>
+      </div>
+
+      <div class="step-foot">那真实产品是怎么选级的? 看几个经典例子 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">每一级都有经典产品对号入座</h2>
+      <p class="step-lede">不用猜 -- 你天天在用的产品, 已经替你验证了这个光谱:</p>
+
+      <div class="product-examples">
+        <div class="prod-row" data-level="1">
+          <div class="prod-level"><span class="prod-l-tag l1-tag">L1</span></div>
+          <div class="prod-cards">
+            <div class="prod-card">
+              <strong>&#128290; 计算器</strong>
+              <p>2 + 3 = 5. 没有 "你确认一下 5 对不对?" 这种事. 规则确定, 全自动.</p>
+            </div>
+            <div class="prod-card">
+              <strong>&#9200; 闹钟 / 定时器</strong>
+              <p>到时间就响. 不需要用户审批 "是否现在响".</p>
+            </div>
+          </div>
+        </div>
+        <div class="prod-row" data-level="2">
+          <div class="prod-level"><span class="prod-l-tag l2-tag">L2</span></div>
+          <div class="prod-cards">
+            <div class="prod-card">
+              <strong>&#128231; Gmail 垃圾邮件过滤</strong>
+              <p>AI 把邮件分进垃圾箱, 但你可以去翻, 标记 "不是垃圾". AI 决定, 人可撤回.</p>
+            </div>
+            <div class="prod-card">
+              <strong>&#128247; iPhone 照片自动归类</strong>
+              <p>AI 按 "人物/地点/日期" 分类. 分错了你可以手动调.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prod-row" data-level="3">
+          <div class="prod-level"><span class="prod-l-tag l3-tag">L3</span></div>
+          <div class="prod-cards">
+            <div class="prod-card">
+              <strong>&#9997;&#65039; Grammarly</strong>
+              <p>AI 画线: "这里可能有语法错误". 给你 3 个替换建议. 你选一个, 或忽略.</p>
+            </div>
+            <div class="prod-card">
+              <strong>&#127925; Spotify 推荐</strong>
+              <p>"你可能喜欢这些歌". 推荐 30 首, 你选着听. AI 建议, 人选择.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prod-row" data-level="4">
+          <div class="prod-level"><span class="prod-l-tag l4-tag">L4</span></div>
+          <div class="prod-cards">
+            <div class="prod-card">
+              <strong>&#128187; GitHub Copilot</strong>
+              <p>你在写代码, Copilot 给补全建议. 你决定写什么, AI 辅助怎么写.</p>
+            </div>
+            <div class="prod-card">
+              <strong>&#128172; ChatGPT</strong>
+              <p>你主动提问, AI 给答案. 你判断是否采纳. 人主导, AI 辅助.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prod-row" data-level="5">
+          <div class="prod-level"><span class="prod-l-tag l5-tag">L5</span></div>
+          <div class="prod-cards">
+            <div class="prod-card">
+              <strong>&#128663; Tesla 驾驶辅助警报</strong>
+              <p>"前方有车, 建议减速". 只提示, 不接管. 人完全掌控方向盘.</p>
+            </div>
+            <div class="prod-card">
+              <strong>&#127973; 医院检测报告</strong>
+              <p>给你指标数据 + 参考范围. 解读和决定, 完全靠你和医生.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-foot">为什么大多数 AI 产品选了右边而不是左边? 数据说话 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">78.7% -- 增强压倒性地赢了自动化</h2>
+      <p class="step-lede">2026 年一项 AI 职场研究跟踪了上千个 AI 使用场景, 发现:</p>
+
+      <div class="big-stat">
+        <div class="stat-number" id="stat-counter" data-target="78.7">0</div>
+        <div class="stat-unit">%</div>
+        <div class="stat-label">的 AI 职场交互属于 Augmentation</div>
+      </div>
+
+      <div class="stat-bars">
+        <div class="sbar">
+          <div class="sbar-label">Augmentation (增强)</div>
+          <div class="sbar-track"><div class="sbar-fill sbar-green" data-value="78.7"><span>78.7%</span></div></div>
+        </div>
+        <div class="sbar">
+          <div class="sbar-label">Automation (自动化)</div>
+          <div class="sbar-track"><div class="sbar-fill sbar-red" data-value="21.3"><span>21.3%</span></div></div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>为什么增强赢了?</strong> 四个原因:</p>
+        <ol>
+          <li><strong>信任问题</strong> -- 用户不愿把关键决定全交给 AI (尤其健康、财务)</li>
+          <li><strong>法律风险</strong> -- 全自动出错, 责任归谁? 增强模式下, 人做最终决定</li>
+          <li><strong>边缘情况</strong> -- AI 处理 90% 的常规场景很好, 但剩下 10% 的异常, 需要人兜底</li>
+          <li><strong>用户主权</strong> -- 人不想被 AI 控制, 想被 AI 赋能</li>
+        </ol>
+      </div>
+
+      <p class="step-lede">BCG 2026 报告也指出: 未来 2-3 年, 50-55% 的工作岗位会被 AI<em>重塑</em> (augment), 而不是<em>替代</em> (automate). <strong>HBR 更是直接说: 长期来看, augmentation 策略跑赢 automation.</strong></p>
+
+      <div class="step-foot">好, 增强比自动化更常见. 那怎么决定一个具体功能该放在光谱的哪个位置? ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">3 个因子决定你该放哪级</h2>
+      <p class="step-lede">拿到一个功能, 先问三个问题:</p>
+
+      <div class="three-factors">
+        <article class="factor factor-risk">
+          <div class="factor-icon">&#9888;&#65039;</div>
+          <h3>Factor 1: 风险 (Risk)</h3>
+          <p>如果 AI 做错了, 后果多严重?</p>
+          <div class="factor-scale">
+            <span class="fs-low">低风险<br/><em>BMI 算错 = 无所谓</em></span>
+            <div class="factor-bar"><div class="factor-gradient"></div></div>
+            <span class="fs-high">高风险<br/><em>用药建议错 = 出事</em></span>
+          </div>
+          <p class="factor-rule"><strong>风险越高 &rarr; 越往增强方向走</strong></p>
+        </article>
+
+        <article class="factor factor-reverse">
+          <div class="factor-icon">&#128260;</div>
+          <h3>Factor 2: 可逆性 (Reversibility)</h3>
+          <p>AI 的动作, 用户能轻松撤回吗?</p>
+          <div class="factor-scale">
+            <span class="fs-low">完全可逆<br/><em>闹钟 = 关掉就行</em></span>
+            <div class="factor-bar"><div class="factor-gradient rev-grad"></div></div>
+            <span class="fs-high">不可逆<br/><em>已发出的紧急联系通知</em></span>
+          </div>
+          <p class="factor-rule"><strong>越不可逆 &rarr; 越往增强方向走</strong></p>
+        </article>
+
+        <article class="factor factor-expert">
+          <div class="factor-icon">&#127891;</div>
+          <h3>Factor 3: 用户专业度</h3>
+          <p>用户自己能做出好判断吗?</p>
+          <div class="factor-scale">
+            <span class="fs-low">用户是专家<br/><em>医生看检验报告</em></span>
+            <div class="factor-bar"><div class="factor-gradient exp-grad"></div></div>
+            <span class="fs-high">用户不懂<br/><em>普通人看心电图</em></span>
+          </div>
+          <p class="factor-rule"><strong>用户越不懂 &rarr; AI 需要给更多引导 (L3-L4), 但仍然不能全替</strong></p>
+        </article>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>速查公式:</strong></p>
+        <p class="formula">高风险 + 不可逆 + 用户不太懂 = <span class="pill pill-blue">L4-L5 增强</span> (AI 给参考, 人做决定)</p>
+        <p class="formula">低风险 + 可逆 + 规则明确 = <span class="pill pill-amber">L1-L2 自动化</span> (AI 全做或做完审批)</p>
+      </div>
+
+      <div class="step-foot">来, 把这三个因子用在一个具体功能上试试 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">同一个功能在光谱 5 个位置长什么样</h2>
+      <p class="step-lede">拿 Vitamin 的 "<strong>经期预测</strong>" 功能做例子. 如果放在不同级别, 界面和体验完全不同:</p>
+
+      <div class="level-showcase" id="level-showcase">
+        <div class="ls-tabs">
+          <button class="ls-tab active" data-lv="1">L1 全自动</button>
+          <button class="ls-tab" data-lv="2">L2 AI决定+审批</button>
+          <button class="ls-tab" data-lv="3">L3 AI建议+选择</button>
+          <button class="ls-tab" data-lv="4">L4 AI辅助+主导</button>
+          <button class="ls-tab" data-lv="5">L5 全增强</button>
+        </div>
+
+        <div class="ls-panels">
+          <div class="ls-panel active" data-lv="1">
+            <div class="ls-screen">
+              <div class="ls-screen-title">经期预测</div>
+              <div class="ls-screen-content">
+                <p class="ls-big-text">&#128197; 下次经期: <strong>5 月 20 日</strong></p>
+                <p class="ls-sub-text">已自动更新你的日历, 设置了经期提醒.</p>
+                <div class="ls-auto-tag">自动完成 &checkmark;</div>
+              </div>
+            </div>
+            <div class="ls-analysis">
+              <p><strong>AI 做了什么:</strong> 算日期 + 自动设日历 + 自动推送通知</p>
+              <p><strong>用户做了什么:</strong> 什么都没做</p>
+              <p class="ls-verdict"><span class="pill pill-green">&#10003; 适合</span> 预测日期本身是规则计算, 低风险, 可逆. 放 L1 没问题.</p>
+            </div>
+          </div>
+
+          <div class="ls-panel" data-lv="2">
+            <div class="ls-screen">
+              <div class="ls-screen-title">经期预测</div>
+              <div class="ls-screen-content">
+                <p class="ls-big-text">&#128197; AI 预测下次经期: <strong>5 月 20 日</strong></p>
+                <p class="ls-sub-text">基于你最近 6 个月的周期数据.</p>
+                <div class="ls-confirm-btns">
+                  <span class="choice-chip active-chip">确认 &checkmark;</span>
+                  <span class="choice-chip">修正日期</span>
+                </div>
+              </div>
+            </div>
+            <div class="ls-analysis">
+              <p><strong>AI 做了什么:</strong> 给出预测 + 等待审批</p>
+              <p><strong>用户做了什么:</strong> 确认或修改日期</p>
+              <p class="ls-verdict"><span class="pill pill-green">&#10003; 也可以</span> 如果用户周期不规律, 给确认机会更安心.</p>
+            </div>
+          </div>
+
+          <div class="ls-panel" data-lv="3">
+            <div class="ls-screen">
+              <div class="ls-screen-title">经期预测</div>
+              <div class="ls-screen-content">
+                <p class="ls-big-text">&#128300; AI 给了 3 个可能日期:</p>
+                <div class="ls-options">
+                  <span class="choice-chip">5月18日 (25%)</span>
+                  <span class="choice-chip active-chip">5月20日 (55%)</span>
+                  <span class="choice-chip">5月23日 (20%)</span>
+                </div>
+                <p class="ls-sub-text">你觉得哪个更准? 选一个.</p>
+              </div>
+            </div>
+            <div class="ls-analysis">
+              <p><strong>AI 做了什么:</strong> 给出多个选项 + 概率</p>
+              <p><strong>用户做了什么:</strong> 根据自身感觉选择</p>
+              <p class="ls-verdict"><span class="pill pill-amber">&#9888; 过度设计</span> 对于经期预测, 给 3 个选项没必要, 增加用户负担.</p>
+            </div>
+          </div>
+
+          <div class="ls-panel" data-lv="4">
+            <div class="ls-screen">
+              <div class="ls-screen-title">周期追踪</div>
+              <div class="ls-screen-content">
+                <p class="ls-big-text">&#128202; 你的周期数据面板</p>
+                <p class="ls-sub-text">AI: "根据数据, 你的平均周期是 28 天, 最近有变短趋势. 需要我帮你预测下次日期吗?"</p>
+                <div class="ls-confirm-btns">
+                  <span class="choice-chip active-chip">好, 帮我预测</span>
+                  <span class="choice-chip">我自己估</span>
+                </div>
+              </div>
+            </div>
+            <div class="ls-analysis">
+              <p><strong>AI 做了什么:</strong> 提供趋势分析, 等用户指令</p>
+              <p><strong>用户做了什么:</strong> 主动决定是否要预测</p>
+              <p class="ls-verdict"><span class="pill pill-amber">&#9888; 也过度</span> 大多数用户就是想知道日期, 不想先看趋势再决定.</p>
+            </div>
+          </div>
+
+          <div class="ls-panel" data-lv="5">
+            <div class="ls-screen">
+              <div class="ls-screen-title">周期数据</div>
+              <div class="ls-screen-content">
+                <p class="ls-big-text">&#128200; 最近 6 个月周期记录</p>
+                <div class="ls-data-table">
+                  <div class="ls-data-row"><span>12月</span><span>29天</span></div>
+                  <div class="ls-data-row"><span>1月</span><span>27天</span></div>
+                  <div class="ls-data-row"><span>2月</span><span>28天</span></div>
+                  <div class="ls-data-row"><span>3月</span><span>30天</span></div>
+                  <div class="ls-data-row"><span>4月</span><span>27天</span></div>
+                </div>
+                <p class="ls-sub-text">数据就在这里, 你自己推算吧.</p>
+              </div>
+            </div>
+            <div class="ls-analysis">
+              <p><strong>AI 做了什么:</strong> 只展示原始数据</p>
+              <p><strong>用户做了什么:</strong> 自己做所有分析和预测</p>
+              <p class="ls-verdict"><span class="pill pill-red">&#10007; 偷懒</span> 用户来用 App 就是不想自己算. 放 L5 浪费了 AI 的价值.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>结论:</strong> 经期日期预测这个功能, <strong>L1 或 L2 最合适</strong>. 因为: 低风险 (算错几天不致命) + 高可逆 (用户随时能改) + 规则明确 (算法, 不是 LLM 猜的).</p>
+        <p>但如果是 "经期健康建议" -- 那就该往 L3-L4 走了, 因为风险上升.</p>
+      </div>
+
+      <div class="step-foot">好, 概念清楚了. 现在你来练 -- 8 个 Vitamin 功能, 你给放级 ↓</div>
+    </section>
+
+    <!-- (8) -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手放一放 -- Vitamin 8 功能 &times; 5 级光谱</h2>
+      <p class="step-lede">下面 8 张卡片, 都是 Vitamin 可能做的功能. 把每张卡拖到你认为对的光谱位置. 放完后会看到 PM 的参考答案和理由.</p>
+
+      <div class="spectrum-widget" id="spectrum-widget">
+        <div class="sw-instruction">
+          <span class="sw-icon">&#128073;</span> 点击一张功能卡, 然后点击你认为对的级别. 全部放完后点 "查看结果".
+        </div>
+
+        <!-- Feature cards -->
+        <div class="sw-cards" id="sw-cards">
+          <div class="sw-card" data-id="bmi" data-answer="1">
+            <div class="sw-card-icon">&#128290;</div>
+            <div class="sw-card-name">BMI 计算</div>
+            <div class="sw-card-desc">根据身高体重算 BMI 指数</div>
+          </div>
+          <div class="sw-card" data-id="emotion" data-answer="3">
+            <div class="sw-card-icon">&#128522;</div>
+            <div class="sw-card-name">情绪识别</div>
+            <div class="sw-card-desc">AI 分析用户输入的情绪状态</div>
+          </div>
+          <div class="sw-card" data-id="health-advice" data-answer="4">
+            <div class="sw-card-icon">&#128138;</div>
+            <div class="sw-card-name">健康建议生成</div>
+            <div class="sw-card-desc">AI 根据用户数据生成健康建议</div>
+          </div>
+          <div class="sw-card" data-id="emergency" data-answer="5">
+            <div class="sw-card-icon">&#127973;</div>
+            <div class="sw-card-name">紧急症状判断</div>
+            <div class="sw-card-desc">用户报告严重症状时的响应</div>
+          </div>
+          <div class="sw-card" data-id="diet-summary" data-answer="2">
+            <div class="sw-card-icon">&#127869;</div>
+            <div class="sw-card-name">饮食记录总结</div>
+            <div class="sw-card-desc">AI 汇总一天的饮食记录</div>
+          </div>
+          <div class="sw-card" data-id="period-predict" data-answer="1">
+            <div class="sw-card-icon">&#128197;</div>
+            <div class="sw-card-name">经期日期预测</div>
+            <div class="sw-card-desc">根据历史数据预测下次经期</div>
+          </div>
+          <div class="sw-card" data-id="chat-comfort" data-answer="3">
+            <div class="sw-card-icon">&#128156;</div>
+            <div class="sw-card-name">心理安慰对话</div>
+            <div class="sw-card-desc">AI 与用户进行情感支持对话</div>
+          </div>
+          <div class="sw-card" data-id="med-reminder" data-answer="1">
+            <div class="sw-card-icon">&#128276;</div>
+            <div class="sw-card-name">用药提醒时间</div>
+            <div class="sw-card-desc">按设定时间推送用药提醒</div>
+          </div>
+        </div>
+
+        <!-- Spectrum drop zones -->
+        <div class="sw-spectrum">
+          <div class="sw-zone" data-level="1">
+            <div class="sw-zone-label">L1 全自动</div>
+            <div class="sw-zone-slots" id="zone-1"></div>
+          </div>
+          <div class="sw-zone" data-level="2">
+            <div class="sw-zone-label">L2 AI决定+审批</div>
+            <div class="sw-zone-slots" id="zone-2"></div>
+          </div>
+          <div class="sw-zone" data-level="3">
+            <div class="sw-zone-label">L3 AI建议+选择</div>
+            <div class="sw-zone-slots" id="zone-3"></div>
+          </div>
+          <div class="sw-zone" data-level="4">
+            <div class="sw-zone-label">L4 AI辅助+主导</div>
+            <div class="sw-zone-slots" id="zone-4"></div>
+          </div>
+          <div class="sw-zone" data-level="5">
+            <div class="sw-zone-label">L5 全增强</div>
+            <div class="sw-zone-slots" id="zone-5"></div>
+          </div>
+        </div>
+
+        <div class="sw-actions">
+          <button class="btn btn-primary" id="sw-check" disabled>查看结果 (先放完 8 张卡)</button>
+          <button class="btn btn-ghost" id="sw-reset">重来</button>
+          <span class="sw-counter" id="sw-counter">已放置: 0 / 8</span>
+        </div>
+
+        <!-- Results panel -->
+        <div class="sw-results" id="sw-results" style="display:none;">
+          <h3 class="sw-results-title">&#127942; 结果对比</h3>
+          <div class="sw-results-grid" id="sw-results-grid"></div>
+          <div class="sw-score" id="sw-score"></div>
+        </div>
+      </div>
+
+      <div class="step-foot">放完了? 带着感觉, 来看 Vitamin 的 5 状态各有什么不同 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 5 个身体状态, 光谱也不同</h2>
+      <p class="step-lede">Vitamin 追踪女性 5 种身体状态. 每种状态的风险不同, 所以 AI 的参与级别也该不同:</p>
+
+      <div class="state-spectrum">
+        <div class="state-row">
+          <div class="state-tag state-jq">经期</div>
+          <div class="state-bar">
+            <div class="state-marker" style="left: 30%">
+              <div class="state-dot"></div>
+              <div class="state-note">偏自动 (L1-L2)<br/><em>症状规律, 风险较低</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="state-row">
+          <div class="state-tag state-by">备孕</div>
+          <div class="state-bar">
+            <div class="state-marker" style="left: 50%">
+              <div class="state-dot"></div>
+              <div class="state-note">中间 (L2-L3)<br/><em>需要数据+建议, 但用户要确认</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="state-row">
+          <div class="state-tag state-yq">孕期</div>
+          <div class="state-bar">
+            <div class="state-marker" style="left: 72%">
+              <div class="state-dot"></div>
+              <div class="state-note">偏增强 (L3-L4)<br/><em>医疗风险高, AI 只建议不决定</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="state-row">
+          <div class="state-tag state-ch">产后</div>
+          <div class="state-bar">
+            <div class="state-marker" style="left: 65%">
+              <div class="state-dot"></div>
+              <div class="state-note">偏增强 (L3-L4)<br/><em>身体恢复期, 需要谨慎</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="state-row">
+          <div class="state-tag state-gnq">更年期</div>
+          <div class="state-bar">
+            <div class="state-marker" style="left: 60%">
+              <div class="state-dot"></div>
+              <div class="state-note">中偏增强 (L3)<br/><em>症状多变, AI 需提供选项</em></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-red">
+        <strong>PM 关键原则:</strong>
+        <p>同一个 Vitamin App 里, <strong>不同身体状态的同一个功能, 可能需要不同的 AI 参与级别</strong>.</p>
+        <p>比如 "运动建议": 经期可以 L2 (AI 推荐 + 确认), 但孕期必须 L4 (AI 只给参考, 用户决定, 最好还加一行 "请咨询医生").</p>
+        <p class="muted">&rarr; 这就是为什么 "按状态切换 AI 策略" 是 Vitamin 的核心产品决策.</p>
+      </div>
+
+      <div class="step-foot">总结规则 + 今晚作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">先问三个问题: 风险多大? 能撤回吗? 用户懂多少?<br/>答案决定你把 AI 放在光谱哪个位置.</p>
+        <p class="one-liner-foot muted">不是 "越自动化越好", 也不是 "越增强越安全". 是 "这个功能, 在这个场景, 该放哪一级".</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>下载/打开一个你常用的健康类 App (Keep、薄荷、Flo 等), 找出 5 个 AI 相关功能, 用今天学的 5 级光谱给它们分级.</li>
+          <li>对比你的分级和那个 App 实际的设计, 有没有你觉得 "放错级" 的? 写出来, 说清楚为什么.</li>
+          <li>回到 Vitamin 的 8 个功能 (Step 8), 如果用户处于 "孕期" 状态, 哪些功能的级别需要往右调? 写一份简单的对照表.</li>
+          <li>写 200 字: 用 "风险 / 可逆性 / 用户专业度" 三个因子, 给 Vitamin 的 "紧急症状判断" 功能选级, 并解释理由.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue resource-table-callout">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead>
+            <tr><th>类型</th><th>内容</th><th>来源</th><th>为什么值得看</th><th>时间</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>&#128214;</td>
+              <td>Why Companies That Choose AI Augmentation Over Automation May Win</td>
+              <td>HBR</td>
+              <td>2026 年最新的增强 vs 自动化战略分析</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>&#128214;</td>
+              <td>AI Will Reshape More Jobs Than It Replaces</td>
+              <td>BCG</td>
+              <td>78.7% 数据的出处, 大量行业数据</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>&#128214;</td>
+              <td>增强智能与人工智能趋向融合, 人机协同新时代正在到来</td>
+              <td>知乎</td>
+              <td>中文深度解读 IA vs AI, Gartner 观点</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>&#128214;</td>
+              <td>Designing for Automation vs Augmentation</td>
+              <td>Medium</td>
+              <td>产品设计视角, Sheridan & Verplank 10级模型</td>
+              <td>10 min</td>
+            </tr>
+            <tr>
+              <td>&#128250;</td>
+              <td>AI Automation and Augmentation: A Roadmap</td>
+              <td>California Management Review</td>
+              <td>学术级别的战略框架, 适合深入理解</td>
+              <td>30 min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">&#9632;</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 同一功能, 两种截然不同的体验</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 不是二选一, 是 5 级光谱</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> L1-L5: 从全自动到全增强</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 经典产品对号入座</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 78.7% 增强压倒自动化</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 风险 / 可逆 / 专业度 三因子</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 经期预测在 5 级的样子</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 8 功能 x 5 级 实战分类</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 5 状态的光谱差异</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 三因子规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">AI 进入产品不是 "全替" 或 "全不替" --<br/>是一条 5 级光谱, 风险 / 可逆 / 用户决定放在哪.</p>
+        <p class="end-summary-sub">增强 (Augmentation) 是 2026 年的主旋律. 做健康产品, 从增强开始.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 2): Reading 类用例</div>
+        <p>无论增强还是自动化, 每个 AI 功能都属于三种 "超能力" 之一: <strong>Reading (读) / Writing (写) / Chatting (聊)</strong>.</p>
+        <p>Reading 是最常见的一种 -- 它把非结构化文本变成结构化数据. 在 Vitamin 里, 用户写的每一条健康日记, 都需要 AI 去 "读".</p>
+        <p><strong>下一课, 拆解 Reading 的 3 种子模式: Summarize / Classify / Extract.</strong></p>
+        <a class="walk-arrow" href="../u2-reading/index.html">继续走 &rarr; Unit 2</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.4 · Unit 1 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

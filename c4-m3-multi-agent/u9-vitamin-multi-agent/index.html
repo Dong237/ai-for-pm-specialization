@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>U9 · Vitamin Multi-Agent 终版 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M4.3 U9: 把所有组件组装成 Vitamin 的完整 Multi-Agent 架构." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M4.3</span></a><div class="topbar-right"><span class="unit-label">Unit 9 · Capstone</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 9<span class="title-dot">·</span><br/>Vitamin Multi-Agent 终版</h1>
+      <p class="hero-sub">Capstone — 把 8 节课学到的所有东西, 组装成 Vitamin 的完整 Multi-Agent 架构.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head" /><circle cx="42" cy="28" r="2" fill="currentColor" /><circle cx="58" cy="28" r="2" fill="currentColor" /><path d="M42 36 Q50 44 58 36" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" /><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI 架构师 PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">ReAct ✓ Tool Use ✓ Router ✓ Handoff ✓</p>
+          <p class="cloud-line">所有零件都有了!</p>
+          <p class="cloud-line">现在 — 组装成 Vitamin 的终版架构.</p>
+          <p class="cloud-line accent">—— 这就是你的 AI PM 作品集核心.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>画出 Vitamin Multi-Agent 完整架构图</li><li>点击每个组件查看详细配置</li><li>通过模拟器追踪完整的请求流</li><li>产出一份可面试展示的架构方案</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">回顾: 我们造了哪些零件?</h2>
+      <div class="capstone-checklist">
+        <div class="capstone-item"><span class="capstone-check">✓</span> U4: 单Agent极限 → 为什么要Multi-Agent</div>
+        <div class="capstone-item"><span class="capstone-check">✓</span> U5: ReAct → Agent的推理循环</div>
+        <div class="capstone-item"><span class="capstone-check">✓</span> U6: Tool Use → Agent调用外部工具</div>
+        <div class="capstone-item"><span class="capstone-check">✓</span> U7: Router → 意图分发到子Agent</div>
+        <div class="capstone-item"><span class="capstone-check">✓</span> U8: Handoff → Agent间上下文传递</div>
+        <div class="capstone-item"><span class="capstone-check">✓</span> 加上 U1-U3 的 PM-算法协作基础</div>
+      </div>
+      <div class="step-foot">现在把它们组装起来 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Vitamin Multi-Agent 架构总览</h2>
+      <div class="truth-bubble"><div class="truth-tag">架构</div>
+        <p class="truth-line giant">用户 → Router → 子Agent<br/>↕ Shared Memory ↕<br/>Tools → 真实数据 → 回复</p>
+        <p class="truth-line muted">一共 5 个核心组件: Router + 3 个子Agent + Shared Memory.</p>
+      </div>
+      <div class="step-foot">每个组件的配置 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Router: 混合路由器</h2>
+      <div class="callout callout-amber">
+        <strong>配置:</strong>
+        <ul style="margin:8px 0 0;">
+          <li><strong>第一层 (规则):</strong> 关键词匹配 — "吃/饮食/营养/热量" → 营养Agent; "经期/月经/周期" → 周期Agent; "心情/压力/焦虑/开心" → 情绪Agent</li>
+          <li><strong>第二层 (LLM):</strong> GPT-4o-mini 做意图分类, 处理规则无法覆盖的模糊表达</li>
+          <li><strong>Confidence 阈值:</strong> ≥ 0.7 直接路由, 0.5-0.7 路由+追问, < 0.5 走通用回复</li>
+          <li><strong>多意图:</strong> 支持拆分, 优先级: 情绪 > 周期 > 营养 (安全第一)</li>
+        </ul>
+      </div>
+      <div class="step-foot">3 个子 Agent ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">3 个子 Agent: 各有专长</h2>
+      <div class="three-cards">
+        <article class="wonder wonder-2"><div class="wonder-tag">营养</div><h3>营养 Agent</h3><div class="wonder-note">人格: 专业营养师<br/>工具: query_nutrition, get_diet_log, set_reminder<br/>ReAct 循环: 最多 3 轮</div></article>
+        <article class="wonder wonder-1"><div class="wonder-tag">周期</div><h3>周期 Agent</h3><div class="wonder-note">人格: 专业妇科顾问<br/>工具: get_cycle_status, get_cycle_history<br/>ReAct 循环: 最多 2 轮</div></article>
+        <article class="wonder wonder-3"><div class="wonder-tag">情绪</div><h3>情绪 Agent</h3><div class="wonder-note">人格: 温柔闺蜜<br/>工具: log_mood, get_mood_history<br/>ReAct 循环: 最多 2 轮</div></article>
+      </div>
+      <div class="step-foot">Shared Memory ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Shared Memory: 统一记忆层</h2>
+      <div class="callout callout-blue">
+        <strong>三层记忆:</strong>
+        <ol>
+          <li><strong>用户画像 (持久):</strong> 过敏信息、饮食偏好、年龄段、健康目标 → Redis 存储, 所有 Agent 可读</li>
+          <li><strong>会话状态 (临时):</strong> 当前对话的上下文、Router 决策、已调用的工具 → 内存缓存</li>
+          <li><strong>历史摘要 (周期):</strong> 过去 7 天对话的压缩摘要 → 每天凌晨更新</li>
+        </ol>
+        <p class="muted">核心原则: <mark class="hl">安全相关信息 (如过敏) 永远在持久层, 不依赖交接传递.</mark></p>
+      </div>
+      <div class="step-foot">交接协议 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Handoff 协议: 标准化交接</h2>
+      <div class="callout callout-green" style="font-family:'Cascadia Code','SF Mono',monospace;font-size:13px;overflow-x:auto;">
+<pre style="margin:0;white-space:pre-wrap;">// Vitamin Handoff Protocol
+{
+  "required": {
+    "user_id": "string",
+    "allergies": ["string"],
+    "current_mood": "string",
+    "conversation_summary": "string",
+    "handoff_reason": "string"
+  },
+  "optional": {
+    "cycle_phase": "string",
+    "cycle_day": "number",
+    "diet_today": ["string"],
+    "previous_advice": "string"
+  },
+  "rules": {
+    "missing_required": "BLOCK_HANDOFF",
+    "missing_optional": "PROCEED_WITH_WARNING"
+  }
+}</pre>
+      </div>
+      <div class="step-foot">成本分析 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">成本分析: Multi-Agent 值不值?</h2>
+      <div class="callout callout-amber">
+        <strong>单 Agent vs Multi-Agent 成本对比:</strong>
+        <table style="width:100%;font-size:14px;border-collapse:collapse;margin-top:8px;">
+          <tr style="border-bottom:2px solid var(--border-strong);"><th style="padding:8px;text-align:left;">指标</th><th style="padding:8px;">单 Agent</th><th style="padding:8px;">Multi-Agent</th></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">每次请求 LLM 调用</td><td style="padding:8px;text-align:center;">1 次</td><td style="padding:8px;text-align:center;">2-4 次</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">每次 token 消耗</td><td style="padding:8px;text-align:center;">~800</td><td style="padding:8px;text-align:center;">~500/Agent</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">回复质量 (F1)</td><td style="padding:8px;text-align:center;">0.72</td><td style="padding:8px;text-align:center;color:var(--green);font-weight:600;">0.89</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">幻觉率</td><td style="padding:8px;text-align:center;">8%</td><td style="padding:8px;text-align:center;color:var(--green);font-weight:600;">1.5%</td></tr>
+          <tr><td style="padding:8px;">月成本 (10万DAU)</td><td style="padding:8px;text-align:center;">¥12,000</td><td style="padding:8px;text-align:center;">¥18,000</td></tr>
+        </table>
+        <p class="muted" style="margin-top:8px;">成本增加 50%, 但质量提升 24%, 幻觉率降低 81%. <strong>值</strong>.</p>
+      </div>
+      <div class="step-foot">来看完整架构 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Multi-Agent 架构蓝图</h2>
+      <p class="step-lede">点击任意组件查看配置. 点"模拟"按钮, 看一个完整的用户请求如何流经整个架构.</p>
+
+      <div id="blueprint" class="blueprint">
+        <div class="blueprint-title">Vitamin Multi-Agent Architecture</div>
+        <div class="arch-layers">
+          <div class="arch-layer">
+            <div class="arch-component user" data-component="user">用户</div>
+          </div>
+          <div class="arch-connector">↓</div>
+          <div class="arch-layer">
+            <div class="arch-component router" data-component="router">Router</div>
+          </div>
+          <div class="arch-connector">↓ 分发 ↓</div>
+          <div class="arch-layer">
+            <div class="arch-component nutrition" data-component="nutrition">营养 Agent</div>
+            <div class="arch-component cycle" data-component="cycle">周期 Agent</div>
+            <div class="arch-component mood" data-component="mood">情绪 Agent</div>
+          </div>
+          <div class="arch-connector">↕ 读写 ↕</div>
+          <div class="arch-layer">
+            <div class="arch-component memory" data-component="memory">Shared Memory</div>
+          </div>
+          <div class="arch-connector">↓ 调用 ↓</div>
+          <div class="arch-layer">
+            <div class="arch-component tools" style="font-size:12px;">query_nutrition</div>
+            <div class="arch-component tools" style="font-size:12px;">get_cycle</div>
+            <div class="arch-component tools" style="font-size:12px;">log_mood</div>
+            <div class="arch-component tools" style="font-size:12px;">get_weather</div>
+            <div class="arch-component tools" style="font-size:12px;">set_reminder</div>
+          </div>
+        </div>
+
+        <div id="component-detail" class="component-detail">
+          <h4 id="detail-title"></h4>
+          <p id="detail-desc"></p>
+        </div>
+
+        <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <button id="sim-btn" class="btn btn-primary">模拟下一步 →</button>
+          <button id="sim-reset" class="btn btn-ghost">重置模拟</button>
+          <span id="sim-counter" style="margin-left:auto;color:var(--ink-muted);font-size:14px;">0 / 8</span>
+        </div>
+        <div id="sim-trace" class="sim-trace"></div>
+      </div>
+      <div class="step-foot">Vitamin 完整方案 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">你的作品集: Vitamin Multi-Agent 完整方案</h2>
+      <p class="step-lede">恭喜 — 你现在拥有了一份完整的 AI 架构设计方案. 这就是面试时展示的核心作品.</p>
+      <div class="callout callout-green">
+        <strong>你的作品集包含:</strong>
+        <ul style="margin:8px 0 0;">
+          <li>PM-算法协作方法论 (U1-U3)</li>
+          <li>单Agent极限分析 + Multi-Agent升级理由 (U4)</li>
+          <li>ReAct 推理框架设计 (U5)</li>
+          <li>5 个核心工具的 Tool Schema (U6)</li>
+          <li>混合路由方案 + Confidence 阈值 (U7)</li>
+          <li>结构化 Context Object + Shared Memory (U8)</li>
+          <li>完整架构图 + 成本分析 + 请求流模拟 (U9)</li>
+        </ul>
+      </div>
+      <div class="callout callout-red"><strong>面试终极金句:</strong><p>"我把 Vitamin 从单 Agent 升级到 Multi-Agent 架构: 混合路由器分发到 3 个专属子 Agent(营养/周期/情绪), 每个 Agent 用 ReAct 框架配合专属工具, 通过结构化 Context Object 交接, Shared Memory 确保安全信息不丢失. 这套架构让回复质量 F1 从 0.72 提升到 0.89, 幻觉率从 8% 降到 1.5%."</p></div>
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话</div><p class="one-liner-text">Multi-Agent = Router + 专属子Agent + Shared Memory.<br/>每个组件用对了, 就是一个完整的 AI 架构.</p></div>
+      <div class="callout callout-green"><strong>课后作业 (60 分钟 — Capstone):</strong><ol>
+        <li><strong>在 Coze 上搭建:</strong> 创建 Vitamin Multi-Agent Bot, 包含 Router + 至少 2 个子 Agent + 工具调用.</li>
+        <li><strong>写架构文档:</strong> 用今天的架构图, 写一份 1 页的架构方案 (面试用).</li>
+        <li><strong>测试 10 个场景:</strong> 简单/中等/复杂/模糊/多意图, 记录路由准确率和回复质量.</li>
+        <li><strong>反思总结:</strong> 写 300 字: "从 U1 到 U9, 我对 Multi-Agent 的理解有什么变化?"</li>
+      </ol></div>
+      <div class="callout callout-blue"><strong>资源延伸:</strong>
+        <table class="resource-table"><thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead><tbody>
+          <tr><td>📖</td><td><a href="https://gurusup.com/blog/best-multi-agent-frameworks-2026" target="_blank">Multi-Agent Frameworks 2026</a></td><td>最新框架对比, 选型参考</td><td>15 min</td></tr>
+          <tr><td>📖</td><td><a href="https://github.com/ginobefun/agentic-design-patterns-cn" target="_blank">Agent设计模式(中英双语)</a></td><td>Google官方Agent设计模式手册中文版</td><td>30 min</td></tr>
+          <tr><td>📖</td><td><a href="https://47billion.com/blog/ai-agents-in-production-frameworks-protocols-and-what-actually-works-in-2026/" target="_blank">Agents in Production 2026</a></td><td>生产环境中真正有效的Agent实践</td><td>20 min</td></tr>
+          <tr><td>📖</td><td><a href="https://openagents.org/blog/posts/2026-02-23-open-source-ai-agent-frameworks-compared" target="_blank">Open Source Agent Frameworks</a></td><td>开源Agent框架横评</td><td>15 min</td></tr>
+        </tbody></table>
+      </div>
+      <div class="step-foot">完成 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 零件回顾</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 架构总览</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Router配置</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 3个子Agent</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Shared Memory</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Handoff协议</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 成本分析</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 架构蓝图</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> 完整作品集</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> Capstone作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 9:</p><p class="end-summary-big">Vitamin Multi-Agent = Router + 3 专属 Agent + Shared Memory.<br/>这是你的 AI PM 作品集核心.</p><p class="end-summary-sub">你现在有: 评测报告 + 安全机制 + Multi-Agent 架构. 作品集已经完整了.</p></div>
+      <div class="next-card"><div class="next-tag">下一个模块: Module 4.4 · 综合面试 + 谈 offer</div>
+        <p>你现在有: 评测报告 + 安全机制 + Multi-Agent 架构. 作品集已经完整了.</p>
+        <p><strong>最后一步: 怎么把这些讲给面试官听, 拿到 AI PM 的 offer?</strong></p>
+        <a class="walk-arrow" href="../../c4-m4-interview/u1-tech-questions/index.html">进入 Module 4.4 →</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Course 4 · Module 3 · Unit 9 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Module 4.4 · 综合面试 + 谈 offer — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Module 4.4: 8 个单元, 从技术追问到薪资谈判, 带着 Vitamin 作品集, 拿到 AI PM 的 offer." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../shared/styles.css" />
+  <style>
+    .module-hero { text-align: center; padding: 60px 0 40px; }
+    .module-tag {
+      display: inline-block; background: var(--amber-bg); border: 2px solid var(--amber);
+      color: var(--ink); padding: 6px 18px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; margin-bottom: 16px; transform: rotate(-2deg);
+    }
+    .module-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: clamp(32px, 6vw, 48px); font-weight: 600; line-height: 1.2; margin: 0 0 12px;
+    }
+    .module-sub {
+      font-size: 18px; color: var(--ink-soft); margin: 0 0 32px;
+      max-width: 600px; margin-left: auto; margin-right: auto;
+    }
+    .module-stats { display: flex; justify-content: center; gap: 32px; margin-bottom: 40px; flex-wrap: wrap; }
+    .module-stat { text-align: center; }
+    .module-stat-num {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 36px; font-weight: 700; color: var(--blue); display: block;
+    }
+    .module-stat-label { font-size: 13px; color: var(--ink-muted); }
+    .units-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px; margin: 24px 0 40px;
+    }
+    @media (max-width: 700px) { .units-grid { grid-template-columns: 1fr; } }
+    .unit-card {
+      background: var(--bg-card); border: 2px solid var(--border-strong);
+      border-radius: 12px 14px 13px 15px; padding: 20px 22px;
+      text-decoration: none; color: var(--ink); display: block;
+      box-shadow: var(--shadow-card); transition: transform 0.2s, box-shadow 0.2s; position: relative;
+    }
+    .unit-card:hover { transform: translateY(-4px) rotate(-0.3deg); box-shadow: var(--shadow-elev); }
+    .unit-card:nth-child(odd) { transform: rotate(-0.4deg); }
+    .unit-card:nth-child(even) { transform: rotate(0.3deg); }
+    .unit-card:nth-child(odd):hover { transform: translateY(-4px) rotate(-0.7deg); }
+    .unit-card:nth-child(even):hover { transform: translateY(-4px) rotate(0deg); }
+    .unit-card-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 18px; font-weight: 700; margin-bottom: 10px;
+    }
+    .unit-card:nth-child(1) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(2) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(3) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+    .unit-card:nth-child(4) .unit-card-num { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+    .unit-card:nth-child(5) .unit-card-num { background: var(--purple-bg); color: var(--purple); border: 2px solid var(--purple); }
+    .unit-card:nth-child(6) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(7) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(8) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+    .unit-card:nth-child(9) .unit-card-num { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+    .unit-card-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 20px; font-weight: 600; margin: 0 0 8px; line-height: 1.3;
+    }
+    .unit-card-desc { font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.5; }
+    .unit-card-arrow {
+      position: absolute; bottom: 16px; right: 18px; color: var(--green);
+      font-size: 18px; transition: transform 0.2s;
+    }
+    .unit-card:hover .unit-card-arrow { transform: translateX(4px); }
+    .module-complete {
+      background: var(--green-bg); border: 3px solid var(--green); border-radius: 14px;
+      padding: 28px; text-align: center; margin: 40px 0; box-shadow: var(--shadow-elev); transform: rotate(-0.3deg);
+    }
+    .module-complete-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 24px; font-weight: 600; margin: 0 0 12px; color: var(--ink);
+    }
+    .module-complete-desc { font-size: 15px; color: var(--ink-soft); margin: 0; }
+    .next-module {
+      background: var(--bg-card); border: 2px dashed var(--purple); border-radius: 12px;
+      padding: 22px 24px; margin: 24px 0 40px; transform: rotate(0.3deg); box-shadow: var(--shadow-card);
+    }
+    .next-module-tag {
+      display: inline-block; background: var(--purple-bg); color: var(--purple);
+      padding: 3px 12px; border-radius: 4px; font-size: 13px; font-weight: 600; margin-bottom: 10px;
+    }
+    .narrative-arc {
+      background: var(--bg-card); border: 2px solid var(--border-strong); border-radius: 12px;
+      padding: 24px; margin: 0 0 40px; box-shadow: var(--shadow-card); transform: rotate(-0.2deg);
+    }
+    .narrative-arc h3 {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      margin: 0 0 16px; font-size: 20px;
+    }
+    .arc-flow {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 14px;
+    }
+    .arc-node {
+      background: var(--blue-bg); border: 1.5px solid var(--blue); border-radius: 8px;
+      padding: 4px 12px; font-weight: 600; white-space: nowrap;
+    }
+    .arc-arrow { color: var(--ink-faint); font-size: 18px; }
+  </style>
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Module 4.4 Overview</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="canvas" style="max-width:860px;">
+
+    <div class="module-hero">
+      <div class="module-tag">Course 4: Ship · Module 4 (最后一个模块)</div>
+      <h1 class="module-title">综合面试 + 谈 offer</h1>
+      <p class="module-sub">从技术追问到薪资谈判 — 8 个单元, 带着 Vitamin 作品集, 拿到 AI PM 的 offer.</p>
+
+      <div class="module-stats">
+        <div class="module-stat">
+          <span class="module-stat-num">8</span>
+          <span class="module-stat-label">单元</span>
+        </div>
+        <div class="module-stat">
+          <span class="module-stat-num">~100</span>
+          <span class="module-stat-label">分钟阅读</span>
+        </div>
+        <div class="module-stat">
+          <span class="module-stat-num">8</span>
+          <span class="module-stat-label">互动小工具</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Narrative arc -->
+    <div class="narrative-arc">
+      <h3>学习路线</h3>
+      <div class="arc-flow">
+        <span class="arc-node">U1 技术追问</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U2 STAR 法</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U3 Demo 演示</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U4 设计答辩</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U5 反向提问</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U6 行为面试</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U7 谈薪策略</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U8 入职计划</span>
+      </div>
+    </div>
+
+    <!-- Units grid -->
+    <div class="units-grid">
+
+      <a href="./u1-tech-questions/index.html" class="unit-card">
+        <div class="unit-card-num">1</div>
+        <h2 class="unit-card-title">7 大高频技术追问</h2>
+        <p class="unit-card-desc">RAG vs Fine-tune, Token 成本, 幻觉处理. 每题准备标准答案.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u2-star-method/index.html" class="unit-card">
+        <div class="unit-card-num">2</div>
+        <h2 class="unit-card-title">STAR 法讲 AI 项目</h2>
+        <p class="unit-card-desc">Situation + Task + Action + Result. Vitamin 项目的 STAR 故事.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u3-demo-rules/index.html" class="unit-card">
+        <div class="unit-card-num">3</div>
+        <h2 class="unit-card-title">Demo 演示三分钟法则</h2>
+        <p class="unit-card-desc">30s 痛点 + 30s 方案 + 60s 演示 + 30s 数据 + 30s 反思.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u4-design-defense/index.html" class="unit-card">
+        <div class="unit-card-num">4</div>
+        <h2 class="unit-card-title">"为什么这么设计" 答辩</h2>
+        <p class="unit-card-desc">选模型、选架构、选指标、选 Prompt 策略, 每个都能讲 1 分钟.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u5-reverse-questions/index.html" class="unit-card">
+        <div class="unit-card-num">5</div>
+        <h2 class="unit-card-title">反向提问 4 类</h2>
+        <p class="unit-card-desc">业务、团队、产品、个人发展. 每类各准备 2 个聪明问题.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u6-behavioral/index.html" class="unit-card">
+        <div class="unit-card-num">6</div>
+        <h2 class="unit-card-title">AI PM 行为面试 8 题</h2>
+        <p class="unit-card-desc">"最骄傲的项目"、"踩过的坑"、"和工程师怎么吵架". STAR 答案.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u7-salary-negotiation/index.html" class="unit-card">
+        <div class="unit-card-num">7</div>
+        <h2 class="unit-card-title">谈薪策略 + offer 比较</h2>
+        <p class="unit-card-desc">不主动报数, 反问区间, 多 offer 比较, 拒绝不烧桥.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u8-onboarding-plan/index.html" class="unit-card">
+        <div class="unit-card-num">8</div>
+        <h2 class="unit-card-title">30-60-90 入职计划</h2>
+        <p class="unit-card-desc">第 1/2/3 个月分别做什么. 终面常考, HR 加分项.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+    </div>
+
+    <!-- Module completion summary -->
+    <div class="module-complete">
+      <h2 class="module-complete-title">学完这 8 个单元, 你能做到:</h2>
+      <p class="module-complete-desc">
+        答技术追问 · 用 STAR 讲项目 · 3 分钟 Demo · 答辩设计决策 ·<br/>
+        反向提问 · 答行为面试 · 谈薪策略 · 产出 30-60-90 入职计划
+      </p>
+    </div>
+
+    <!-- Course complete celebration -->
+    <div class="module-complete" style="border-color:var(--purple);background:var(--purple-bg);">
+      <h2 class="module-complete-title">🎉 恭喜你完成了全部 4 门课!</h2>
+      <p class="module-complete-desc">
+        Discover → Design → Build → Ship.<br/>
+        132 个单元, 132 个互动工具, 1 个完整的 Vitamin AI 产品.<br/>
+        你已经是一名 AI Product Manager.
+      </p>
+    </div>
+    <a class="walk-arrow" href="../index.html" style="color:var(--green);text-decoration:none;font-family:'Excalifont','LXGW WenKai Screen',system-ui,sans-serif;font-size:18px;display:inline-block;margin:0 0 40px;">回到课程主页 →</a>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 4: Ship · Module 4.4 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../shared/rough.min.js"></script>
+  <script src="../shared/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Module 4.2 · AI 安全 + 合规 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Module 4.2: 8 个单元, 从 Prompt 注入到 NMPA 注册, 让 Vitamin 的每一次回答都经得起审查." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../shared/styles.css" />
+  <style>
+    .module-hero { text-align: center; padding: 60px 0 40px; }
+    .module-tag {
+      display: inline-block; background: var(--amber-bg); border: 2px solid var(--amber);
+      color: var(--ink); padding: 6px 18px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; margin-bottom: 16px; transform: rotate(-2deg);
+    }
+    .module-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: clamp(32px, 6vw, 48px); font-weight: 600; line-height: 1.2; margin: 0 0 12px;
+    }
+    .module-sub {
+      font-size: 18px; color: var(--ink-soft); margin: 0 0 32px;
+      max-width: 600px; margin-left: auto; margin-right: auto;
+    }
+    .module-stats { display: flex; justify-content: center; gap: 32px; margin-bottom: 40px; flex-wrap: wrap; }
+    .module-stat { text-align: center; }
+    .module-stat-num {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 36px; font-weight: 700; color: var(--blue); display: block;
+    }
+    .module-stat-label { font-size: 13px; color: var(--ink-muted); }
+    .units-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px; margin: 24px 0 40px;
+    }
+    @media (max-width: 700px) { .units-grid { grid-template-columns: 1fr; } }
+    .unit-card {
+      background: var(--bg-card); border: 2px solid var(--border-strong);
+      border-radius: 12px 14px 13px 15px; padding: 20px 22px;
+      text-decoration: none; color: var(--ink); display: block;
+      box-shadow: var(--shadow-card); transition: transform 0.2s, box-shadow 0.2s; position: relative;
+    }
+    .unit-card:hover { transform: translateY(-4px) rotate(-0.3deg); box-shadow: var(--shadow-elev); }
+    .unit-card:nth-child(odd) { transform: rotate(-0.4deg); }
+    .unit-card:nth-child(even) { transform: rotate(0.3deg); }
+    .unit-card:nth-child(odd):hover { transform: translateY(-4px) rotate(-0.7deg); }
+    .unit-card:nth-child(even):hover { transform: translateY(-4px) rotate(0deg); }
+    .unit-card-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 18px; font-weight: 700; margin-bottom: 10px;
+    }
+    .unit-card:nth-child(1) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(2) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(3) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+    .unit-card:nth-child(4) .unit-card-num { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+    .unit-card:nth-child(5) .unit-card-num { background: var(--purple-bg); color: var(--purple); border: 2px solid var(--purple); }
+    .unit-card:nth-child(6) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(7) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(8) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+    .unit-card:nth-child(9) .unit-card-num { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+    .unit-card-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 20px; font-weight: 600; margin: 0 0 8px; line-height: 1.3;
+    }
+    .unit-card-desc { font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.5; }
+    .unit-card-arrow {
+      position: absolute; bottom: 16px; right: 18px; color: var(--green);
+      font-size: 18px; transition: transform 0.2s;
+    }
+    .unit-card:hover .unit-card-arrow { transform: translateX(4px); }
+    .module-complete {
+      background: var(--green-bg); border: 3px solid var(--green); border-radius: 14px;
+      padding: 28px; text-align: center; margin: 40px 0; box-shadow: var(--shadow-elev); transform: rotate(-0.3deg);
+    }
+    .module-complete-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 24px; font-weight: 600; margin: 0 0 12px; color: var(--ink);
+    }
+    .module-complete-desc { font-size: 15px; color: var(--ink-soft); margin: 0; }
+    .next-module {
+      background: var(--bg-card); border: 2px dashed var(--purple); border-radius: 12px;
+      padding: 22px 24px; margin: 24px 0 40px; transform: rotate(0.3deg); box-shadow: var(--shadow-card);
+    }
+    .next-module-tag {
+      display: inline-block; background: var(--purple-bg); color: var(--purple);
+      padding: 3px 12px; border-radius: 4px; font-size: 13px; font-weight: 600; margin-bottom: 10px;
+    }
+    .narrative-arc {
+      background: var(--bg-card); border: 2px solid var(--border-strong); border-radius: 12px;
+      padding: 24px; margin: 0 0 40px; box-shadow: var(--shadow-card); transform: rotate(-0.2deg);
+    }
+    .narrative-arc h3 {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      margin: 0 0 16px; font-size: 20px;
+    }
+    .arc-flow {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 14px;
+    }
+    .arc-node {
+      background: var(--blue-bg); border: 1.5px solid var(--blue); border-radius: 8px;
+      padding: 4px 12px; font-weight: 600; white-space: nowrap;
+    }
+    .arc-arrow { color: var(--ink-faint); font-size: 18px; }
+  </style>
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Module 4.2 Overview</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="canvas" style="max-width:860px;">
+
+    <div class="module-hero">
+      <div class="module-tag">Course 4: Ship · Module 2</div>
+      <h1 class="module-title">AI 安全 + 合规</h1>
+      <p class="module-sub">从 Prompt 注入到 NMPA 注册 — 8 个单元, 让 Vitamin 的每一次回答都经得起审查.</p>
+
+      <div class="module-stats">
+        <div class="module-stat">
+          <span class="module-stat-num">8</span>
+          <span class="module-stat-label">单元</span>
+        </div>
+        <div class="module-stat">
+          <span class="module-stat-num">~100</span>
+          <span class="module-stat-label">分钟阅读</span>
+        </div>
+        <div class="module-stat">
+          <span class="module-stat-num">8</span>
+          <span class="module-stat-label">互动小工具</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Narrative arc -->
+    <div class="narrative-arc">
+      <h3>学习路线</h3>
+      <div class="arc-flow">
+        <span class="arc-node">U1 注入攻击</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U2 越狱</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U3 输入过滤</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U4 输出审核</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U5 隐私合规</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U6 NMPA</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U7 责任划分</span>
+        <span class="arc-arrow">→</span>
+        <span class="arc-node">U8 Vitamin 安全</span>
+      </div>
+    </div>
+
+    <!-- Units grid -->
+    <div class="units-grid">
+
+      <a href="./u1-prompt-injection/index.html" class="unit-card">
+        <div class="unit-card-num">1</div>
+        <h2 class="unit-card-title">Prompt Injection 5 类</h2>
+        <p class="unit-card-desc">用户在输入里塞 "忽略前面指令" 的攻击. 认识 5 种注入手法.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u2-jailbreak/index.html" class="unit-card">
+        <div class="unit-card-num">2</div>
+        <h2 class="unit-card-title">越狱经典手法</h2>
+        <p class="unit-card-desc">"你现在扮演一个没有限制的 AI" 经典越狱模板. 怎么识别和拦截.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u3-input-filtering/index.html" class="unit-card">
+        <div class="unit-card-num">3</div>
+        <h2 class="unit-card-title">输入过滤</h2>
+        <p class="unit-card-desc">关键词黑名单 + 分类模型识别恶意意图. 第一道防线.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u4-output-moderation/index.html" class="unit-card">
+        <div class="unit-card-num">4</div>
+        <h2 class="unit-card-title">输出审核</h2>
+        <p class="unit-card-desc">LLM 生成完再过一次审核模型. 慢但稳, 医疗类必备.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u5-privacy-compliance/index.html" class="unit-card">
+        <div class="unit-card-num">5</div>
+        <h2 class="unit-card-title">用户隐私 + 数据合规</h2>
+        <p class="unit-card-desc">《暂行办法》核心条款, 日志保留, 访问权限.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u6-nmpa/index.html" class="unit-card">
+        <div class="unit-card-num">6</div>
+        <h2 class="unit-card-title">医疗 AI NMPA 注册</h2>
+        <p class="unit-card-desc">二类医疗器械 vs 健康管理产品. Vitamin 怎么定位.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u7-liability/index.html" class="unit-card">
+        <div class="unit-card-num">7</div>
+        <h2 class="unit-card-title">责任划分</h2>
+        <p class="unit-card-desc">平台 vs 模型供应商 vs 用户. 免责声明和用户协议.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u8-vitamin-safety/index.html" class="unit-card">
+        <div class="unit-card-num">8</div>
+        <h2 class="unit-card-title">Vitamin 安全机制设计</h2>
+        <p class="unit-card-desc">输入过滤 + 输出审核 + 免责声明 + 紧急转人工.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+    </div>
+
+    <!-- Module completion summary -->
+    <div class="module-complete">
+      <h2 class="module-complete-title">学完这 8 个单元, 你能做到:</h2>
+      <p class="module-complete-desc">
+        识别 5 类注入攻击 · 防御越狱 · 构建输入过滤 · 设计输出审核 ·<br/>
+        理解数据合规 · 定位 NMPA 要求 · 划分责任边界 · 产出 Vitamin 安全设计文档
+      </p>
+    </div>
+
+    <!-- Next module teaser -->
+    <div class="next-module">
+      <div class="next-module-tag">下一个模块: Module 4.3</div>
+      <h3 style="margin:8px 0;">算法协作 + Multi-Agent</h3>
+      <p style="font-size:15px;color:var(--ink-soft);">安全机制搭好了, 接下来要和算法团队高效协作. <strong>从 PM-算法沟通到 Vitamin Multi-Agent 终版架构</strong>, 让产品真正跑起来.</p>
+      <a href="../c4-m3-multi-agent/index.html" style="color:var(--green);text-decoration:none;font-family:'Excalifont','LXGW WenKai Screen',system-ui,sans-serif;font-size:18px;display:inline-block;margin-top:8px;">进入 Module 4.3 →</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 4: Ship · Module 4.2 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../shared/rough.min.js"></script>
+  <script src="../shared/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · 谈薪策略 + offer 比较 — AI for PM</title>
+  <meta name="description" content="不主动报数, 反问区间, 多 offer 比较, 拒绝不烧桥 — AI PM 谈薪全攻略." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M4.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 7 · 谈薪策略</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">·</span><br/>谈薪策略 + offer 比较</h1>
+      <p class="hero-sub">面试通过了, 现在到最关键的环节 — 别在最后一步把钱谈亏了.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="谈薪的你"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head" /><circle cx="42" cy="28" r="2" fill="currentColor" /><circle cx="58" cy="28" r="2" fill="currentColor" /><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" /><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · 准备谈薪)</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">HR 问: "你的期望薪资是多少?"</p>
+          <p class="cloud-line">说高了怕吓跑, 说低了怕亏了...</p>
+          <p class="cloud-line">拿到了 2 个 offer, 怎么比较?</p>
+          <p class="cloud-line accent">—— 4 个策略 + 1 个比较工具, 今天全给你.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>掌握 "不主动报数" 的谈薪话术</li>
+          <li>了解 2026 年 AI PM 薪资行情</li>
+          <li>用 Offer Comparator 工具量化比较多个 offer</li>
+          <li>学会拒绝 offer 而不烧桥的话术</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">AI PM 值多少钱? (2026 行情)</h2>
+      <p class="step-lede">先知道自己值多少, 才能谈.</p>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>2026 年 AI PM 薪资参考 (中国市场):</strong></p>
+        <ul>
+          <li><strong>初级 (0-2 年):</strong> 月薪 2-3 万, 年包 30-50 万</li>
+          <li><strong>中级 (3-5 年):</strong> 月薪 3-5 万, 年包 50-80 万</li>
+          <li><strong>高级 (5+ 年):</strong> 月薪 5-8 万, 年包 80-150 万</li>
+        </ul>
+        <p><strong>AI PM 的薪资溢价:</strong> 比传统 PM 高 18-22%. 原因: 供需失衡, 懂 AI 的 PM 太少.</p>
+      </div>
+      <div class="step-foot">谈薪 4 大策略 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">策略 1: 不主动报数</h2>
+      <div class="tactic-card" data-rough="card" style="border-color:var(--red);">
+        <div class="tactic-name" style="color:var(--red);">黄金法则: 先出价的人输.</div>
+        <div class="tactic-script">
+          <p>HR 问: "你的期望薪资?"</p>
+          <p><strong>不要说:</strong> "我期望 3 万." (你先出了底牌)</p>
+          <p><strong>要说:</strong> "我更关注整体 package 和成长空间. 方便了解一下这个岗位的薪资范围吗?"</p>
+        </div>
+      </div>
+      <p class="muted">如果 HR 坚持要你先说, 给一个区间: "根据市场行情和我的经验, 我的期望区间是 X-Y 万." (X 是你的底线 +15%).</p>
+      <div class="step-foot">策略 2 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">策略 2: 反问区间</h2>
+      <div class="tactic-card" data-rough="card" style="border-color:var(--blue);">
+        <div class="tactic-name" style="color:var(--blue);">让对方先亮底牌.</div>
+        <div class="tactic-script">
+          <p><strong>话术:</strong> "这个岗位的薪资带宽大概是多少? 我想确保我们在同一个范围内讨论."</p>
+          <p><strong>如果对方说了区间 (如 2.5-4 万):</strong> "谢谢. 考虑到我在 AI 产品方面的实战经验, 我希望能在区间的中上部分."</p>
+        </div>
+      </div>
+      <div class="step-foot">策略 3 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">策略 3: 用 competing offer 做杠杆</h2>
+      <div class="tactic-card" data-rough="card" style="border-color:var(--green);">
+        <div class="tactic-name" style="color:var(--green);">有竞争 offer 是最强杠杆.</div>
+        <div class="tactic-script">
+          <p><strong>话术:</strong> "我目前也在跟另外一两家公司沟通, 其中有一家已经给到了 X 的 package. 你们这边能不能在这个基础上做一些调整?"</p>
+          <p><strong>关键:</strong> 不要说谎 — 如果你没有其他 offer, 就说 "在面试流程中". 但尽量让自己同时有 2-3 个进行中的机会.</p>
+        </div>
+      </div>
+      <div class="step-foot">策略 4 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">策略 4: 谈整体 package, 不只看月薪</h2>
+      <p class="step-lede">月薪只是 package 的一部分. 聪明的谈判者看<mark class="hl">总年包</mark>.</p>
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>Package 的 5 个组成部分:</strong></p>
+        <ol>
+          <li><strong>月薪 (Base)</strong> — 最稳定但最难谈高的部分</li>
+          <li><strong>年终奖 (Bonus)</strong> — 通常 2-6 个月, 可以谈保底</li>
+          <li><strong>股权/期权 (Equity)</strong> — 创业公司的关键变量, 注意 vesting schedule</li>
+          <li><strong>签字费 (Sign-on)</strong> — 弥补上家未 vest 的股权, 最灵活的谈判项</li>
+          <li><strong>福利</strong> — 商业保险, 学习预算, 远程办公等</li>
+        </ol>
+        <p class="muted">月薪谈不动时, 试着谈年终奖保底或签字费. 这些通常有更多灵活空间.</p>
+      </div>
+      <div class="step-foot">多个 offer 怎么比较 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">offer 比较: 不能只看钱</h2>
+      <p class="step-lede">两个 offer, A 给 4 万但产品停滞, B 给 3 万但产品起飞. 怎么选?</p>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>6 个比较维度:</strong></p>
+        <ol>
+          <li><strong>总年包</strong> — 月薪 × 月数 + 年终奖 + 股权</li>
+          <li><strong>产品阶段</strong> — 探索期 (学得多)、增长期 (做得多)、成熟期 (稳但慢)</li>
+          <li><strong>团队规模</strong> — 小团队 scope 大, 大团队资源多</li>
+          <li><strong>成长空间</strong> — 3 年后你能到什么位置?</li>
+          <li><strong>技术栈</strong> — 是用最新的 AI 技术还是传统技术?</li>
+          <li><strong>文化匹配</strong> — 加班文化、沟通方式、决策效率</li>
+        </ol>
+      </div>
+      <div class="step-foot">拒绝 offer 的话术 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">拒绝 offer 怎么不烧桥?</h2>
+      <div class="nego-template">
+        <div class="nego-template-title" style="color:var(--red);">拒绝 offer 模板</div>
+        <div class="nego-script">
+          "非常感谢你们的 offer, 这段面试过程让我对团队和产品都很有好感. 经过慎重考虑, 我最终决定接受另一个更匹配我当前职业规划方向的机会. 但我非常希望能保持联系, 未来如果有合适的机会, 很期待再次合作."
+        </div>
+        <p style="font-size:13px;color:var(--ink-muted);margin-top:10px;"><strong>关键:</strong> (1) 感谢在前 (2) 不说对方差, 说另一个更匹配 (3) 保持联系. AI PM 圈子很小, 永远不要烧桥.</p>
+      </div>
+      <div class="step-foot">Offer Comparator 工具 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Offer Comparator — 量化比较你的 offer</h2>
+      <p class="step-lede">输入 2-3 个 offer 的信息, 调整权重, 看综合得分. 帮你做最理性的决定.</p>
+
+      <div id="offer-comparator" class="offer-comparator">
+        <div class="offer-inputs"></div>
+        <div class="weights-section"></div>
+        <div class="offer-results"></div>
+        <div class="offer-winner"></div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>使用提示:</strong> 权重代表你对每个维度的在意程度. 如果你更看重成长, 就把 "成长" 的权重调高. 工具会帮你算出综合最优解.
+      </div>
+      <div class="step-foot">Vitamin 谈薪案例 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 案例 — 带着作品集谈薪</h2>
+      <p class="step-lede">你有 Vitamin 项目, 这是你谈薪的<mark class="hl">最大筹码</mark>.</p>
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>谈薪时展示 Vitamin 的 4 个关键数据:</strong></p>
+        <ol>
+          <li>"我从 0 到 1 做了一个 AI 产品, D30 留存从 15% 提到 28%." — <strong>证明你能出成果</strong></li>
+          <li>"Token 成本控制在 $108/月, 远低于预算." — <strong>证明你有成本意识</strong></li>
+          <li>"建了 100 条评测集, F1 = 0.87." — <strong>证明你懂 AI 质量控制</strong></li>
+          <li>"幻觉率从 8% 降到 2%." — <strong>证明你能解决 AI 核心问题</strong></li>
+        </ol>
+        <p class="muted">有数据的 PM 比没数据的 PM, 谈判力强 10 倍.</p>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">谈薪 4 策略: 不先报数 + 反问区间 + 竞争 offer 杠杆 + 谈整体 package.<br/>有数据的 PM 谈判力强 10 倍.</p>
+      </div>
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>用 Offer Comparator 工具, 模拟 2-3 个假设 offer, 调整权重, 看哪个最优.</li>
+          <li>对着镜子练: HR 问 "期望薪资", 你用 "反问区间" 话术回答. 录音听.</li>
+          <li>写出你拒绝 offer 的话术, 存在备忘录. 面试旺季会用到.</li>
+          <li>研究 3 家目标公司的薪资水平 (脉脉/Glassdoor/Levels.fyi).</li>
+        </ol>
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📖</td>
+              <td><a href="https://www.institutepm.com/knowledge-hub/ai-product-manager-salary-guide-2026" target="_blank" style="color:var(--blue);">AI PM Salary Guide 2026</a></td>
+              <td style="color:var(--ink-muted);">Institute PM</td>
+              <td style="color:var(--ink-muted);">最全薪资数据</td>
+              <td style="color:var(--ink-muted);">20 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📖</td>
+              <td><a href="https://www.pon.harvard.edu/daily/salary-negotiations/how-to-negotiate-a-pay-raise-or-starting-salary-using-ai/" target="_blank" style="color:var(--blue);">Harvard Negotiation Guide</a></td>
+              <td style="color:var(--ink-muted);">Harvard PON</td>
+              <td style="color:var(--ink-muted);">学术级谈判策略</td>
+              <td style="color:var(--ink-muted);">25 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">🛠</td>
+              <td><a href="https://www.levels.fyi" target="_blank" style="color:var(--blue);">Levels.fyi</a></td>
+              <td style="color:var(--ink-muted);">Levels.fyi</td>
+              <td style="color:var(--ink-muted);">查各公司真实薪资</td>
+              <td style="color:var(--ink-muted);">10 min</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> AI PM 薪资行情</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 不主动报数</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 反问区间</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 竞争 offer</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 谈整体 package</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> offer 6 维比较</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 拒绝不烧桥</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Offer Comparator</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 筹码</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 7:</p>
+        <p class="end-summary-big">谈薪: 不先报数 + 反问区间 + 用数据说话. 有 Vitamin 数据的你, 值更多.</p>
+        <p class="end-summary-sub">AI PM 圈子很小, 拒绝 offer 也要优雅. 永远不烧桥.</p>
+      </div>
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 8): 30-60-90 入职计划 — 最后一课!</div>
+        <p>offer 谈好了, 准备入职. 面试官的最后一个问题:<br/><strong>"你入职后前 3 个月打算怎么做?"</strong></p>
+        <p>这也是整个 132 单元课程的<strong>最后一课</strong>.</p>
+        <a class="walk-arrow" href="../u8-onboarding-plan/index.html">继续走 → Unit 8 (终章)</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 4 · Module 4 · Unit 7 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

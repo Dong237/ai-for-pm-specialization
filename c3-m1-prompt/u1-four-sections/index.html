@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · Anthropic 4 段式 — AI for PM · M3.1</title>
+  <meta name="description" content="Prompt Engineering 系统方法 · Unit 1: Role + Task + Context + Format, 每个 Prompt 都该有这四段." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.1</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · 4 段式</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 1<span class="title-dot">·</span><br/>每个 Prompt 都有 4 段</h1>
+      <p class="hero-sub">为什么同样的问题, 你写的 Prompt 和 Anthropic 工程师写的效果差 3 倍?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你 · PM">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · AI PM)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">我写 Prompt 总是随手一句话...</p>
+          <p class="cloud-line">有时好有时不好, 完全看运气?</p>
+          <p class="cloud-line">Anthropic 的人到底怎么写的?</p>
+          <p class="cloud-line accent">—— 今天给你一个框架, 从此告别"碰运气".</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>用 Role / Task / Context / Format 四段式写出结构化 Prompt</li>
+          <li>理解每段的作用和优先级</li>
+          <li>动手在 Prompt Builder 里组装一个 Vitamin 场景的完整 Prompt</li>
+          <li>知道什么时候某段可以省略、什么时候不能</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">一句话 Prompt 的尴尬</h2>
+      <p class="step-lede">先看一个真实场景. 你想让 AI 给 Vitamin 用户一条健康建议:</p>
+
+      <div class="before-after">
+        <div class="ba-card before">
+          <div class="ba-label">你的 Prompt</div>
+          <div class="ba-code">给用户一条健康建议</div>
+        </div>
+        <div class="ba-card after">
+          <div class="ba-label">AI 的回复</div>
+          <div class="ba-code">多喝水,每天至少8杯。保持充足的睡眠,每晚7-8小时。适当运动,每周至少150分钟中等强度活动...</div>
+        </div>
+      </div>
+
+      <p class="step-lede">看起来没错, 但问题是 —— <mark class="hl">它不知道用户是谁、处于什么状态、你要什么格式</mark>. 这条建议放给任何人都一样, 没有任何个性化.</p>
+
+      <div class="step-foot">Anthropic 的工程师发现, 90% 的 Prompt 质量问题来自"缺信息" ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">不是 AI 不行, 是你没给够信息</h2>
+
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>错误直觉 A: AI 应该自己理解我要什么</h3>
+          <p>"它那么聪明, 一句话应该就懂了吧?"</p>
+          <div class="wrong-why"><strong>为啥不对:</strong> AI 没有你的业务背景, 没有你的用户画像, 也不知道你想要什么格式. 它只能按"最通用"的方式回答.</div>
+        </article>
+        <article class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>错误直觉 B: 写很长的一大段就行</h3>
+          <p>"那我把所有信息都堆上去总行了吧?"</p>
+          <div class="wrong-why"><strong>为啥不对:</strong> 一大段没有结构的文字, AI 会抓不住重点. 就像你收到一封 2000 字没有分段的邮件 —— 你也会遗漏信息.</div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">好 Prompt 不是"写得多", 是<mark class="hl">每段信息放对位置</mark>.</p>
+        <p class="truth-line giant">4 段式: Role · Task · Context · Format</p>
+        <p class="truth-line muted">→ Anthropic 官方推荐的 Prompt 结构. 像填表一样, 一段一段填, 质量自然上去.</p>
+      </div>
+      <div class="step-foot">四段分别是什么? 一个一个看 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">四段拆解 — 每段解决一个问题</h2>
+
+      <div class="four-cards">
+        <div class="four-card">
+          <div class="four-card-icon">R</div>
+          <h3>Role (角色)</h3>
+          <p>"你是谁?" — 给 AI 一个专业身份, 让它从特定视角回答. 比如"你是一位有 10 年临床经验的女性健康顾问".</p>
+        </div>
+        <div class="four-card">
+          <div class="four-card-icon">T</div>
+          <h3>Task (任务)</h3>
+          <p>"你要做什么?" — 明确说要执行的动作. 不是"聊聊健康", 而是"根据用户描述的身体状态, 给出健康建议".</p>
+        </div>
+        <div class="four-card">
+          <div class="four-card-icon">C</div>
+          <h3>Context (上下文)</h3>
+          <p>"在什么背景下?" — 提供业务场景、用户信息、限制条件. 比如"用户处于经期第 2 天, 感觉疲劳".</p>
+        </div>
+        <div class="four-card">
+          <div class="four-card-icon">F</div>
+          <h3>Format (输出格式)</h3>
+          <p>"你要怎么回答?" — 指定输出的结构. 比如"分 3 点, 每点一句话, 最后加一条警告信号".</p>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>记忆口诀: RTCF</strong> — 就像写邮件: 收件人(Role) + 主题(Task) + 正文(Context) + 附件格式(Format).</p>
+        <p class="muted">Anthropic 在官方 Prompt Engineering Guide 里反复强调: 好的 Prompt 需要明确的角色、任务、上下文和输出格式.</p>
+      </div>
+
+      <div class="step-foot">光说不练不行, 来看一个 before / after 对比 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Before / After — 同一个需求, 天壤之别</h2>
+
+      <div class="before-after">
+        <div class="ba-card before">
+          <div class="ba-label">Before: 一句话 Prompt</div>
+          <div class="ba-code">给经期的用户一些健康建议</div>
+        </div>
+        <div class="ba-card after">
+          <div class="ba-label">After: 4 段式 Prompt</div>
+          <div class="ba-code"><strong>## Role</strong>
+你是一位专业的女性健康顾问,有10年临床经验,擅长用通俗易懂的语言解释健康概念。
+
+<strong>## Task</strong>
+根据用户描述的身体状态,给出个性化的健康建议和注意事项。
+
+<strong>## Context</strong>
+用户正在使用 Vitamin App,她当前处于经期第2天,感觉腹部不适和疲劳。她平时有跑步习惯。
+
+<strong>## Output Format</strong>
+1. 状态解读(1-2句)
+2. 建议措施(3条,每条一句话)
+3. 需要注意的信号(1条)</div>
+        </div>
+      </div>
+
+      <div class="score-meter">
+        <span class="score-label">Before 质量</span>
+        <div class="score-bar-bg"><div class="score-bar-fill" data-score="25" style="width:0;background:var(--red);"></div></div>
+        <span class="score-value" style="color:var(--red);">25%</span>
+      </div>
+      <div class="score-meter">
+        <span class="score-label">After 质量</span>
+        <div class="score-bar-bg"><div class="score-bar-fill" data-score="92" style="width:0;background:var(--green);"></div></div>
+        <span class="score-value" style="color:var(--green);">92%</span>
+      </div>
+
+      <p class="step-lede">After 版本的 AI 回复会: 以"女性健康顾问"的口吻回答, 针对"经期第 2 天 + 疲劳"给出具体建议, 考虑跑步习惯, 并且严格按 3 段格式输出. <mark class="hl">同一个模型, 纯靠 Prompt 结构</mark>.</p>
+
+      <div class="step-foot">四段的优先级不一样 — 有些可以省, 有些不能 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">四段的优先级: Task > Format > Context > Role</h2>
+      <p class="step-lede">如果只能写一段, 写哪段? Anthropic 建议:</p>
+
+      <div class="callout callout-amber">
+        <ol>
+          <li><strong>Task</strong> — 绝不能省. 不说要做什么, AI 完全没方向.</li>
+          <li><strong>Format</strong> — 高优先. 没有格式要求, 输出长度和结构不可控.</li>
+          <li><strong>Context</strong> — 中优先. 简单任务可以不给, 复杂任务必须给.</li>
+          <li><strong>Role</strong> — 锦上添花. 大部分场景加了更好, 但不加也能跑.</li>
+        </ol>
+      </div>
+
+      <p class="step-lede">换句话说:</p>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">规律</div>
+        <p class="truth-line big"><mark class="hl">Task 是骨架, Format 是控制, Context 是燃料, Role 是滤镜.</mark></p>
+        <p class="truth-line muted">→ 写 Prompt 的时候, 先把 Task 和 Format 写清楚, 再补 Context 和 Role.</p>
+      </div>
+
+      <div class="step-foot">每段有什么写法技巧? 挨个细讲 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Role 段: 不只是"你是 XX 专家"</h2>
+      <p class="step-lede">Role 的作用不只是换个称呼 — 它会<mark class="hl">改变 AI 的回答风格、用词水平和专业深度</mark>.</p>
+
+      <div class="before-after">
+        <div class="ba-card before">
+          <div class="ba-label">弱 Role</div>
+          <div class="ba-code">你是一个健康助手。</div>
+        </div>
+        <div class="ba-card after">
+          <div class="ba-label">强 Role</div>
+          <div class="ba-code">你是一位有10年临床经验的女性健康顾问。你的沟通风格是温暖但专业的,像闺蜜兼医生。你总是先确认用户的感受,再给建议。</div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>Role 写作公式:</strong>
+        <p><code>身份 + 年限/资质 + 沟通风格 + 行为倾向</code></p>
+        <p class="muted">比"你是 XX"多给 3 层信息: 多有经验、怎么说话、习惯性行为.</p>
+      </div>
+
+      <div class="step-foot">Task 段怎么写 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Task + Format: 你的"需求文档"</h2>
+      <p class="step-lede">Task 要回答<strong>"做什么"</strong>, Format 要回答<strong>"怎么给我"</strong>.</p>
+
+      <div class="callout callout-amber">
+        <strong>Task 的 3 个常见错误:</strong>
+        <ol>
+          <li><strong>太模糊:</strong> "帮我分析一下" → 分析什么? 分析到什么程度?</li>
+          <li><strong>太多步:</strong> 一次塞 5 个任务, AI 会丢步骤. 一个 Prompt = 一个核心任务.</li>
+          <li><strong>没有动词:</strong> "关于用户反馈" → 总结? 分类? 提取? 动词决定行为.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>Format 常用模板:</strong>
+        <ul class="check-list">
+          <li><code>分 N 点, 每点一句话</code> — 适合建议类</li>
+          <li><code>JSON 格式: {"field": "value"}</code> — 适合需要程序解析的场景</li>
+          <li><code>表格: | 列1 | 列2 |</code> — 适合对比/评估</li>
+          <li><code>先结论后展开, 控制在 X 字以内</code> — 适合摘要类</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">理论够了 — 上手来组装一个完整的 Prompt ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Prompt Builder</h2>
+      <p class="step-lede">下面是一个 4 段式 Prompt 编辑器. 点击每个 tab 编辑对应的段落, 右下角实时预览完整 Prompt. 试着改成你自己的场景!</p>
+
+      <div class="prompt-builder">
+        <div class="pb-tabs">
+          <button class="pb-tab active" data-section="role">Role</button>
+          <button class="pb-tab" data-section="task">Task</button>
+          <button class="pb-tab" data-section="context">Context</button>
+          <button class="pb-tab" data-section="format">Format</button>
+        </div>
+        <div class="pb-panels">
+          <div id="pb-panel-role" class="pb-panel active">
+            <label>Role (角色)</label>
+            <div class="pb-hint">给 AI 一个身份. 越具体, 回答越专业.</div>
+            <textarea id="ta-role" placeholder="例: 你是一位有10年经验的女性健康顾问..."></textarea>
+          </div>
+          <div id="pb-panel-task" class="pb-panel">
+            <label>Task (任务)</label>
+            <div class="pb-hint">明确说要做什么. 一个动词 + 一个目标.</div>
+            <textarea id="ta-task" placeholder="例: 根据用户描述的身体状态, 给出个性化的健康建议..."></textarea>
+          </div>
+          <div id="pb-panel-context" class="pb-panel">
+            <label>Context (上下文)</label>
+            <div class="pb-hint">提供背景信息: 用户是谁? 在什么场景下? 有什么限制?</div>
+            <textarea id="ta-context" placeholder="例: 用户正在使用 Vitamin App, 当前处于经期第2天..."></textarea>
+          </div>
+          <div id="pb-panel-format" class="pb-panel">
+            <label>Output Format (输出格式)</label>
+            <div class="pb-hint">告诉 AI 怎么组织输出. 分几点? 什么结构? 多长?</div>
+            <textarea id="ta-format" placeholder="例: 1. 状态解读(1-2句) 2. 建议措施(3条)..."></textarea>
+          </div>
+        </div>
+
+        <div class="pb-preview">
+          <div class="pb-preview-title">完整 Prompt 预览</div>
+          <div class="score-meter">
+            <span class="score-label">完整度</span>
+            <div class="score-bar-bg"><div id="pb-score-fill" class="score-bar-fill" style="width:100%;background:var(--green);"></div></div>
+            <span id="pb-score" class="score-value" style="color:var(--green);">100%</span>
+          </div>
+          <div id="pb-preview-output" class="pb-preview-output"></div>
+          <button id="pb-copy" class="pb-copy">复制完整 Prompt</button>
+        </div>
+      </div>
+
+      <div class="step-foot">Prompt 组装好了, 拿到 Vitamin 场景里看看效果 ↓</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 案例 — 4 段式怎么落地</h2>
+      <p class="step-lede">Vitamin 有 5 个身体状态(经期、排卵期、黄体期、经前期、安全期). 每个状态都需要不同的 Prompt. 看看经期状态的 4 段式:</p>
+
+      <div class="callout callout-green">
+        <p><strong>Role:</strong> 你是 Vitamin App 的健康顾问"小 V", 专注女性周期健康, 说话温暖、不说教、像闺蜜.</p>
+        <p><strong>Task:</strong> 根据用户当前的身体状态和描述, 给出当天的个性化健康建议.</p>
+        <p><strong>Context:</strong> 用户 ID: {user_id}, 当前状态: 经期第 {day} 天, 用户输入: "{user_input}", 过往记录: 上个周期 {cycle_length} 天.</p>
+        <p><strong>Format:</strong> JSON 格式: {"greeting": "...", "analysis": "...", "tips": ["tip1","tip2","tip3"], "warning_sign": "..."}</p>
+      </div>
+
+      <div class="can-cant">
+        <article class="can-list">
+          <h3 class="can-head">4 段式带来的好处</h3>
+          <ul>
+            <li>不同开发者写的 Prompt 质量一致 — 有框架</li>
+            <li>新功能上线只需换 Context 和 Format — 复用 Role 和 Task</li>
+            <li>Bug 定位更快 — 哪段出问题改哪段</li>
+            <li>产品评审时能直接读 Prompt — 不是一坨文字</li>
+          </ul>
+        </article>
+        <article class="cant-list">
+          <h3 class="cant-head">4 段式不能解决的</h3>
+          <ul>
+            <li>不能保证 AI 100% 按格式输出 (需要 U5 XML Tags)</li>
+            <li>不能防止 AI 编造信息 (需要 U6 Negative Instructions)</li>
+            <li>不能让 AI "想清楚再答" (需要 U4 CoT)</li>
+            <li>不能管理多个版本 (需要 U7 版本管理)</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今日作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">每个 Prompt 都是一张表:<br/>Role(你是谁) + Task(做什么) + Context(背景) + Format(怎么给)</p>
+        <p class="one-liner-foot muted">写 Prompt 之前, 先问自己: 四段都填了吗?</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>打开 ChatGPT / Claude, 用上面的 Prompt Builder 里的 4 段式 Prompt 试一次. 然后把同样的任务用一句话 Prompt 试一次. 对比两次输出的差异.</li>
+          <li>为 Vitamin 的"排卵期"状态写一个 4 段式 Prompt (参考经期的模板, 换 Context 和 Format).</li>
+          <li>想一个你工作中常写的 Prompt(比如写周报、分析数据), 用 4 段式重新写一遍, 看效果有没有变化.</li>
+          <li>写 100 字: 用"填表"这个比喻, 给一个非技术同事解释什么是 Prompt Engineering.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>资源</th><th>来源</th><th>值得看的原因</th><th>时间</th></tr></thead>
+          <tbody>
+            <tr><td>📖</td><td><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags" target="_blank">Anthropic Prompt Engineering Docs</a></td><td>Anthropic</td><td>官方最权威的 Prompt 写法指南</td><td>20 min</td></tr>
+            <tr><td>🎮</td><td><a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank">Anthropic Interactive Tutorial</a></td><td>GitHub</td><td>官方交互式教程, 有练习</td><td>1 hr</td></tr>
+            <tr><td>📖</td><td><a href="https://www.promptingguide.ai/zh" target="_blank">Prompt Engineering Guide 中文版</a></td><td>promptingguide.ai</td><td>最全的中文 Prompt 技巧百科</td><td>30 min</td></tr>
+            <tr><td>📺</td><td><a href="https://prompt-engineering.xiniushu.com/" target="_blank">吴恩达 Prompt Engineering 课程</a></td><td>DeepLearning.AI</td><td>系统入门, 有代码练习</td><td>1.5 hr</td></tr>
+            <tr><td>📖</td><td><a href="https://github.com/thinkingjimmy/Learning-Prompt" target="_blank">Learning-Prompt 免费中文教程</a></td><td>GitHub</td><td>中文社区最好的免费教程之一</td><td>2 hr</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 一句话 Prompt 的尴尬</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 不是 AI 不行, 是缺信息</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> RTCF 四段拆解</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Before/After 对比</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 四段优先级</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Role 写作公式</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Task + Format 技巧</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Prompt Builder 动手</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 落地</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">好 Prompt = 一张填了 4 格的表: Role · Task · Context · Format.</p>
+        <p class="end-summary-sub">从此告别"碰运气", 像工程师一样写 Prompt.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 2): System vs User Prompt</div>
+        <p>4 段式的内容写好了 — 但这 4 段<strong>放在哪里</strong>?</p>
+        <p>System Prompt 和 User Prompt 是两个不同的"信封". 放对了, 不仅效果好, 还能<strong>省钱</strong>(Prompt Caching).</p>
+        <a class="walk-arrow" href="../u2-system-vs-user/index.html">继续走 → Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 3.1 · Unit 1 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

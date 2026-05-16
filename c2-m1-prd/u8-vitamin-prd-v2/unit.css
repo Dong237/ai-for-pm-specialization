@@ -1,0 +1,50 @@
+/* U8 — PRD Template Filler · unit-specific styles */
+.prd-template { background: var(--bg-card); border: 2px solid var(--ink); border-radius: 12px; padding: 20px 22px; margin: 24px 0; box-shadow: var(--shadow-card); }
+.pt-title { font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px dashed var(--border); }
+.pt-sections { display: flex; flex-direction: column; gap: 10px; }
+.pt-section { background: var(--bg-elev); border: 1.5px solid var(--border-strong); border-radius: 8px; overflow: hidden; }
+.pt-section-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; cursor: pointer; user-select: none; font-weight: 600; font-size: 14px; transition: background 0.2s; }
+.pt-section-header:hover { background: var(--bg-card); }
+.pt-section-header .pt-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; font-size: 12px; font-weight: 700; margin-right: 8px; color: white; }
+.pt-section-header .pt-toggle { font-size: 18px; color: var(--ink-muted); transition: transform 0.2s; }
+.pt-section.open .pt-toggle { transform: rotate(90deg); }
+.pt-section-body { display: none; padding: 0 14px 14px; }
+.pt-section.open .pt-section-body { display: block; }
+.pt-section-body textarea { width: 100%; min-height: 80px; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--bg-card); color: var(--ink); font-family: inherit; font-size: 13px; resize: vertical; line-height: 1.5; }
+.pt-section-body textarea:focus { outline: none; border-color: var(--blue); }
+.pt-hint { font-size: 12px; color: var(--ink-muted); margin: 4px 0 8px; font-style: italic; }
+
+/* Section colors */
+.pt-section:nth-child(1) .pt-num { background: var(--blue); }
+.pt-section:nth-child(2) .pt-num { background: var(--blue); }
+.pt-section:nth-child(3) .pt-num { background: var(--blue); }
+.pt-section:nth-child(4) .pt-num { background: var(--green); }
+.pt-section:nth-child(5) .pt-num { background: var(--green); }
+.pt-section:nth-child(6) .pt-num { background: var(--red); }
+.pt-section:nth-child(7) .pt-num { background: var(--amber); }
+.pt-section:nth-child(8) .pt-num { background: var(--amber); }
+.pt-section:nth-child(9) .pt-num { background: var(--purple); }
+.pt-section:nth-child(10) .pt-num { background: var(--purple); }
+
+.pt-export { margin-top: 14px; text-align: center; }
+.pt-export-btn { display: inline-flex; align-items: center; gap: 6px; }
+.pt-preview { background: var(--bg-elev); border: 1.5px dashed var(--border-strong); border-radius: 8px; padding: 16px; margin-top: 14px; font-size: 13px; white-space: pre-wrap; max-height: 400px; overflow-y: auto; display: none; line-height: 1.6; }
+.pt-preview.visible { display: block; }
+
+/* PRD overview cards */
+.prd-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 18px 0; }
+.prd-block { background: var(--bg-card); border: 2px solid; border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow-card); }
+.prd-block h4 { font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif; margin: 0 0 6px; font-size: 15px; }
+.prd-block p { margin: 0; font-size: 12px; color: var(--ink-soft); }
+.prd-block:nth-child(1) { border-color: var(--blue); transform: rotate(-0.3deg); }
+.prd-block:nth-child(2) { border-color: var(--green); transform: rotate(0.4deg); }
+.prd-block:nth-child(3) { border-color: var(--red); transform: rotate(-0.2deg); }
+.prd-block:nth-child(4) { border-color: var(--amber); transform: rotate(0.5deg); }
+.prd-block:nth-child(5) { border-color: var(--purple); transform: rotate(-0.4deg); }
+.prd-block:nth-child(6) { border-color: var(--blue); transform: rotate(0.3deg); }
+
+.resource-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+.resource-table th { text-align: left; padding: 6px 10px; border-bottom: 2px solid var(--border); color: var(--ink-muted); font-size: 12px; }
+.resource-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

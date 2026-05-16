@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · 国内主流模型现状 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M1.3 Unit 3: DeepSeek V4 / Qwen3.6 / Kimi K2.6 / GLM-5 / 豆包 Seed 2.0 — 五大国产模型横评." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.3</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 · 国内模型现状</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 3<span class="title-dot">·</span><br/>国内主流模型现状</h1>
+      <p class="hero-sub">2026 年 4 月, 中国五大主力模型 — 谁强谁弱, 怎么选?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个做功课的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 选国产模型)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">DeepSeek V4 刚发布, 知乎上全是讨论...</p>
+          <p class="cloud-line">Qwen3.6、Kimi K2.6 也出来了, 还有 GLM-5, 豆包 2.0...</p>
+          <p class="cloud-line">它们到底有啥区别? Vitamin 用哪个最合适?</p>
+          <p class="cloud-line accent">—— 10 步, 一张表搞清 5 大国产模型.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道 5 大国产模型各自的优势和定位</li>
+          <li>理解"性价比之王" "编程黑马" "中文最强" 分别是谁</li>
+          <li>能用一张对比表给领导汇报国产模型现状</li>
+          <li>为 Vitamin 选出最合适的国产模型方案</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">从"百模大战"到五大主力</h2>
+      <p class="step-lede">2023-2024 年, 中国有上百家公司做大模型. 2026 年, 经过两年淘汰, 收敛成了 5 大主力:</p>
+
+      <div class="five-logos" data-rough="card">
+        <div class="logo-item"><div class="logo-circle lc-ds">DS</div><span>DeepSeek</span></div>
+        <div class="logo-item"><div class="logo-circle lc-qw">Qw</div><span>Qwen</span></div>
+        <div class="logo-item"><div class="logo-circle lc-km">Ki</div><span>Kimi</span></div>
+        <div class="logo-item"><div class="logo-circle lc-gl">GL</div><span>GLM</span></div>
+        <div class="logo-item"><div class="logo-circle lc-db">DB</div><span>豆包</span></div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>一句话定位:</strong>
+        <ul>
+          <li><strong>DeepSeek</strong> = 推理性价比之王</li>
+          <li><strong>Qwen</strong> = 全能均衡选手</li>
+          <li><strong>Kimi</strong> = 编程与长文本专家</li>
+          <li><strong>GLM</strong> = 国产芯片先锋</li>
+          <li><strong>豆包</strong> = 字节生态 + 中文最强</li>
+        </ul>
+        <span class="data-tag">截至 2026 年 4 月</span>
+      </div>
+
+      <div class="step-foot">先看一个过时的认知 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">"国产模型不行" — 这话在 2026 年说不通了</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错误: 国产模型比 GPT 差一大截</h3>
+          <p>2024 年确实如此, 但 2026 年...</p>
+          <div class="wrong-why">
+            <strong>DeepSeek V4 Pro</strong> 在 agentic benchmarks 上已追平 GPT-5.5. 官方自评"体验优于 Sonnet 4.5, 接近 Opus 4.6 非思考模式". 差距从"一个身位"缩小到"半步".
+          </div>
+        </article>
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错误: 国产模型只能做中文</h3>
+          <p>以前有些模型确实英文能力弱...</p>
+          <div class="wrong-why">
+            <strong>2026 年:</strong> DeepSeek V4 的 SWE-bench 81% (英文代码), Qwen3.6 支持 201 种语言. 它们是真正的多语言模型, 不只是"中文模型".
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">2026 年国产模型的真实水平:</p>
+        <p class="truth-line giant">通用能力落后半步,<br/>中文场景已经领先.</p>
+        <p class="truth-line">在 SuperCLUE 中文评测中, 豆包 Seed 2.0 排名国内第一.</p>
+        <p class="truth-line muted">→ 对 Vitamin 这种中文健康 App 来说, 国产模型可能反而是更好的选择.</p>
+        <span class="data-tag">截至 2026 年 4 月</span>
+      </div>
+
+      <div class="step-foot">逐个看, 先看性价比之王 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">DeepSeek V4 — 性价比之王</h2>
+      <p class="step-lede">2026 年 4 月 24 日发布. MIT 开源. 在华为昇腾上训练. 国产之光.</p>
+
+      <div class="model-detail" data-rough="card">
+        <div class="md-header md-ds">
+          <div class="md-logo">DeepSeek V4</div>
+          <div class="md-meta">发布: 2026-04-24 · 公司: 深度求索 · 许可: MIT</div>
+        </div>
+        <div class="md-body">
+          <div class="md-specs">
+            <div class="md-spec"><span class="md-spec-label">版本</span><span class="md-spec-val">V4-Pro (旗舰) / V4-Flash (轻量)</span></div>
+            <div class="md-spec"><span class="md-spec-label">参数</span><span class="md-spec-val">Pro: 1.6T 总, 49B 激活 | Flash: 284B 总, 13B 激活</span></div>
+            <div class="md-spec"><span class="md-spec-label">上下文</span><span class="md-spec-val">1M tokens (原生支持)</span></div>
+            <div class="md-spec"><span class="md-spec-label">价格 (API)</span><span class="md-spec-val">Pro: $0.44/$0.87/M | Flash: $0.14/$0.28/M</span></div>
+            <div class="md-spec"><span class="md-spec-label">芯片</span><span class="md-spec-val">NVIDIA + 华为昇腾 双平台验证</span></div>
+          </div>
+          <div class="md-strengths">
+            <div class="md-s-col">
+              <h4 class="md-s-head s-good">强项</h4>
+              <ul>
+                <li>极致性价比: Flash 版输出仅 $0.28/M tokens</li>
+                <li>1M 上下文, 推理效率提升 3.7 倍</li>
+                <li>Agent 能力强: 工具调用格式专门优化</li>
+                <li>MIT 开源, 可商用可微调</li>
+                <li>脱离 NVIDIA 依赖, 华为昇腾可训练</li>
+              </ul>
+            </div>
+            <div class="md-s-col">
+              <h4 class="md-s-head s-weak">短板</h4>
+              <ul>
+                <li>官方承认落后 GPT-5.4 / Gemini 3.1 约 3-6 个月</li>
+                <li>复杂多步推理仍弱于 Claude Opus 4.7 Thinking</li>
+                <li>自部署需要 4-8 张 A100 (Pro 版)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="md-source">来源: DeepSeek 官方技术报告 · <span class="data-tag">2026-04-24</span></div>
+      </div>
+
+      <div class="step-foot">下一个: 全能选手 Qwen ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Qwen3.6 — 全能均衡选手</h2>
+      <p class="step-lede">阿里通义千问, 2026 年 4 月发布 Qwen3.6 系列. 编程能力拔尖, 生态最完善.</p>
+
+      <div class="model-detail" data-rough="card">
+        <div class="md-header md-qw">
+          <div class="md-logo">Qwen3.6</div>
+          <div class="md-meta">发布: 2026-04 · 公司: 阿里云 · 许可: Apache 2.0 (开源版)</div>
+        </div>
+        <div class="md-body">
+          <div class="md-specs">
+            <div class="md-spec"><span class="md-spec-label">版本</span><span class="md-spec-val">Qwen3.6-27B (开源) / Qwen3.6-Max (API) / Flash (3B 激活)</span></div>
+            <div class="md-spec"><span class="md-spec-label">参数</span><span class="md-spec-val">27B (稠密) — 编程能力超越 15 倍参数的前代 MoE</span></div>
+            <div class="md-spec"><span class="md-spec-label">上下文</span><span class="md-spec-val">256K (Flash 可扩展至 1M)</span></div>
+            <div class="md-spec"><span class="md-spec-label">价格 (API)</span><span class="md-spec-val">Qwen-Long: ¥0.5/M | Max: ¥2.5-10/M</span></div>
+            <div class="md-spec"><span class="md-spec-label">特色</span><span class="md-spec-val">原生多模态 · 思考/非思考双模式 · 201 种语言</span></div>
+          </div>
+          <div class="md-strengths">
+            <div class="md-s-col">
+              <h4 class="md-s-head s-good">强项</h4>
+              <ul>
+                <li>编程能力 Top 6 (27B 参数超越 400B MoE)</li>
+                <li>多模态: 图像 + 视频 + 文本混合输入</li>
+                <li>开源生态最完善: HuggingFace + ModelScope</li>
+                <li>部署友好: 27B 稠密模型不需要 MoE 路由</li>
+                <li>Flash 版仅 3B 激活, 手机端都能跑</li>
+              </ul>
+            </div>
+            <div class="md-s-col">
+              <h4 class="md-s-head s-weak">短板</h4>
+              <ul>
+                <li>旗舰能力弱于 DeepSeek V4 Pro</li>
+                <li>SWE-Bench Verified 78.8%, 低于 Kimi K2.6</li>
+                <li>阿里云生态绑定较深</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="md-source">来源: 通义千问官方 · IT之家 · <span class="data-tag">2026-04</span></div>
+      </div>
+
+      <div class="step-foot">编程黑马 Kimi ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Kimi K2.6 — 编程与 Agent 黑马</h2>
+      <p class="step-lede">Moonshot AI 出品, 2026 年 4 月 21 日发布. SWE-Bench 80.2%, 一度超越 GPT-5.4.</p>
+
+      <div class="model-detail" data-rough="card">
+        <div class="md-header md-km">
+          <div class="md-logo">Kimi K2.6</div>
+          <div class="md-meta">发布: 2026-04-21 · 公司: Moonshot AI · 许可: MIT* (大用户需标注)</div>
+        </div>
+        <div class="md-body">
+          <div class="md-specs">
+            <div class="md-spec"><span class="md-spec-label">参数</span><span class="md-spec-val">1T 总, 32B 激活, 384 个专家, 每 token 激活 8 个</span></div>
+            <div class="md-spec"><span class="md-spec-label">上下文</span><span class="md-spec-val">256K tokens</span></div>
+            <div class="md-spec"><span class="md-spec-label">价格 (API)</span><span class="md-spec-val">$0.60/$2.50 per M tokens</span></div>
+            <div class="md-spec"><span class="md-spec-label">亮点</span><span class="md-spec-val">SWE-Bench 80.2% · Agent Swarm 多智能体 · 本地部署支持</span></div>
+          </div>
+          <div class="md-strengths">
+            <div class="md-s-col">
+              <h4 class="md-s-head s-good">强项</h4>
+              <ul>
+                <li>SWE-Bench Pro 58.6%, 超越 GPT-5.4 (57.7)</li>
+                <li>Agent Swarm: 300 个子智能体, 4000 步协调</li>
+                <li>Tool Call 准确率接近 100%</li>
+                <li>支持 12h+ 连续执行</li>
+                <li>Mac 本地部署: 193 tokens/s</li>
+              </ul>
+            </div>
+            <div class="md-s-col">
+              <h4 class="md-s-head s-weak">短板</h4>
+              <ul>
+                <li>上下文只有 256K (vs DeepSeek 1M)</li>
+                <li>SWE-Bench 已被 Claude Opus 4.7 的 87.6% 超越</li>
+                <li>MIT 许可有大用户标注要求</li>
+                <li>通用中文任务不如豆包/Qwen</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="md-source">来源: Moonshot 官方 / HuggingFace · <span class="data-tag">2026-04-21</span></div>
+      </div>
+
+      <div class="step-foot">国产芯片先锋 GLM ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">GLM-5 — 国产芯片先锋, MIT 开源标杆</h2>
+      <p class="step-lede">智谱 AI (清华系), 2026 年 2 月 11 日发布. 第一个在 AA Intelligence Index 上得 50 分的开源模型.</p>
+
+      <div class="model-detail" data-rough="card">
+        <div class="md-header md-gl">
+          <div class="md-logo">GLM-5</div>
+          <div class="md-meta">发布: 2026-02-11 · 公司: 智谱 AI · 许可: MIT</div>
+        </div>
+        <div class="md-body">
+          <div class="md-specs">
+            <div class="md-spec"><span class="md-spec-label">参数</span><span class="md-spec-val">744B 总, 40B 激活, 256 个专家</span></div>
+            <div class="md-spec"><span class="md-spec-label">上下文</span><span class="md-spec-val">200K tokens</span></div>
+            <div class="md-spec"><span class="md-spec-label">芯片兼容</span><span class="md-spec-val">华为昇腾 + 摩尔线程 + 海光 + 寒武纪 + 昆仑芯 + 天数智芯 + 燧原 (7 大国产芯片)</span></div>
+            <div class="md-spec"><span class="md-spec-label">特色</span><span class="md-spec-val">Agentic Engineering · 全 MindSpore 训练 · 自我反思纠错</span></div>
+          </div>
+          <div class="md-strengths">
+            <div class="md-s-col">
+              <h4 class="md-s-head s-good">强项</h4>
+              <ul>
+                <li>七大国产芯片全兼容, 供应链最安全</li>
+                <li>MIT 开源, 744B 级别极罕见</li>
+                <li>SWE-Bench 77.8% (开源 SOTA at release)</li>
+                <li>自我反思: 编译失败后自动分析修复</li>
+                <li>清华背景, 学术生态强</li>
+              </ul>
+            </div>
+            <div class="md-s-col">
+              <h4 class="md-s-head s-weak">短板</h4>
+              <ul>
+                <li>通用能力弱于 DeepSeek V4 和 Kimi K2.6</li>
+                <li>上下文 200K, 不如 DeepSeek 的 1M</li>
+                <li>中文生成质量不如豆包</li>
+                <li>市场知名度和用户量偏低</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="md-source">来源: 智谱 AI 官方 / 阮一峰博客 · <span class="data-tag">2026-02-11</span></div>
+      </div>
+
+      <div class="step-foot">最后一个: 字节的豆包 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">豆包 Seed 2.0 — 字节生态, 中文最强</h2>
+      <p class="step-lede">字节跳动, 2026 年 2 月 14 日发布. 日处理 120 万亿 tokens. SuperCLUE 中文评测国内第一.</p>
+
+      <div class="model-detail" data-rough="card">
+        <div class="md-header md-db">
+          <div class="md-logo">豆包 Seed 2.0</div>
+          <div class="md-meta">发布: 2026-02-14 · 公司: 字节跳动 · 许可: 闭源 (API 付费)</div>
+        </div>
+        <div class="md-body">
+          <div class="md-specs">
+            <div class="md-spec"><span class="md-spec-label">版本</span><span class="md-spec-val">Pro / Lite / Mini / Code 四款</span></div>
+            <div class="md-spec"><span class="md-spec-label">上下文</span><span class="md-spec-val">256K tokens, 支持视觉输入</span></div>
+            <div class="md-spec"><span class="md-spec-label">价格 (API)</span><span class="md-spec-val">Pro: ¥3.2/M (32K以内) | Lite: ¥0.6/M</span></div>
+            <div class="md-spec"><span class="md-spec-label">日处理量</span><span class="md-spec-val">120 万亿 tokens/天 (行业最大)</span></div>
+            <div class="md-spec"><span class="md-spec-label">特色</span><span class="md-spec-val">数学 AIME 98.3% · HLE 54.2% · 动态视频理解</span></div>
+          </div>
+          <div class="md-strengths">
+            <div class="md-s-col">
+              <h4 class="md-s-head s-good">强项</h4>
+              <ul>
+                <li>SuperCLUE 中文评测国内第一 (71.53 分)</li>
+                <li>数学能力一骑绝尘: AIME 98.3%, 远超所有竞品</li>
+                <li>字节生态: 豆包 App + TRAE + 飞书深度集成</li>
+                <li>HLE (人类最后考试) 全球最高分 54.2%</li>
+                <li>视频理解能力超越人类评分</li>
+              </ul>
+            </div>
+            <div class="md-s-col">
+              <h4 class="md-s-head s-weak">短板</h4>
+              <ul>
+                <li>闭源, 不能自部署, 数据必须发到字节服务器</li>
+                <li>绑定火山引擎生态</li>
+                <li>开源替代 (DeepSeek/Qwen) 更灵活</li>
+                <li>国际市场认知度低</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="md-source">来源: 字节跳动官方 / IT之家 / SuperCLUE · <span class="data-tag">2026-02-14</span></div>
+      </div>
+
+      <div class="step-foot">5 个都看完了, 来个大对比 ↓</div>
+    </section>
+
+    <!-- (8) -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">China Model Cards — 点击展开, 并排对比</h2>
+      <p class="step-lede">点击模型名展开/收起详情, 或点"并排对比"看五个模型的一览表.</p>
+
+      <!-- Interactive Widget -->
+      <div class="china-cards-widget" id="china-cards-widget">
+        <div class="ccw-controls">
+          <button class="btn btn-primary ccw-mode active" data-mode="cards">卡片模式</button>
+          <button class="btn btn-ghost ccw-mode" data-mode="table">并排对比</button>
+        </div>
+
+        <!-- Card mode -->
+        <div class="ccw-cards-view" id="ccw-cards-view">
+          <div class="ccw-card" data-model="deepseek">
+            <div class="ccw-card-header">
+              <div class="ccw-card-logo lc-ds">DS</div>
+              <div class="ccw-card-name">DeepSeek V4</div>
+              <div class="ccw-card-tagline">性价比之王</div>
+              <div class="ccw-card-toggle">展开 ▾</div>
+            </div>
+            <div class="ccw-card-body">
+              <div class="ccw-kv"><span>参数</span><span>1.6T / 49B active</span></div>
+              <div class="ccw-kv"><span>上下文</span><span>1M tokens</span></div>
+              <div class="ccw-kv"><span>许可</span><span>MIT (完全开源)</span></div>
+              <div class="ccw-kv"><span>价格</span><span>Flash: $0.14/$0.28/M</span></div>
+              <div class="ccw-kv"><span>SWE-Bench</span><span>81%</span></div>
+              <div class="ccw-kv"><span>芯片</span><span>NVIDIA + 华为昇腾</span></div>
+            </div>
+          </div>
+
+          <div class="ccw-card" data-model="qwen">
+            <div class="ccw-card-header">
+              <div class="ccw-card-logo lc-qw">Qw</div>
+              <div class="ccw-card-name">Qwen3.6</div>
+              <div class="ccw-card-tagline">全能均衡</div>
+              <div class="ccw-card-toggle">展开 ▾</div>
+            </div>
+            <div class="ccw-card-body">
+              <div class="ccw-kv"><span>参数</span><span>27B (稠密)</span></div>
+              <div class="ccw-kv"><span>上下文</span><span>256K (Flash 1M)</span></div>
+              <div class="ccw-kv"><span>许可</span><span>Apache 2.0</span></div>
+              <div class="ccw-kv"><span>价格</span><span>¥0.5-10/M</span></div>
+              <div class="ccw-kv"><span>SWE-Bench</span><span>78.8%</span></div>
+              <div class="ccw-kv"><span>特色</span><span>多模态 · 201 语言</span></div>
+            </div>
+          </div>
+
+          <div class="ccw-card" data-model="kimi">
+            <div class="ccw-card-header">
+              <div class="ccw-card-logo lc-km">Ki</div>
+              <div class="ccw-card-name">Kimi K2.6</div>
+              <div class="ccw-card-tagline">编程黑马</div>
+              <div class="ccw-card-toggle">展开 ▾</div>
+            </div>
+            <div class="ccw-card-body">
+              <div class="ccw-kv"><span>参数</span><span>1T / 32B active</span></div>
+              <div class="ccw-kv"><span>上下文</span><span>256K tokens</span></div>
+              <div class="ccw-kv"><span>许可</span><span>MIT* (大用户标注)</span></div>
+              <div class="ccw-kv"><span>价格</span><span>$0.60/$2.50/M</span></div>
+              <div class="ccw-kv"><span>SWE-Bench</span><span>80.2%</span></div>
+              <div class="ccw-kv"><span>特色</span><span>Agent Swarm · Mac 本地</span></div>
+            </div>
+          </div>
+
+          <div class="ccw-card" data-model="glm">
+            <div class="ccw-card-header">
+              <div class="ccw-card-logo lc-gl">GL</div>
+              <div class="ccw-card-name">GLM-5</div>
+              <div class="ccw-card-tagline">国产芯片先锋</div>
+              <div class="ccw-card-toggle">展开 ▾</div>
+            </div>
+            <div class="ccw-card-body">
+              <div class="ccw-kv"><span>参数</span><span>744B / 40B active</span></div>
+              <div class="ccw-kv"><span>上下文</span><span>200K tokens</span></div>
+              <div class="ccw-kv"><span>许可</span><span>MIT (完全开源)</span></div>
+              <div class="ccw-kv"><span>价格</span><span>API 接入 / 自部署</span></div>
+              <div class="ccw-kv"><span>SWE-Bench</span><span>77.8%</span></div>
+              <div class="ccw-kv"><span>芯片</span><span>7 大国产芯片全兼容</span></div>
+            </div>
+          </div>
+
+          <div class="ccw-card" data-model="doubao">
+            <div class="ccw-card-header">
+              <div class="ccw-card-logo lc-db">DB</div>
+              <div class="ccw-card-name">豆包 Seed 2.0</div>
+              <div class="ccw-card-tagline">中文最强</div>
+              <div class="ccw-card-toggle">展开 ▾</div>
+            </div>
+            <div class="ccw-card-body">
+              <div class="ccw-kv"><span>参数</span><span>未公开 (闭源)</span></div>
+              <div class="ccw-kv"><span>上下文</span><span>256K tokens</span></div>
+              <div class="ccw-kv"><span>许可</span><span>闭源 (API 付费)</span></div>
+              <div class="ccw-kv"><span>价格</span><span>Pro: ¥3.2/M | Lite: ¥0.6/M</span></div>
+              <div class="ccw-kv"><span>SuperCLUE</span><span>71.53 (国内第一)</span></div>
+              <div class="ccw-kv"><span>特色</span><span>数学 AIME 98.3%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table mode -->
+        <div class="ccw-table-view" id="ccw-table-view" style="display:none;">
+          <div class="ccw-table-wrap">
+            <table class="ccw-table">
+              <thead>
+                <tr>
+                  <th>维度</th>
+                  <th class="lc-ds-head">DeepSeek V4</th>
+                  <th class="lc-qw-head">Qwen3.6</th>
+                  <th class="lc-km-head">Kimi K2.6</th>
+                  <th class="lc-gl-head">GLM-5</th>
+                  <th class="lc-db-head">豆包 Seed 2.0</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="ccw-dim">发布日期</td>
+                  <td>2026-04-24</td>
+                  <td>2026-04</td>
+                  <td>2026-04-21</td>
+                  <td>2026-02-11</td>
+                  <td>2026-02-14</td>
+                </tr>
+                <tr>
+                  <td class="ccw-dim">总参数</td>
+                  <td>1.6T</td>
+                  <td>27B (稠密)</td>
+                  <td>1T</td>
+                  <td>744B</td>
+                  <td>未公开</td>
+                </tr>
+                <tr>
+                  <td class="ccw-dim">激活参数</td>
+                  <td>49B</td>
+                  <td>27B</td>
+                  <td>32B</td>
+                  <td>40B</td>
+                  <td>未公开</td>
+                </tr>
+                <tr>
+                  <td class="ccw-dim">上下文</td>
+                  <td><strong>1M</strong></td>
+                  <td>256K</td>
+                  <td>256K</td>
+                  <td>200K</td>
+                  <td>256K</td>
+                </tr>
+                <tr>
+                  <td class="ccw-dim">许可</td>
+                  <td>MIT</td>
+                  <td>Apache 2.0</td>
+                  <td>MIT*</td>
+                  <td>MIT</td>
+                  <td>闭源</td>
+                </tr>
+                <tr>
+                  <td class="ccw-dim">SWE-Bench</td>
+                  <td>81%</td>
+                  <td>78.8%</td>
+                  <td><strong>80.2%</strong></td>
+                  <td>77.8%</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td class="ccw-dim">中文能力</td>
+                  <td>优秀</td>
+                  <td>优秀</td>
+                  <td>良好</td>
+                  <td>良好</td>
+                  <td><strong>最强</strong></td>
+                </tr>
+                <tr>
+                  <td class="ccw-dim">一句话</td>
+                  <td>性价比之王</td>
+                  <td>全能均衡</td>
+                  <td>编程黑马</td>
+                  <td>芯片先锋</td>
+                  <td>中文最强</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="muted" style="text-align:center;margin-top:8px;">数据截至 2026 年 4 月 · 来源: 各公司官方文档 / SuperCLUE / SWE-Bench</p>
+        </div>
+      </div>
+
+      <div class="step-foot">套到 Vitamin 上 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 该选哪个国产模型?</h2>
+      <p class="step-lede">Vitamin = 中文健康 App + 5 状态身体追踪 + 用户对话 + 健康建议. 来匹配:</p>
+
+      <div class="vitamin-match" data-rough="card">
+        <div class="vm-header">
+          <div>Vitamin 需求</div>
+          <div>推荐模型</div>
+          <div>原因</div>
+        </div>
+        <div class="vm-row">
+          <div class="vm-need">高频日常对话 (80% 请求)</div>
+          <div class="vm-pick"><span class="pill pill-green">DeepSeek V4 Flash</span></div>
+          <div class="vm-reason">最便宜 ($0.14/M), 1M 上下文, MIT 开源可自部署保合规</div>
+        </div>
+        <div class="vm-row">
+          <div class="vm-need">中文健康建议生成</div>
+          <div class="vm-pick"><span class="pill pill-amber">豆包 Seed 2.0 Lite</span></div>
+          <div class="vm-reason">中文 SuperCLUE 第一, 健康类 HealthBench 第一, ¥0.6/M</div>
+        </div>
+        <div class="vm-row">
+          <div class="vm-need">身体状态智能分类</div>
+          <div class="vm-pick"><span class="pill pill-green">Qwen3.6-27B</span></div>
+          <div class="vm-reason">多模态, 可处理图片+文字输入, 27B 部署成本低</div>
+        </div>
+        <div class="vm-row">
+          <div class="vm-need">数据安全 / 不出境</div>
+          <div class="vm-pick"><span class="pill pill-green">DeepSeek / GLM-5</span></div>
+          <div class="vm-reason">MIT 开源自部署, 数据留在自己服务器. GLM-5 国产芯片全兼容</div>
+        </div>
+        <div class="vm-row">
+          <div class="vm-need">复杂医学问答 (低频)</div>
+          <div class="vm-pick"><span class="pill pill-blue">闭源备选</span></div>
+          <div class="vm-reason">高风险场景保底用 GPT-5.5 / Claude, 但加免责声明</div>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>PM 决策清单:</strong>
+        <ol>
+          <li><strong>默认选开源</strong> (DeepSeek V4 Flash) — 成本最低, 控制权最大</li>
+          <li><strong>中文要求高的场景</strong>, 备选豆包 Seed 2.0 — 中文最强</li>
+          <li><strong>数据不出境</strong> → 必须自部署开源模型 (健康数据敏感!)</li>
+          <li><strong>模型路由</strong>: 80% 请求走便宜模型, 20% 复杂请求走好模型</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">最后总结 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">2026 国产模型五大主力各有所长 —<br/>
+        DeepSeek 最便宜, 豆包中文最强, Kimi 编程最猛,<br/>
+        GLM 芯片最安全, Qwen 最均衡.</p>
+        <p class="one-liner-foot muted">没有"最好的模型", 只有"最适合你场景的模型".</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://www.superclue.ai" target="_blank" rel="noopener">superclue.ai</a>, 找到最新中文模型排名, 记录前 5 名. 和本课内容对比, 看有没有变化.</li>
+          <li>为 Vitamin 画一张"模型路由图": 哪些请求走 DeepSeek, 哪些走豆包, 哪些走闭源, 标上预估成本.</li>
+          <li>用豆包 App 和 DeepSeek 网页版分别问同一个健康问题 (比如"经期可以跑步吗"), 对比两者的中文回答质量.</li>
+          <li>写 200 字简报给领导: "我们 Vitamin 应该用哪个国产模型, 为什么", 包含成本、能力、合规三个维度.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead>
+            <tr><th>类型</th><th>标题</th><th>来源</th><th>为什么值得看</th><th>时间</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>📖</td>
+              <td>DeepSeek V4 技术报告解析</td>
+              <td><a href="https://www.53ai.com/news/LargeLanguageModel/2026042415879.html" target="_blank" rel="noopener">53AI</a></td>
+              <td>中文深度拆解 V4 的三大架构创新</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>七款国产 AI 大模型深度对比</td>
+              <td><a href="https://blog.csdn.net/u010993210/article/details/155413478" target="_blank" rel="noopener">CSDN</a></td>
+              <td>实测对比 7 款国产模型, 含代码 / 数学 / 中文</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>🎮</td>
+              <td>SuperCLUE — 中文大模型评测</td>
+              <td><a href="https://www.superclue.ai" target="_blank" rel="noopener">superclue.ai</a></td>
+              <td>最权威的中文模型排行榜, 每月更新</td>
+              <td>5 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>GLM-5 实测: 对比 Opus 4.6 和 GPT-5.3</td>
+              <td><a href="https://www.ruanyifeng.com/blog/2026/02/glm-5.html" target="_blank" rel="noopener">阮一峰博客</a></td>
+              <td>中文技术圈最受信任的测评, 真实体感</td>
+              <td>10 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>如何评价 DeepSeek V4? (知乎讨论)</td>
+              <td><a href="https://www.zhihu.com/question/2030966008312231624" target="_blank" rel="noopener">知乎</a></td>
+              <td>100+ 回答, 多角度讨论 V4 的优缺点</td>
+              <td>15 min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 百模大战→五大主力</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> "国产不行"已过时</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> DeepSeek V4: 性价比王</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> Qwen3.6: 全能均衡</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> Kimi K2.6: 编程黑马</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> GLM-5: 芯片先锋</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 豆包 Seed 2.0: 中文最强</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> 五模型并排对比</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 模型选型</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">国产五大主力各有所长: 没有最好的, 只有最适合你场景的.</p>
+        <p class="end-summary-sub">DeepSeek 最便宜 · 豆包中文最强 · Kimi 编程最猛 · GLM 芯片最安全 · Qwen 最均衡.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 4): 选模型的 6 个维度</div>
+        <p>知道了有哪些模型, 但怎么系统地评估和选择? 下节课教你一个<strong>6 维评估框架</strong>:</p>
+        <p>能力 / 成本 / 延迟 / 合规 / 生态 / 风险 — 6 个维度打分, 科学选模型.</p>
+        <a class="walk-arrow" href="../u4-selection-dimensions/index.html">继续走 → Unit 4</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.3 · Unit 3 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

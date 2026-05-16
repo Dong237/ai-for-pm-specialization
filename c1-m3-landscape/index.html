@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Module 1.3 · AI 行业图景 + 模型横评 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Module 1.3: 从 3 层堆栈到 6 维度横评, 给 Vitamin 选出最优模型." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../shared/styles.css" />
+  <style>
+    .module-hero { text-align: center; padding: 60px 0 40px; }
+    .module-tag {
+      display: inline-block; background: var(--blue-bg); border: 2px solid var(--blue);
+      color: var(--ink); padding: 6px 18px; border-radius: 8px; font-size: 14px;
+      font-weight: 600; margin-bottom: 16px; transform: rotate(-2deg);
+    }
+    .module-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: clamp(32px, 6vw, 48px); font-weight: 600; line-height: 1.2; margin: 0 0 12px;
+    }
+    .module-sub {
+      font-size: 18px; color: var(--ink-soft); margin: 0 0 32px; max-width: 620px;
+      margin-left: auto; margin-right: auto;
+    }
+    .module-stats { display: flex; justify-content: center; gap: 32px; margin-bottom: 40px; flex-wrap: wrap; }
+    .module-stat { text-align: center; }
+    .module-stat-num {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 36px; font-weight: 700; color: var(--blue); display: block;
+    }
+    .module-stat-label { font-size: 13px; color: var(--ink-muted); }
+    .data-note {
+      text-align: center; font-size: 13px; color: var(--ink-muted); margin-bottom: 32px;
+      padding: 8px 16px; background: var(--amber-bg-soft); border-radius: 8px;
+      display: inline-block;
+    }
+
+    .units-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px; margin: 24px 0 40px;
+    }
+    @media (max-width: 700px) { .units-grid { grid-template-columns: 1fr; } }
+    .unit-card {
+      background: var(--bg-card); border: 2px solid var(--border-strong);
+      border-radius: 12px 14px 13px 15px; padding: 20px 22px; text-decoration: none;
+      color: var(--ink); display: block; box-shadow: var(--shadow-card);
+      transition: transform 0.2s, box-shadow 0.2s; position: relative;
+    }
+    .unit-card:hover { transform: translateY(-4px) rotate(-0.3deg); box-shadow: var(--shadow-elev); }
+    .unit-card:nth-child(odd) { transform: rotate(-0.4deg); }
+    .unit-card:nth-child(even) { transform: rotate(0.3deg); }
+    .unit-card:nth-child(odd):hover { transform: translateY(-4px) rotate(-0.7deg); }
+    .unit-card:nth-child(even):hover { transform: translateY(-4px) rotate(0deg); }
+    .unit-card-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 18px; font-weight: 700; margin-bottom: 10px;
+    }
+    .unit-card:nth-child(1) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(2) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(3) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+    .unit-card:nth-child(4) .unit-card-num { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+    .unit-card:nth-child(5) .unit-card-num { background: var(--purple-bg); color: var(--purple); border: 2px solid var(--purple); }
+    .unit-card:nth-child(6) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(7) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(8) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+    .unit-card-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 20px; font-weight: 600; margin: 0 0 8px; line-height: 1.3;
+    }
+    .unit-card-desc { font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.5; }
+    .unit-card-arrow {
+      position: absolute; bottom: 16px; right: 18px; color: var(--green);
+      font-size: 18px; transition: transform 0.2s;
+    }
+    .unit-card:hover .unit-card-arrow { transform: translateX(4px); }
+
+    .module-complete {
+      background: var(--green-bg); border: 3px solid var(--green); border-radius: 14px;
+      padding: 28px; text-align: center; margin: 40px 0; box-shadow: var(--shadow-elev);
+      transform: rotate(-0.3deg);
+    }
+    .module-complete-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 24px; font-weight: 600; margin: 0 0 12px; color: var(--ink);
+    }
+    .module-complete-desc { font-size: 15px; color: var(--ink-soft); margin: 0; }
+
+    .module-nav {
+      background: var(--bg-card); border: 2px dashed var(--purple); border-radius: 12px;
+      padding: 22px 24px; margin: 24px 0 20px; box-shadow: var(--shadow-card);
+    }
+    .module-nav.prev { border-color: var(--ink-muted); transform: rotate(-0.3deg); }
+    .module-nav.next { transform: rotate(0.3deg); }
+    .module-nav-tag {
+      display: inline-block; padding: 3px 12px; border-radius: 4px;
+      font-size: 13px; font-weight: 600; margin-bottom: 10px;
+    }
+    .prev .module-nav-tag { background: var(--bg-elev); color: var(--ink-muted); }
+    .next .module-nav-tag { background: var(--purple-bg); color: var(--purple); }
+    .module-nav-link {
+      color: var(--green); text-decoration: none;
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 18px; display: inline-block; margin-top: 8px; transition: transform 0.2s;
+    }
+    .module-nav-link:hover { transform: translateX(4px); }
+  </style>
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Module 1.3 Overview</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="canvas" style="max-width:860px;">
+
+    <div class="module-hero">
+      <div class="module-tag">Course 1: Discover · Module 3</div>
+      <h1 class="module-title">AI 行业图景<br/>+ 模型横评</h1>
+      <p class="module-sub">从 3 层堆栈看清行业全貌, 用 6 维度横评选出最适合 Vitamin 的模型. 国内 vs 国际, 开源 vs 闭源, 一次搞清.</p>
+      <div class="data-note">数据截至 2026 年 4 月 · 模型信息更新极快, 请配合最新官网验证</div>
+
+      <div class="module-stats">
+        <div class="module-stat"><span class="module-stat-num">8</span><span class="module-stat-label">单元</span></div>
+        <div class="module-stat"><span class="module-stat-num">~80</span><span class="module-stat-label">分钟阅读</span></div>
+        <div class="module-stat"><span class="module-stat-num">8</span><span class="module-stat-label">互动小工具</span></div>
+      </div>
+    </div>
+
+    <div class="units-grid">
+      <a href="./u1-three-layers/index.html" class="unit-card">
+        <div class="unit-card-num">1</div>
+        <h2 class="unit-card-title">AI 公司 3 层堆栈</h2>
+        <p class="unit-card-desc">基础设施层 → 模型层 → 应用层. 你在哪一层, 要和哪一层打交道.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+      <a href="./u2-open-vs-closed/index.html" class="unit-card">
+        <div class="unit-card-num">2</div>
+        <h2 class="unit-card-title">闭源模型 vs 开源模型</h2>
+        <p class="unit-card-desc">GPT/Claude 闭源 vs Llama/Qwen/DeepSeek 开源. 省钱但要自己部署.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+      <a href="./u3-china-models/index.html" class="unit-card">
+        <div class="unit-card-num">3</div>
+        <h2 class="unit-card-title">国内主流模型现状 (2026)</h2>
+        <p class="unit-card-desc">DeepSeek V4、Qwen3.6、Kimi K2.6、GLM-5、Doubao-Seed-2.0. 各家擅长什么.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+      <a href="./u4-selection-dimensions/index.html" class="unit-card">
+        <div class="unit-card-num">4</div>
+        <h2 class="unit-card-title">模型选型 6 维度</h2>
+        <p class="unit-card-desc">成本 / 中文能力 / 上下文长度 / 速度 / 多模态 / 推理深度. 哪个对 Vitamin 最重要.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+      <a href="./u5-pricing/index.html" class="unit-card">
+        <div class="unit-card-num">5</div>
+        <h2 class="unit-card-title">价格对比实战</h2>
+        <p class="unit-card-desc">DeepSeek V4 Flash vs GPT-5.5: 36x cheaper. 一笔账算下来差几十倍.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+      <a href="./u6-china-vs-global/index.html" class="unit-card">
+        <div class="unit-card-num">6</div>
+        <h2 class="unit-card-title">国产 vs 国际模型决策树</h2>
+        <p class="unit-card-desc">中文场景、合规要求、出海需求 3 条决策路径.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+      <a href="./u7-research-methods/index.html" class="unit-card">
+        <div class="unit-card-num">7</div>
+        <h2 class="unit-card-title">调研模型的方法论</h2>
+        <p class="unit-card-desc">Chatbot Arena / SuperCLUE / HuggingFace 榜单. 每个榜单看什么.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+      <a href="./u8-vitamin-evaluation/index.html" class="unit-card">
+        <div class="unit-card-num">8</div>
+        <h2 class="unit-card-title">Vitamin 5 模型横评</h2>
+        <p class="unit-card-desc">选 5 个候选, 按 6 维度横评, 产出选型理由. 课程最终实操.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="module-complete">
+      <h2 class="module-complete-title">学完这 8 个单元, 你能做到:</h2>
+      <p class="module-complete-desc">
+        画出 AI 行业 3 层堆栈 · 区分开源/闭源优劣 · 说清国内 5 大模型各自擅长什么 ·<br/>
+        用 6 维度框架评估任何模型 · 算清不同模型的成本差异 ·<br/>
+        产出 Vitamin《模型选型报告》
+      </p>
+    </div>
+
+    <div class="module-nav prev">
+      <div class="module-nav-tag">上一个模块: Module 1.2</div>
+      <h3 style="margin:8px 0;">AI 能力边界 + 用例识别</h3>
+      <p style="font-size:15px;color:var(--ink-soft);">Task Analysis 框架、AI vs 规则决策树 — 这些是选模型之前的必要判断.</p>
+      <a class="module-nav-link" href="../c1-m2-boundary/index.html">← 回到 Module 1.2</a>
+    </div>
+
+    <div class="module-nav next">
+      <div class="module-nav-tag">下一个模块: Module 1.4</div>
+      <h3 style="margin:8px 0;">AI 用例识别 + 机会评估</h3>
+      <p style="font-size:15px;color:var(--ink-soft);">选完模型, 接下来要决定: <strong>先做哪个 AI 功能? ROI 怎么算? Build vs Buy?</strong></p>
+      <a class="module-nav-link" href="../c1-m4-usecase/index.html" style="color:var(--green);text-decoration:none;font-family:'Excalifont','LXGW WenKai Screen',system-ui,sans-serif;font-size:18px;display:inline-block;margin-top:8px;">进入 Module 1.4 →</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 1: Discover · Module 1.3 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../shared/rough.min.js"></script>
+  <script src="../shared/app.js"></script>
+</body>
+</html>

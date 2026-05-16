@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · 传统 PRD vs AI PRD — AI for PM · M2.1</title>
+  <meta name="description" content="AI PM 课 · M2.1 Unit 1: 传统 PRD 描述确定性, AI PRD 必须拥抱不确定性. 看看多出来的 4 个模块." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M2.1</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · 传统 vs AI PRD</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">&#9654;</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">&#9632;</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 1<span class="title-dot">&middot;</span><br/>你的 PRD, 描述不了 AI 功能</h1>
+      <p class="hero-sub">传统 PRD 写 "点击 → 发生什么". AI 功能呢? "输入问题 → 可能对也可能错"? 这怎么写进需求文档?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/>
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 正在写 AI 产品 PRD)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">老板让我给 Vitamin 的 AI 健康总结功能写 PRD...</p>
+          <p class="cloud-line">传统 PRD 我会写, 但 AI 功能有啥不一样?</p>
+          <p class="cloud-line">AI 输出不确定, 验收标准怎么定?</p>
+          <p class="cloud-line accent">—— 今天搞清楚.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>说清楚传统 PRD 和 AI PRD 的本质差异</li>
+          <li>知道 AI PRD 比传统 PRD 多出来的 4 个模块</li>
+          <li>理解 "确定性思维" vs "概率性思维" 的区别</li>
+          <li>给 Vitamin 的 AI 功能画出 PRD 骨架</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">先回忆: 传统 PRD 长什么样?</h2>
+      <p class="step-lede">你一定写过, 或者至少见过这样的 PRD:</p>
+
+      <div class="callout callout-blue">
+        <div class="callout-head">传统 PRD 示例: "搜索功能"</div>
+        <p><strong>功能描述:</strong> 用户在搜索框输入关键词, 点击搜索按钮, 系统返回匹配的文章列表.</p>
+        <p><strong>交互流程:</strong> 输入框获焦 → 输入文字 → 点击搜索 → 展示结果列表 → 点击结果进入详情.</p>
+        <p><strong>验收标准:</strong> 搜索响应时间 &lt; 500ms; 结果按相关度排序; 无结果时显示 "暂无结果".</p>
+      </div>
+
+      <p class="step-lede">注意一个关键特征: <mark class="hl">同样的输入, 永远产生同样的输出.</mark> 搜索 "跑步", 今天和明天的结果是一样的 (数据没变的话).</p>
+      <p class="step-lede">这叫 <strong>确定性系统</strong>. 传统软件几乎都是确定性的.</p>
+      <div class="step-foot">但 AI 功能不是这样的 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">AI 功能的 PRD, 传统方法写不了</h2>
+
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">&cross;</div>
+          <h3>错觉: "AI 功能也是输入→输出, 一样写就行"</h3>
+          <p>功能描述: 用户输入健康问题, AI 返回建议.</p>
+          <div class="wrong-why"><strong>为啥不行:</strong> "AI 返回建议" 是什么建议? 每次一样吗? 错了怎么办? 多长合适? 这些全没说.</div>
+        </article>
+        <article class="wrong">
+          <div class="wrong-mark">&cross;</div>
+          <h3>错觉: "验收标准就是 AI 答对就行"</h3>
+          <p>验收标准: AI 回答正确.</p>
+          <div class="wrong-why"><strong>为啥不行:</strong> "正确" 怎么定义? 谁来判断? 正确率目标是多少? 99% 还是 80%? 不同场景不一样.</div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">AI 产品是<mark class="hl">概率性系统</mark>:</p>
+        <p class="truth-line giant">同样的输入, 可能产生不同的输出.</p>
+        <p class="truth-line">而且输出可能是错的. 你作为 PM, 必须在 PRD 里写清楚: 什么算 "够好", 错了怎么办.</p>
+        <p class="truth-line muted">&rarr; 传统 PRD 不需要回答这些问题, 因为传统软件不会 "答错".</p>
+      </div>
+      <div class="step-foot">那传统 PRD 的核心结构是什么? 先拆清楚 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">传统 PRD 的 3 大支柱</h2>
+      <p class="step-lede">任何传统 PRD, 不管格式怎么变, 核心就 3 块:</p>
+
+      <div class="pillar-cards">
+        <div class="pillar-card">
+          <div class="pillar-icon">&#128196;</div>
+          <h4>功能描述</h4>
+          <p>用户做什么, 系统做什么. 用文字 + 流程图描述确定性行为.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">&#128260;</div>
+          <h4>交互流程</h4>
+          <p>每一步的 UI 状态: 点击哪里 → 弹出什么 → 跳转到哪.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon">&#9989;</div>
+          <h4>验收标准</h4>
+          <p>怎么算 "做完了": 响应时间、边界条件、异常处理.</p>
+        </div>
+      </div>
+
+      <p class="step-lede">这 3 块围绕一个核心假设: <mark class="hl">"人操作 → 系统确定性响应"</mark>. 链条是闭合的, 每个环节都可预测.</p>
+
+      <div class="callout callout-amber">
+        <p>比如你写 "用户点击收藏按钮 → 按钮变为已收藏状态 → 收藏列表 +1". 这里没有任何 "可能", 没有 "大概率", 没有 "如果 AI 理解错了". 一切都是确定的.</p>
+      </div>
+      <div class="step-foot">AI PRD 保留这 3 块, 但还要加上新的模块 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">AI PRD 多出来的 4 个模块</h2>
+      <p class="step-lede">传统 PRD 的 3 大支柱不够用了. AI PRD 在此基础上, 需要 <strong>额外写清楚</strong> 4 件事:</p>
+
+      <div class="four-modules">
+        <div class="module-card">
+          <div class="module-card-tag">模块 1</div>
+          <h4>模型 IO 描述</h4>
+          <p>什么数据进去 (Input Schema), 什么数据出来 (Output Schema). 给算法工程师的 "合同".</p>
+        </div>
+        <div class="module-card">
+          <div class="module-card-tag">模块 2</div>
+          <h4>效果指标定义</h4>
+          <p>准确率、接受率、拒答率、延迟. 每个指标的 "及格线" 是多少.</p>
+        </div>
+        <div class="module-card">
+          <div class="module-card-tag">模块 3</div>
+          <h4>错误兜底机制</h4>
+          <p>AI 答错了怎么办? 重试 / 切模型 / 切规则 / 转人工 / 拒答. 5 级兜底链.</p>
+        </div>
+        <div class="module-card">
+          <div class="module-card-tag">模块 4</div>
+          <h4>Prompt 模板管理</h4>
+          <p>Prompt 是产品资产. 版本号、变更日志、A/B 实验、灰度发布.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>一句话记:</strong> 传统 PRD = 功能 + 交互 + 验收. AI PRD = 功能 + 交互 + 验收 + <mark class="hl">IO + 指标 + 兜底 + Prompt</mark>.</p>
+        <p class="muted">后面的 Unit 2-5 会一个一个拆解这 4 个模块.</p>
+      </div>
+      <div class="step-foot">为什么要多这 4 个? 核心是思维方式变了 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">从 "确定性思维" 到 "概率性思维"</h2>
+      <p class="step-lede">传统 PM 的思维是 if/else 逻辑. AI PM 的思维是概率分布 + 阈值.</p>
+
+      <div class="mindset-shift">
+        <div class="mindset-box old">
+          <h4 style="color:var(--blue);">传统思维</h4>
+          <p style="font-size:14px;color:var(--ink-soft);">确定性: if → then</p>
+          <code class="mindset-code">if (用户点击收藏) {
+  item.saved = true;
+  showToast("已收藏");
+}</code>
+        </div>
+        <span class="mindset-arrow">→</span>
+        <div class="mindset-box new">
+          <h4 style="color:var(--green);">AI 思维</h4>
+          <p style="font-size:14px;color:var(--ink-soft);">概率性: predict → verify → fallback</p>
+          <code class="mindset-code">result = model.predict(input);
+if (result.confidence >= 0.85) {
+  show(result);
+} else {
+  fallback(); // 兜底
+}</code>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>关键区别:</strong> 传统软件没有 <code>confidence</code> (置信度) 这个概念. AI 系统的每个输出都带着一个 "我有多确定" 的分数. 这个分数决定了: 直接展示, 还是走兜底.</p>
+      </div>
+      <div class="step-foot">具体到 PRD 结构上, 差异有多大? ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">结构对比: 传统 PRD vs AI PRD</h2>
+      <p class="step-lede">放在一起看, 差异一目了然:</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th class="col-aspect">PRD 章节</th>
+            <th class="col-trad">传统 PRD</th>
+            <th class="col-ai">AI PRD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-aspect">需求背景</td>
+            <td class="col-trad">&#10004; 用户痛点 + 目标</td>
+            <td class="col-ai">&#10004; 相同, 但要说明为什么用 AI 而不是规则</td>
+          </tr>
+          <tr>
+            <td class="col-aspect">功能描述</td>
+            <td class="col-trad">&#10004; 确定性流程</td>
+            <td class="col-ai">&#10004; 概率性流程 + 置信度分支</td>
+          </tr>
+          <tr>
+            <td class="col-aspect">交互设计</td>
+            <td class="col-trad">&#10004; 每步 UI 状态</td>
+            <td class="col-ai">&#10004; 加载态 + 不确定态 + 兜底态</td>
+          </tr>
+          <tr>
+            <td class="col-aspect">模型 IO</td>
+            <td class="col-trad">&#10006; 不需要</td>
+            <td class="col-ai"><strong style="color:var(--green);">&#10004; NEW</strong> Input/Output Schema</td>
+          </tr>
+          <tr>
+            <td class="col-aspect">效果指标</td>
+            <td class="col-trad">&#10006; 只有性能指标</td>
+            <td class="col-ai"><strong style="color:var(--green);">&#10004; NEW</strong> 准确率/接受率/延迟</td>
+          </tr>
+          <tr>
+            <td class="col-aspect">错误兜底</td>
+            <td class="col-trad">&#10006; 只有异常处理</td>
+            <td class="col-ai"><strong style="color:var(--green);">&#10004; NEW</strong> 5 级兜底链</td>
+          </tr>
+          <tr>
+            <td class="col-aspect">Prompt 管理</td>
+            <td class="col-trad">&#10006; 不存在</td>
+            <td class="col-ai"><strong style="color:var(--green);">&#10004; NEW</strong> 版本/A/B/灰度</td>
+          </tr>
+          <tr>
+            <td class="col-aspect">成本预算</td>
+            <td class="col-trad">&#10006; 服务器固定成本</td>
+            <td class="col-ai"><strong style="color:var(--green);">&#10004; NEW</strong> token × 单价 × 频率</td>
+          </tr>
+          <tr>
+            <td class="col-aspect">数据隐私</td>
+            <td class="col-trad">&#9644; 简单合规声明</td>
+            <td class="col-ai"><strong style="color:var(--green);">&#10004; 升级</strong> 数据来源/保留/访问权限</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-green">
+        <p>绿色标注的部分就是 AI PRD 独有的. 这 6 个 "新增/升级" 项, 就是接下来 Unit 2 - Unit 7 要一个一个教你写的内容.</p>
+      </div>
+      <div class="step-foot">没有这些模块会怎样? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">不写这些模块, 会出什么事?</h2>
+      <p class="step-lede">这不是 "锦上添花", 是 "没有会出事":</p>
+
+      <div class="callout callout-red">
+        <p><strong>场景 1: 没写 IO Schema</strong><br/>算法工程师问你: "这个接口的输入是 JSON 还是纯文本? 需要传用户历史吗?" 你答不上来. 返工 3 天.</p>
+      </div>
+      <div class="callout callout-red" style="transform:rotate(0.3deg);">
+        <p><strong>场景 2: 没写效果指标</strong><br/>上线后老板问: "AI 回答准不准?" 你说 "挺准的". 老板问 "多准? 有数据吗?" 你答不上来.</p>
+      </div>
+      <div class="callout callout-red" style="transform:rotate(-0.4deg);">
+        <p><strong>场景 3: 没写兜底机制</strong><br/>AI 给用户推荐了一个有潜在危险的健康建议. 没有兜底, 直接展示给用户了. 投诉 + 法律风险.</p>
+      </div>
+      <div class="callout callout-red" style="transform:rotate(0.2deg);">
+        <p><strong>场景 4: 没写成本预算</strong><br/>上线一个月, 财务找你: "这个 AI 功能烧了 12 万 API 费用, 预算只有 3 万." 功能被砍.</p>
+      </div>
+
+      <p class="step-lede">这些场景不是假设, 是真实发生在 AI 产品团队里的 "血泪故事". <mark class="hl">AI PRD 的新增模块, 每一个都是一个 "防坑栏".</mark></p>
+      <div class="step-foot">来亲手对比看看 ↓</div>
+    </section>
+
+    <!-- (8) Interactive widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">亲手对比: 传统 PRD vs AI PRD 骨架</h2>
+      <p class="step-lede">切换两个标签, 看看同一个功能的 PRD, 传统版和 AI 版有什么不同:</p>
+
+      <div class="compare-controls">
+        <button id="diff-toggle" class="btn btn-ghost">并排对比模式</button>
+      </div>
+
+      <div class="prd-compare" id="prd-compare">
+        <div class="prd-compare-tabs">
+          <button class="prd-tab active" data-tab="traditional">传统 PRD</button>
+          <button class="prd-tab" data-tab="ai">AI PRD</button>
+        </div>
+        <div class="prd-panels">
+          <!-- Traditional PRD -->
+          <div class="prd-panel active" data-panel="traditional">
+            <div class="prd-panel-title" style="color:var(--blue);">传统 PRD: Vitamin 每日健康总结</div>
+            <div class="prd-section shared">
+              <p class="section-title">1. 需求背景</p>
+              <p class="section-desc">用户希望每天看到自己的健康数据总结, 了解当日状态.</p>
+            </div>
+            <div class="prd-section shared">
+              <p class="section-title">2. 功能描述</p>
+              <p class="section-desc">系统根据用户当日记录的数据, 生成一段健康总结文字, 展示在首页卡片.</p>
+            </div>
+            <div class="prd-section shared">
+              <p class="section-title">3. 交互流程</p>
+              <p class="section-desc">用户打开首页 → 看到总结卡片 → 点击展开详情 → 可分享.</p>
+            </div>
+            <div class="prd-section shared">
+              <p class="section-title">4. 验收标准</p>
+              <p class="section-desc">页面加载 < 1s; 总结字数 50-150 字; 无数据时显示引导.</p>
+            </div>
+            <p style="color:var(--ink-muted);font-size:13px;text-align:center;margin-top:12px;">(共 4 个章节 — 传统 PRD 就够了)</p>
+          </div>
+
+          <!-- AI PRD -->
+          <div class="prd-panel" data-panel="ai">
+            <div class="prd-panel-title" style="color:var(--green);">AI PRD: Vitamin 每日健康总结</div>
+            <div class="prd-section shared">
+              <p class="section-title">1. 需求背景</p>
+              <p class="section-desc">用户希望每天看到 AI 生成的个性化健康总结. 选择 AI 而非模板, 因为每个人的数据组合不同.</p>
+            </div>
+            <div class="prd-section shared">
+              <p class="section-title">2. 功能描述</p>
+              <p class="section-desc">LLM 根据用户当日数据 + 历史趋势, 生成个性化总结. 置信度 &lt; 0.85 时走兜底.</p>
+            </div>
+            <div class="prd-section shared">
+              <p class="section-title">3. 交互流程</p>
+              <p class="section-desc">加载态(骨架屏) → AI 生成完成 → 展示总结 → 用户可点"不准确"反馈.</p>
+            </div>
+            <div class="prd-section shared">
+              <p class="section-title">4. 验收标准</p>
+              <p class="section-desc">端到端延迟 < 3s; 总结字数 80-200 字; 用户满意度 > 4.0/5.</p>
+            </div>
+            <div class="prd-section ai-new">
+              <p class="section-title">5. 模型 IO Schema</p>
+              <p class="section-desc">Input: {user_id, date, metrics[], history_days:7}. Output: {summary_text, confidence, tags[]}.</p>
+            </div>
+            <div class="prd-section ai-new">
+              <p class="section-title">6. 效果指标</p>
+              <p class="section-desc">准确率 > 90%; 接受率 > 85%; 拒答率 < 5%; P95 延迟 < 3s.</p>
+            </div>
+            <div class="prd-section ai-new">
+              <p class="section-title">7. 兜底机制</p>
+              <p class="section-desc">置信度低 → 模板兜底; 超时 → 缓存昨日总结; 异常 → "今日数据不足, 明日再看".</p>
+            </div>
+            <div class="prd-section ai-new">
+              <p class="section-title">8. Prompt 管理</p>
+              <p class="section-desc">Prompt v1.0; 变更需 PM + 算法双签; A/B: 简洁版 vs 详细版.</p>
+            </div>
+            <div class="prd-section ai-new">
+              <p class="section-title">9. 成本预算</p>
+              <p class="section-desc">~500 token/次 × $0.003/1K × 10K DAU = ~$15/天 ≈ $450/月.</p>
+            </div>
+            <div class="prd-section ai-new">
+              <p class="section-title">10. 数据与隐私</p>
+              <p class="section-desc">仅用脱敏后的健康指标; 不传原始文本; 日志保留 30 天; 用户可删除.</p>
+            </div>
+            <p style="color:var(--green);font-size:13px;text-align:center;margin-top:12px;font-weight:600;">(共 10 个章节 — 多了 6 个 AI 专属模块)</p>
+          </div>
+        </div>
+      </div>
+      <div class="step-foot">拿 Vitamin 实际功能来看 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 AI 功能, 传统 PRD 差在哪?</h2>
+      <p class="step-lede">Vitamin 有 5 个状态追踪 + AI 健康建议功能. 如果只用传统 PRD 写, 会漏掉什么:</p>
+
+      <div class="can-cant">
+        <article class="can-list">
+          <h3 class="can-head">&#10003; 传统 PRD 能覆盖的</h3>
+          <ul>
+            <li>记录页的 UI 交互流程</li>
+            <li>数据展示的图表样式</li>
+            <li>设置页的功能列表</li>
+            <li>推送通知的触发逻辑</li>
+            <li>基础异常处理 (断网、空数据)</li>
+          </ul>
+        </article>
+        <article class="cant-list">
+          <h3 class="cant-head">&#10007; 传统 PRD 覆盖不了的</h3>
+          <ul>
+            <li>AI 生成总结的质量标准 (多准算合格?)</li>
+            <li>AI 输出错误时的用户体验</li>
+            <li>模型输入需要传哪些数据字段</li>
+            <li>每月 API 调用成本上限</li>
+            <li>Prompt 变更的审批和回滚流程</li>
+            <li>用户健康数据是否传给第三方模型</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-red">
+        <strong>面试金句:</strong>
+        <p>"传统 PRD 描述确定性系统, AI PRD 描述概率性系统. AI PRD 比传统 PRD 多出 4 大模块: IO Schema、效果指标、兜底机制、Prompt 管理. 另外还要加成本预算栏和数据隐私栏. 这是因为 AI 产品的输出有不确定性, PM 需要在 PRD 里定义 '什么算够好' 和 '不够好时怎么办'."</p>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 课后作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">写 AI PRD 时, 永远多问一个问题:<br/>"如果 AI 答错了, 怎么办?"</p>
+        <p class="one-liner-foot muted">这个问题的答案, 就是传统 PRD 和 AI PRD 的本质差异.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>找一份你之前写过的 PRD (任何产品都行), 标出哪些部分是 "确定性" 的, 哪些地方如果换成 AI 功能就会变成 "概率性" 的.</li>
+          <li>打开 Vitamin 的产品文档, 列出 3 个需要 AI 能力的功能, 给每个功能写一句: "如果 AI 答错了, 兜底方案是___".</li>
+          <li>用上面的对比表, 对照检查 Vitamin 现有的 PRD, 列出缺少的 AI 专属模块.</li>
+          <li>写 100 字总结: 传统 PRD 和 AI PRD 的核心区别是什么? (准备面试用)</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-green" style="transform:rotate(0.3deg);">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>内容</th><th>来源</th><th>推荐理由</th><th>时长</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>&#128196;</td>
+              <td><a href="https://ainna.ai/resources/faq/ai-prd-guide-faq" target="_blank">AI PRD Guide: From Deterministic to Probabilistic</a></td>
+              <td>Ainna</td>
+              <td>讲清楚了确定性→概率性的转变</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>&#128196;</td>
+              <td><a href="https://www.productcompass.pm/p/ai-prd-template" target="_blank">A Proven AI PRD Template</a></td>
+              <td>Product Compass (OpenAI PM)</td>
+              <td>OpenAI 产品经理写的 AI PRD 模板</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>&#128196;</td>
+              <td><a href="https://www.news.aakashg.com/p/ai-prd" target="_blank">How to Write PRDs in the AI Era</a></td>
+              <td>Aakash Gupta</td>
+              <td>AI 时代 PRD 写法的全面指南</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>&#128196;</td>
+              <td><a href="https://zhuanlan.zhihu.com/p/715440917" target="_blank">PRD 需求文档模板及规范 (中文)</a></td>
+              <td>知乎</td>
+              <td>中文视角的 PRD 模板参考</td>
+              <td>10 min</td>
+            </tr>
+            <tr>
+              <td>&#128736;</td>
+              <td><a href="https://www.chatprd.ai/" target="_blank">ChatPRD</a></td>
+              <td>ChatPRD</td>
+              <td>AI 辅助写 PRD 的工具, 可以试用</td>
+              <td>5 min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 传统 PRD 长什么样</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> AI 功能写不进传统 PRD</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 传统 PRD 的 3 大支柱</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> AI PRD 多出来的 4 个模块</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 确定性 vs 概率性思维</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 结构对比表</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 不写会出什么事</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 亲手对比 PRD 骨架</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 传统 PRD 的缺失</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">传统 PRD 写确定性, AI PRD 拥抱不确定性 —<br/>多了 IO / 指标 / 兜底 / Prompt 四大模块.</p>
+        <p class="end-summary-sub">每写一个 AI 功能的 PRD, 都要问: "如果 AI 答错了, 怎么办?"</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 2): 模型 IO 描述</div>
+        <p>知道了 AI PRD 需要多写什么, 下一步从最基础的开始: <strong>Input Schema + Output Schema</strong>.<br/>
+        什么数据进去, 什么数据出来, 用什么格式. 这是给算法工程师的 "合同".</p>
+        <a class="walk-arrow" href="../u2-io-schema/index.html">继续走 &rarr; Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 2.1 · Unit 1 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

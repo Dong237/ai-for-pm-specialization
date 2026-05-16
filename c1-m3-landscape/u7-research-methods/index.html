@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · 调研模型的方法论 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 7: 4 大权威排行榜 + 交叉验证法, 不靠营销文选模型." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M1.3</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 7 · 调研模型的方法论</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">·</span><br/>调研模型的方法论</h1>
+      <p class="hero-sub">50 篇文章推荐 50 个 "最好的模型" — 到底该信谁?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM · 被排行榜搞晕了)</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">我搜了 "2026 最好的大模型", 第一篇说 GPT-5.5, 第二篇说 Claude Opus...</p>
+          <p class="cloud-line">每篇文章都在推不同的模型, 有些还是广告...</p>
+          <p class="cloud-line accent">—— 有没有一套靠谱的调研方法?</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道 4 个权威模型排行榜, 以及每个榜单的看法</li>
+          <li>学会 "交叉验证法" — 多个榜单共同认可的才算真强</li>
+          <li>能用一个 Benchmark Explorer 工具快速横扫 4 大榜单</li>
+          <li>给 Vitamin 列出模型调研 checklist</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">搜 "最好的 AI 模型" — 为什么越搜越迷</h2>
+      <p class="step-lede">你打开搜索引擎, 输入 "2026 年最好的大模型" 或 "best LLM 2026":</p>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1" data-rough="card">
+          <div class="wonder-tag">文章 1</div>
+          <h3>"GPT-5.5 碾压所有对手"</h3>
+          <div class="wonder-note">来源: 科技博客, 标题党. 只看了一个 benchmark, 还是 OpenAI 赞助的.</div>
+        </article>
+        <article class="wonder wonder-2" data-rough="card">
+          <div class="wonder-tag">文章 2</div>
+          <h3>"DeepSeek V4 才是最佳性价比之王"</h3>
+          <div class="wonder-note">来源: 知乎. 只比了价格, 没提质量. 作者是 DeepSeek 社区成员.</div>
+        </article>
+        <article class="wonder wonder-3" data-rough="card">
+          <div class="wonder-tag">文章 3</div>
+          <h3>"Claude 霸榜全球第一"</h3>
+          <div class="wonder-note">来源: Twitter. 只看了 Chatbot Arena 一个榜单, 没说它在某些指标上不是第一.</div>
+        </article>
+      </div>
+
+      <p>问题出在哪?</p>
+      <div class="callout callout-red" data-rough="card">
+        <p class="callout-head">3 个陷阱:</p>
+        <ul>
+          <li><strong>单一来源偏见</strong> — 每篇文章只看了一个维度</li>
+          <li><strong>利益相关</strong> — 厂商赞助 / 社区成员 / 广告</li>
+          <li><strong>时效性</strong> — AI 行业变化极快, 3 个月前的结论可能已过时</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">那到底该看什么? ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">别看营销文, 看独立第三方排行榜</h2>
+      <p class="step-lede">错误做法 vs 正确做法:</p>
+
+      <div class="two-wrong">
+        <div class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>"看厂商自己的 benchmark"</h3>
+          <p>每家模型公司发布时都会挑自己最强的 benchmark 来吹.</p>
+          <div class="wrong-why">OpenAI 说自己 GPQA Diamond 最高, Anthropic 说自己 Coding 最强, Google 说自己长文本最好 — 都对, 但都只说了一面.</div>
+        </div>
+        <div class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>"看科技博客推荐"</h3>
+          <p>博客追热点, 不做系统测评, 还可能有广告利益.</p>
+          <div class="wrong-why">很多 "2026 年最佳 AI 模型" 文章, 只是换了日期重发了去年的内容, 甚至推荐已经 deprecated 的模型.</div>
+        </div>
+      </div>
+
+      <div class="truth-bubble" data-rough="big">
+        <div class="truth-tag">正确做法</div>
+        <p class="truth-line big">看<mark class="hl">独立第三方排行榜</mark>, 而且<mark class="hl">看多个</mark>.</p>
+        <p class="truth-line giant">4 个榜单 × 交叉验证<br/>= 真正的调研方法论</p>
+        <p class="truth-line muted">接下来, 一个一个带你看这 4 个权威来源.</p>
+      </div>
+
+      <div class="step-foot">第一个: Chatbot Arena ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">榜单 1: Chatbot Arena (lmarena.ai)</h2>
+      <p class="step-lede">全球最权威的 AI 模型用户盲测排行榜.</p>
+
+      <div class="source-card" data-rough="card">
+        <div class="source-header">
+          <div class="source-icon">🏟️</div>
+          <div>
+            <h3>Chatbot Arena</h3>
+            <a href="https://lmarena.ai" target="_blank" rel="noopener" class="source-url">lmarena.ai</a>
+          </div>
+        </div>
+        <div class="source-body">
+          <div class="source-stat-row">
+            <div class="source-stat"><span class="source-stat-num">6M+</span><span class="source-stat-label">投票数</span></div>
+            <div class="source-stat"><span class="source-stat-num">354</span><span class="source-stat-label">参评模型</span></div>
+            <div class="source-stat"><span class="source-stat-num">Elo</span><span class="source-stat-label">排名机制</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">它怎么工作?</p>
+        <ol>
+          <li>用户输入一个问题</li>
+          <li>系统随机分配两个匿名模型 (用户不知道是哪个)</li>
+          <li>用户看两个回答, 选 "哪个更好"</li>
+          <li>用国际象棋的 <strong>Elo 评分</strong>系统计算排名 — 赢了强对手加分多, 输给弱对手扣分多</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p class="callout-head">截至 2026 年 4 月 · Top 4:</p>
+        <table class="data-table">
+          <thead><tr><th>#</th><th>模型</th><th>Elo</th><th>公司</th></tr></thead>
+          <tbody>
+            <tr class="row-highlight"><td>1</td><td>Claude Opus 4.6 Thinking</td><td>1504</td><td>Anthropic</td></tr>
+            <tr><td>2</td><td>Gemini 3.1 Pro Preview</td><td>1493</td><td>Google</td></tr>
+            <tr><td>3</td><td>Grok 4.20 Beta</td><td>1491</td><td>xAI</td></tr>
+            <tr><td>4</td><td>GPT-5.4 High</td><td>1484</td><td>OpenAI</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="margin-top:8px;">Coding 子榜: Anthropic 包揽前 5 (Opus 4.7 / 4.6 + Sonnet 4.6)</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <p class="callout-head">PM 看这个榜单该注意:</p>
+        <ul>
+          <li><strong>它测的是 "人类偏好"</strong>, 不是客观正确率. 用户偏好 ≠ 事实准确</li>
+          <li>有<strong>子榜单</strong>: Coding / 长文本 / 视觉 / 中文 — 看你的场景在哪个子榜</li>
+          <li>Elo 差 10 分以内基本<strong>没有显著差异</strong> — 不要纠结第 2 和第 3 名</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">第二个: 中文专用榜单 SuperCLUE ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">榜单 2: SuperCLUE (superclueai.com)</h2>
+      <p class="step-lede">做中文产品? 这个榜单你必须看.</p>
+
+      <div class="source-card" data-rough="card">
+        <div class="source-header">
+          <div class="source-icon">🇨🇳</div>
+          <div>
+            <h3>SuperCLUE</h3>
+            <a href="https://www.superclueai.com" target="_blank" rel="noopener" class="source-url">superclueai.com</a>
+          </div>
+        </div>
+        <div class="source-body">
+          <p>中文通用大模型综合性测评基准, 包括 OPEN 多轮开放式 + OPT 客观题 + 琅琊榜匿名对战. 按月更新.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">它和 Chatbot Arena 有什么不同?</p>
+        <ul>
+          <li><strong>全中文测试</strong> — Arena 以英文为主, 中文表现可能被平均掉</li>
+          <li><strong>12 项基础能力</strong> — 语言理解、专业技能、Agent 智能体、安全性</li>
+          <li><strong>分开评闭源和开源</strong> — 更公平, 开源模型不用跟 GPT-5.5 比</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p class="callout-head">截至 2026 年 3 月 · 中文 Top:</p>
+        <div class="two-col-rank">
+          <div>
+            <strong>闭源 Top 4:</strong>
+            <ol>
+              <li>Claude Opus 4.6</li>
+              <li>Gemini 3.1 Pro</li>
+              <li>GPT-5.4</li>
+              <li>Doubao-Seed-2.0</li>
+            </ol>
+          </div>
+          <div>
+            <strong>开源 Top 4:</strong>
+            <ol>
+              <li>Kimi K2.5-Thinking</li>
+              <li>Qwen3-Max</li>
+              <li>DeepSeek</li>
+              <li>GLM</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <p class="callout-head">PM 看这个榜单该注意:</p>
+        <ul>
+          <li>Vitamin 是中文健康 app → SuperCLUE 排名比 Arena 更相关</li>
+          <li>注意 <strong>VLM 子榜</strong> (视觉语言模型) — 如果 Vitamin 要做图片识别</li>
+          <li>国产模型在中文榜上通常比全球榜排名更高 — 这是真实优势, 不是作弊</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">第三个: 开源模型专用榜 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">榜单 3: HuggingFace Open LLM Leaderboard</h2>
+      <p class="step-lede">如果你在考虑开源模型 (省钱 / 私有化部署), 这是必看的.</p>
+
+      <div class="source-card" data-rough="card">
+        <div class="source-header">
+          <div class="source-icon">🤗</div>
+          <div>
+            <h3>HuggingFace Open LLM Leaderboard</h3>
+            <a href="https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard" target="_blank" rel="noopener" class="source-url">huggingface.co/open-llm-leaderboard</a>
+          </div>
+        </div>
+        <div class="source-body">
+          <p>只评测<strong>开源模型</strong>. 用学术 benchmark (MMLU, ARC, HellaSwag, GSM8K 等) 打分. 可复现, 数据透明.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">它的优势:</p>
+        <ul>
+          <li><strong>只看开源</strong> — 闭源模型都不参加, 所以不会被 GPT/Claude 的分数 "压" 掉</li>
+          <li><strong>按模型大小分类</strong> — 1B / 7B / 13B / 70B+ 各有排名, 你可以找适合你硬件的</li>
+          <li><strong>可复现</strong> — 所有评测代码开放, 你可以自己跑一遍验证</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p class="callout-head">截至 2026 年 4 月 · 开源模型亮点:</p>
+        <ul>
+          <li>DeepSeek V4 (MIT license) — 1.6T params, 49B active, 在华为 Ascend 上训练</li>
+          <li>Kimi K2.6 — 80.2% SWE-Bench, 开源编程冠军</li>
+          <li>Qwen3.6-27B — 阿里开源, Top 6 coding benchmarks</li>
+          <li>GLM-5 (MIT license) — 744B total, 40B active, 智谱旗舰</li>
+          <li>Llama 4 Maverick — Meta, 400B total, 17B active, 1M context</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <p class="callout-head">PM 看这个榜单该注意:</p>
+        <ul>
+          <li>如果 Vitamin 需要<strong>私有化部署</strong> (数据合规), 看这个榜选模型</li>
+          <li>开源 ≠ 免费 — 还需要 GPU 算力成本 (机器钱)</li>
+          <li>有些开源模型是 "开源可商用" (MIT/Apache), 有些只是 "可以看代码" — <strong>看 License!</strong></li>
+        </ul>
+      </div>
+
+      <div class="step-foot">第四个: 综合比较神器 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">榜单 4: Artificial Analysis (artificialanalysis.ai)</h2>
+      <p class="step-lede">前三个看 "谁最强". 这个看 "综合性价比".</p>
+
+      <div class="source-card" data-rough="card">
+        <div class="source-header">
+          <div class="source-icon">📊</div>
+          <div>
+            <h3>Artificial Analysis</h3>
+            <a href="https://artificialanalysis.ai" target="_blank" rel="noopener" class="source-url">artificialanalysis.ai</a>
+          </div>
+        </div>
+        <div class="source-body">
+          <p>同时比较<strong>质量 + 速度 + 价格</strong>. Intelligence Index v4.0 融合 10 项评测. 305+ 模型.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">它独特在哪?</p>
+        <ul>
+          <li><strong>不只看谁最聪明</strong> — 还看每秒生成多少 token、延迟多少毫秒、每百万 token 多少钱</li>
+          <li><strong>AA-Omniscience Index</strong> — 知识可靠性指标, 会惩罚幻觉但不惩罚拒答. 专门测 "靠不靠谱"</li>
+          <li><strong>可视化散点图</strong> — X 轴质量, Y 轴价格, 一眼看出谁是性价比最优</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p class="callout-head">截至 2026 年 4 月 · 亮点数据:</p>
+        <ul>
+          <li><strong>最快模型:</strong> Mercury 2 (782 t/s), Granite 4.0 H Small (363 t/s)</li>
+          <li><strong>最便宜:</strong> Qwen3.5 0.8B ($0.02/M tokens)</li>
+          <li><strong>Intelligence Index Top:</strong> GPT-5.5 ≈ Gemini 3.1 Pro (57 分) > Opus 4.6 (53 分)</li>
+          <li><strong>关键发现:</strong> DeepSeek V4 Flash 输入比 GPT-5.5 便宜 36x, 输出便宜 107x</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <p class="callout-head">PM 看这个该注意:</p>
+        <ul>
+          <li>Vitamin 预算有限? 这个榜帮你找<strong>最便宜但不差的</strong></li>
+          <li>注意<strong>速度排名</strong> — 用户等超过 3 秒就会流失</li>
+          <li>Intelligence Index ≠ 用户偏好 — AA 用学术 benchmark, Arena 用人类投票, 结论可能不同</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">4 个榜单都看了, 怎么综合判断? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">交叉验证 — 多个榜单都认可的才是真强</h2>
+      <p class="step-lede">单看任何一个榜单都有偏见. <mark class="hl">关键是交叉验证.</mark></p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">交叉验证三步法:</p>
+        <ol>
+          <li><strong>Step 1: 列出每个榜单的 Top 5</strong></li>
+          <li><strong>Step 2: 看哪些模型出现在 3 个以上榜单</strong> — 这些是 "共识强模型"</li>
+          <li><strong>Step 3: 按你的场景需求筛选</strong> — 中文? 便宜? 快? 开源?</li>
+        </ol>
+      </div>
+
+      <div class="big-insight" data-rough="big">
+        <p>规律:</p>
+        <p class="insight-text">出现在<mark class="hl">多个独立榜单 Top 5</mark> 的模型<br/>= 真的强, 不是炒作.<br/>只在一个榜单亮眼 = 可能只是特定任务强.</p>
+      </div>
+
+      <p>举个例子 (截至 2026 年 4 月):</p>
+      <div class="callout callout-amber" data-rough="card">
+        <ul>
+          <li><strong>Claude Opus 4.6</strong> — Arena #1 + SuperCLUE 闭源 #1 + Coding #1 → 3 个榜单 Top = 真强</li>
+          <li><strong>Gemini 3.1 Pro</strong> — Arena #2 + SuperCLUE #2 + AA Intelligence Index 并列 #1 → 真强</li>
+          <li><strong>DeepSeek V4</strong> — SuperCLUE 开源 Top + AA 性价比王 + HuggingFace Top → 开源之王</li>
+          <li><strong>某模型只在自家博客称第一</strong> → 没在任何独立榜单上出现 = 存疑</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">下面用一个工具, 一次看完 4 个榜单 ↓</div>
+    </section>
+
+    <!-- (8) Widget: Benchmark Explorer -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Benchmark Explorer — 4 大榜单一次看完</h2>
+      <p class="step-lede">切换 Tab, 看每个榜单的 Top 模型. 底部看 <mark class="hl">"共识 Top 5"</mark> — 出现在最多榜单的模型.</p>
+
+      <div class="explorer-widget" data-rough="card">
+        <div class="explorer-tabs" id="explorer-tabs">
+          <button class="explorer-tab active" data-tab="arena">🏟️ Chatbot Arena</button>
+          <button class="explorer-tab" data-tab="superclue">🇨🇳 SuperCLUE</button>
+          <button class="explorer-tab" data-tab="huggingface">🤗 HuggingFace</button>
+          <button class="explorer-tab" data-tab="aa">📊 Artificial Analysis</button>
+        </div>
+
+        <div class="explorer-panel active" id="panel-arena">
+          <div class="panel-title">Chatbot Arena · 人类盲测偏好 (截至 2026 年 4 月)</div>
+          <div class="panel-subtitle">Elo 评分 · 6M+ 投票 · 354 模型</div>
+          <table class="leaderboard-table">
+            <thead><tr><th>#</th><th>模型</th><th>Elo</th><th>公司</th><th>类型</th></tr></thead>
+            <tbody>
+              <tr class="lb-gold"><td>1</td><td>Claude Opus 4.6 Thinking</td><td>1504</td><td>Anthropic</td><td><span class="pill pill-blue">闭源</span></td></tr>
+              <tr class="lb-silver"><td>2</td><td>Gemini 3.1 Pro Preview</td><td>1493</td><td>Google</td><td><span class="pill pill-blue">闭源</span></td></tr>
+              <tr class="lb-bronze"><td>3</td><td>Grok 4.20 Beta</td><td>1491</td><td>xAI</td><td><span class="pill pill-blue">闭源</span></td></tr>
+              <tr><td>4</td><td>GPT-5.4 High</td><td>1484</td><td>OpenAI</td><td><span class="pill pill-blue">闭源</span></td></tr>
+              <tr><td>5</td><td>Qwen3-Max</td><td>1449</td><td>Alibaba</td><td><span class="pill pill-green">开源</span></td></tr>
+              <tr><td>6</td><td>DeepSeek V4</td><td>1424</td><td>DeepSeek</td><td><span class="pill pill-green">开源</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="explorer-panel" id="panel-superclue">
+          <div class="panel-title">SuperCLUE · 中文能力专项 (截至 2026 年 3 月)</div>
+          <div class="panel-subtitle">12 项能力 · 闭源/开源分开评</div>
+          <div class="panel-split">
+            <div>
+              <div class="panel-split-title">闭源 Top</div>
+              <table class="leaderboard-table compact">
+                <tbody>
+                  <tr class="lb-gold"><td>1</td><td>Claude Opus 4.6</td><td>Anthropic</td></tr>
+                  <tr class="lb-silver"><td>2</td><td>Gemini 3.1 Pro</td><td>Google</td></tr>
+                  <tr class="lb-bronze"><td>3</td><td>GPT-5.4</td><td>OpenAI</td></tr>
+                  <tr><td>4</td><td>Doubao-Seed-2.0</td><td>ByteDance</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <div class="panel-split-title">开源 Top</div>
+              <table class="leaderboard-table compact">
+                <tbody>
+                  <tr class="lb-gold"><td>1</td><td>Kimi K2.5-Thinking</td><td>Moonshot</td></tr>
+                  <tr class="lb-silver"><td>2</td><td>Qwen3-Max</td><td>Alibaba</td></tr>
+                  <tr class="lb-bronze"><td>3</td><td>DeepSeek</td><td>DeepSeek</td></tr>
+                  <tr><td>4</td><td>GLM</td><td>Zhipu</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="explorer-panel" id="panel-huggingface">
+          <div class="panel-title">HuggingFace Open LLM Leaderboard (截至 2026 年 4 月)</div>
+          <div class="panel-subtitle">开源模型 · 学术 Benchmark · 可复现</div>
+          <table class="leaderboard-table">
+            <thead><tr><th>#</th><th>模型</th><th>参数量</th><th>License</th></tr></thead>
+            <tbody>
+              <tr class="lb-gold"><td>1</td><td>DeepSeek V4</td><td>1.6T (49B active)</td><td><span class="pill pill-green">MIT</span></td></tr>
+              <tr class="lb-silver"><td>2</td><td>Kimi K2.6</td><td>—</td><td><span class="pill pill-green">开源</span></td></tr>
+              <tr class="lb-bronze"><td>3</td><td>Qwen3.6-27B</td><td>27B</td><td><span class="pill pill-green">开源</span></td></tr>
+              <tr><td>4</td><td>GLM-5</td><td>744B (40B active)</td><td><span class="pill pill-green">MIT</span></td></tr>
+              <tr><td>5</td><td>Llama 4 Maverick</td><td>400B (17B active)</td><td><span class="pill pill-green">开源</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="explorer-panel" id="panel-aa">
+          <div class="panel-title">Artificial Analysis · 质量 + 速度 + 价格 (截至 2026 年 4 月)</div>
+          <div class="panel-subtitle">Intelligence Index v4.0 · 305+ 模型</div>
+          <table class="leaderboard-table">
+            <thead><tr><th>#</th><th>模型</th><th>AA Index</th><th>价格 ($/M tokens)</th><th>速度</th></tr></thead>
+            <tbody>
+              <tr class="lb-gold"><td>1</td><td>GPT-5.5</td><td>—</td><td>$5 / $30</td><td>中</td></tr>
+              <tr class="lb-silver"><td>2</td><td>Gemini 3.1 Pro</td><td>57</td><td>$1.25 / $10</td><td>中</td></tr>
+              <tr class="lb-bronze"><td>3</td><td>Claude Opus 4.7</td><td>—</td><td>$5 / $25</td><td>中</td></tr>
+              <tr><td>4</td><td>DeepSeek V4 Flash</td><td>—</td><td>$0.14 / $0.28</td><td>快</td></tr>
+              <tr><td>5</td><td>Qwen3.5-Plus</td><td>—</td><td>¥0.8 / ¥4.8</td><td>快</td></tr>
+            </tbody>
+          </table>
+          <p class="muted" style="margin-top:8px;">性价比之王: DeepSeek V4 Flash (输入比 GPT-5.5 便宜 36 倍)</p>
+        </div>
+
+        <!-- Consensus section -->
+        <div class="consensus-section" id="consensus-section">
+          <div class="consensus-title">🏆 共识 Top 5 — 出现在最多榜单的模型</div>
+          <div class="consensus-grid" id="consensus-grid">
+            <!-- Built by JS -->
+          </div>
+          <p class="consensus-note">出现在 3+ 个独立榜单 = 真正的综合强者. 只在 1 个榜单上亮眼 = 需要进一步验证.</p>
+        </div>
+      </div>
+
+      <div class="step-foot">回到 Vitamin — 你该怎么用这些榜单? ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 模型调研 Checklist</h2>
+      <p class="step-lede">Vitamin 是中文女性健康 AI app. 用上面的方法论, 给它做一次模型调研:</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">Vitamin 的需求优先级:</p>
+        <ol>
+          <li><strong>中文质量</strong> — 用户说中文, 健康场景不容许中文理解出错</li>
+          <li><strong>成本</strong> — 创业公司, 预算有限</li>
+          <li><strong>速度</strong> — 用户等超过 3 秒就关 app</li>
+          <li><strong>安全/幻觉率</strong> — 健康建议不能编</li>
+        </ol>
+      </div>
+
+      <div class="checklist-card" data-rough="card">
+        <h3 class="checklist-title">Vitamin 模型调研 Checklist</h3>
+        <div class="checklist-items">
+          <div class="checklist-item">
+            <span class="checklist-check">☐</span>
+            <div>
+              <strong>Step 1:</strong> 去 <a href="https://www.superclueai.com" target="_blank" rel="noopener">SuperCLUE</a> 看中文 Top 模型
+              <div class="checklist-why">→ 确认候选模型的中文能力排名</div>
+            </div>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-check">☐</span>
+            <div>
+              <strong>Step 2:</strong> 去 <a href="https://artificialanalysis.ai" target="_blank" rel="noopener">Artificial Analysis</a> 看价格和速度
+              <div class="checklist-why">→ 筛掉太贵或太慢的模型</div>
+            </div>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-check">☐</span>
+            <div>
+              <strong>Step 3:</strong> 去 <a href="https://lmarena.ai" target="_blank" rel="noopener">Chatbot Arena</a> 看总体排名
+              <div class="checklist-why">→ 确认候选模型是否在全球排名上也不差</div>
+            </div>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-check">☐</span>
+            <div>
+              <strong>Step 4:</strong> 如果考虑开源, 去 <a href="https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard" target="_blank" rel="noopener">HuggingFace</a> 看 License 和参数量
+              <div class="checklist-why">→ 确认是否可商用, 需要多大 GPU</div>
+            </div>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-check">☐</span>
+            <div>
+              <strong>Step 5:</strong> 交叉验证 — 列出出现在 3+ 个榜单 Top 的模型
+              <div class="checklist-why">→ 得到 Vitamin 候选短名单 (3-5 个)</div>
+            </div>
+          </div>
+          <div class="checklist-item">
+            <span class="checklist-check">☐</span>
+            <div>
+              <strong>Step 6:</strong> 用真实 Vitamin 场景跑 A/B 测试
+              <div class="checklist-why">→ 榜单是参考, 自己跑一遍才是最终答案</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"我选模型不看营销文, 我看 4 个独立第三方榜单: Arena 看用户偏好, SuperCLUE 看中文能力, HuggingFace 看开源生态, Artificial Analysis 看性价比. 然后交叉验证, 再用自己的场景跑 A/B."</p>
+        <p class="muted">→ 这句话能让面试官知道你是做过功课的, 不是拍脑袋选模型.</p>
+      </div>
+
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">别信单一排行榜,<br/>4 个独立来源 × 交叉验证 = 真正的调研.</p>
+        <p class="one-liner-foot muted">排行榜是起点, 不是终点. 最终还要用自己的场景跑一遍.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://lmarena.ai" target="_blank" rel="noopener">lmarena.ai</a>, 找到 Chatbot Arena 的 Coding 子榜, 截图记录 Top 5 模型. 和总榜 Top 5 有什么不同?</li>
+          <li>打开 <a href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">artificialanalysis.ai</a>, 找到 "Quality vs Price" 散点图. 找出 3 个 "质量高但价格低" 的模型 (右下角区域).</li>
+          <li>用 Vitamin 的需求 (中文 + 健康 + 便宜 + 快), 从 4 个榜单中各选 2 个候选模型, 然后交叉验证. 最终得出你的 "Vitamin 候选短名单" (3-5 个模型).</li>
+          <li>写 100 字: 向老板解释 "为什么我们不应该只因为 GPT-5.5 是 '最强' 就选它."</li>
+        </ol>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>🎮</td><td><a href="https://lmarena.ai" target="_blank" rel="noopener">Chatbot Arena (lmarena.ai)</a></td><td>亲自给两个匿名模型投票, 体验盲测</td><td>10 min</td></tr>
+              <tr><td>🎮</td><td><a href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">Artificial Analysis</a></td><td>交互式散点图, 一眼看出性价比</td><td>10 min</td></tr>
+              <tr><td>📖</td><td><a href="https://www.superclueai.com" target="_blank" rel="noopener">SuperCLUE 官网</a></td><td>中文大模型排行, 按月更新</td><td>5 min</td></tr>
+              <tr><td>📺</td><td><a href="https://hai.stanford.edu/ai-index/2026-ai-index-report/technical-performance" target="_blank" rel="noopener">Stanford AI Index 2026</a></td><td>斯坦福年度 AI 报告, 最权威行业全景</td><td>30 min</td></tr>
+              <tr><td>📖</td><td><a href="https://www.vellum.ai/llm-leaderboard" target="_blank" rel="noopener">Vellum LLM Leaderboard 2026</a></td><td>聚合多个榜单的综合比较页</td><td>10 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 50 篇文章 50 个答案</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 看独立第三方榜单</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Chatbot Arena</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> SuperCLUE 中文榜</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> HuggingFace 开源榜</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Artificial Analysis</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 交叉验证法</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Benchmark Explorer</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 调研清单</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 7:</p>
+        <p class="end-summary-big">4 个独立榜单 × 交叉验证<br/>= PM 的模型调研方法论.<br/>排行榜是起点, A/B 测试是终点.</p>
+        <p class="end-summary-sub">Arena 看偏好, SuperCLUE 看中文, HuggingFace 看开源, AA 看性价比.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 8): Vitamin 5 模型横评</div>
+        <p>方法论有了, 现在<strong>真刀实枪地干</strong> —<br/>
+          给 Vitamin 选 5 个候选模型, 按 6 个维度横评, 产出一份模型选型报告.</p>
+        <p><strong>这是 Module 1.3 的最终实操, 做完你就有了一份真正的 "模型选型报告" 作品.</strong></p>
+        <a class="walk-arrow" href="../u8-vitamin-evaluation/index.html">继续走 → Unit 8</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.3 · Unit 7 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

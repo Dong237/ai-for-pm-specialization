@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 2 · Token 是什么 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 2: Token 不是字, 不是词, 是模型词表里的最小单位. 一句话的 token 数 ≠ 字数." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 · Token 是什么</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <!-- Step nav -->
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 2<span class="title-dot">·</span><br/>Token 到底是个啥?</h1>
+      <p class="hero-sub">上节课说 "猜下一个字" — 其实, AI 猜的不是 "字".</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个好奇的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 学完 Unit 1)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">Unit 1 说 LLM 在 "猜下一个字".</p>
+          <p class="cloud-line">但等一下 — 它到底看的是 "字" 吗?</p>
+          <p class="cloud-line">"Vitamin" 这个英文词, 算几个字?</p>
+          <p class="cloud-line accent">—— 今天揭开这个善意的谎言.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道 Token 不是字、不是词, 是模型的 "最小拼图块"</li>
+          <li>看一句中文, 能估算它大概被切成几个 token</li>
+          <li>理解为什么同样意思, 中文比英文 "贵"</li>
+          <li>算出 Vitamin 每月 API 成本的量级</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) 善意的谎言 -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">上节课的一个善意谎言</h2>
+      <p class="step-lede">Unit 1 我们一直说 "猜下一个<strong>字</strong>". 这个说法帮你理解了核心原理, 但它是个<em>简化</em>.</p>
+
+      <p>真相是: LLM 看到的不是 "字", 也不是 "词". 它看到的是一种叫 <mark class="hl">Token</mark> 的东西.</p>
+
+      <p>试试这个 —— 把 "今天天气真好" 喂给 GPT, 它看到的是:</p>
+
+      <div class="token-display" data-token-text="今天天气真好" data-rough="card">
+        <div class="token-display-label">GPT-4 看到的:</div>
+        <div class="token-segments"></div>
+        <div class="token-stats"></div>
+      </div>
+
+      <p>6 个字, 但只有 4 个 token. 因为 "今天" 和 "天气" 各被当成<em>一整块</em>.</p>
+      <p>这就是今天的主题: <strong>Token 到底是什么, 为什么它比 "字" 更重要.</strong></p>
+
+      <div class="step-foot">先看看你可能有的两个猜测 — 都不对 ↓</div>
+    </section>
+
+    <!-- (2) 错猜测 vs 真相 -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两个常见猜测 — 又都不对</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>猜测 A: Token = 一个汉字</h3>
+          <p>一个字一个 token, 简单吧?</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            "今天" 是 2 个字, 但在 GPT-4 里只算 1 个 token. "你好" 也是 1 个 token. 常见组合会被 "粘" 在一起.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>猜测 B: Token = 一个英文单词</h3>
+          <p>英文按空格分词, 一个词一个 token?</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            "unhappiness" 不是 1 个 token — 它被拆成 "un" + "happiness" 两块. 长词、罕见词会被拆开.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">Token 是 <mark class="hl">Tokenizer 按算法切出来的最小单位</mark>.</p>
+        <p class="truth-line giant">不是字, 不是词, 是 "拼图块".</p>
+        <p class="truth-line">每个模型有自己的 tokenizer, 切法不一样. 同一句话, GPT 切成 4 块, DeepSeek 可能切成 5 块.</p>
+        <p class="truth-line muted">→ 就像乐高: 有的套件把 "窗户" 做成一个大块, 有的拆成 4 个小零件. 最终都能拼出房子, 但用的块数不一样.</p>
+      </div>
+
+      <div class="step-foot">那 tokenizer 到底怎么决定哪里切、哪里不切? ↓</div>
+    </section>
+
+    <!-- (3) 具体例子 -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">看一句话是怎么被切的</h2>
+      <p class="step-lede">拿两句同样意思的话, 看 GPT-4 tokenizer 怎么切:</p>
+
+      <div class="token-display" data-token-text="今天天气真好" data-rough="card" style="transform: rotate(-0.4deg);">
+        <div class="token-display-label">🇨🇳 中文: "今天天气真好"</div>
+        <div class="token-segments"></div>
+        <div class="token-stats"></div>
+      </div>
+
+      <div class="token-display" data-token-text="The weather is great today" data-rough="card" style="transform: rotate(0.3deg);">
+        <div class="token-display-label">🇺🇸 英文: "The weather is great today"</div>
+        <div class="token-segments"></div>
+        <div class="token-stats"></div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p>注意看 ——</p>
+        <ol>
+          <li>中文: 6 个字 → 4 个 token. 常见组合 ("今天", "天气") 被粘成了一块</li>
+          <li>英文: 26 个字符 → 5 个 token. 基本上一个词一个 token</li>
+          <li>字符数和 token 数<strong>不一样</strong>. 这是关键.</li>
+        </ol>
+        <p class="muted">→ 既然不是按字切的, 那到底按什么规则切? 答案是一个叫 BPE 的算法.</p>
+      </div>
+
+      <div class="step-foot">BPE 听着吓人, 其实就是 "把常用的拼在一起" ↓</div>
+    </section>
+
+    <!-- (4) BPE 极简版 -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">BPE — 把最常见的拼在一起</h2>
+      <p class="step-lede">Byte Pair Encoding (BPE) 是大多数 LLM 用的 tokenizer 算法. 原理超简单:</p>
+
+      <div class="bpe-demo" data-rough="card">
+        <div class="bpe-step">
+          <span class="bpe-step-num">0</span>
+          <span style="color:var(--ink-muted);font-size:14px;">初始: 每个字符单独一块</span>
+          <div class="bpe-chars">
+            <span class="bpe-char">l</span><span class="bpe-char">o</span><span class="bpe-char">w</span><span class="bpe-char">e</span><span class="bpe-char">r</span>
+          </div>
+        </div>
+        <div class="bpe-step">
+          <span class="bpe-step-num">1</span>
+          <span class="bpe-arrow">→</span>
+          <span style="color:var(--ink-soft);font-size:14px;">"e" 和 "r" 最常相邻, 合并!</span>
+          <div class="bpe-chars">
+            <span class="bpe-char">l</span><span class="bpe-char">o</span><span class="bpe-char">w</span><span class="bpe-char merged">er</span>
+          </div>
+        </div>
+        <div class="bpe-step">
+          <span class="bpe-step-num">2</span>
+          <span class="bpe-arrow">→</span>
+          <span style="color:var(--ink-soft);font-size:14px;">"l" 和 "o" 常相邻, 合并!</span>
+          <div class="bpe-chars">
+            <span class="bpe-char merged">lo</span><span class="bpe-char">w</span><span class="bpe-char merged">er</span>
+          </div>
+        </div>
+        <div class="bpe-step">
+          <span class="bpe-step-num">3</span>
+          <span class="bpe-arrow">→</span>
+          <span style="color:var(--ink-soft);font-size:14px;">"low" 常出现, 合并!</span>
+          <div class="bpe-chars">
+            <span class="bpe-char merged">low</span><span class="bpe-char merged">er</span>
+          </div>
+        </div>
+        <div class="bpe-step">
+          <span class="bpe-step-num">✓</span>
+          <span class="bpe-arrow">→</span>
+          <span style="color:var(--green);font-size:14px;font-weight:600;">最终: "lower" = 2 个 token</span>
+          <div class="bpe-chars">
+            <span class="bpe-char merged">low</span><span class="bpe-char merged">er</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>类比:</strong> 想象你在玩乐高 ——
+        <p>刚开始全是最小的 1×1 颗粒. 你发现 "这两颗总是一起用", 就把它们粘成一块 2×1. 再发现 "这块 2×1 总跟另一颗一起用", 粘成 3×1.</p>
+        <p>最终, 常用组合变成大积木, 罕见组合还是小颗粒. <strong>GPT-4 的 "乐高盒" 里有 ~100,000 块不同的积木.</strong></p>
+      </div>
+
+      <div class="step-foot">100,000 块积木 — 这就是模型的 "词表" ↓</div>
+    </section>
+
+    <!-- (5) 词表大小 -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">词表 = AI 认识的全部 "拼图块"</h2>
+      <p class="step-lede">BPE 跑完之后, 产出一个固定大小的词表 (vocabulary). 每个 token 在词表里都有一个编号.</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>GPT-4 的词表大小: ~100,256 个 token.</strong></p>
+        <p>这就是它认识的全部 "积木". 遇到任何文字, 都要用这 100K 块积木来拼.</p>
+      </div>
+
+      <p>词表里的 token 长短不一:</p>
+      <ul>
+        <li><strong>超常见词</strong> → 整个词 = 1 token: <code>the</code>, <code>今天</code>, <code>hello</code>, <code>Vitamin</code></li>
+        <li><strong>普通词</strong> → 拆成 2-3 块: <code>un</code> + <code>happiness</code>, <code>经</code> + <code>期</code></li>
+        <li><strong>罕见词 / 错别字</strong> → 拆成很多小块: 每个字符甚至每个字节一块</li>
+      </ul>
+
+      <p>类比: 就像你认字 ——</p>
+      <div class="callout callout-amber" data-rough="card">
+        <p>"<strong>你好</strong>" — 一眼认出, 不用拆.<br/>
+        "<strong>尴尬</strong>" — 还行, 两个字分开也认识.<br/>
+        "<strong>耄耋</strong>" — 这啥? 要拆偏旁: "耳" + "毛" + "至" + "老"...</p>
+        <p class="muted">AI 也一样: 常见的一口吞, 罕见的逐字节啃.</p>
+      </div>
+
+      <div class="step-foot">那同样意思的东西, 中英文 token 数差多少? ↓</div>
+    </section>
+
+    <!-- (6) 数数的惊喜 -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">同一个意思, 不同的 "价格"</h2>
+      <p class="step-lede">来看一个让 PM 直冒冷汗的对比:</p>
+
+      <div class="surprise-compare">
+        <div class="surprise-card" data-rough="card">
+          <div style="font-size:13px;color:var(--blue);font-weight:600;">英文</div>
+          <div class="surprise-word">Vitamin</div>
+          <div class="surprise-tokens">Token 数:</div>
+          <span class="surprise-count">1</span>
+          <div style="font-size:13px;color:var(--ink-muted);">常见英文词, 一口吞</div>
+        </div>
+        <div class="surprise-card" data-rough="card">
+          <div style="font-size:13px;color:var(--red);font-weight:600;">中文</div>
+          <div class="surprise-word">维他命</div>
+          <div class="surprise-tokens">Token 数:</div>
+          <span class="surprise-count">3</span>
+          <div style="font-size:13px;color:var(--ink-muted);">每个字单独切, 3 倍!</div>
+        </div>
+      </div>
+
+      <p>再看一组:</p>
+
+      <div class="surprise-compare">
+        <div class="surprise-card" data-rough="card">
+          <div style="font-size:13px;color:var(--blue);font-weight:600;">英文</div>
+          <div class="surprise-word" style="font-size:20px;">artificial intelligence</div>
+          <div class="surprise-tokens">Token 数:</div>
+          <span class="surprise-count">2</span>
+        </div>
+        <div class="surprise-card" data-rough="card">
+          <div style="font-size:13px;color:var(--red);font-weight:600;">中文</div>
+          <div class="surprise-word" style="font-size:20px;">人工智能</div>
+          <div class="surprise-tokens">Token 数:</div>
+          <span class="surprise-count">2</span>
+          <div style="font-size:13px;color:var(--green);">这次一样! 因为这个词够常见</div>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>PM 认知:</strong>
+        <p>规律: 越常见的词, 被压缩得越小 (token 数越少). 越罕见的词, token 数越多.</p>
+        <p>API 按 token 计费. <strong>同样意思的 prompt, 中文通常比英文多 1.5-2 倍 token</strong> — 因为大多数 tokenizer 是英文数据训出来的.</p>
+        <p class="muted">→ 下节课 (U3) 会深挖中英文差异. 今天先记住: token 数 ≠ 字数.</p>
+      </div>
+
+      <div class="step-foot">还有个有趣的: 英文长词怎么拆? ↓</div>
+    </section>
+
+    <!-- (7) Subword 的聪明 -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Subword — AI 认 "偏旁部首" 的方式</h2>
+      <p class="step-lede">BPE 不只是在压缩 — 它还教会了模型一个技能: 理解词的<em>组成部分</em>.</p>
+
+      <div class="subword-demo" data-rough="card" style="background:var(--bg-card);border:2px solid var(--border-strong);border-radius:12px;padding:24px;">
+        <div class="subword-full">unhappiness</div>
+        <div style="color:var(--ink-muted);font-size:14px;margin:8px 0 16px;">↓ tokenizer 切成 ↓</div>
+        <div class="subword-parts">
+          <span class="subword-part prefix">un</span>
+          <span class="subword-plus">+</span>
+          <span class="subword-part stem">happiness</span>
+        </div>
+        <div style="color:var(--ink-soft);font-size:14px;margin-top:16px;">
+          前缀 "un" = 否定 · 词根 "happiness" = 快乐<br/>
+          模型从 "un-" 学到了 "取反" 这个概念
+        </div>
+      </div>
+
+      <p>这意味着:</p>
+      <ul>
+        <li>"<strong>unhappiness</strong>" 可能模型没见过这整个词</li>
+        <li>但它见过 "un-" (取反) 和 "happiness" (快乐)</li>
+        <li>所以它能推出 "不快乐" 的意思 — <mark class="hl">靠的是拼积木, 不是死记</mark></li>
+      </ul>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>中文也一样:</strong>
+        <p>"机器学习" → "机器" + "学习" (2 tokens). 模型分别认识这两个词, 拼在一起就懂了.</p>
+        <p>"强化学习" → "强化" + "学习" (2 tokens). 换个前缀, 意思变了, 但 "学习" 的含义复用了.</p>
+        <p class="muted">→ Subword 让模型用有限的 100K 词表, 理解几乎无限的词组合. 聪明.</p>
+      </div>
+
+      <div class="step-foot">好, 理论够了 — 自己动手试试 ↓</div>
+    </section>
+
+    <!-- (8) 互动 widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: 输入任何文字, 看 Token 怎么切</h2>
+      <p class="step-lede">在下面输入框里打字, 或者点预设按钮, 看 tokenizer 怎么把你的文字切成彩色块:</p>
+
+      <div class="tokenizer-widget" data-rough="card">
+        <div class="tokenizer-input-wrap">
+          <label for="tokenizer-input">输入文字:</label>
+          <input type="text" id="tokenizer-input" class="tokenizer-input" placeholder="试试输入中文、英文、或混合..." autocomplete="off" />
+        </div>
+
+        <div class="tokenizer-presets">
+          <button class="preset-btn" data-text="今天天气真好">今天天气真好</button>
+          <button class="preset-btn" data-text="Vitamin 是一款女性健康 AI 应用">Vitamin 介绍</button>
+          <button class="preset-btn" data-text="经期可以跑步吗？">经期可以跑步吗</button>
+          <button class="preset-btn" data-text="请帮我写一份产品需求文档">写 PRD</button>
+          <button class="preset-btn" data-text="unhappiness">unhappiness</button>
+          <button class="preset-btn" data-text="I love you">I love you</button>
+          <button class="preset-btn" data-text="我爱你">我爱你</button>
+          <button class="preset-btn" data-text="今天吃了一个苹果和一杯酸奶">吃了什么</button>
+          <button class="preset-btn" data-text="ChatGPT">ChatGPT</button>
+          <button class="preset-btn" data-text="大语言模型">大语言模型</button>
+        </div>
+
+        <div class="tokenizer-result">
+          <div class="token-display-label">Token 切分结果:</div>
+          <div class="token-segments" id="tokenizer-segments"></div>
+          <div class="token-stats" id="tokenizer-stats"></div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>试试这些有趣的对比:</strong>
+        <ol>
+          <li>输入 "I love you" 再输入 "我爱你" — token 数一样多吗?</li>
+          <li>输入 "ChatGPT" — 它被切成了什么?</li>
+          <li>输入一段 Vitamin 的 prompt — 数数 token 有多少</li>
+        </ol>
+        <p class="muted">→ 注意: 这里用的是近似切分. 想看精确结果, 课后作业会给你真正的 tokenizer 工具链接.</p>
+      </div>
+
+      <div class="step-foot">现在把 token 和你的产品联系起来 ↓</div>
+    </section>
+
+    <!-- (9) Vitamin 案例 -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — Token 数 = 你的钞票</h2>
+      <p class="step-lede">API 按 token 计费. <mark class="hl">Token 数就是你的成本单位.</mark></p>
+
+      <p>来算一笔 Vitamin 的账:</p>
+
+      <div class="cost-calc" data-rough="card">
+        <div class="cost-row">
+          <span class="cost-label">日活用户 (DAU)</span>
+          <span class="cost-value">1,000 人</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">每人每天对话次数</span>
+          <span class="cost-value">5 次</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">每次对话 token 数 (输入+输出)</span>
+          <span class="cost-value">~500 tokens</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">每日总 token</span>
+          <span class="cost-value">2,500,000</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">模型单价 (DeepSeek V3)</span>
+          <span class="cost-value">¥2 / 百万 token</span>
+        </div>
+        <div class="cost-total">
+          <div style="font-size:14px;color:var(--ink-soft);margin-bottom:4px;">每月成本 ≈</div>
+          <div class="cost-total-num">¥150 / 月</div>
+          <div style="font-size:13px;color:var(--ink-muted);margin-top:4px;">用 DeepSeek V3. 如果用 GPT-4o, 大约 ¥3,000/月 (贵 20 倍)</div>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>PM 认知 — Token 数直接影响 3 件事:</strong>
+        <ol>
+          <li><strong>成本</strong>: 每个 token 都是钱. 少说废话 = 省 token = 省钱</li>
+          <li><strong>速度</strong>: Token 越多, 生成越慢. 用户等得久 = 体验差</li>
+          <li><strong>中文税</strong>: 同样意思, 中文多 ~1.5x token. 中文产品天然比英文产品贵</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>Vitamin 优化思路:</strong>
+        <ul>
+          <li>System prompt 精简: 删掉冗余指令, 省 token</li>
+          <li>用户输入限长: 限制每次对话字数, 控制 token 上限</li>
+          <li>选对模型: 中文友好的模型 (DeepSeek / Qwen) token 效率更高</li>
+          <li>缓存常用回复: 相同问题不重复调 API</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">最后, 一句话 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) 规则 + 作业 -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Token 是模型的 "最小拼图块".<br/>
+          1 token ≈ ¾ 个英文单词 ≈ ½ 个中文汉字.<br/>
+          Token 数 = 你的成本单位.</p>
+        <p class="one-liner-foot muted">看 AI 产品成本时, 永远先问: 一次对话多少 token?</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://tiktokenizer.vercel.app/" target="_blank" rel="noopener">tiktokenizer.vercel.app</a>, 输入 3 段 Vitamin 可能用到的 prompt, 记下每段的 token 数.</li>
+          <li>在同一个工具里, 分别输入 "你好吗" 和 "How are you" — 哪个 token 多? 多多少?</li>
+          <li>用第 9 步的公式, 估算 Vitamin 如果用 GPT-4o 替代 DeepSeek V3, 每月成本会变成多少.</li>
+          <li>写 100 字: 用 "拼图块" 比喻, 向一个非技术朋友解释 token.</li>
+        </ol>
+        <p class="muted">→ 第 1 项: 如果总 token 超过 500, 想想怎么精简 prompt 省钱.</p>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead>
+              <tr>
+                <th>类型</th>
+                <th>资源</th>
+                <th>为什么值得看</th>
+                <th>时间</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>🎮</td>
+                <td><a href="https://tiktokenizer.vercel.app/" target="_blank" rel="noopener">Tiktokenizer</a></td>
+                <td>在线实时 token 计数器, 支持多种模型</td>
+                <td>5 min</td>
+              </tr>
+              <tr>
+                <td>🎮</td>
+                <td><a href="https://platform.openai.com/tokenizer" target="_blank" rel="noopener">OpenAI Tokenizer</a></td>
+                <td>官方 tokenizer 工具, 可视化 token 切分</td>
+                <td>5 min</td>
+              </tr>
+              <tr>
+                <td>📺</td>
+                <td><a href="https://www.youtube.com/watch?v=zduSFxRajkE" target="_blank" rel="noopener">Karpathy: Let's build the GPT Tokenizer</a></td>
+                <td>最清楚的 BPE 讲解 (Andrej Karpathy), 从零实现</td>
+                <td>2 hr</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://huggingface.co/learn/nlp-course/en/chapter6/5" target="_blank" rel="noopener">HuggingFace NLP Course: BPE</a></td>
+                <td>图文并茂的 BPE 算法教程</td>
+                <td>20 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://zhuanlan.zhihu.com/p/631463712" target="_blank" rel="noopener">知乎: LLM Tokenizer 详解</a></td>
+                <td>中文深入讲解 tokenizer 原理与实践</td>
+                <td>15 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 善意的谎言: 不是 "字"</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 不是字, 不是词, 是拼图块</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> 中英文切分实例</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> BPE: 常见的拼在一起</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 词表 = 100K 块积木</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 同一意思, 不同价格</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> Subword 的聪明</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> 动手: tokenizer 小工具</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 成本算账</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">Token = 模型的最小拼图块. 不是字, 不是词, 是 tokenizer 按频率拼出来的.</p>
+        <p class="end-summary-sub">Token 数 ≠ 字数. Token 数 = 你的钱.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 3): Tokenizer 的中英文差异</div>
+        <p>今天我们发现 "Vitamin" = 1 token, "维他命" = 3 tokens.<br/>
+          下节课深挖这个差异: <strong>为什么中文天然比英文 "贵"?</strong> 不同的 tokenizer (GPT / DeepSeek / Qwen) 差多少?</p>
+        <p><strong>这件事直接决定你选哪个模型给 Vitamin 用.</strong></p>
+        <a class="walk-arrow" href="../u3-tokenizer-zh-en/index.html">继续走 → Unit 3</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1 · Unit 2 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

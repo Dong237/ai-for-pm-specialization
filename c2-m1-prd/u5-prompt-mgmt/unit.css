@@ -1,0 +1,154 @@
+/* U5 — Prompt Version Manager · unit-specific styles */
+
+.version-timeline {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.vt-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px dashed var(--border);
+}
+
+.vt-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.vt-list::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.vt-item {
+  position: relative;
+  padding: 10px 10px 10px 44px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.vt-item:hover { background: var(--bg-elev); }
+.vt-item.active { background: var(--blue-bg-soft); border: 1.5px solid var(--blue); }
+
+.vt-item::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 16px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  background: var(--bg-card);
+  z-index: 1;
+}
+
+.vt-item.active::before { background: var(--blue); border-color: var(--blue); }
+
+.vt-version {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.vt-date {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-left: 8px;
+}
+
+.vt-change {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+
+.vt-detail {
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 14px;
+}
+
+.vt-detail-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--blue);
+}
+
+.vt-prompt-text {
+  background: var(--bg-card);
+  border-left: 3px solid var(--blue);
+  padding: 10px 14px;
+  font-size: 13px;
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  white-space: pre-wrap;
+  border-radius: 4px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.vt-diff { color: var(--green); font-weight: 600; }
+.vt-diff-del { color: var(--red); text-decoration: line-through; }
+
+/* Lifecycle cards */
+.lifecycle-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.lc-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 14px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+.lc-card:nth-child(1) { border-color: var(--blue); transform: rotate(-0.5deg); }
+.lc-card:nth-child(2) { border-color: var(--green); transform: rotate(0.3deg); }
+.lc-card:nth-child(3) { border-color: var(--amber); transform: rotate(-0.2deg); }
+.lc-card:nth-child(4) { border-color: var(--purple); transform: rotate(0.4deg); }
+
+.lc-card h4 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.lc-card p { margin: 0; font-size: 12px; color: var(--ink-soft); }
+.lc-icon { font-size: 28px; margin-bottom: 6px; }
+
+/* Constraint table */
+.constraint-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.constraint-table th { text-align: left; padding: 8px 12px; background: var(--bg-elev); border-bottom: 2px solid var(--border); font-size: 12px; color: var(--ink-muted); }
+.constraint-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+
+.resource-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+.resource-table th { text-align: left; padding: 6px 10px; border-bottom: 2px solid var(--border); color: var(--ink-muted); font-size: 12px; }
+.resource-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

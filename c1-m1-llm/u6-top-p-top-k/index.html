@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 6 · Top-P / Top-K — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 6: Temperature 的精细调节兄弟. 何时用 Top-P 而不是 Temperature." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M1</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 6 · Top-P / Top-K</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 6<span class="title-dot">·</span><br/>Top-P / Top-K</h1>
+      <p class="hero-sub">Temperature 的 "安全网" — 决定谁有资格被选.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM · 学完 Temperature)</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">Temperature 我懂了: 调分布形状.</p>
+          <p class="cloud-line">但 API 里还有 Top-P 和 Top-K... 那是啥?</p>
+          <p class="cloud-line accent">—— 今天一次搞懂三个参数的关系.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道 Top-K 和 Top-P 各自做什么</li>
+          <li>理解为什么 Top-P 通常比 Top-K 更好</li>
+          <li>知道 Temperature + Top-P + Top-K 的完整采样流水线</li>
+          <li>给 Vitamin 选出最优的参数组合</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) Temperature 的问题 -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">Temperature 有个问题</h2>
+      <p class="step-lede">上节课学了 Temperature. 但只调 Temperature 有一个风险:</p>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>即使 T=0.7 (正常值), 那个 0.001% 概率的 "饿" 也有可能被选中.</strong>
+        <p>"今天天气真<strong style="color:var(--red);">饿</strong>" — 虽然概率极低, 但只要不是 0, 就有机会.</p>
+        <p>问 1000 次, 大约有 1 次会出现这种 "离谱" 输出.</p>
+      </div>
+
+      <p>如果是写故事, 这种意外也许是惊喜. 但如果是 <strong>Vitamin 给健康建议</strong>:</p>
+      <p>"经期期间应该多喝<strong style="color:var(--red);">紫薯</strong>汤" — 不行, 我们需要一道安全线.</p>
+      <p>这道安全线就是 <mark class="hl">Top-K 和 Top-P</mark>.</p>
+
+      <div class="step-foot">先看简单的那个: Top-K ↓</div>
+    </section>
+
+    <!-- (2) Top-K -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Top-K: 只保留前 K 名</h2>
+      <p class="step-lede">Top-K 极其简单 — 按概率排序, <mark class="hl">只保留前 K 个候选</mark>, 其余全部淘汰.</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>Top-K = 3 时:</strong></p>
+        <p>候选: 好(35%) 棒(18%) 不(12%) <span style="color:var(--ink-faint);text-decoration:line-through;">错(8%) 糟(6%) 冷(5%)...</span></p>
+        <p>只有前 3 名有资格. 其余直接淘汰, 概率清零.</p>
+        <p>然后在 "好/棒/不" 三个里重新按比例采样.</p>
+      </div>
+
+      <ul>
+        <li><strong>K=1</strong>: 等于 Greedy (永远选第一名)</li>
+        <li><strong>K=5</strong>: 保留 5 个候选, 过滤掉长尾</li>
+        <li><strong>K=50</strong>: 保留很多, 几乎不过滤</li>
+        <li><strong>K=全部</strong>: 等于不用 Top-K (OpenAI 默认)</li>
+      </ul>
+
+      <p><strong>问题:</strong> K 是固定数字. 但不同的概率分布, "有意义" 的候选数量不一样.</p>
+
+      <div class="step-foot">所以有了 Top-P ↓</div>
+    </section>
+
+    <!-- (3) Top-P -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Top-P (Nucleus): 保留到累计概率够了</h2>
+      <p class="step-lede">Top-P 更聪明 — 它不固定候选数量, 而是 <mark class="hl">按累计概率决定保留多少</mark>.</p>
+
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>Top-P = 0.9 时:</strong></p>
+        <p>好(35%) → 累计 35%. 还不到 90%, 保留</p>
+        <p>棒(18%) → 累计 53%. 继续</p>
+        <p>不(12%) → 累计 65%. 继续</p>
+        <p>错(8%) → 累计 73%. 继续</p>
+        <p>糟(6%) → 累计 79%. 继续</p>
+        <p>冷(5%) → 累计 84%. 继续</p>
+        <p>闷(4%) → 累计 88%. 继续</p>
+        <p>热(3.5%) → 累计 91.5%. <strong>超过 90% → 到此为止!</strong></p>
+        <p>→ 保留 8 个候选. 后面 7 个全部淘汰.</p>
+      </div>
+
+      <p><strong>为什么这比 Top-K 好?</strong></p>
+      <ul>
+        <li>分布很尖 (一个词占 90%) → Top-P 自动只保留 1-2 个 → 输出稳定</li>
+        <li>分布很平 (每个词 5-10%) → Top-P 自动保留 10+ 个 → 输出多样</li>
+        <li>它<em>自适应</em>分布形状, 不需要你手动调 K</li>
+      </ul>
+
+      <div class="step-foot">为什么 Top-P 通常更好? ↓</div>
+    </section>
+
+    <!-- (4) 为什么 Top-P 更好 -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Top-P vs Top-K — 一张图说清</h2>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>场景 1: 分布很尖 ("2+2=" → "4" 占 99%)</strong>
+        <ul>
+          <li>Top-K=5: 保留 5 个, 但 4 个都没意义 (概率 ≈ 0)</li>
+          <li>Top-P=0.9: 自动只保留 "4" 一个 → 完美!</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>场景 2: 分布很平 ("推荐一个颜色" → 红/蓝/绿/黄各 15%)</strong>
+        <ul>
+          <li>Top-K=3: 强制砍到 3 个 → 丢掉了合理的 "黄"</li>
+          <li>Top-P=0.9: 自动保留 6-7 个 → 合理的都留着</li>
+        </ul>
+      </div>
+
+      <div class="big-insight" data-rough="big">
+        <p>结论:</p>
+        <p class="insight-text">Top-P <mark class="hl">自适应</mark>分布形状,<br/>Top-K 是 <mark class="hl">固定</mark>的门槛.<br/>大多数情况 Top-P 更好用.</p>
+      </div>
+
+      <div class="step-foot">那这三个参数怎么配合工作? ↓</div>
+    </section>
+
+    <!-- (5) 采样流水线 -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">完整采样流水线</h2>
+      <p class="step-lede">Temperature、Top-K、Top-P 不是三选一 — 它们是<mark class="hl">流水线上的三个工序</mark>:</p>
+
+      <div class="pipeline">
+        <div class="pipeline-step">原始分数<br/>(logits)</div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-step">÷ Temperature<br/>(调形状)</div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-step">Top-K<br/>(砍尾巴)</div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-step">Top-P<br/>(砍更多)</div>
+        <span class="pipeline-arrow">→</span>
+        <div class="pipeline-step">随机采样<br/>(选一个)</div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>先后顺序:</strong>
+        <ol>
+          <li><strong>Temperature</strong> 改变分布<em>形状</em> (锐化或拉平)</li>
+          <li><strong>Top-K</strong> 砍掉排名靠后的 (硬门槛)</li>
+          <li><strong>Top-P</strong> 再砍掉累计概率之外的 (软门槛)</li>
+          <li>从剩下的候选里<strong>随机采样</strong></li>
+        </ol>
+        <p class="muted">→ Temperature 调 "形状", Top-P/K 调 "范围". 它们是互补的.</p>
+      </div>
+
+      <div class="step-foot">各家 API 的默认值是多少? ↓</div>
+    </section>
+
+    <!-- (6) API 默认值 -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">各家 API 的默认值</h2>
+
+      <div class="callout callout-green" data-rough="card">
+        <table class="api-table">
+          <thead><tr><th>平台</th><th>Temperature</th><th>Top-P</th><th>Top-K</th></tr></thead>
+          <tbody>
+            <tr><td><strong>OpenAI</strong></td><td>1</td><td>1 (不过滤)</td><td>不支持</td></tr>
+            <tr><td><strong>Anthropic</strong></td><td>1</td><td>不暴露</td><td>不暴露</td></tr>
+            <tr><td><strong>DeepSeek</strong></td><td>1</td><td>1</td><td>不支持</td></tr>
+            <tr><td><strong>Google</strong></td><td>1</td><td>0.95</td><td>40</td></tr>
+            <tr><td><strong>Coze</strong></td><td>0.7</td><td>—</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 实用建议:</strong>
+        <ul>
+          <li>大多数 API 默认 T=1, Top-P=1 → 等于不过滤, 你<strong>必须自己设</strong></li>
+          <li>Google 是唯一默认做了 Top-P 过滤的 (0.95)</li>
+          <li>Anthropic 不暴露 Top-P/K — 他们内部自动处理, 你只需调 Temperature</li>
+          <li>如果用 OpenAI: 推荐 <strong>调 Temperature OR Top-P, 不要同时调两个</strong> (官方建议)</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">什么时候用哪个? ↓</div>
+    </section>
+
+    <!-- (7) 何时用什么 -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">实用指南: 什么时候调什么</h2>
+
+      <div class="callout callout-blue" data-rough="card">
+        <table class="api-table">
+          <thead><tr><th>场景</th><th>推荐设置</th><th>为什么</th></tr></thead>
+          <tbody>
+            <tr><td>确定性输出 (医疗/法律)</td><td>T=0</td><td>直接 greedy, 最稳</td></tr>
+            <tr><td>稳定但有变化 (健康建议)</td><td>T=0.3, Top-P=0.5</td><td>温度低 + 过滤尾巴</td></tr>
+            <tr><td>自然对话</td><td>T=0.7, Top-P=0.9</td><td>默认偏稳, 少量过滤</td></tr>
+            <tr><td>创意写作</td><td>T=1.0, Top-P=0.95</td><td>温度高但有安全网</td></tr>
+            <tr><td>最大多样性</td><td>T=1.2, Top-P=1.0</td><td>放飞, 不过滤</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>经验法则:</strong></p>
+      <ul>
+        <li>90% 的场景只调 Temperature 就够了</li>
+        <li>Top-P 是 Temperature 的 "安全网" — 防止低概率怪词漏进来</li>
+        <li>Top-K 很少需要手动调 — 除非你特别需要 "恰好 N 个候选"</li>
+      </ul>
+
+      <div class="step-foot">来动手试试 ↓</div>
+    </section>
+
+    <!-- (8) 互动 widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: 拖 Top-K 和 Top-P, 看谁被过滤</h2>
+      <p class="step-lede">15 个候选词按概率排序. 拖两个滑块, 看灰色的 = 被过滤掉的:</p>
+
+      <div class="threshold-widget" data-rough="card">
+        <div style="font-size:14px;color:var(--ink-muted);margin-bottom:12px;">"今天天气真__" · 15 个候选 (已按概率排序)</div>
+
+        <div class="threshold-chart" id="threshold-chart">
+          <!-- Bars generated by JS -->
+        </div>
+
+        <div class="threshold-controls">
+          <div class="threshold-row">
+            <span class="threshold-label" style="color:var(--red);">Top-K:</span>
+            <span class="threshold-val" id="topk-val" style="color:var(--red);">OFF</span>
+            <input type="range" id="topk-slider" class="threshold-slider" min="1" max="15" value="15" step="1" />
+            <span class="threshold-info" id="topk-info">不限制</span>
+          </div>
+          <div class="threshold-row">
+            <span class="threshold-label" style="color:var(--blue);">Top-P:</span>
+            <span class="threshold-val" id="topp-val" style="color:var(--blue);">OFF</span>
+            <input type="range" id="topp-slider" class="threshold-slider" min="10" max="100" value="100" step="5" />
+            <span class="threshold-info" id="topp-info">不限制</span>
+          </div>
+          <div class="threshold-summary" id="threshold-summary">所有 15 个候选都保留.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>试试:</strong>
+        <ol>
+          <li>只调 Top-K → 拉到 3, 看后面 12 个全灰了</li>
+          <li>只调 Top-P → 拉到 0.7, 看它自动保留了几个</li>
+          <li>两个一起调 → K=8, P=0.7, 看谁的限制更严格 (取交集)</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">把这些参数用到 Vitamin ↓</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 三参数组合</h2>
+      <p class="step-lede"><mark class="hl">Vitamin 的参数不是三选一, 是组合使用:</mark></p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <table class="api-table">
+          <thead><tr><th>功能</th><th>Temperature</th><th>Top-P</th><th>理由</th></tr></thead>
+          <tbody>
+            <tr><td><strong>健康建议</strong></td><td>0.2</td><td>0.3</td><td>双保险: 低温度 + 严格过滤</td></tr>
+            <tr><td><strong>状态分析</strong></td><td>0.1</td><td>0.2</td><td>几乎确定性, 结论要一致</td></tr>
+            <tr><td><strong>日常对话</strong></td><td>0.7</td><td>0.9</td><td>自然, 过滤极端词</td></tr>
+            <tr><td><strong>鼓励文案</strong></td><td>1.0</td><td>0.95</td><td>创意, 但有安全网</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"Temperature 控制'多大胆', Top-P 控制'多少候选有资格'. 健康功能我用 T=0.2 + Top-P=0.3 双保险 — Temperature 锐化分布, Top-P 再把长尾砍掉. 这样就算概率抽签, 也只会在最靠谱的几个词里抽."</p>
+      </div>
+
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) 规则 + 作业 -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Temperature 调形状, Top-P 砍长尾.<br/>它们是一对搭档, 不是替代关系.</p>
+        <p class="one-liner-foot muted">安全敏感场景: T=0.2 + Top-P=0.3. 记住这个组合.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://platform.openai.com/playground" target="_blank" rel="noopener">OpenAI Playground</a>, 用同一个 prompt, 分别试 Top-P=1.0 和 Top-P=0.3, 对比输出差异.</li>
+          <li>给 Vitamin 5 种身体状态, 各设一组 (Temperature, Top-P) 参数, 写出理由.</li>
+          <li>解释: 为什么 OpenAI 建议 "不要同时调 Temperature 和 Top-P"? 如果同时调会怎样?</li>
+          <li>写 100 字: 向你的算法同事解释 "我们为什么给健康建议功能设 Top-P=0.3".</li>
+        </ol>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>🎮</td><td><a href="https://platform.openai.com/playground" target="_blank" rel="noopener">OpenAI Playground</a></td><td>直接调三个参数看效果</td><td>10 min</td></tr>
+              <tr><td>📄</td><td><a href="https://arxiv.org/abs/1904.09751" target="_blank" rel="noopener">Nucleus Sampling 论文</a></td><td>Top-P 的原始论文, 提出 "nucleus" 概念</td><td>30 min</td></tr>
+              <tr><td>📖</td><td><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-temperature" target="_blank" rel="noopener">Anthropic Temperature Guide</a></td><td>Anthropic 官方采样参数建议</td><td>10 min</td></tr>
+              <tr><td>📖</td><td><a href="https://zhuanlan.zhihu.com/p/665022267" target="_blank" rel="noopener">知乎: 采样策略详解</a></td><td>中文讲解 Temperature/Top-P/Top-K 完整对比</td><td>15 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> Temperature 的漏洞</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Top-K: 保留前 K 名</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Top-P: 累计概率截止</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Top-P 自适应, 更好</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 采样流水线</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> API 默认值</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 场景 × 参数指南</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 双阈值可视化</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 参数组合</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 6:</p>
+        <p class="end-summary-big">Temperature 调形状, Top-P 砍长尾, Top-K 定名额.<br/>健康产品: T=0.2 + P=0.3 双保险.</p>
+        <p class="end-summary-sub">这三个参数是你作为 AI PM 最常调的 "旋钮".</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 7): 幻觉 (Hallucination)</div>
+        <p>调完参数, AI 输出 "看起来" 很对. 但是 ——<br/>
+          <strong>AI 会自信满满地编造不存在的论文、不存在的药物、不存在的事实.</strong></p>
+        <p>这叫 Hallucination. 它不是 bug, 是 AI 的本性. 下节课拆开看.</p>
+        <a class="walk-arrow" href="../u7-hallucination/index.html">继续走 → Unit 7</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1 · Unit 6 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

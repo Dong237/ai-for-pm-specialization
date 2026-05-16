@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · Regeneration Rate — AI for PM · M2.3</title>
+  <meta name="description" content="用户点换一个的频率 = 隐式拒绝. Regeneration Rate 是最诚实的不满意信号." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.3</span></a><div class="topbar-right"><span class="unit-label">Unit 4 · Regeneration Rate</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>Regeneration Rate</h1>
+      <p class="hero-sub">用户不满意, 不一定告诉你 — 但 "换一个" 按钮会.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M44 38 Q50 36 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">用户点了 3 次 "换一个", 这意味着什么?</p>
+          <p class="cloud-line">为什么 Regen Rate 比 NPS 更诚实?</p>
+          <p class="cloud-line accent">—— 每次 "换一个" = 一次隐式拒绝.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 Regeneration Rate 的定义和意义</li>
+          <li>把 "换一个" 解读为隐式反馈信号</li>
+          <li>知道 Regen Rate 高意味着什么, 怎么降</li>
+          <li>给 Vitamin 设定 Regen Rate 告警阈值</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">你有没有连续点过 3 次 "换一个"?</h2>
+      <p class="step-lede">想想你用 AI 生成头像、写文案、或者让 AI 推荐的时候 — 看到结果不满意, 你做了什么?</p>
+      <p>你没有写差评, 没有填反馈表, 你只是<strong>点了 "重新生成"</strong>.</p>
+      <div class="callout callout-blue" data-rough="card">
+        <p>这就是 <strong>Implicit Rejection (隐式拒绝)</strong>: 用户没有明说 "这个不好", 但行为已经告诉你了.</p>
+        <p class="muted">"换一个" 按钮是产品里最诚实的用户反馈按钮 — 因为用户按它的时候不觉得自己在给反馈.</p>
+      </div>
+      <div class="step-foot">什么是 Regen Rate ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">定义: 每个问题被重新生成了几次</h2>
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">公式</div>
+        <p class="truth-line giant">Regen Rate =<br/>重新生成次数 / 总输出次数</p>
+        <p class="truth-line muted">用户每次看到 AI 输出后点 "换一个" / "重新生成" / "再试一次", 都算一次 Regen.</p>
+      </div>
+      <p>也可以看 <strong>Regen per Session</strong>: 每次对话平均重新生成几次. 如果是 0.3 次/会话, 说明大约每 3 次对话里有 1 次重新生成.</p>
+      <div class="step-foot">信号强度怎么看 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">信号强度: 1 次 vs 3 次 vs 5 次</h2>
+      <p class="step-lede">同一个问题, 用户重新生成的次数越多, 不满意信号越强:</p>
+      <div class="signal-grid">
+        <div class="signal-card weak">
+          <span class="signal-value">1 次</span>
+          <div class="signal-meaning">可能只是想看看别的选项. 正常探索行为.</div>
+        </div>
+        <div class="signal-card medium">
+          <span class="signal-value">2-3 次</span>
+          <div class="signal-meaning">AI 输出不太对. 用户在找一个 "还行" 的版本.</div>
+        </div>
+        <div class="signal-card strong">
+          <span class="signal-value">4+ 次</span>
+          <div class="signal-meaning">强烈不满. 用户在说 "你给的全不行, 但我还抱着希望".</div>
+        </div>
+      </div>
+      <p><mark class="hl">经验数据: 健康 Regen Rate 应该 < 15%.</mark> 超过 25% 需要紧急优化.</p>
+      <div class="step-foot">Regen 和 Acceptance 的关系 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Regen Rate 和 Acceptance Rate 是一枚硬币的两面</h2>
+      <p class="step-lede">上一节学的 Acceptance Rate = "直接用了的比例". Regen Rate 是它的另一面:</p>
+      <div class="callout callout-blue" data-rough="card">
+        <ul>
+          <li><strong>高 AR + 低 Regen:</strong> 理想状态. AI 输出好, 用户不需要重来.</li>
+          <li><strong>低 AR + 高 Regen:</strong> AI 输出不行. 用户在不停地 "赌" 下一次会不会好.</li>
+          <li><strong>低 AR + 低 Regen:</strong> 用户直接放弃了, 连 "换一个" 都懒得点.</li>
+        </ul>
+        <p class="muted">→ 最危险的不是高 Regen, 是 低 AR + 低 Regen — 用户彻底不信了.</p>
+      </div>
+      <div class="step-foot">Regen 对成本的影响 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Regen 是隐形的成本翻倍器</h2>
+      <p class="step-lede">每次重新生成 = 再调用一次 API. Regen Rate 直接影响你的成本:</p>
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>算一笔账:</strong></p>
+        <ul>
+          <li>Vitamin 每天 10,000 次 AI 对话, 每次成本 $0.03</li>
+          <li>Regen Rate 10%: 实际调用 11,000 次 → 日成本 $330</li>
+          <li>Regen Rate 30%: 实际调用 13,000 次 → 日成本 $390 (+18%)</li>
+          <li>Regen Rate 50%: 实际调用 15,000 次 → 日成本 $450 (+36%)</li>
+        </ul>
+        <p class="muted">Regen Rate 每上升 20%, 成本大约上升 15-20%. 而且这些额外调用<strong>没有产生新价值</strong>.</p>
+      </div>
+      <p><mark class="hl">Regen = 你在为 "AI 不够好" 付额外的钱.</mark></p>
+      <div class="step-foot">怎么降低 Regen Rate ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">降低 Regen Rate 的三个策略</h2>
+      <div class="callout callout-green" data-rough="card">
+        <ol>
+          <li><strong>提升首次输出质量:</strong> 根源治疗. 优化 prompt, 加上下文, 降 Temperature.</li>
+          <li><strong>给用户 "微调" 选项:</strong> 不要只有 "换一个", 加 "更简短" / "更详细" / "更温柔" 的选项. 用户不用重新生成, 而是调整方向.</li>
+          <li><strong>分析 Regen 后的采纳版本:</strong> 看用户最终接受了哪个版本, 跟第一版有什么不同 → 反向优化 prompt.</li>
+        </ol>
+      </div>
+      <p>策略 2 特别有用: 把 "换一个" 变成 "调一调", 用户满意度上升, Regen Rate 下降, 成本也省了.</p>
+      <div class="step-foot">怎么追踪 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">追踪 Regen Rate 的埋点方案</h2>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>需要追踪的事件:</strong></p>
+        <ol>
+          <li><code>ai_output_shown</code> — AI 输出展示 (第 N 版)</li>
+          <li><code>ai_regenerate_clicked</code> — 用户点 "换一个" (带 version_num)</li>
+          <li><code>ai_output_final_accepted</code> — 用户最终采纳 (带 version_num)</li>
+          <li><code>ai_session_abandoned</code> — 用户什么都没选就走了</li>
+        </ol>
+        <p class="muted">关键字段: session_id, question_id, version_num, time_to_decision</p>
+      </div>
+      <p>分析时要看: 最终采纳的是第几版? 如果经常是第 3-4 版, 说明第 1 版的 prompt 需要大改.</p>
+      <div class="step-foot">动手体验 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Regen Tracker</h2>
+      <p class="step-lede">你向 Vitamin 问了一个运动建议. 看看 AI 的回答, 决定要不要 "换一个":</p>
+      <div class="regen-sim" data-rough="card">
+        <div id="regen-output" class="regen-output"></div>
+        <div class="regen-controls">
+          <button id="regen-btn" class="regen-btn">换一个 🔄</button>
+          <button id="regen-accept" class="regen-accept-btn">采纳这个 ✓</button>
+          <button id="regen-reset" class="btn btn-ghost">重来</button>
+        </div>
+        <div class="regen-dashboard">
+          <div class="regen-stat">
+            <span id="regen-count" class="regen-stat-num" style="color:var(--amber);">0</span>
+            <span class="regen-stat-label">重新生成次数</span>
+          </div>
+          <div class="regen-stat">
+            <span id="regen-total" class="regen-stat-num" style="color:var(--blue);">0</span>
+            <span class="regen-stat-label">采纳次数</span>
+          </div>
+          <div class="regen-stat">
+            <span id="regen-rate" class="regen-stat-num" style="color:var(--green);">0%</span>
+            <span class="regen-stat-label">Regen Rate</span>
+          </div>
+        </div>
+        <div class="regen-bar-container">
+          <div class="regen-bar-track"><div id="regen-bar-fill" class="regen-bar-fill" style="width:0%"></div></div>
+        </div>
+        <div id="regen-commentary" class="regen-commentary"></div>
+      </div>
+      <div class="step-foot">Vitamin 的告警线 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: Regen Rate 告警阈值</h2>
+      <p class="step-lede">给 Vitamin 的 AI 功能设定 Regen Rate 分级:</p>
+      <div class="prob-table" data-rough="prob">
+        <div class="prob-header"><div>级别</div><div>Regen Rate</div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;color:var(--green);">健康</div><div class="prob-bar"><div class="bar" data-value="15" style="background:var(--green);"><span>< 15%</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;color:var(--amber);">关注</div><div class="prob-bar"><div class="bar" data-value="25" style="background:var(--amber);"><span>15-25%</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;color:var(--red);">告警</div><div class="prob-bar"><div class="bar" data-value="40" style="background:var(--red);"><span>> 25%</span></div></div></div>
+      </div>
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"Regen Rate 是最诚实的用户反馈. 用户点 '换一个' 的时候不觉得自己在给反馈, 但每一次点击都在说 '这个不行'. 而且每次 Regen 都在烧钱. 我会把 Regen Rate > 25% 设为 P0 告警."</p>
+      </div>
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">"换一个" 不是探索, 是隐式拒绝.<br/>Regen Rate > 25% = 告警.</p>
+      </div>
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>用豆包或 ChatGPT 做 5 次内容生成 (写文案、起名字等), 记录每次点了几次 "重新生成", 算出你的 Regen Rate.</li>
+          <li>想象 Vitamin 的 "AI 饮食建议" 功能: 如果 Regen Rate 是 35%, 你会怎么优化? 写出 3 个具体措施.</li>
+          <li>设计 Vitamin 的 "换一个" 按钮改进方案: 加哪些 "调一调" 选项?</li>
+          <li>算一算: Vitamin 日均 1 万次 AI 对话, Regen Rate 从 30% 降到 10%, 每月省多少钱?</li>
+        </ol>
+        <div style="margin-top:16px;padding-top:12px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://venturebeat.com/infrastructure/monitoring-llm-behavior-drift-retries-and-refusal-patterns" target="_blank" style="color:var(--blue);">Monitoring LLM Behavior</a></td><td style="padding:6px 4px;color:var(--ink-muted);">VentureBeat</td><td style="padding:6px 4px;color:var(--ink-muted);">含 retry/regen 监控</td><td style="padding:6px 4px;color:var(--ink-muted);">15 min</td></tr>
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://www.evidentlyai.com/llm-guide/llm-evaluation-metrics" target="_blank" style="color:var(--blue);">LLM Evaluation Metrics</a></td><td style="padding:6px 4px;color:var(--ink-muted);">Evidently AI</td><td style="padding:6px 4px;color:var(--ink-muted);">全面的 LLM 指标指南</td><td style="padding:6px 4px;color:var(--ink-muted);">20 min</td></tr>
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://harsha-srivatsa.medium.com/measuring-the-success-of-ai-products-key-metrics-and-frameworks-e65f49814ed2" target="_blank" style="color:var(--blue);">Measuring AI Product Success</a></td><td style="padding:6px 4px;color:var(--ink-muted);">Medium</td><td style="padding:6px 4px;color:var(--ink-muted);">含行为信号分析</td><td style="padding:6px 4px;color:var(--ink-muted);">10 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 你也点过"换一个"</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Regen Rate 定义</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 1次 vs 3次 vs 5次</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> AR 和 Regen 是一枚硬币</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 隐形成本翻倍器</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 降低 Regen 三策略</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 埋点方案</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Regen Tracker</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 告警阈值</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 一句话 + 作业</a>
+      </div>
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">"换一个" = 隐式拒绝.<br/>Regen > 25% = P0 告警.</p>
+      </div>
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 5): Refusal Rate</div>
+        <p>AI 说 "我不知道" 到底是好事还是坏事?</p>
+        <p><strong>拒答太少 = 乱答, 拒答太多 = 没用. 找到甜蜜区间.</strong></p>
+        <a class="walk-arrow" href="../u5-refusal-rate/index.html">继续走 → Unit 5</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.3 · Unit 4 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

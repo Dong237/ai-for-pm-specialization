@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 5 · Multi-Agent 适用场景 — AI for PM · M2.4</title>
+  <meta name="description" content="任务步骤多、不同步骤需要不同专长 — Multi-Agent 架构的适用场景." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.4</span></a><div class="topbar-right"><span class="unit-label">Unit 5 · Multi-Agent</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 5<span class="title-dot">·</span><br/>Multi-Agent 适用场景</h1>
+      <p class="hero-sub">一个 Agent 搞不定? 组建一支 AI 团队.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">Vitamin 身体翻译器要做: 分析症状 + 查知识 + 给建议 + 安全审核.</p>
+          <p class="cloud-line">这 4 步需要不同能力 — 一个 Agent 搞不定.</p>
+          <p class="cloud-line accent">—— Multi-Agent: 让多个 AI 专家分工合作.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 Multi-Agent 的 Orchestrator-Worker 模式</li>
+          <li>知道什么任务适合 Multi-Agent, 什么不适合</li>
+          <li>了解 2026 年主流 Agent 框架 (LangGraph, CrewAI)</li>
+          <li>给 Vitamin 设计完整的 Multi-Agent 架构</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">为什么需要 "多个 Agent"?</h2>
+      <p class="step-lede">想象你要写一份研究报告. 你不会让一个人同时搜资料、分析数据、写文章、校对事实. 你会组个团队:</p>
+      <div class="recall-table">
+        <div class="recall-row"><div class="recall-task" style="color:var(--blue);">研究员</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">搜集资料和数据</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--green);">分析师</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">分析数据, 提取洞察</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--amber);">写手</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">写成报告</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--red);">审核</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">事实核查 + 质量把关</div></div>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>Multi-Agent 就是这个逻辑:</strong> 每个 Agent 是一个 "专家角色", 各干自己擅长的, 由一个 "指挥官" (Orchestrator) 协调.</p>
+      </div>
+      <div class="step-foot">核心模式: Orchestrator + Workers &darr;</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">核心模式: Orchestrator-Worker</h2>
+      <p class="step-lede">2026 年最主流的 Multi-Agent 架构模式:</p>
+      <div class="level-block" data-l="4" style="border-color:var(--purple);">
+        <div class="level-tag" style="background:var(--purple);">Orchestrator-Worker</div>
+        <div class="level-diagram" style="font-size:14px;">
+          用户请求 &rarr; <strong>Orchestrator (指挥官)</strong><br/><br/>
+          ┌── Worker A: 信息收集<br/>
+          ├── Worker B: 分析判断<br/>
+          ├── Worker C: 内容生成<br/>
+          └── Worker D: 质量审核<br/><br/>
+          Orchestrator 整合各 Worker 结果 &rarr; 最终输出
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>关键区别:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>Orchestrator 不干活, 只做 "决策 + 协调"</li>
+          <li>每个 Worker 有自己的 Prompt / 工具 / 甚至不同的模型</li>
+          <li>Worker 之间可以串行 (A→B→C) 也可以并行 (A+B 同时跑)</li>
+        </ul>
+      </div>
+      <div class="step-foot">还有哪些常见模式? &darr;</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">3 种常见的 Multi-Agent 模式</h2>
+      <div class="pattern-cards">
+        <div class="pattern-card" style="border-color:var(--purple);">
+          <div class="pattern-card-title" style="color:var(--purple);">Orchestrator-Worker</div>
+          <div class="pattern-card-desc">一个指挥官动态分配任务. 最灵活, 适合复杂多变的场景.</div>
+          <div class="pattern-card-diagram">指挥官 → [A, B, C, D] → 整合</div>
+        </div>
+        <div class="pattern-card" style="border-color:var(--blue);">
+          <div class="pattern-card-title" style="color:var(--blue);">Sequential Pipeline</div>
+          <div class="pattern-card-desc">Agent 按固定顺序串行. 简单可靠, 适合流程固定的任务.</div>
+          <div class="pattern-card-diagram">A → B → C → D → 输出</div>
+        </div>
+        <div class="pattern-card" style="border-color:var(--green);">
+          <div class="pattern-card-title" style="color:var(--green);">Handoff (接力)</div>
+          <div class="pattern-card-desc">Agent 之间显式 "交接". OpenAI Agents SDK 的核心模式.</div>
+          <div class="pattern-card-diagram">A --handoff-→ B --handoff-→ C</div>
+        </div>
+      </div>
+      <div class="step-foot">什么任务适合 Multi-Agent? &darr;</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">什么任务需要 Multi-Agent</h2>
+      <div class="can-cant">
+        <article class="can-list" style="border-color:var(--red);">
+          <h3 class="can-head" style="color:var(--red);">✓ 适合 Multi-Agent</h3>
+          <ul>
+            <li>多步骤, 步骤间有不同 "专长"</li>
+            <li>需要调用不同工具 (搜索/数据库/API)</li>
+            <li>需要审核/反馈循环 (生成 → 审核 → 改)</li>
+            <li>不同步骤最好用不同模型 (贵的做决策, 便宜的做执行)</li>
+          </ul>
+        </article>
+        <article class="cant-list">
+          <h3 class="cant-head">✗ 不需要 Multi-Agent</h3>
+          <ul>
+            <li>任务简单, 一个 Prompt 就能搞定</li>
+            <li>步骤少于 3 步</li>
+            <li>对延迟敏感 (每多一个 Agent 多几秒)</li>
+            <li>团队没有能力维护复杂的 Agent 编排</li>
+          </ul>
+        </article>
+      </div>
+      <div class="step-foot">Multi-Agent 的代价是什么? &darr;</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Multi-Agent 的代价: 成本 × 延迟 × 复杂度</h2>
+      <div class="three-cards">
+        <article class="wonder" style="border-color:var(--red);">
+          <div class="wonder-tag" style="border-color:var(--red);">代价 1</div>
+          <h3>成本翻倍</h3>
+          <div class="wonder-note">5 个 Agent = 5 次以上 API 调用. 用 Plan-and-Execute 模式可以用便宜模型做执行, 降低 90% 成本.</div>
+        </article>
+        <article class="wonder" style="border-color:var(--amber);">
+          <div class="wonder-tag" style="border-color:var(--amber);">代价 2</div>
+          <h3>延迟叠加</h3>
+          <div class="wonder-note">串行 Agent: 总延迟 = 各 Agent 延迟之和. 5 个 Agent 每个 2 秒 = 用户等 10 秒.</div>
+        </article>
+        <article class="wonder" style="border-color:var(--purple);">
+          <div class="wonder-tag" style="border-color:var(--purple);">代价 3</div>
+          <h3>调试困难</h3>
+          <div class="wonder-note">Agent 之间的信息传递可能丢失或曲解. 66% 开发者说 AI 方案 "差一点但不对".</div>
+        </article>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>PM 认知:</strong> Multi-Agent 是最强但也最贵的架构. 用之前先问: "这个任务真的需要多个 Agent 吗? 单个 Agent + 工具调用够不够?"</p>
+      </div>
+      <div class="step-foot">2026 年有哪些框架可用? &darr;</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">2026 年主流 Agent 框架</h2>
+      <table class="compare-table">
+        <thead><tr><th>框架</th><th>提供方</th><th>学习曲线</th><th>适合场景</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--blue);">LangGraph</td><td>LangChain</td><td>中等</td><td>复杂工作流, 生产级</td></tr>
+          <tr><td style="color:var(--green);">CrewAI</td><td>开源</td><td>最低</td><td>快速原型, 角色定义</td></tr>
+          <tr><td style="color:var(--purple);">OpenAI Agents SDK</td><td>OpenAI</td><td>低</td><td>Handoff 模式, 简单编排</td></tr>
+          <tr><td style="color:var(--amber);">Google ADK</td><td>Google</td><td>中等</td><td>层级 Agent 树</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-blue">
+        <p><strong>PM 不需要写代码, 但需要知道:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>框架选型影响开发周期和维护成本</li>
+          <li>MCP (Model Context Protocol) 正在成为 Agent 连接工具的标准</li>
+          <li>无代码方案: Coze / Dify 支持可视化 Agent 编排, 适合 PM 自己搭原型</li>
+        </ul>
+      </div>
+      <div class="step-foot">关键协议: MCP &darr;</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">MCP: Agent 的 "USB 接口"</h2>
+      <p class="step-lede">2026 年 Agent 领域最重要的协议: <mark class="hl">MCP (Model Context Protocol)</mark>.</p>
+      <div class="big-insight">
+        <p>类比:</p>
+        <p class="insight-text">USB 让所有设备用同一种接口连接电脑.<br/>MCP 让所有 Agent 用同一种协议连接工具.</p>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>MCP 解决了什么:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>之前: 每个工具都需要单独写集成代码. 10 个工具 = 10 套代码.</li>
+          <li>现在: 工具只要支持 MCP, Agent 就能直接连. 即插即用.</li>
+          <li>Anthropic 发起, Google (A2A) 和 IBM (ACP) 也在推类似标准.</li>
+        </ul>
+      </div>
+      <div class="step-foot">动手: 设计 Agent 流程 &darr;</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试试 — Agent Flow Designer</h2>
+      <p class="step-lede">选择不同的场景, 看 Multi-Agent 架构是怎么设计的. 点击任意 Agent 查看详情.</p>
+      <div class="agent-designer">
+        <div class="agent-palette">
+          <button class="palette-btn active" data-pipeline="vitamin">Vitamin 身体翻译器</button>
+          <button class="palette-btn" data-pipeline="research">研究报告生成</button>
+          <button class="palette-btn" data-pipeline="support">智能客服系统</button>
+        </div>
+        <div class="agent-canvas" id="agent-canvas"></div>
+        <div class="agent-info" id="agent-info"></div>
+      </div>
+      <div class="step-foot">回到 Vitamin &darr;</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 身体翻译器: 为什么需要 Multi-Agent</h2>
+      <p class="step-lede">身体翻译器的完整流程有 4 个步骤, 每步需要不同能力:</p>
+      <div class="recall-table">
+        <div class="recall-row"><div class="recall-task" style="color:var(--blue);">症状分析 Agent</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">分析 "我头疼, 有点恶心" → 提取关键症状, 分类到经期状态</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--green);">知识检索 Agent</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">在医学知识库 (RAG) 中找相关指南</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--amber);">建议生成 Agent</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">用 Vitamin 风格写出个性化建议</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--red);">安全审核 Agent</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">过滤 "去买 XX 药" 等医疗风险内容</div></div>
+      </div>
+      <div class="callout callout-red">
+        <p><strong>面试金句:</strong></p>
+        <p>"Vitamin 终版身体翻译器用 Multi-Agent 架构, 因为任务有 4 步, 每步需要不同专长: 症状分析需要 NLP, 知识检索需要 RAG, 建议生成需要品牌风格, 安全审核需要规则引擎. 单 Agent 搞不定这个复杂度."</p>
+      </div>
+      <div class="step-foot">规则 + 作业 &darr;</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Multi-Agent = 组建 AI 团队.<br/>适合多步骤 + 多专长的复杂任务.<br/>代价是成本 × 延迟 × 调试难度.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>画出 Vitamin 身体翻译器的 4-Agent 架构图 (手画), 标注每个 Agent 的角色和能力.</li>
+          <li>对比: 如果只用 single Agent + 工具调用, Vitamin 身体翻译器会有什么问题? 写 3 条.</li>
+          <li>搜索 "Coze 工作流编排", 看看能不能用 Coze 搭一个简化版的 Multi-Agent 原型.</li>
+          <li>写 200 字: Multi-Agent 最大的风险是什么? 作为 PM 怎么把控?</li>
+        </ol>
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://www.sitepoint.com/the-definitive-guide-to-agentic-design-patterns-in-2026/" target="_blank" style="color:var(--blue);">Agentic Design Patterns 2026</a></td><td style="padding:6px 8px;">SitePoint</td><td style="padding:6px 8px;">7 种 Agent 设计模式详解</td><td style="padding:6px 8px;">25 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://makitsol.com/multi-agent-ai-architecture-2026-power-guide/" target="_blank" style="color:var(--blue);">Multi-Agent Architecture Guide</a></td><td style="padding:6px 8px;">makitsol</td><td style="padding:6px 8px;">2026 架构全景</td><td style="padding:6px 8px;">20 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">🛠</td><td style="padding:6px 8px;"><a href="https://www.coze.com" target="_blank" style="color:var(--blue);">Coze 平台</a></td><td style="padding:6px 8px;">字节跳动</td><td style="padding:6px 8px;">无代码 Agent 编排</td><td style="padding:6px 8px;">30 min</td></tr>
+            <tr><td style="padding:6px 8px;">📺</td><td style="padding:6px 8px;"><a href="https://www.youtube.com/results?search_query=multi+agent+AI+system+tutorial+2025" target="_blank" style="color:var(--blue);">Multi-Agent Tutorials</a></td><td style="padding:6px 8px;">YouTube</td><td style="padding:6px 8px;">视频教程</td><td style="padding:6px 8px;">20 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 &darr;</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 为什么要多 Agent</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Orchestrator-Worker</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 3 种常见模式</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 适合/不适合</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 成本×延迟×复杂度</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 主流框架</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> MCP 协议</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Agent Flow 设计</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 架构</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 5:</p>
+        <p class="end-summary-big">Multi-Agent = 组建 AI 团队. 每个 Agent 一个专长, Orchestrator 协调.</p>
+        <p class="end-summary-sub">最强但最贵. 单 Agent 够用就别上 Multi-Agent.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 6): 架构选型决策树</div>
+        <p>4 种架构都学完了. 但面对一个具体需求, 怎么快速选出来?<br/><strong>6 个 Yes/No 问题, 自动推荐架构.</strong></p>
+        <a class="walk-arrow" href="../u6-decision-tree/index.html">继续走 &rarr; Unit 6</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.4 · Unit 5 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

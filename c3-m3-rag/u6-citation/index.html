@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 6 · 引用机制 (Citation) — AI for PM · M3.3</title>
+  <meta name="description" content="Citation: 让 RAG 回答可追溯、可验证" />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.3</span></a><div class="topbar-right"><span class="unit-label">Unit 6 · 引用机制</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 6<span class="title-dot">·</span><br/>引用机制 (Citation)</h1>
+      <p class="hero-sub">"这个结论哪来的?" — 让 RAG 回答可追溯</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">RAG 回答了用户的问题, 但用户不信...</p>
+          <p class="cloud-line">"你说经期不能吃冰, 依据是什么?"</p>
+          <p class="cloud-line">Perplexity 每句话都带引用 — 我们怎么做到?</p>
+          <p class="cloud-line accent">—— Citation 机制.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解为什么 Citation 是 RAG 产品的"信任基石"</li>
+          <li>知道 3 种常见的引用实现方式</li>
+          <li>亲手体验一个可点击的引用界面</li>
+          <li>为 Vitamin 设计引用展示方案</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">没有引用的 RAG = 高级版"编"</h2>
+      <p class="step-lede">RAG 减少了幻觉, 但用户怎么知道它没有编? 答案: <mark class="hl">标注来源</mark>.</p>
+      <div class="callout callout-red">
+        <p><strong>没引用时:</strong> "经期应避免寒凉食物." — 用户: "你编的吧?"</p>
+        <p><strong>有引用时:</strong> "经期应避免寒凉食物 [1]. 中医认为寒凉伤脾 [2]." — 用户: "嗯, 有出处, 可信."</p>
+        <p class="muted">尤其是医学健康领域 — 没有来源的建议, 用户凭什么信你?</p>
+      </div>
+      <div class="step-foot">Citation 的好处不只是"让用户信" ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Citation 的四大价值</h2>
+      <div class="recall-table">
+        <div class="recall-row"><div class="recall-task" style="color:var(--green)">可验证</div><div class="recall-arrow">→</div><div class="recall-explain">用户能点进原始文档, 自己确认信息准确性</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--blue)">建信任</div><div class="recall-arrow">→</div><div class="recall-explain">标注来源 = 告诉用户"这不是我编的, 有据可查"</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--amber)">可审计</div><div class="recall-arrow">→</div><div class="recall-explain">出了错能追溯: 是哪篇文档的信息有误? 还是 LLM 理解错了?</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--purple)">减幻觉</div><div class="recall-arrow">→</div><div class="recall-explain">要求 LLM "每句话都标来源" 时, 它更倾向于忠实引用, 减少编造</div></div>
+      </div>
+      <div class="step-foot">Citation 有几种实现方式? ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">三种引用实现方式</h2>
+      <div class="cite-approaches">
+        <div class="cite-approach" style="border-color:var(--blue);transform:rotate(-0.4deg)">
+          <h4 style="color:var(--blue)">方式 1: 行内引用</h4>
+          <p>在回答文本中直接插入 [1] [2] 标记, 每个标记对应一个来源. <strong>Perplexity 用的就是这种.</strong></p>
+        </div>
+        <div class="cite-approach" style="border-color:var(--green);transform:rotate(0.3deg)">
+          <h4 style="color:var(--green)">方式 2: 底部来源列表</h4>
+          <p>回答下面附一个 "来源" 列表, 列出所有参考文档. 简单, 但用户不知道哪句话来自哪个文档.</p>
+        </div>
+        <div class="cite-approach" style="border-color:var(--amber);transform:rotate(-0.3deg)">
+          <h4 style="color:var(--amber)">方式 3: 可展开卡片</h4>
+          <p>关键句子旁边有一个"查看来源"按钮, 点击展开显示原始文档片段. 体验最好, 开发成本最高.</p>
+        </div>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>PM 建议:</strong> 先做方式 1 (行内引用 + 底部列表), 快速上线. 后续迭代升级到方式 3 (可展开卡片).</p>
+      </div>
+      <div class="step-foot">行内引用怎么实现? ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Prompt Engineering 让 LLM 标引用</h2>
+      <p class="step-lede">Citation 的实现分两部分: <strong>Prompt 设计</strong> + <strong>前端展示</strong>.</p>
+      <div class="prompt-box">
+        <div class="prompt-leader">System Prompt (示例):</div>
+        <div style="font-size:14px;font-family:'Cascadia Code','SF Mono',monospace;white-space:pre-wrap">你是 Vitamin 的健康顾问. 根据以下资料回答用户问题.
+
+规则:
+1. 只根据给定资料回答, 不要编造
+2. 每个事实性陈述后面标注来源 [1] [2] 等
+3. 如果资料中没有相关信息, 说"我没有找到相关信息"
+4. 在回答末尾列出所有引用的来源
+
+资料:
+[1] 经期饮食指南.pdf, p.12: "经期应避免..."
+[2] 中医养生.docx, ch.3: "中医认为..."
+[3] 营养学手册.pdf, p.45: "铁质补充..."</div>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>关键技巧:</strong></p>
+        <ul>
+          <li>每个检索到的 chunk 都要有编号 [1] [2] [3]</li>
+          <li>明确要求 LLM "每个事实后标注来源编号"</li>
+          <li>明确要求 "没有信息就说不知道" (防止编造)</li>
+          <li>来源信息包含: 文档名 + 页码/章节 (方便用户定位)</li>
+        </ul>
+      </div>
+      <div class="step-foot">LLM 的引用准确率其实不太高 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">引用准确率的挑战: 只有 74%</h2>
+      <p class="step-lede">行业研究显示, LLM 生成的引用准确率大约只有 <mark class="hl">74%</mark>. 也就是说, 4 个引用里有 1 个可能是错的.</p>
+      <div class="callout callout-red">
+        <p><strong>常见错误:</strong></p>
+        <ul>
+          <li><strong>张冠李戴:</strong> 把 [1] 的内容标成了 [2] 的来源</li>
+          <li><strong>过度综合:</strong> LLM 把多个来源的内容混合改写, 标了一个来源但实际用了多个</li>
+          <li><strong>虚假引用:</strong> LLM 编了一个听起来合理的说法, 然后随便标了一个来源</li>
+        </ul>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>改进方法:</strong></p>
+        <ul>
+          <li><strong>Post-processing:</strong> 生成后用算法检查每个引用是否真的匹配来源内容</li>
+          <li><strong>降低 Temperature:</strong> T=0.1~0.3, 让 LLM 更"忠实"</li>
+          <li><strong>Few-shot 示例:</strong> 在 prompt 里给 2~3 个正确引用的示例</li>
+        </ul>
+      </div>
+      <div class="step-foot">另一个思路: 不让 LLM 自己标引用 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Post-hoc Attribution: 后处理标引用</h2>
+      <p class="step-lede">不信任 LLM 标的引用? 可以在 LLM 输出后, 用另一个算法检查和修正.</p>
+      <div class="cite-flow">
+        <span class="cite-flow-step">LLM 生成回答</span>
+        <span class="cite-flow-arrow">→</span>
+        <span class="cite-flow-step">拆成逐句 claims</span>
+        <span class="cite-flow-arrow">→</span>
+        <span class="cite-flow-step">每句 vs 每个 chunk 算相似度</span>
+        <span class="cite-flow-arrow">→</span>
+        <span class="cite-flow-step">自动标注最匹配的来源</span>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>这种方式的优点:</strong></p>
+        <ul>
+          <li>引用准确率可以提高到 90%+</li>
+          <li>不依赖 LLM 的"自觉性"</li>
+          <li>可以发现 LLM 回答中没有来源支持的句子 → 标为 "未验证"</li>
+        </ul>
+        <p><strong>缺点:</strong> 需要额外的计算步骤, 增加延迟.</p>
+      </div>
+      <div class="step-foot">Grounding = 确保回答忠实于来源 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Grounding: 回答必须"脚踏实地"</h2>
+      <p class="step-lede">Grounding 是 Citation 的哲学基础: <mark class="hl">每个 claim 都必须有据可查, 没有依据就不说</mark>.</p>
+      <div class="callout callout-blue">
+        <p><strong>Grounding 的核心规则:</strong></p>
+        <ol>
+          <li><strong>Claim → Source 映射:</strong> 回答中的每个事实陈述都必须对应至少一个检索到的 chunk</li>
+          <li><strong>无证据就弃权:</strong> 如果 claim 没有任何 chunk 支持, 系统应该说"我没有找到相关信息"</li>
+          <li><strong>弃权是特性, 不是 bug:</strong> 宁可不回答, 也不编</li>
+        </ol>
+        <p class="muted">尤其是医学领域: 一个没有来源的健康建议, 可能比不回答更危险.</p>
+      </div>
+      <div class="step-foot">来体验一个有引用的回答界面 ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: Citation Viewer</h2>
+      <p class="step-lede">下面是一个 RAG 回答. 点击 <span style="background:var(--blue-bg);color:var(--blue);padding:1px 6px;border-radius:4px;font-size:12px;font-weight:700">[1]</span> 等引用标记, 看它对应的来源文档.</p>
+
+      <div class="citation-widget" id="cite-answer">
+        <div class="citation-answer">
+          <strong>问: 经期可以吃冰的吗?</strong><br/><br/>
+          经期建议避免食用过于寒凉的食物,如冰淇淋、冰镇饮料等 <a class="cite-ref" data-cite="1" href="#">[1]</a>. 中医认为经期食用寒凉食物可能导致宫寒,影响血液循环,加重痛经症状 <a class="cite-ref" data-cite="2" href="#">[2]</a>. 但偶尔少量常温饮品是可以的,建议根据个人体质判断 <a class="cite-ref" data-cite="1" href="#">[1]</a>.<br/><br/>
+          作为替代,推荐饮用生姜红糖水等温热饮品,有助于暖宫活血 <a class="cite-ref" data-cite="3" href="#">[3]</a>. 同时经期应注意补充铁质,可以多吃菠菜、红瘦肉等含铁食物 <a class="cite-ref" data-cite="1" href="#">[1]</a>.
+        </div>
+
+        <div class="citation-sources">
+          <div class="cite-source" data-source="1">
+            <span class="cite-source-num">[1]</span>
+            <span class="cite-source-title">经期饮食指南.pdf · 第12页</span>
+            <div class="cite-source-snippet">"经期应避免食用过于寒凉的食物,如冰淇淋、冰镇饮料等,因为寒凉食物可能会加重痛经症状...要注意补充铁质,经期失血较多...偶尔少量常温饮品是可以的"</div>
+          </div>
+          <div class="cite-source" data-source="2">
+            <span class="cite-source-num">[2]</span>
+            <span class="cite-source-title">中医养生.docx · 第3章</span>
+            <div class="cite-source-snippet">"中医认为,经期食用寒凉食物会导致宫寒,影响血液循环,气血运行不畅则加重痛经..."</div>
+          </div>
+          <div class="cite-source" data-source="3">
+            <span class="cite-source-num">[3]</span>
+            <span class="cite-source-title">经期饮食指南.pdf · 第15页</span>
+            <div class="cite-source-snippet">"建议多吃温热性食物,红枣、姜茶、桂圆等有助于暖宫活血,特别是生姜红糖水,是经期首选饮品"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>体验要点:</strong></p>
+        <ul>
+          <li>点击 [1] — 左边的来源卡片高亮, 你能看到原始文档内容</li>
+          <li>注意: 同一个来源 [1] 在回答中出现了 3 次 — 说明这个 chunk 提供了最多信息</li>
+          <li>每句话都有据可查 — 这就是 Citation 的用户价值</li>
+        </ul>
+      </div>
+      <div class="step-foot">回到 Vitamin ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 Citation 设计</h2>
+      <p class="step-lede">Vitamin 是健康应用, Citation 不只是"好看的功能", 而是<strong>合规和信任的底线</strong>.</p>
+      <div class="callout callout-green">
+        <p><strong>Vitamin Citation 方案:</strong></p>
+        <ol>
+          <li><strong>行内标注:</strong> 每个健康建议后面标 [1] [2], 可点击查看来源</li>
+          <li><strong>来源卡片:</strong> 底部显示来源文档名 + 章节 + 关键引文</li>
+          <li><strong>信心标记:</strong> 高信心 (多个来源支持) 用绿色, 低信心 (单一来源) 用黄色</li>
+          <li><strong>免责声明:</strong> "以上信息仅供参考, 不构成医疗建议. 详情请咨询医生."</li>
+          <li><strong>后处理验证:</strong> 每个引用经过 post-hoc attribution 检查, 确保准确</li>
+        </ol>
+      </div>
+      <div class="callout callout-red">
+        <p><strong>合规红线:</strong> 涉及用药建议、疾病诊断的回答, 必须标注来源 + 加免责声明. 没有来源支持的医学 claim, 一律不输出.</p>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">没有 Citation 的 RAG = 高级版"编".<br/>每个 claim 都要有来源, 没来源就不说.</p>
+        <p class="one-liner-foot muted">Citation 准确率只有 74%, 需要 post-hoc 验证.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>打开 Perplexity, 问一个健康问题, 点击引用来源, 看看来源是否真的支持那句话.</li>
+          <li>设计一个 Vitamin 的引用 UI 线框图: 回答区 + 引用标记 + 来源面板.</li>
+          <li>写一段 System Prompt, 要求 LLM 对 Vitamin 用户问题做行内引用.</li>
+          <li>思考: 如果用户问了一个知识库里没有的问题, Vitamin 应该怎么回复?</li>
+        </ol>
+        <div style="margin-top:18px">
+          <strong>资源延伸:</strong>
+          <table style="width:100%; font-size:13px; margin-top:8px; border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📖</td><td>Citation-Aware RAG</td><td><a href="https://www.tensorlake.ai/blog/rag-citations" target="_blank">Tensorlake</a></td><td>最全面的 RAG 引用实现指南</td><td>20 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">🛠</td><td>Perplexity.ai</td><td><a href="https://www.perplexity.ai" target="_blank">perplexity.ai</a></td><td>最好的 Citation RAG 产品体验</td><td>5 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📖</td><td>RAG Grounding</td><td><a href="https://www.elastic.co/search-labs/blog/grounding-rag" target="_blank">Elastic</a></td><td>Grounding 在检索中的实现</td><td>15 min</td></tr>
+            <tr><td style="padding:6px 8px">📄</td><td>CiteFix 论文</td><td><a href="https://arxiv.org/html/2504.15629v2" target="_blank">arXiv</a></td><td>后处理引用纠错的最新研究</td><td>30 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 没引用=高级编</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Citation 四大价值</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 三种实现方式</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Prompt 设计</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 准确率 74%</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Post-hoc Attribution</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Grounding 哲学</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Citation Viewer</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 方案</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 6:</p>
+        <p class="end-summary-big">每个 claim 必须有来源, 没来源就不说. 弃权是特性.</p>
+        <p class="end-summary-sub">LLM 引用准确率只有 74%. 需要 post-hoc 验证 + 前端可点击.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 7): RAG 评测</div>
+        <p>Pipeline 搭好了, Citation 加上了. 怎么知道整个系统"好不好"?</p>
+        <p><strong>RAGAS 框架: Faithfulness + Relevancy, 给你的 RAG 打分.</strong></p>
+        <a class="walk-arrow" href="../u7-evaluation/index.html">继续走 → Unit 7</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 3.3 · Unit 6 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

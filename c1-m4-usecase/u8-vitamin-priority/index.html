@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 8 · Vitamin 6 候选场景取舍 (Capstone) — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M1.4 Unit 8: 最终 Boss — 6 个候选 AI 功能放进 ROI×TTV 矩阵, 产出分阶段路线图. Course 1 完结篇." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M1.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 8 · Capstone</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 8<span class="title-dot">·</span><br/>Vitamin 6 候选场景取舍</h1>
+      <p class="hero-sub">Module 1.4 的 Boss Level — 也是 Course 1 的最终关.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <figcaption>(你 · PM · 即将通关 Course 1)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">R/W/C 分类学了, ROI 算了, Build/Buy/API 选了, 时间线估了.</p>
+          <p class="cloud-line">现在要把 6 个候选功能排出先后顺序?</p>
+          <p class="cloud-line accent">—— 这不就是真正的 PM 工作吗!</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>用 ROI × TTV 矩阵给 6 个功能排优先级</li>
+          <li>产出分 3 期的 Vitamin AI 功能路线图</li>
+          <li>完成 Course 1 全部学习, 拿到 "可面试" 的产出物</li>
+          <li>更新简历 1.0, 准备投递</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) The PM's ultimate deliverable -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">PM 的终极产出物: 优先级排序</h2>
+      <p class="step-lede">面试官不会问你 "学了什么". 他们会问: <mark class="hl">"给你一个产品, 你先做哪个功能, 为什么?"</mark></p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>一个好的功能优先级排序需要 4 个东西:</strong></p>
+        <ol>
+          <li><strong>评估框架</strong> — 用什么维度打分 (不是拍脑袋)</li>
+          <li><strong>数据支撑</strong> — 每个维度的分数怎么来的</li>
+          <li><strong>视觉呈现</strong> — 矩阵图, 一眼看出先后</li>
+          <li><strong>行动路线</strong> — 分阶段的 roadmap, 有时间有里程碑</li>
+        </ol>
+      </div>
+
+      <p>今天你要做的就是: 把 M1.4 学过的所有框架, 用在一个真实决策上.</p>
+
+      <div class="big-insight" data-rough="big">
+        <p>你的武器库:</p>
+        <p class="insight-text">U1 Augmentation 谱系 + U2-4 R/W/C 分类<br/>+ U5 ROI + U6 Build/Buy/API + U7 TTV</p>
+        <p>全部汇聚到一个 2×2 矩阵里.</p>
+      </div>
+
+      <div class="step-foot">先认识一下 6 个候选功能 ↓</div>
+    </section>
+
+    <!-- (2) Meet the 6 candidates -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Vitamin 的 6 个候选 AI 功能</h2>
+      <p class="step-lede">每个功能都已经用前面学过的框架分析过了. 现在快速过一遍:</p>
+
+      <div class="candidate-grid">
+        <article class="candidate-card" data-id="0" data-rough="card">
+          <div class="cand-header">
+            <span class="cand-icon">🔍</span>
+            <div>
+              <h3>症状关键词提取</h3>
+              <div class="cand-badges">
+                <span class="pill pill-blue">Reading: Extract</span>
+                <span class="cand-aug">Aug Lv.3</span>
+              </div>
+            </div>
+          </div>
+          <p class="cand-desc">从用户聊天文本中提取症状关键词, 转为结构化数据.</p>
+          <div class="cand-meta">
+            <span class="cand-roi cand-roi-high">ROI: 高</span>
+            <span class="cand-ttv cand-ttv-fast">TTV: 2 周</span>
+            <span class="cand-path">API</span>
+          </div>
+        </article>
+
+        <article class="candidate-card" data-id="1" data-rough="card">
+          <div class="cand-header">
+            <span class="cand-icon">💊</span>
+            <div>
+              <h3>个性化健康建议</h3>
+              <div class="cand-badges">
+                <span class="pill pill-green">Writing: Draft</span>
+                <span class="cand-aug">Aug Lv.4</span>
+              </div>
+            </div>
+          </div>
+          <p class="cand-desc">根据用户的 5 种身体状态生成个性化健康建议.</p>
+          <div class="cand-meta">
+            <span class="cand-roi cand-roi-high">ROI: 高</span>
+            <span class="cand-ttv cand-ttv-medium">TTV: 3 周</span>
+            <span class="cand-path">API + 人审</span>
+          </div>
+        </article>
+
+        <article class="candidate-card" data-id="2" data-rough="card">
+          <div class="cand-header">
+            <span class="cand-icon">💬</span>
+            <div>
+              <h3>多轮身体状态对话</h3>
+              <div class="cand-badges">
+                <span class="pill pill-amber">Chatting: Companion</span>
+                <span class="cand-aug">Aug Lv.3</span>
+              </div>
+            </div>
+          </div>
+          <p class="cand-desc">持续性健康对话, 带记忆地跟踪用户身体变化.</p>
+          <div class="cand-meta">
+            <span class="cand-roi cand-roi-medium">ROI: 中高</span>
+            <span class="cand-ttv cand-ttv-slow">TTV: 4-6 周</span>
+            <span class="cand-path">API + 状态管理</span>
+          </div>
+        </article>
+
+        <article class="candidate-card" data-id="3" data-rough="card">
+          <div class="cand-header">
+            <span class="cand-icon">📷</span>
+            <div>
+              <h3>饮食拍照识别</h3>
+              <div class="cand-badges">
+                <span class="pill pill-blue">Multimodal: Image→Text</span>
+                <span class="cand-aug">Aug Lv.2</span>
+              </div>
+            </div>
+          </div>
+          <p class="cand-desc">拍照识别食物, 自动计算卡路里和营养成分.</p>
+          <div class="cand-meta">
+            <span class="cand-roi cand-roi-low">ROI: 中</span>
+            <span class="cand-ttv cand-ttv-slow">TTV: 6-8 周</span>
+            <span class="cand-path">API + Vision</span>
+          </div>
+        </article>
+
+        <article class="candidate-card" data-id="4" data-rough="card">
+          <div class="cand-header">
+            <span class="cand-icon">📝</span>
+            <div>
+              <h3>医学术语翻译</h3>
+              <div class="cand-badges">
+                <span class="pill pill-green">Writing: Paraphrase</span>
+                <span class="cand-aug">Aug Lv.4</span>
+              </div>
+            </div>
+          </div>
+          <p class="cand-desc">把医学专业术语翻译成用户能理解的大白话.</p>
+          <div class="cand-meta">
+            <span class="cand-roi cand-roi-low">ROI: 中</span>
+            <span class="cand-ttv cand-ttv-fast">TTV: 1 周</span>
+            <span class="cand-path">API (简单)</span>
+          </div>
+        </article>
+
+        <article class="candidate-card" data-id="5" data-rough="card">
+          <div class="cand-header">
+            <span class="cand-icon">🧠</span>
+            <div>
+              <h3>情绪分类识别</h3>
+              <div class="cand-badges">
+                <span class="pill pill-blue">Reading: Classify</span>
+                <span class="cand-aug">Aug Lv.3</span>
+              </div>
+            </div>
+          </div>
+          <p class="cand-desc">从用户文本中判断情绪状态, 分类到 Vitamin 的 5 种状态体系.</p>
+          <div class="cand-meta">
+            <span class="cand-roi cand-roi-medium">ROI: 中高</span>
+            <span class="cand-ttv cand-ttv-fast">TTV: 2 周</span>
+            <span class="cand-path">API</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="step-foot">6 个候选都认识了. 先看第一个评分维度: ROI ↓</div>
+    </section>
+
+    <!-- (3) Scoring dimension 1: ROI -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">评分维度 1: ROI — 这个功能值不值得做?</h2>
+      <p class="step-lede">回顾 U5 的 ROI 框架: <mark class="hl">价值 = 用户量 × 使用频率 × 单次价值</mark></p>
+
+      <div class="score-table" data-rough="card">
+        <table>
+          <thead>
+            <tr><th>功能</th><th>用户量</th><th>频率</th><th>单次价值</th><th>ROI 评分</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🔍 症状关键词提取</td>
+              <td>全部用户</td>
+              <td>每天</td>
+              <td>高 (节省人工分诊)</td>
+              <td><span class="score-badge score-high">9/10</span></td>
+            </tr>
+            <tr>
+              <td>💊 个性化健康建议</td>
+              <td>全部用户</td>
+              <td>每天</td>
+              <td>高 (核心价值主张)</td>
+              <td><span class="score-badge score-high">9/10</span></td>
+            </tr>
+            <tr>
+              <td>💬 多轮对话</td>
+              <td>活跃用户</td>
+              <td>每周</td>
+              <td>中高 (提升留存)</td>
+              <td><span class="score-badge score-medium">7/10</span></td>
+            </tr>
+            <tr>
+              <td>📷 饮食拍照</td>
+              <td>部分用户</td>
+              <td>每天</td>
+              <td>中 (nice-to-have)</td>
+              <td><span class="score-badge score-low">5/10</span></td>
+            </tr>
+            <tr>
+              <td>📝 术语翻译</td>
+              <td>全部用户</td>
+              <td>偶尔</td>
+              <td>中 (改善体验)</td>
+              <td><span class="score-badge score-low">5/10</span></td>
+            </tr>
+            <tr>
+              <td>🧠 情绪分类</td>
+              <td>全部用户</td>
+              <td>每天</td>
+              <td>中高 (5状态核心)</td>
+              <td><span class="score-badge score-medium">7/10</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>关键观察:</strong>
+        <p>"症状提取" 和 "健康建议" 得分最高 — 因为它们是 Vitamin 的核心价值主张, 每个用户每天都会用到.</p>
+        <p>"饮食拍照" 和 "术语翻译" 得分最低 — 一个是 "锦上添花", 一个用得太少.</p>
+      </div>
+
+      <div class="step-foot">再看第二个维度: Time-to-value ↓</div>
+    </section>
+
+    <!-- (4) Scoring dimension 2: TTV -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">评分维度 2: TTV — 多快能上线?</h2>
+      <p class="step-lede">回顾 U7: TTV = 乐观估计 × 现实乘数. 速度越快, 得分越高.</p>
+
+      <div class="score-table" data-rough="card">
+        <table>
+          <thead>
+            <tr><th>功能</th><th>路径</th><th>乐观估计</th><th>×1.5 实际</th><th>TTV 评分</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🔍 症状关键词提取</td>
+              <td><span class="pill pill-blue">API</span></td>
+              <td>2 周</td>
+              <td>3 周</td>
+              <td><span class="score-badge score-high">9/10</span></td>
+            </tr>
+            <tr>
+              <td>💊 个性化健康建议</td>
+              <td><span class="pill pill-blue">API + 人审</span></td>
+              <td>3 周</td>
+              <td>4.5 周</td>
+              <td><span class="score-badge score-medium">7/10</span></td>
+            </tr>
+            <tr>
+              <td>💬 多轮对话</td>
+              <td><span class="pill pill-blue">API</span></td>
+              <td>4-6 周</td>
+              <td>6-9 周</td>
+              <td><span class="score-badge score-low">4/10</span></td>
+            </tr>
+            <tr>
+              <td>📷 饮食拍照</td>
+              <td><span class="pill pill-blue">API + Vision</span></td>
+              <td>6-8 周</td>
+              <td>9-12 周</td>
+              <td><span class="score-badge score-low">3/10</span></td>
+            </tr>
+            <tr>
+              <td>📝 术语翻译</td>
+              <td><span class="pill pill-green">API (简单)</span></td>
+              <td>1 周</td>
+              <td>1.5 周</td>
+              <td><span class="score-badge score-high">10/10</span></td>
+            </tr>
+            <tr>
+              <td>🧠 情绪分类</td>
+              <td><span class="pill pill-blue">API</span></td>
+              <td>2 周</td>
+              <td>3 周</td>
+              <td><span class="score-badge score-high">9/10</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>关键观察:</strong>
+        <p>"术语翻译" 最快 (1 周) — 因为任务简单, 不需要复杂的 prompt 工程.</p>
+        <p>"饮食拍照" 最慢 (9-12 周) — 多模态 + 中式菜品识别 + 营养数据库对接, 是最复杂的功能.</p>
+      </div>
+
+      <div class="step-foot">两个维度都有了, 放进矩阵里! ↓</div>
+    </section>
+
+    <!-- (5) The 2×2 matrix explained -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">2×2 矩阵: PM 最趁手的决策工具</h2>
+      <p class="step-lede">把 ROI 放 Y 轴 (高→低), TTV 放 X 轴 (快→慢), 得到 4 个象限:</p>
+
+      <div class="matrix-explain" data-rough="card">
+        <div class="matrix-grid-static">
+          <div class="matrix-y-label">ROI 高 ↑</div>
+          <div class="quad quad-tl">
+            <span class="quad-label">🟢 立刻做</span>
+            <span class="quad-desc">ROI 高 + TTV 快</span>
+            <span class="quad-action">Phase 1 (1-3 周)</span>
+          </div>
+          <div class="quad quad-tr">
+            <span class="quad-label">🔵 规划好再做</span>
+            <span class="quad-desc">ROI 高 + TTV 慢</span>
+            <span class="quad-action">Phase 2 (月 2-3)</span>
+          </div>
+          <div class="quad quad-bl">
+            <span class="quad-label">🟡 顺手做</span>
+            <span class="quad-desc">ROI 低 + TTV 快</span>
+            <span class="quad-action">Phase 1 搭车</span>
+          </div>
+          <div class="quad quad-br">
+            <span class="quad-label">🔴 先不做</span>
+            <span class="quad-desc">ROI 低 + TTV 慢</span>
+            <span class="quad-action">Phase 3+ 或放弃</span>
+          </div>
+          <div class="matrix-x-label">← TTV 快 &nbsp;&nbsp;&nbsp; TTV 慢 →</div>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>为什么这个框架特别适合 AI 功能决策?</strong>
+        <ul>
+          <li><strong>直觉对齐:</strong> "先做容易的高回报的" — 这是人人都认同的逻辑</li>
+          <li><strong>对话工具:</strong> 跟工程师、老板沟通时, 一张图胜过千言万语</li>
+          <li><strong>迭代友好:</strong> AI 功能效果有不确定性, 快上线 → 快验证 → 快迭代</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">好, 把 6 个功能放进去 ↓</div>
+    </section>
+
+    <!-- (6) Placing the 6 features -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">6 个功能, 放在哪个象限?</h2>
+      <p class="step-lede">根据前两步的评分, 我们可以推导出每个功能的位置:</p>
+
+      <div class="placement-list">
+        <article class="placement" data-rough="card">
+          <div class="placement-quad quad-green">🟢 立刻做</div>
+          <div class="placement-items">
+            <div class="placement-item">
+              <strong>🔍 症状关键词提取</strong>
+              <span class="placement-reason">ROI 9 + TTV 9 = 最完美的起步功能</span>
+            </div>
+            <div class="placement-item">
+              <strong>🧠 情绪分类识别</strong>
+              <span class="placement-reason">ROI 7 + TTV 9 = 5 状态体系的核心支撑</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="placement" data-rough="card">
+          <div class="placement-quad quad-blue">🔵 规划好再做</div>
+          <div class="placement-items">
+            <div class="placement-item">
+              <strong>💊 个性化健康建议</strong>
+              <span class="placement-reason">ROI 9 + TTV 7 = 高价值但需要合规审查</span>
+            </div>
+            <div class="placement-item">
+              <strong>💬 多轮身体状态对话</strong>
+              <span class="placement-reason">ROI 7 + TTV 4 = 技术复杂, 需要稳扎稳打</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="placement" data-rough="card">
+          <div class="placement-quad quad-amber">🟡 顺手做</div>
+          <div class="placement-items">
+            <div class="placement-item">
+              <strong>📝 医学术语翻译</strong>
+              <span class="placement-reason">ROI 5 + TTV 10 = 一周就能搞定, 搭车上线</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="placement" data-rough="card">
+          <div class="placement-quad quad-red">🔴 先不做</div>
+          <div class="placement-items">
+            <div class="placement-item">
+              <strong>📷 饮食拍照识别</strong>
+              <span class="placement-reason">ROI 5 + TTV 3 = 投入大回报低, 等技术成熟</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>"先不做" ≠ "永远不做"</strong></p>
+        <p>饮食拍照识别是个好功能, 但在 Vitamin 的早期阶段, 资源应该集中在核心的 "身体状态追踪" 上. 等 Phase 1-2 跑通了, 再回来做这个. 到那时, Vision API 的价格和识别精度可能都更好了.</p>
+      </div>
+
+      <div class="step-foot">从矩阵到路线图, 怎么排时间? ↓</div>
+    </section>
+
+    <!-- (7) From matrix to roadmap -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">从矩阵到路线图: 分 3 期</h2>
+      <p class="step-lede">矩阵告诉你 "先做什么", 路线图告诉你 "什么时候做到什么程度".</p>
+
+      <div class="roadmap" data-rough="card">
+        <div class="roadmap-phase roadmap-p1">
+          <div class="roadmap-header">
+            <span class="roadmap-tag tag-p1">Phase 1</span>
+            <span class="roadmap-time">Week 1-4</span>
+          </div>
+          <h3>快速验证核心能力</h3>
+          <div class="roadmap-features">
+            <div class="roadmap-feature">
+              <span class="rf-icon">🔍</span>
+              <div>
+                <strong>症状关键词提取</strong>
+                <span class="rf-detail">Week 1-3: API 对接 + 测试 + 上线</span>
+              </div>
+            </div>
+            <div class="roadmap-feature">
+              <span class="rf-icon">🧠</span>
+              <div>
+                <strong>情绪分类识别</strong>
+                <span class="rf-detail">Week 2-4: 与症状提取并行开发</span>
+              </div>
+            </div>
+            <div class="roadmap-feature">
+              <span class="rf-icon">📝</span>
+              <div>
+                <strong>医学术语翻译</strong>
+                <span class="rf-detail">Week 3: 搭车上线, 1 周搞定</span>
+              </div>
+            </div>
+          </div>
+          <div class="roadmap-milestone">🏁 里程碑: 3 个 AI 功能上线, 开始收集用户反馈</div>
+        </div>
+
+        <div class="roadmap-phase roadmap-p2">
+          <div class="roadmap-header">
+            <span class="roadmap-tag tag-p2">Phase 2</span>
+            <span class="roadmap-time">Month 2-3</span>
+          </div>
+          <h3>打磨核心体验</h3>
+          <div class="roadmap-features">
+            <div class="roadmap-feature">
+              <span class="rf-icon">💊</span>
+              <div>
+                <strong>个性化健康建议</strong>
+                <span class="rf-detail">Week 5-9: 含合规审查 + 人工审核流程</span>
+              </div>
+            </div>
+            <div class="roadmap-feature">
+              <span class="rf-icon">💬</span>
+              <div>
+                <strong>多轮身体状态对话</strong>
+                <span class="rf-detail">Week 7-12: 状态管理 + 记忆系统</span>
+              </div>
+            </div>
+          </div>
+          <div class="roadmap-milestone">🏁 里程碑: 5 个 AI 功能运行, 核心用户闭环完成</div>
+        </div>
+
+        <div class="roadmap-phase roadmap-p3">
+          <div class="roadmap-header">
+            <span class="roadmap-tag tag-p3">Phase 3</span>
+            <span class="roadmap-time">Month 4+</span>
+          </div>
+          <h3>扩展能力边界</h3>
+          <div class="roadmap-features">
+            <div class="roadmap-feature">
+              <span class="rf-icon">📷</span>
+              <div>
+                <strong>饮食拍照识别</strong>
+                <span class="rf-detail">根据 Phase 1-2 用户反馈决定是否启动</span>
+              </div>
+            </div>
+          </div>
+          <div class="roadmap-milestone">🏁 里程碑: 评估是否启动, 取决于用户需求验证结果</div>
+        </div>
+      </div>
+
+      <div class="step-foot">现在轮到你动手了 — 用 Priority Matrix 亲自排一遍 ↓</div>
+    </section>
+
+    <!-- (8) WIDGET: Priority Matrix -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Priority Matrix</h2>
+      <p class="step-lede">把 6 张功能卡片拖到你认为合适的象限里. 全部放完后, 看看跟建议答案是否一致.</p>
+
+      <div class="matrix-widget" data-rough="card">
+        <!-- Progress -->
+        <div class="mw-progress" id="mw-progress">已放置: <strong>0</strong> / 6</div>
+
+        <!-- 2×2 Matrix -->
+        <div class="mw-matrix" id="mw-matrix">
+          <div class="mw-y-label">ROI 高 ↑</div>
+          <div class="mw-quadrant" data-quadrant="tl" id="q-tl">
+            <span class="mw-q-label">🟢 立刻做</span>
+            <span class="mw-q-sub">高 ROI + 快 TTV</span>
+          </div>
+          <div class="mw-quadrant" data-quadrant="tr" id="q-tr">
+            <span class="mw-q-label">🔵 规划好再做</span>
+            <span class="mw-q-sub">高 ROI + 慢 TTV</span>
+          </div>
+          <div class="mw-quadrant" data-quadrant="bl" id="q-bl">
+            <span class="mw-q-label">🟡 顺手做</span>
+            <span class="mw-q-sub">低 ROI + 快 TTV</span>
+          </div>
+          <div class="mw-quadrant" data-quadrant="br" id="q-br">
+            <span class="mw-q-label">🔴 先不做</span>
+            <span class="mw-q-sub">低 ROI + 慢 TTV</span>
+          </div>
+          <div class="mw-x-label">← 快 TTV &nbsp;&nbsp;&nbsp;&nbsp; 慢 TTV →</div>
+        </div>
+
+        <!-- Feature cards to drag -->
+        <div class="mw-card-tray" id="mw-card-tray">
+          <div class="mw-card" draggable="true" data-feature="0">
+            <span class="mw-card-icon">🔍</span>
+            <span class="mw-card-name">症状关键词提取</span>
+            <span class="mw-card-type">Reading</span>
+          </div>
+          <div class="mw-card" draggable="true" data-feature="1">
+            <span class="mw-card-icon">💊</span>
+            <span class="mw-card-name">个性化健康建议</span>
+            <span class="mw-card-type">Writing</span>
+          </div>
+          <div class="mw-card" draggable="true" data-feature="2">
+            <span class="mw-card-icon">💬</span>
+            <span class="mw-card-name">多轮对话</span>
+            <span class="mw-card-type">Chatting</span>
+          </div>
+          <div class="mw-card" draggable="true" data-feature="3">
+            <span class="mw-card-icon">📷</span>
+            <span class="mw-card-name">饮食拍照</span>
+            <span class="mw-card-type">Multimodal</span>
+          </div>
+          <div class="mw-card" draggable="true" data-feature="4">
+            <span class="mw-card-icon">📝</span>
+            <span class="mw-card-name">术语翻译</span>
+            <span class="mw-card-type">Writing</span>
+          </div>
+          <div class="mw-card" draggable="true" data-feature="5">
+            <span class="mw-card-icon">🧠</span>
+            <span class="mw-card-name">情绪分类</span>
+            <span class="mw-card-type">Reading</span>
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="mw-actions">
+          <button class="btn btn-primary" id="mw-check" disabled>检查答案 ✓</button>
+          <button class="btn btn-ghost" id="mw-reset">重来</button>
+          <button class="btn btn-ghost" id="mw-roadmap" style="display:none">生成路线图 📋</button>
+        </div>
+
+        <!-- Check result -->
+        <div class="mw-result" id="mw-result" style="display:none"></div>
+
+        <!-- Generated roadmap -->
+        <div class="mw-roadmap-output" id="mw-roadmap-output" style="display:none"></div>
+      </div>
+
+      <div class="step-foot">搞定矩阵, 看看 Vitamin 的全景 ↓</div>
+    </section>
+
+    <!-- (9) Vitamin case study — the full picture -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin AI 能力全景图</h2>
+      <p class="step-lede">站远一步, 看看学完 Course 1 之后, 你对 Vitamin 的 AI 能力有了怎样的全景认知.</p>
+
+      <div class="full-picture" data-rough="card">
+        <h3 class="fp-title">Vitamin · AI 功能优先级文档 (v1.0)</h3>
+
+        <div class="fp-section">
+          <h4>产品定位</h4>
+          <p>女性健康 AI App, 核心能力: 5 种身体状态追踪 + 个性化健康陪伴</p>
+        </div>
+
+        <div class="fp-section">
+          <h4>AI 功能矩阵</h4>
+          <div class="fp-matrix-mini">
+            <div class="fp-q fp-q-green">
+              <strong>Phase 1</strong>
+              <span>🔍 症状提取</span>
+              <span>🧠 情绪分类</span>
+              <span>📝 术语翻译</span>
+            </div>
+            <div class="fp-q fp-q-blue">
+              <strong>Phase 2</strong>
+              <span>💊 健康建议</span>
+              <span>💬 多轮对话</span>
+            </div>
+            <div class="fp-q fp-q-amber">
+              <strong>Phase 3</strong>
+              <span>📷 饮食拍照</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="fp-section">
+          <h4>关键决策依据</h4>
+          <ul>
+            <li>Phase 1 选择 ROI 最高 + TTV 最快的功能, 用 4 周跑通核心闭环</li>
+            <li>Phase 2 投入高价值但需要合规和技术攻关的功能</li>
+            <li>Phase 3 根据用户反馈决定是否启动多模态功能</li>
+          </ul>
+        </div>
+
+        <div class="fp-section">
+          <h4>技术选型</h4>
+          <p>Phase 1-2 全部采用 API 路径 (GPT-4o / Claude), 不做 fine-tune. 原因: 团队首次 AI 项目, 优先速度和灵活性.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"我用 ROI×TTV 矩阵给 Vitamin 的 6 个候选 AI 功能排了优先级. Phase 1 做了 3 个快速验证功能, 4 周上线; Phase 2 做合规要求高的个性化建议和多轮对话; Phase 3 视用户反馈决定是否做多模态. 全部 API 路径, 不做 fine-tune, 因为团队首次做 AI 功能."</p>
+        <p class="muted">→ 这段话涵盖了: 分类能力 + 评估能力 + 排序能力 + 技术选型能力 + 风险管理能力. 5 个 AI PM 核心能力, 一段话全部展现.</p>
+      </div>
+
+      <div class="step-foot">最后一步: 规则 + 作业 + 简历更新 ↓</div>
+    </section>
+
+    <!-- (10) One-line rule + homework -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 通关作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">ROI × TTV 矩阵 = AI PM 最趁手的决策工具.<br/>先做 "高 ROI + 快 TTV", 把验证周期压到最短.</p>
+        <p class="one-liner-foot muted">好的 PM 不是做最多的功能, 而是选对第一个功能.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>Course 1 通关作业 (60 分钟):</strong>
+        <ol>
+          <li><strong>产出 Vitamin AI 功能优先级文档:</strong> 6 个功能 × (R/W/C 分类 + ROI 评分 + TTV 评分 + 象限位置 + 路径选择) = 一张完整表格 + 矩阵图 + 分阶段路线图.</li>
+          <li><strong>更新简历 1.0:</strong> 在 "技能" 栏加上 "AI feature prioritization" 和 "model selection". 在 "项目经验" 加上 Vitamin 的 AI 功能规划 (哪怕是课程作业, 也是实战产出).</li>
+          <li><strong>写 200 字总结:</strong> "如果我是 Vitamin 的 PM, 我的第一个 AI 功能是 ___, 因为 ___. 我不会先做 ___, 因为 ___."</li>
+          <li><strong>简历投递:</strong> 把简历 1.0 发给 3 个目标公司的 AI PM 岗位. 不完美没关系 — Course 2 还会迭代.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>内容</th><th>来源</th><th>推荐理由</th><th>时间</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>📖</td>
+              <td>Feature Prioritization Matrix 101</td>
+              <td><a href="https://userpilot.com/blog/feature-prioritization-matrix/" target="_blank">Userpilot</a></td>
+              <td>最全的优先级矩阵教程, 多种框架对比</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>Value/Effort Matrix 完整指南</td>
+              <td><a href="https://onepm.app/content/value-effort-matrix" target="_blank">OnePM</a></td>
+              <td>深度讲解 2×2 矩阵的使用方法</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>2x2 Prioritization Matrix 详解</td>
+              <td><a href="https://www.productplan.com/glossary/2x2-prioritization-matrix/" target="_blank">ProductPlan</a></td>
+              <td>2×2 矩阵的定义、使用场景和最佳实践</td>
+              <td>10 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>Product Prioritization Frameworks</td>
+              <td><a href="https://www.atlassian.com/agile/product-management/prioritization-framework" target="_blank">Atlassian</a></td>
+              <td>9 种排序框架对比, 帮你选最合适的</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>AI 产品经理能力矩阵</td>
+              <td><a href="https://zhuanlan.zhihu.com/p/641973912" target="_blank">知乎</a></td>
+              <td>中文 AI PM 能力模型, 对标你的成长路径</td>
+              <td>15 min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — Course 1 的最终回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> PM 终极产出: 优先级排序</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 认识 6 个候选功能</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> 评分维度 1: ROI</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> 评分维度 2: TTV</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 2×2 矩阵四象限</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 6 个功能放入象限</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 分 3 期路线图</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Priority Matrix 动手练</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 全景图</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 通关作业 + 简历</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 8:</p>
+        <p class="end-summary-big">ROI × TTV 矩阵 → 立刻做 / 规划做 / 顺手做 / 先不做.</p>
+        <p class="end-summary-sub">好的 PM 不做最多, 选对第一个.</p>
+      </div>
+
+      <!-- Course 1 Completion Card -->
+      <div class="completion-card" data-rough="big">
+        <div class="completion-badge">🎓</div>
+        <h3 class="completion-title">Course 1: Discover 完成!</h3>
+        <p class="completion-sub">你已经走完了 Course 1 的全部 4 个模块、33 个 Unit.</p>
+
+        <div class="completion-outputs">
+          <h4>你现在能产出:</h4>
+          <ul class="check-list">
+            <li><strong>Vitamin AI 能力边界文档</strong> — 哪些能交给 AI, 哪些不能</li>
+            <li><strong>AI 功能优先级矩阵</strong> — 6 个功能 × ROI × TTV, 分 3 期路线图</li>
+            <li><strong>简历 1.0</strong> — 包含 AI PM 核心技能 + Vitamin 项目经验</li>
+          </ul>
+        </div>
+
+        <div class="completion-skills">
+          <h4>你掌握的核心能力:</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">LLM 工作原理</span>
+            <span class="skill-tag">Token & Context</span>
+            <span class="skill-tag">Prompt 设计</span>
+            <span class="skill-tag">R/W/C 分类</span>
+            <span class="skill-tag">AI ROI 计算</span>
+            <span class="skill-tag">Build/Buy/API</span>
+            <span class="skill-tag">Timeline 估算</span>
+            <span class="skill-tag">优先级矩阵</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="next-card next-card-course" data-rough="card">
+        <div class="next-tag">下一门课: Course 2 · Design</div>
+        <p>Course 1 回答了 <strong>"做什么"</strong> — 你选出了 Vitamin 的首发 AI 功能.</p>
+        <p>Course 2 回答 <strong>"怎么做"</strong> — 学会把 AI 功能变成可答辩的 PRD: 模型IO + 效果指标 + 兜底机制 + 成本建模 + 架构选型.</p>
+        <a class="walk-arrow" href="../../c2-m1-prd/u1-traditional-vs-ai/index.html">继续走 → Course 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.4 · Unit 8 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

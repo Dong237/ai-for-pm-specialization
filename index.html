@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>AI for PM Specialization — 个人定制版</title>
+  <meta name="description" content="AI PM 课 · 4 门课程 × 4 模块 — 从 Discover 到 Ship, 完整的 AI PM 学习路径." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="./shared/styles.css" />
+  <style>
+    .course-hero { text-align: center; padding: 60px 0 20px; }
+    .course-badge {
+      display: inline-block; background: var(--amber); color: white;
+      padding: 8px 22px; border-radius: 8px; font-size: 15px; font-weight: 700;
+      margin-bottom: 18px; transform: rotate(-2deg); letter-spacing: 0.03em;
+    }
+    .course-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: clamp(36px, 7vw, 56px); font-weight: 600; line-height: 1.15;
+      margin: 0 0 12px;
+    }
+    .course-sub {
+      font-size: 19px; color: var(--ink-soft); margin: 0 0 16px;
+      max-width: 620px; margin-left: auto; margin-right: auto;
+    }
+    .course-meta {
+      display: flex; justify-content: center; gap: 28px; margin: 24px 0 40px; flex-wrap: wrap;
+      font-size: 14px; color: var(--ink-muted);
+    }
+    .course-meta strong { color: var(--ink); }
+
+    .modules-list { max-width: 700px; margin: 0 auto 40px; }
+    .module-card {
+      display: block; text-decoration: none; color: var(--ink);
+      background: var(--bg-card); border: 2.5px solid var(--border-strong);
+      border-radius: 14px 16px 15px 17px; padding: 28px 30px;
+      margin-bottom: 20px; box-shadow: var(--shadow-card);
+      transition: transform 0.2s, box-shadow 0.2s; position: relative;
+    }
+    .module-card:hover {
+      transform: translateY(-4px) rotate(-0.3deg); box-shadow: var(--shadow-elev);
+    }
+    .module-card:nth-child(1) { transform: rotate(-0.4deg); border-color: var(--amber); }
+    .module-card:nth-child(2) { transform: rotate(0.3deg); border-color: var(--green); }
+    .module-card:nth-child(3) { transform: rotate(-0.2deg); border-color: var(--blue); }
+    .module-card:nth-child(4) { transform: rotate(0.4deg); border-color: var(--purple); }
+    .module-card:nth-child(1):hover { transform: translateY(-4px) rotate(-0.7deg); }
+    .module-card:nth-child(2):hover { transform: translateY(-4px) rotate(0deg); }
+    .module-card:nth-child(3):hover { transform: translateY(-4px) rotate(-0.5deg); }
+    .module-card:nth-child(4):hover { transform: translateY(-4px) rotate(0.1deg); }
+
+    .mc-header { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+    .mc-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 22px; font-weight: 700; flex-shrink: 0; border: 2.5px solid;
+    }
+    .module-card:nth-child(1) .mc-num { background: var(--amber-bg); color: var(--amber); border-color: var(--amber); }
+    .module-card:nth-child(2) .mc-num { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+    .module-card:nth-child(3) .mc-num { background: var(--blue-bg); color: var(--blue); border-color: var(--blue); }
+    .module-card:nth-child(4) .mc-num { background: var(--purple-bg); color: var(--purple); border-color: var(--purple); }
+
+    .mc-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 22px; font-weight: 600; line-height: 1.3; margin: 0;
+    }
+    .mc-desc { font-size: 15px; color: var(--ink-soft); margin: 0 0 12px; line-height: 1.6; }
+    .mc-stats {
+      display: flex; gap: 16px; font-size: 13px; color: var(--ink-muted);
+    }
+    .mc-stats span { display: inline-flex; align-items: center; gap: 4px; }
+    .mc-arrow {
+      position: absolute; bottom: 22px; right: 24px; color: var(--green);
+      font-family: "Excalifont", system-ui, sans-serif;
+      font-size: 20px; transition: transform 0.2s;
+    }
+    .module-card:hover .mc-arrow { transform: translateX(6px); }
+
+    .module-card.locked {
+      opacity: 0.5; pointer-events: none; border-style: dashed;
+    }
+    .mc-lock {
+      position: absolute; top: 16px; right: 20px;
+      font-size: 13px; color: var(--ink-muted); font-weight: 600;
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Course 1 Overview</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="canvas" style="max-width:860px;">
+
+    <div class="course-hero">
+      <div class="course-badge">Course 1</div>
+      <h1 class="course-title">Discover<br/>发现 AI 机会</h1>
+      <p class="course-sub">什么场景该上 AI? 能力边界在哪? 业内有什么选择?<br/>4 个模块, 从 LLM 原理到模型选型, 建立 AI PM 的核心判断力.</p>
+      <div class="course-meta">
+        <span><strong>4</strong> 个模块</span>
+        <span><strong>33</strong> 个单元</span>
+        <span><strong>~5.5h</strong> 概念</span>
+        <span><strong>~4h</strong> 实操</span>
+      </div>
+    </div>
+
+    <div class="modules-list">
+
+      <a href="./c1-m1-llm/index.html" class="module-card">
+        <div class="mc-header">
+          <span class="mc-num">M1</span>
+          <h2 class="mc-title">LLM 工作机制 + 8 个核心概念</h2>
+        </div>
+        <p class="mc-desc">从 "猜下一个字" 到 Token、Temperature、Hallucination... 建立 AI PM 最底层的认知.</p>
+        <div class="mc-stats">
+          <span>9 单元</span>
+          <span>~90 分钟</span>
+          <span>9 个互动工具</span>
+        </div>
+        <span class="mc-arrow">→</span>
+      </a>
+
+      <a href="./c1-m2-boundary/index.html" class="module-card">
+        <div class="mc-header">
+          <span class="mc-num">M2</span>
+          <h2 class="mc-title">AI 能力边界 + 用例识别</h2>
+        </div>
+        <p class="mc-desc">AI 的三大死穴、Task Analysis 框架、AI vs 规则决策树. 给 Vitamin 做完整的可行性评估.</p>
+        <div class="mc-stats">
+          <span>8 单元</span>
+          <span>~80 分钟</span>
+          <span>8 个互动工具</span>
+        </div>
+        <span class="mc-arrow">→</span>
+      </a>
+
+      <a href="./c1-m3-landscape/index.html" class="module-card">
+        <div class="mc-header">
+          <span class="mc-num">M3</span>
+          <h2 class="mc-title">AI 行业图景 + 模型横评</h2>
+        </div>
+        <p class="mc-desc">OpenAI / DeepSeek / Qwen 怎么选? 从 3 层堆栈到 6 维度横评, 给 Vitamin 选出最优模型.</p>
+        <div class="mc-stats">
+          <span>8 单元</span>
+          <span>~80 分钟</span>
+          <span>8 个互动工具</span>
+        </div>
+        <span class="mc-arrow">→</span>
+      </a>
+
+      <a href="./c1-m4-usecase/index.html" class="module-card">
+        <div class="mc-header">
+          <span class="mc-num">M4</span>
+          <h2 class="mc-title">AI 用例识别 + 机会评估</h2>
+        </div>
+        <p class="mc-desc">Augmentation vs Automation、ROI 框架、Build vs Buy. 产出 Vitamin 功能优先级矩阵.</p>
+        <div class="mc-stats">
+          <span>8 单元</span>
+          <span>~80 分钟</span>
+          <span>8 个互动工具</span>
+        </div>
+        <span class="mc-arrow">→</span>
+      </a>
+
+    </div>
+
+    <!-- ===== Course 2: Design ===== -->
+    <div style="margin-top:60px;padding-top:40px;border-top:2px dashed var(--border);">
+      <div class="course-hero" style="padding-top:20px;">
+        <div class="course-badge" style="background:var(--green);">Course 2</div>
+        <h1 class="course-title" style="font-size:clamp(28px,5vw,42px);">Design<br/>设计 AI 产品</h1>
+        <p class="course-sub">怎么把 AI 机会变成可答辩的设计文档? PRD + 成本模型 + 指标体系 + 架构决策.</p>
+        <div class="course-meta">
+          <span><strong>4</strong> 个模块</span>
+          <span><strong>33</strong> 个单元</span>
+          <span><strong>~5.5h</strong> 概念</span>
+          <span><strong>~6h</strong> 实操</span>
+        </div>
+      </div>
+
+      <div class="modules-list">
+        <a href="./c2-m1-prd/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--green-bg);color:var(--green);border-color:var(--green);">M1</span>
+            <h2 class="mc-title">AI 版 PRD 4 模块写法</h2>
+          </div>
+          <p class="mc-desc">传统 PRD 不够用了. 学会写 AI PRD: 模型 IO + 效果指标 + 错误兜底 + Prompt 管理.</p>
+          <div class="mc-stats"><span>8 单元</span><span>~80 分钟</span><span>8 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+
+        <a href="./c2-m2-cost/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--blue-bg);color:var(--blue);border-color:var(--blue);">M2</span>
+            <h2 class="mc-title">Token 经济学 + 成本建模</h2>
+          </div>
+          <p class="mc-desc">Input vs Output 不对称, Prompt Caching, 模型分级路由. 把 Vitamin 月成本从 ¥5000 压到 ¥1500.</p>
+          <div class="mc-stats"><span>8 单元</span><span>~80 分钟</span><span>8 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+
+        <a href="./c2-m3-metrics/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--amber-bg);color:var(--amber);border-color:var(--amber);">M3</span>
+            <h2 class="mc-title">AI 产品指标设计</h2>
+          </div>
+          <p class="mc-desc">Acceptance Rate, Refusal Rate, P50/P95 Latency... 7 个 AI 专属指标 + Vitamin 北极星定义.</p>
+          <div class="mc-stats"><span>9 单元</span><span>~90 分钟</span><span>9 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+
+        <a href="./c2-m4-architecture/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--red-bg);color:var(--red);border-color:var(--red);">M4</span>
+            <h2 class="mc-title">架构决策 (选型)</h2>
+          </div>
+          <p class="mc-desc">Prompt-only / RAG / Fine-tune / Multi-Agent. 4 种架构, 6 个决策问题, 1 个 Vitamin 架构方案.</p>
+          <div class="mc-stats"><span>8 单元</span><span>~80 分钟</span><span>8 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ===== Course 3: Build ===== -->
+    <div style="margin-top:60px;padding-top:40px;border-top:2px dashed var(--border);">
+      <div class="course-hero" style="padding-top:20px;">
+        <div class="course-badge" style="background:var(--blue);">Course 3</div>
+        <h1 class="course-title" style="font-size:clamp(28px,5vw,42px);">Build<br/>构建 AI 产品</h1>
+        <p class="course-sub">怎么把 PRD 变成能现场跑的 Demo? Prompt Engineering + Coze 搭建 + RAG 知识库 + Python API.</p>
+        <div class="course-meta">
+          <span><strong>4</strong> 个模块</span>
+          <span><strong>33</strong> 个单元</span>
+          <span><strong>~5.5h</strong> 概念</span>
+          <span><strong>~12h</strong> 实操</span>
+        </div>
+      </div>
+
+      <div class="modules-list">
+        <a href="./c3-m1-prompt/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--blue-bg);color:var(--blue);border-color:var(--blue);">M1</span>
+            <h2 class="mc-title">Prompt Engineering 系统方法</h2>
+          </div>
+          <p class="mc-desc">Anthropic 4 段式 + Few-shot + CoT + XML tags. 写出生产级 Prompt, 管理版本, 调试错误.</p>
+          <div class="mc-stats"><span>9 单元</span><span>~90 分钟</span><span>9 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+
+        <a href="./c3-m2-coze/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--green-bg);color:var(--green);border-color:var(--green);">M2</span>
+            <h2 class="mc-title">Coze Agent 平台实操</h2>
+          </div>
+          <p class="mc-desc">从 Hello World 到完整 Vitamin Bot: 人设配置 + 知识库 + 工作流 + 插件 + 发布.</p>
+          <div class="mc-stats"><span>8 单元</span><span>~80 分钟</span><span>8 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+
+        <a href="./c3-m3-rag/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--amber-bg);color:var(--amber);border-color:var(--amber);">M3</span>
+            <h2 class="mc-title">RAG 知识库搭建</h2>
+          </div>
+          <p class="mc-desc">Embed → Retrieve → Augment. Chunk 策略 + Reranking + Citation + 评测. 搭建 Vitamin 医学知识库.</p>
+          <div class="mc-stats"><span>8 单元</span><span>~80 分钟</span><span>8 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+
+        <a href="./c3-m4-python/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--red-bg);color:var(--red);border-color:var(--red);">M4</span>
+            <h2 class="mc-title">Python 调 API 自动化</h2>
+          </div>
+          <p class="mc-desc">从环境搭建到 100 条用例批量测试. CSV 输入输出 + 成本日志 + GitHub 上传. 简历最大杀手锏.</p>
+          <div class="mc-stats"><span>8 单元</span><span>~80 分钟</span><span>8 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ===== Course 4: Ship ===== -->
+    <div style="margin-top:60px;padding-top:40px;border-top:2px dashed var(--border);">
+      <div class="course-hero" style="padding-top:20px;">
+        <div class="course-badge" style="background:var(--red);">Course 4</div>
+        <h1 class="course-title" style="font-size:clamp(28px,5vw,42px);">Ship<br/>上线与拿 offer</h1>
+        <p class="course-sub">怎么证明产品能用、安全合规、能协作交付, 然后拿到 AI PM 的 offer? 评测 + 安全 + Multi-Agent + 面试.</p>
+        <div class="course-meta">
+          <span><strong>4</strong> 个模块</span>
+          <span><strong>33</strong> 个单元</span>
+          <span><strong>~6h</strong> 概念</span>
+          <span><strong>~10h</strong> 实操</span>
+        </div>
+      </div>
+
+      <div class="modules-list">
+        <a href="./c4-m1-evaluation/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--red-bg);color:var(--red);border-color:var(--red);">M1</span>
+            <h2 class="mc-title">模型评测体系</h2>
+          </div>
+          <p class="mc-desc">三层评测架构 + Golden Set + LLM Judge + A/B 测试 + 自动化 Pipeline. 产出 Vitamin 评测报告.</p>
+          <div class="mc-stats"><span>8 单元</span><span>~100 分钟</span><span>8 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+
+        <a href="./c4-m2-safety/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--amber-bg);color:var(--amber);border-color:var(--amber);">M2</span>
+            <h2 class="mc-title">AI 安全 + 合规</h2>
+          </div>
+          <p class="mc-desc">Prompt 注入防御 + 输出审核 + 数据合规 + NMPA 定位 + 责任划分. 产出 Vitamin 安全设计文档.</p>
+          <div class="mc-stats"><span>8 单元</span><span>~100 分钟</span><span>8 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+
+        <a href="./c4-m3-multi-agent/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--blue-bg);color:var(--blue);border-color:var(--blue);">M3</span>
+            <h2 class="mc-title">算法协作 + Multi-Agent</h2>
+          </div>
+          <p class="mc-desc">PM-算法沟通 + ReAct + Tool Use + 路由设计 + Agent 交接. 产出 Vitamin Multi-Agent 终版.</p>
+          <div class="mc-stats"><span>9 单元</span><span>~120 分钟</span><span>9 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+
+        <a href="./c4-m4-interview/index.html" class="module-card">
+          <div class="mc-header">
+            <span class="mc-num" style="background:var(--purple-bg);color:var(--purple);border-color:var(--purple);">M4</span>
+            <h2 class="mc-title">综合面试 + 谈 offer</h2>
+          </div>
+          <p class="mc-desc">7 大技术追问 + STAR 法 + Demo 演示 + 谈薪策略 + 30-60-90 入职计划. 带着作品集拿 offer.</p>
+          <div class="mc-stats"><span>8 单元</span><span>~100 分钟</span><span>8 个互动工具</span></div>
+          <span class="mc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM Specialization · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="./shared/rough.min.js"></script>
+  <script src="./shared/app.js"></script>
+</body>
+</html>

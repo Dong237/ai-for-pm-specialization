@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · Persona + Prompt 配置 — AI for PM · M3.2</title>
+  <meta name="description" content="把 M3.1 写的 Prompt 模板搬上 Coze, 配置人设、欢迎语、回复风格." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM &middot; M3.2</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 &middot; Persona 配置</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航"><ol>
+    <li><a href="#start" data-step="0">&#9654;</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+    <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+    <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+    <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+    <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">&#9632;</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 3<span class="title-dot">&middot;</span><br/>给 Bot 装上"灵魂"</h1>
+      <p class="hero-sub">Hello World Bot 是白纸. 今天给它写人设、配 Prompt -- 让它变成 Vitamin 的人.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 &middot; 准 AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">上节课创建了 Bot, 但它"没有个性"...</p>
+          <p class="cloud-line">M3.1 写的 Prompt 模板怎么搬上去?</p>
+          <p class="cloud-line">Coze 的"人设"到底在哪里配?</p>
+          <p class="cloud-line accent">-- 今天, 给它灵魂.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>在 Coze 左栏正确配置 System Prompt</li>
+          <li>用 Markdown 结构写出清晰的人设提示词</li>
+          <li>设置欢迎语和开场白</li>
+          <li>实时预览不同人设对回复风格的影响</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">同一个问题, 两种完全不同的回答</h2>
+      <p class="step-lede">用户问: "我最近总是头疼, 怎么办?"</p>
+
+      <div class="two-wrong">
+        <article class="wrong" style="border-color:var(--ink-faint);border-style:solid;">
+          <div class="wrong-mark" style="color:var(--ink-muted);">A</div>
+          <h3>没配人设的 Bot</h3>
+          <p style="font-size:14px;">"头疼可能由多种原因引起, 包括紧张性头痛、偏头痛、感冒等. 建议就医检查."</p>
+          <div class="wrong-why" style="border-color:var(--ink-faint);"><strong>感受:</strong> 像百度百科. 正确但冷冰冰, 用户不会再来第二次.</div>
+        </article>
+        <article class="wrong" style="border-color:var(--green);border-style:solid;">
+          <div class="wrong-mark" style="color:var(--green);">B</div>
+          <h3>配了 Vitamin 人设的 Bot</h3>
+          <p style="font-size:14px;">"头疼确实让人难受呢~ 最近睡眠怎么样? 有没有跟生理周期相关? 我们一起排查一下, 看看是哪种类型的头疼."</p>
+          <div class="wrong-why" style="border-color:var(--green);"><strong>感受:</strong> 像闺蜜在关心你. 温柔、追问、引导. 这才是 Vitamin 的调性.</div>
+        </article>
+      </div>
+
+      <div class="callout callout-amber">
+        <p>区别在哪? 只是<strong>加了一段 System Prompt</strong>. 内容完全一样, 但"灵魂"不同.</p>
+      </div>
+      <div class="step-foot">System Prompt 在 Coze 里叫什么? 在哪配? ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Coze 里的"人设与回复逻辑"</h2>
+      <p class="step-lede">在 Coze 编辑页的<strong>左栏</strong>, 有一个区域叫<mark class="hl">"人设与回复逻辑" (Persona & Prompt)</mark>. 这就是放 System Prompt 的地方.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>它支持 Markdown 格式, 典型结构:</strong></p>
+        <pre style="background:var(--bg-elev);padding:14px;border-radius:8px;font-size:13px;overflow-x:auto;border:1px dashed var(--border);margin:10px 0;">
+# 角色
+你是 Vitamin 健康小助手, 一个专注女性健康的 AI 顾问.
+
+## 技能
+### 技能 1: 身体状态解读
+- 根据用户描述, 判断当前身体状态
+- 给出个性化的健康建议
+
+### 技能 2: 情绪安抚
+- 用温柔的语气回应用户
+- 避免医疗诊断, 只做健康科普
+
+## 限制
+- 不给出医疗诊断
+- 不推荐具体药物
+- 涉及严重症状时建议就医</pre>
+      </div>
+      <div class="step-foot">这个结构是不是很眼熟? 就是 M3.1 学的 4 段式 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">从 M3.1 到 Coze: Prompt 模板迁移</h2>
+      <p class="step-lede">M3.1 学的 Anthropic 4 段式 (Role / Task / Context / Output Format) 可以直接对应 Coze 的人设格式:</p>
+
+      <div class="prompt-blocks">
+        <div class="prompt-block" style="border-color:var(--blue);">
+          <div class="prompt-block-tag" style="background:var(--blue-bg);color:var(--blue);">M3.1</div>
+          <h4>Role (角色)</h4>
+          <p>你是 Vitamin 健康顾问...</p>
+        </div>
+        <div class="prompt-block" style="border-color:var(--green);">
+          <div class="prompt-block-tag" style="background:var(--green-bg);color:var(--green);">Coze</div>
+          <h4># 角色</h4>
+          <p>写在人设区的第一部分</p>
+        </div>
+        <div class="prompt-block" style="border-color:var(--blue);">
+          <div class="prompt-block-tag" style="background:var(--blue-bg);color:var(--blue);">M3.1</div>
+          <h4>Task (任务)</h4>
+          <p>解读身体状态, 给出建议...</p>
+        </div>
+        <div class="prompt-block" style="border-color:var(--green);">
+          <div class="prompt-block-tag" style="background:var(--green-bg);color:var(--green);">Coze</div>
+          <h4>## 技能</h4>
+          <p>列出 Bot 的核心能力</p>
+        </div>
+        <div class="prompt-block" style="border-color:var(--blue);">
+          <div class="prompt-block-tag" style="background:var(--blue-bg);color:var(--blue);">M3.1</div>
+          <h4>Context (上下文)</h4>
+          <p>用户是女性, 关注健康...</p>
+        </div>
+        <div class="prompt-block" style="border-color:var(--green);">
+          <div class="prompt-block-tag" style="background:var(--green-bg);color:var(--green);">Coze</div>
+          <h4>## 背景</h4>
+          <p>可以放在角色描述里</p>
+        </div>
+        <div class="prompt-block" style="border-color:var(--blue);">
+          <div class="prompt-block-tag" style="background:var(--blue-bg);color:var(--blue);">M3.1</div>
+          <h4>Output Format</h4>
+          <p>用温柔语气, 分点回答...</p>
+        </div>
+        <div class="prompt-block" style="border-color:var(--green);">
+          <div class="prompt-block-tag" style="background:var(--green-bg);color:var(--green);">Coze</div>
+          <h4>## 限制 / ## 输出格式</h4>
+          <p>定义回复风格和边界</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>关键:</strong> Coze 用 Markdown 的 <code>#</code> 做层级. <code># 角色</code> 是一级标题, <code>## 技能</code> 是二级, <code>### 技能 1</code> 是三级. 结构清晰, 模型理解更准.</p>
+      </div>
+      <div class="step-foot">除了人设, 还有两个要配的: 欢迎语和开场白 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">欢迎语 + 开场白: 第一印象</h2>
+      <p class="step-lede">用户打开 Bot 的第一秒看到什么, 决定了 ta 会不会继续聊下去.</p>
+
+      <div class="callout callout-green">
+        <p><strong>欢迎语</strong> = Bot 第一条自动发出的消息. 在 Coze 编辑页的"开场白"区域设置.</p>
+        <p>好的欢迎语做 3 件事:</p>
+        <ol>
+          <li><strong>自我介绍</strong> -- 我是谁, 能帮你做什么</li>
+          <li><strong>降低门槛</strong> -- 给出 2-3 个示例问题, 让用户知道怎么开始</li>
+          <li><strong>建立信任</strong> -- 声明不会做医疗诊断, 仅供参考</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>Vitamin Bot 欢迎语示例:</strong></p>
+        <pre style="background:var(--bg-elev);padding:12px;border-radius:8px;font-size:13px;border:1px dashed var(--border);margin:8px 0;white-space:pre-wrap;">嗨~ 我是 Vitamin 健康小助手 &#127793;
+
+我可以帮你:
+- 解读身体信号 (比如"最近总是累")
+- 给出个性化健康建议
+- 聊聊情绪和睡眠问题
+
+试试问我: "经期头疼正常吗?"
+
+&#9888;&#65039; 温馨提示: 我的建议仅供参考, 不能替代医生诊断哦.</pre>
+      </div>
+      <div class="step-foot">理论讲完, 动手配一个试试 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">人设变化 = 回复风格变化</h2>
+      <p class="step-lede">Persona 的每个字都会影响 Bot 的回复. 比如:</p>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1">
+          <div class="wonder-tag">严肃版</div>
+          <h3>"你是一个专业医学顾问"</h3>
+          <div class="wonder-note">回复风格: 学术、精确、引用医学术语. "据研究表明, 紧张性头痛的发生率..."</div>
+        </article>
+        <article class="wonder wonder-2">
+          <div class="wonder-tag">闺蜜版</div>
+          <h3>"你是用户的健康闺蜜"</h3>
+          <div class="wonder-note">回复风格: 温暖、口语化、带语气词. "哎呀~ 头疼确实让人烦, 最近压力大吗?"</div>
+        </article>
+        <article class="wonder wonder-3">
+          <div class="wonder-tag">教练版</div>
+          <h3>"你是一个健身教练"</h3>
+          <div class="wonder-note">回复风格: 干练、行动导向. "头疼? 先检查三件事: 水喝够了吗? 睡够了吗? 最近运动了吗?"</div>
+        </article>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>Vitamin 的定位:</strong> 介于闺蜜和教练之间 -- <mark class="hl">温柔但有行动建议, 专业但不吓人</mark>.</p>
+      </div>
+      <div class="step-foot">来试试 AI 辅助优化提示词 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Coze 的"AI 优化提示词"功能</h2>
+      <p class="step-lede">不确定 Prompt 写得好不好? Coze 有一个<mark class="hl">AI 优化</mark>按钮 -- 点一下, 它帮你润色.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>怎么用:</strong></p>
+        <ol>
+          <li>在左栏写好你的初版 Prompt</li>
+          <li>点右上角的"AI 优化"按钮</li>
+          <li>Coze 会用 AI 帮你补全结构、改善措辞</li>
+          <li>对比优化前后的区别, 决定是否采纳</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>PM 注意:</strong> AI 优化只是参考. 它可能会:</p>
+        <ul>
+          <li>加太多技能描述 (让 Bot 什么都想做)</li>
+          <li>用过于通用的措辞 (失去 Vitamin 的个性)</li>
+          <li>漏掉你的安全限制 (比如"不做医疗诊断")</li>
+        </ul>
+        <p>所以: <strong>先让 AI 优化, 再人工审查</strong>. 这也是 PM 的核心技能 -- AI 出初稿, 人做判断.</p>
+      </div>
+      <div class="step-foot">还有一个高级技巧: 变量引用 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">进阶: 在 Prompt 中引用变量</h2>
+      <p class="step-lede">Coze 支持在人设提示词中用 <code>{}</code> 引用知识库、插件等工具. 比如:</p>
+
+      <div class="callout callout-green">
+        <pre style="background:var(--bg-elev);padding:12px;border-radius:8px;font-size:13px;border:1px dashed var(--border);margin:8px 0;white-space:pre-wrap;"># 角色
+你是 Vitamin 健康小助手.
+
+## 技能
+### 技能 1: 健康问答
+当用户提出健康问题时:
+1. 先在 {知识库: 女性健康百科} 中检索相关内容
+2. 结合检索结果, 用温柔语气回答
+3. 标注信息来源
+
+### 技能 2: 天气与运动建议
+当用户问运动相关问题时:
+1. 调用 {插件: 天气查询} 获取当地天气
+2. 结合天气和用户身体状态, 给出运动建议</pre>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>关键:</strong> <code>{}</code> 语法让 Prompt 和工具形成联动. 模型看到这些引用, 就知道什么时候该调用什么工具. 这是零代码编排的核心机制.</p>
+      </div>
+      <div class="step-foot">该动手了 -- 用互动编辑器试试 ↓</div>
+    </section>
+
+    <!-- (8) -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">互动编辑器: 配人设, 看效果</h2>
+      <p class="step-lede">在下方编辑 Persona 各项, 点"应用人设", 然后在预览区测试对话效果:</p>
+
+      <!-- Interactive: Persona Config editor + live preview -->
+      <div class="persona-editor">
+        <h3>Persona 配置</h3>
+        <div class="field-group">
+          <label for="persona-role">角色定位</label>
+          <input type="text" id="persona-role" value="Vitamin 健康小助手, 专注女性健康的 AI 闺蜜" />
+        </div>
+        <div class="field-group">
+          <label for="persona-style">回复风格</label>
+          <input type="text" id="persona-style" value="温柔、专业、像闺蜜聊天, 用语气词, 不用医学术语" />
+        </div>
+        <div class="field-group">
+          <label for="persona-welcome">欢迎语</label>
+          <textarea id="persona-welcome">嗨~ 我是 Vitamin 健康小助手, 有什么身体上的困扰想聊聊吗? 试试问我"经期头疼正常吗"</textarea>
+        </div>
+        <button id="persona-apply" class="btn btn-primary">应用人设</button>
+      </div>
+
+      <div class="persona-preview">
+        <p style="font-size:14px;font-weight:600;margin:0 0 10px;color:var(--green);">预览对话 (试着问健康问题):</p>
+        <div id="persona-chat" class="persona-preview-chat"></div>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <input type="text" id="persona-test-input" placeholder="试试问: 经期可以跑步吗?" style="flex:1;padding:10px 14px;border:2px solid var(--border-strong);border-radius:8px;background:var(--bg-elev);color:var(--ink);font-family:inherit;font-size:14px;" />
+          <button id="persona-test-btn" class="btn btn-primary" style="padding:10px 16px;">发送</button>
+        </div>
+      </div>
+
+      <div class="step-foot">配好了人设, 来看 Vitamin 的完整 Prompt ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin Bot 的完整 Persona Prompt</h2>
+      <p class="step-lede">综合 M3.1 的模板和 Coze 的格式, 这是 Vitamin Bot 的完整人设:</p>
+
+      <div class="callout callout-green">
+        <pre style="background:var(--bg-elev);padding:14px;border-radius:8px;font-size:12px;overflow-x:auto;border:1px dashed var(--border);margin:8px 0;white-space:pre-wrap;line-height:1.6;">
+# 角色
+你是 Vitamin, 一个专注女性健康的 AI 助手. 你像一个温暖的闺蜜, 用通俗易懂的语言帮助用户理解自己的身体状态.
+
+## 背景
+用户是关注自身健康的女性, 可能会问经期、睡眠、饮食、情绪、运动等方面的问题. 她们需要的不是冷冰冰的医学解释, 而是温暖的陪伴和实用的建议.
+
+## 技能
+### 技能 1: 身体状态解读
+- 根据用户描述的症状, 判断可能属于 5 种身体状态中的哪一种
+- 用通俗语言解释原因
+- 给出 2-3 条可执行的建议
+
+### 技能 2: 健康科普
+- 回答常见的女性健康问题
+- 引用知识库中的专业内容, 但用大白话表达
+- 每次回答标注信息来源
+
+### 技能 3: 情绪支持
+- 识别用户的情绪状态
+- 用共情的方式回应
+- 必要时建议寻求专业帮助
+
+## 限制
+- 不做医疗诊断, 不推荐具体药物
+- 涉及严重症状时明确建议就医
+- 不讨论政治、宗教等无关话题
+- 每次回答控制在 200 字以内
+- 用"你"而不是"您", 保持亲切感</pre>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>面试金句:</strong> "我在 Coze 上搭了 Vitamin Bot, Persona 用的是 Markdown 结构化提示词 -- 角色定位、技能描述、输出限制, 每一项都对应真实的产品需求. 这不是随便写的聊天指令, 而是有设计逻辑的产品文档."</p>
+      </div>
+      <div class="step-foot">作业时间 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">Persona = Bot 的灵魂.<br/>同一个模型, 换一段 Prompt, 回复风格天差地别.</p>
+        <p class="one-liner-foot muted">Coze 左栏的"人设与回复逻辑" = System Prompt. 用 Markdown 写, 结构越清晰模型越听话.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>把上面第 9 步的 Vitamin Prompt 复制到你的 Coze Bot 的左栏, 保存.</li>
+          <li>在右栏测试 10 个问题 (覆盖 5 种身体状态), 记录回答质量 -- 哪些好, 哪些需要改 Prompt.</li>
+          <li>试试 Coze 的"AI 优化"按钮, 对比优化前后的 Prompt, 写 100 字总结哪些改得好, 哪些你需要改回来.</li>
+          <li>把最终版 Prompt 保存在一个文档里 (这是你的 Prompt 模板库 v2).</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128214;</td>
+            <td><a href="https://www.coze.cn/open/docs/guides/prompt" target="_blank" rel="noopener">Coze 提示词官方文档</a></td>
+            <td>coze.cn</td>
+            <td>人设编写最权威指南</td>
+            <td>10 min</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128214;</td>
+            <td><a href="https://blog.csdn.net/xiaoqiangclub/article/details/139544155" target="_blank" rel="noopener">Coze 人设与回复逻辑入门</a></td>
+            <td>CSDN</td>
+            <td>手把手教你写 Persona</td>
+            <td>15 min</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128214;</td>
+            <td><a href="https://www.53ai.com/news/coze/2024111361984.html" target="_blank" rel="noopener">扣子提示词仓库功能</a></td>
+            <td>53AI</td>
+            <td>模板复用技巧</td>
+            <td>10 min</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 4px;">&#128736;</td>
+            <td><a href="https://www.cnblogs.com/cyzj-2002/p/19007934" target="_blank" rel="noopener">Coze 万字教程</a></td>
+            <td>博客园</td>
+            <td>从入门到精通</td>
+            <td>30 min</td>
+          </tr>
+        </table>
+      </div>
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 有人设 vs 没人设</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 人设区在 Coze 左栏</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> M3.1 模板迁移</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 欢迎语设计</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 人设决定风格</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> AI 优化按钮</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> {} 变量引用</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 互动编辑器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 完整 Prompt</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">Persona = Bot 的灵魂. Markdown 结构化写 Prompt, 风格清晰, 模型听话.</p>
+        <p class="end-summary-sub">同一个模型, 换一段 Prompt, 从百度百科变闺蜜聊天.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 4): 知识库挂载</div>
+        <p>Bot 有了灵魂, 但它还没有"记忆". 下一步上传 Vitamin 的医学资料, 让它带着知识回答.</p>
+        <p><strong>拖进去一份文档, Bot 就变成了领域专家.</strong></p>
+        <a class="walk-arrow" href="../u4-knowledge-base/index.html">继续走 &rarr; Unit 4</a>
+      </div>
+    </section>
+
+  </main>
+  <footer class="footer"><p>AI for PM &middot; Module 3.2 &middot; Unit 3 &middot; 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

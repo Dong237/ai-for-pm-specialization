@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 5 · Task Analysis — Feasibility × Value — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 5: 任何需求按'AI 能做吗 × 做了值钱吗'打分. 2×2 矩阵一眼看出优先级." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.2</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 5 · Task Analysis</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <!-- Step nav -->
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ================================================== -->
+    <!-- ▶ START                                             -->
+    <!-- ================================================== -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 5<span class="title-dot">·</span><br/>哪些功能该上 AI?</h1>
+      <p class="hero-sub">Feasibility × Value — Andrew Ng 最核心的需求评估方法.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个思考的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 面对 8 个候选功能)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">老板说: "给 Vitamin 加 AI! 越多越好!"</p>
+          <p class="cloud-line">可是预算只够做 3 个...</p>
+          <p class="cloud-line">8 个候选功能, 先做哪个?</p>
+          <p class="cloud-line accent">—— 有没有一个框架, 画一下就知道?</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>用 Feasibility × Value 矩阵评估任何 AI 功能需求</li>
+          <li>掌握"可行性"和"价值"各 5 个打分维度</li>
+          <li>把 8 个 Vitamin 功能放进 2×2 矩阵, 找出 Star</li>
+          <li>面试时用这个框架秒答"你会怎么排 AI 功能优先级"</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (1) 老板说加 AI                                     -->
+    <!-- ================================================== -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">"给产品加 AI!" — 但加哪个?</h2>
+      <p class="step-lede">这是 2026 年每个 PM 都会遇到的场景:</p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>场景:</strong> 老板开完行业大会回来, 兴奋地说: "我们的竞品都在上 AI! Vitamin 也要全面 AI 化!"</p>
+        <p>你打开候选功能列表:</p>
+        <ol>
+          <li>💬 智能健康问答</li>
+          <li>📊 身体状态自动分类 (5 状态识别)</li>
+          <li>🍎 饮食记录 AI 总结</li>
+          <li>💊 AI 开药建议</li>
+          <li>🧮 BMI 精确计算</li>
+          <li>😊 情绪安抚对话</li>
+          <li>📈 AI 经期预测</li>
+          <li>📝 周报自动生成</li>
+        </ol>
+        <p class="muted">8 个功能, 预算和人力只够做 3 个. 先做哪 3 个?</p>
+      </div>
+
+      <p class="step-lede">拍脑袋? 看竞品? 听老板的? 都不靠谱. 你需要一个<mark class="hl">系统化的评估框架</mark>.</p>
+
+      <div class="step-foot">先看两个常见的错误做法 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (2) 错猜测 + 真相                                   -->
+    <!-- ================================================== -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两个常见错做法 — 都会踩坑</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>做法 A: "先做最酷的!"</h3>
+          <p>"AI 开药建议" 听起来最厉害, 先做这个!</p>
+          <div class="wrong-why">
+            <strong>为啥踩坑:</strong>
+            技术可行性极低 (医疗 AI 需要大量标注数据 + 合规审批), 做了半年做不出来, 预算烧光.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>做法 B: "先做最简单的!"</h3>
+          <p>"BMI 计算" 最简单, 几行代码就搞定, 先做!</p>
+          <div class="wrong-why">
+            <strong>为啥踩坑:</strong>
+            BMI 根本不需要 AI (规则就能算), 做完了对用户和业务没有增量价值, 老板也不会满意.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">评估 AI 功能需要<mark class="hl">同时看两个维度</mark>:</p>
+        <p class="truth-line giant">Feasibility (能做吗?)<br/>× Value (值得做吗?)</p>
+        <p class="truth-line muted">→ 这是 Andrew Ng 在 AI Product Management 课里反复强调的核心方法. 画一个 2×2 矩阵, 一眼看出优先级.</p>
+      </div>
+
+      <div class="step-foot">先拆第一个维度: Feasibility ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (3) Feasibility 轴                                  -->
+    <!-- ================================================== -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">X 轴: Feasibility — AI 技术上能做吗?</h2>
+      <p class="step-lede">"AI 能做" 不是一句话的事. 拆成 5 个子因素来打分:</p>
+
+      <div class="factor-list">
+        <div class="factor-item">
+          <span class="factor-num blue">1</span>
+          <div class="factor-body">
+            <h4>数据可用性 (Data Availability)</h4>
+            <p>有没有足够的、干净的训练/测试数据? Vitamin 有多少用户行为数据? 健康问答的标注数据从哪来?</p>
+          </div>
+        </div>
+        <div class="factor-item">
+          <span class="factor-num blue">2</span>
+          <div class="factor-body">
+            <h4>模型能力 (Model Capability)</h4>
+            <p>现有模型 (GPT-4o, DeepSeek, Qwen) 能不能做这个任务? 准确率能到多少? M1.1 学的"能/不能"清单在这里直接用.</p>
+          </div>
+        </div>
+        <div class="factor-item">
+          <span class="factor-num blue">3</span>
+          <div class="factor-body">
+            <h4>准确率要求 (Accuracy Bar)</h4>
+            <p>这个功能需要多高的准确率? 聊天 70% 就行, 健康建议需要 95%+, 开药建议需要 99%+. 要求越高, 可行性越低.</p>
+          </div>
+        </div>
+        <div class="factor-item">
+          <span class="factor-num blue">4</span>
+          <div class="factor-body">
+            <h4>集成复杂度 (Integration)</h4>
+            <p>跟现有系统接得上吗? 需要改后端架构吗? API 调用链路有多长?</p>
+          </div>
+        </div>
+        <div class="factor-item">
+          <span class="factor-num blue">5</span>
+          <div class="factor-body">
+            <h4>成本 (Cost)</h4>
+            <p>API 调用费、训练费、人工标注费. 月活 10 万用户, 每人每天 3 次健康问答 = 900 万次/月 API 调用, 花多少钱?</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>简单记:</strong> 数据有没有 × 模型行不行 × 准确率够不够 × 好不好接 × 花不花得起
+      </div>
+
+      <div class="step-foot">再看第二个维度: Value ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (4) Value 轴                                        -->
+    <!-- ================================================== -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Y 轴: Value — 做了值钱吗?</h2>
+      <p class="step-lede">技术上能做是一回事, 做了有没有用是另一回事. 也拆成 5 个子因素:</p>
+
+      <div class="factor-list">
+        <div class="factor-item">
+          <span class="factor-num green">1</span>
+          <div class="factor-body">
+            <h4>用户影响 (User Impact)</h4>
+            <p>解决了用户多大的痛点? "经期该不该运动" 是高频真实困惑, "AI 写周报" 是 nice-to-have.</p>
+          </div>
+        </div>
+        <div class="factor-item">
+          <span class="factor-num green">2</span>
+          <div class="factor-body">
+            <h4>商业价值 (Business Value)</h4>
+            <p>能带来什么商业收益? 提高留存? 提高付费转化? 降低客服成本?</p>
+          </div>
+        </div>
+        <div class="factor-item">
+          <span class="factor-num green">3</span>
+          <div class="factor-body">
+            <h4>竞争壁垒 (Competitive Advantage)</h4>
+            <p>竞品有没有? 做了能不能形成差异化? 容不容易被抄?</p>
+          </div>
+        </div>
+        <div class="factor-item">
+          <span class="factor-num green">4</span>
+          <div class="factor-body">
+            <h4>使用频率 (Frequency)</h4>
+            <p>用户多久用一次? 每天都用 > 每周用一次 > 偶尔用. 高频功能的价值密度更高.</p>
+          </div>
+        </div>
+        <div class="factor-item">
+          <span class="factor-num green">5</span>
+          <div class="factor-body">
+            <h4>战略对齐 (Strategic Fit)</h4>
+            <p>跟公司/产品的长期方向一致吗? Vitamin 定位"女性健康 AI 助手" — 哪些功能最强化这个定位?</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>简单记:</strong> 用户多想要 × 赚不赚钱 × 对手有没有 × 用得多不多 × 跟战略合不合
+      </div>
+
+      <div class="step-foot">两个轴拼到一起, 就出现了四个象限 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (5) 四个象限                                        -->
+    <!-- ================================================== -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">2×2 矩阵的四个象限 — 每个象限一个策略</h2>
+
+      <div class="quadrant-grid">
+        <div class="quadrant-card" data-rough="card">
+          <div class="quadrant-card-icon">⭐</div>
+          <h4>Star (高可行 × 高价值)</h4>
+          <p>技术成熟, 用户想要, 商业有价值. <strong>优先做, 集中资源.</strong> 这是你跟老板汇报时的"主菜".</p>
+        </div>
+        <div class="quadrant-card" data-rough="card">
+          <div class="quadrant-card-icon">❓</div>
+          <h4>Question Mark (低可行 × 高价值)</h4>
+          <p>用户很想要, 但技术还不成熟. <strong>先做 POC / 原型验证, 不要大投入.</strong> 跟踪技术进展, 等时机.</p>
+        </div>
+        <div class="quadrant-card" data-rough="card">
+          <div class="quadrant-card-icon">⚡</div>
+          <h4>Quick Win (高可行 × 低价值)</h4>
+          <p>技术简单, 但价值一般. <strong>顺手做, 花最少时间.</strong> 用来积累 AI 经验, 或者向老板证明"我们在做 AI".</p>
+        </div>
+        <div class="quadrant-card" data-rough="card">
+          <div class="quadrant-card-icon">🚫</div>
+          <h4>Don't Bother (低可行 × 低价值)</h4>
+          <p>难做又没价值. <strong>果断放弃.</strong> 不要让它占用团队注意力.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>优先级排序:</strong> Star → Quick Win → Question Mark (观望) → Don't Bother (砍掉)
+        <p class="muted">注意: Question Mark 不是"不做", 是"先小规模验证, 不要 all in".</p>
+      </div>
+
+      <div class="step-foot">怎么给每个功能打分? 用 1-5 分量表 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (6) 打分标准                                        -->
+    <!-- ================================================== -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">怎么打分 — 1 到 5 分量表</h2>
+      <p class="step-lede">每个维度打 1~5 分, 然后取平均. 这里给出参考标准:</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>Feasibility 打分参考:</strong>
+        <table class="scoring-table">
+          <thead><tr><th>分数</th><th>含义</th><th>例子</th></tr></thead>
+          <tbody>
+            <tr><td class="score-num" style="color:var(--green);">5</td><td>现成方案, 直接调 API</td><td>文本分类、摘要生成</td></tr>
+            <tr><td class="score-num" style="color:var(--green);">4</td><td>有方案, 需少量适配</td><td>RAG 问答、情感分析</td></tr>
+            <tr><td class="score-num" style="color:var(--amber);">3</td><td>技术可行但需大量工作</td><td>多模态理解、长对话记忆</td></tr>
+            <tr><td class="score-num" style="color:var(--red);">2</td><td>技术边界, 准确率不确定</td><td>经期精准预测、个性化药物建议</td></tr>
+            <tr><td class="score-num" style="color:var(--red);">1</td><td>当前技术几乎不可能</td><td>AI 诊断替代医生、100% 准确预测</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>Value 打分参考:</strong>
+        <table class="scoring-table">
+          <thead><tr><th>分数</th><th>含义</th><th>例子</th></tr></thead>
+          <tbody>
+            <tr><td class="score-num" style="color:var(--green);">5</td><td>核心差异化, 直接影响留存/付费</td><td>智能健康问答 (用户来的理由)</td></tr>
+            <tr><td class="score-num" style="color:var(--green);">4</td><td>高频使用, 明显提升体验</td><td>身体状态分类 (每天用)</td></tr>
+            <tr><td class="score-num" style="color:var(--amber);">3</td><td>有价值但非核心, 或低频</td><td>周报生成 (每周一次)</td></tr>
+            <tr><td class="score-num" style="color:var(--red);">2</td><td>Nice-to-have, 可替代</td><td>BMI 计算 (用计算器也行)</td></tr>
+            <tr><td class="score-num" style="color:var(--red);">1</td><td>几乎没有增量价值</td><td>跟产品定位无关的功能</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">打分时常犯的三个错误 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (7) 常见错误                                        -->
+    <!-- ================================================== -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">打分时最常犯的三个错</h2>
+
+      <div class="mistake-list">
+        <div class="mistake-item">
+          <div class="mistake-icon">🔮</div>
+          <div class="mistake-body">
+            <h4>错误 1: 高估可行性</h4>
+            <p>"ChatGPT 聊天这么流畅, 做健康问答肯定也行!" — 不一定. ChatGPT 聊天不需要医学准确率, 你的健康问答需要. 准确率从 80% 提到 95% 可能比从 0 做到 80% 还难.</p>
+          </div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-icon">💎</div>
+          <div class="mistake-body">
+            <h4>错误 2: 低估简单功能的价值</h4>
+            <p>"饮食总结这么简单, 没啥技术含量." — 但用户每天都用, 省了 5 分钟记录时间, 留存率可能因此上升 20%. 简单 ≠ 没价值.</p>
+          </div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-icon">🏗</div>
+          <div class="mistake-body">
+            <h4>错误 3: 技术驱动而非用户驱动</h4>
+            <p>"我们有 NLP 团队, 所以要做 NLP 功能." — 应该反过来: 用户需要什么 → 检查技术是否可行. 不是"有锤子找钉子", 是"找钉子挑锤子".</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>Andrew Ng 的建议:</strong>
+        <p>"写出 10-50 个具体的输入输出 example, 这比读 100 页 PRD 更能帮你判断可行性."</p>
+        <p class="muted">→ 比如"经期可以跑步吗?" → 期望输出是什么? 实际模型输出是什么? 差距有多大? 这就是可行性评估.</p>
+      </div>
+
+      <div class="step-foot">理论讲完了, 下面动手: 把 8 个功能拖进矩阵 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (8) WIDGET: 2×2 Matrix                              -->
+    <!-- ================================================== -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: 把 Vitamin 功能拖进矩阵</h2>
+      <p class="step-lede">下面有 8 张功能卡片. 根据你对 Feasibility 和 Value 的判断, 把它们拖到对应的象限里. 完成后点"看参考答案".</p>
+
+      <div class="matrix-widget" data-rough="card">
+        <h3>Feasibility × Value 矩阵</h3>
+
+        <div class="feature-pool" id="feature-pool">
+          <div class="pool-label">待分类功能 (拖到下面的象限里):</div>
+          <!-- JS renders feature chips here -->
+        </div>
+
+        <div class="matrix-container">
+          <div class="matrix-quadrant quad-question" id="quad-question-zone">
+            <div class="quad-label">❓ Question Mark</div>
+            <div class="quad-desc">高价值 / 低可行</div>
+          </div>
+          <div class="matrix-quadrant quad-star" id="quad-star-zone">
+            <div class="quad-label">⭐ Star</div>
+            <div class="quad-desc">高价值 / 高可行</div>
+          </div>
+          <div class="matrix-quadrant quad-dont" id="quad-dont-zone">
+            <div class="quad-label">🚫 Don't Bother</div>
+            <div class="quad-desc">低价值 / 低可行</div>
+          </div>
+          <div class="matrix-quadrant quad-quickwin" id="quad-quickwin-zone">
+            <div class="quad-label">⚡ Quick Win</div>
+            <div class="quad-desc">低价值 / 高可行</div>
+          </div>
+        </div>
+
+        <div class="axis-x-label">← 低 Feasibility ··· 高 Feasibility →</div>
+
+        <div class="stability-controls" style="margin-top:12px;">
+          <button id="matrix-answer-btn" class="btn btn-primary">看参考答案 →</button>
+          <button id="matrix-reset-btn" class="btn btn-ghost">重置</button>
+        </div>
+
+        <div class="answer-content" id="matrix-answer">
+          <div class="callout callout-green" style="margin-top:16px;">
+            <strong>参考分类:</strong>
+            <ul>
+              <li><strong>⭐ Star:</strong> 智能问答 (F4 V5) · 身体状态分类 (F4 V4) · 情绪安抚 (F4 V4)</li>
+              <li><strong>❓ Question:</strong> AI 开药建议 (F1 V5) · 经期预测 (F2 V4)</li>
+              <li><strong>⚡ Quick Win:</strong> 饮食总结 (F5 V3) · 周报生成 (F5 V3)</li>
+              <li><strong>🚫 Don't Bother:</strong> BMI 计算 (F5 V1) — 根本不需要 AI!</li>
+            </ul>
+            <p class="muted">F = Feasibility 分, V = Value 分 (1-5). 你的分类和我的不一样? 没关系 — 重要的是你<em>用了框架</em>来思考, 而不是拍脑袋.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-foot">把结论应用到 Vitamin 的产品决策 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (9) Vitamin 案例                                    -->
+    <!-- ================================================== -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 先做哪 3 个?</h2>
+      <p class="step-lede">基于矩阵分析, Vitamin 的 AI 功能路线图:</p>
+
+      <div class="can-cant">
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">✓ Phase 1: 先做 (Star + Quick Win)</h3>
+          <ul>
+            <li><strong>⭐ 智能健康问答</strong> — 核心差异化, T=0 + Golden Answer, 第一个上线</li>
+            <li><strong>⭐ 身体状态分类</strong> — 5 状态识别, 每天用, 高价值高可行</li>
+            <li><strong>⭐ 情绪安抚对话</strong> — 用户粘性利器, LLM 天然擅长共情对话</li>
+            <li><strong>⚡ 饮食记录总结</strong> — 技术简单, 顺手做, 提升体验</li>
+          </ul>
+        </article>
+
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">✗ Phase 2+: 等等再做</h3>
+          <ul>
+            <li><strong>❓ 经期预测</strong> — 需要足够的用户数据积累, 先收集 3 个月数据再评估准确率</li>
+            <li><strong>❓ AI 开药建议</strong> — 合规风险极高, 等政策明确 + 技术成熟, 目前只做"提醒就医"</li>
+            <li><strong>⚡ 周报生成</strong> — 优先级低, 排到 Phase 2</li>
+            <li><strong>🚫 BMI 计算</strong> — 用规则写, 不需要 AI. 从候选列表里直接删掉</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"我评估 AI 功能优先级, 用 Feasibility × Value 矩阵. 横轴看数据可用性、模型能力、准确率要求、集成复杂度、成本; 纵轴看用户影响、商业价值、竞争壁垒、使用频率、战略对齐. 画出来之后, 先做 Star 象限, 顺手做 Quick Win, Question Mark 做 POC 验证, Don't Bother 直接砍."</p>
+      </div>
+
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (10) 一句话规则 + 作业                              -->
+    <!-- ================================================== -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">先画矩阵, 再排优先级.<br/>不画矩阵就排优先级 = 拍脑袋.</p>
+        <p class="one-liner-foot muted">Feasibility × Value — 任何 AI 功能需求都过一遍这个筛子.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>回到上面的 2×2 矩阵, 重新拖一遍. 这次给每个功能写出 Feasibility 分 (1-5) 和 Value 分 (1-5), 附上理由. 截图保存.</li>
+          <li>除了这 8 个功能, 再想 3 个 Vitamin 可以做的 AI 功能, 放进矩阵里. 它们落在哪个象限?</li>
+          <li>挑一个 Star 功能, 写一段 200 字的"为什么先做它" — 可以直接放进 PRD 的优先级说明里.</li>
+          <li>思考: 如果 Vitamin 是一个<em>美食推荐</em> App 而不是健康 App, 8 个功能的 Feasibility 和 Value 分会怎么变? 哪些功能的象限会变?</li>
+        </ol>
+
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead>
+              <tr><th>Type</th><th>What</th><th>Source</th><th>Why</th><th>Time</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://angusallan.substack.com/p/how-to-assess-ai-feasibility-a-product" target="_blank">How to Assess AI Feasibility</a></td>
+                <td>Substack</td>
+                <td>最详细的 AI 可行性评估指南, 含打分模板</td>
+                <td>15 min</td>
+              </tr>
+              <tr>
+                <td>📺</td>
+                <td><a href="https://www.analyticsvidhya.com/blog/2025/01/ai-product-management/" target="_blank">Andrew Ng on AI PM</a></td>
+                <td>Analytics Vidhya</td>
+                <td>Ng 关于 AI PM 的核心观点整理</td>
+                <td>12 min</td>
+              </tr>
+              <tr>
+                <td>🛠</td>
+                <td><a href="https://dectrack.com/en/methods/impact-effort-matrix" target="_blank">Impact/Effort Matrix Tool</a></td>
+                <td>DecTrack</td>
+                <td>免费在线 2×2 矩阵工具, 可以直接用</td>
+                <td>5 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://unit8.com/resources/ai-project-selection-guide/" target="_blank">AI Project Selection Guide</a></td>
+                <td>Unit8</td>
+                <td>完整的 AI 项目筛选流程, 含 ideation → prioritization</td>
+                <td>20 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://userpilot.com/blog/feature-prioritization-matrix/" target="_blank">Feature Prioritization Matrix 101</a></td>
+                <td>Userpilot</td>
+                <td>不限于 AI 的通用优先级矩阵教程, 有大量示例</td>
+                <td>10 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- ■ END                                               -->
+    <!-- ================================================== -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> "加 AI!" — 但加哪个?</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 最酷 ≠ 最该做</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> Feasibility 5 维度</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> Value 5 维度</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 四个象限, 四个策略</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 1-5 分量表</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 三个常见打分错误</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> 拖拽 2×2 矩阵实操</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 先做哪 3 个</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 5:</p>
+        <p class="end-summary-big">Feasibility × Value 矩阵 — 先做 Star, 顺手 Quick Win, 观望 Question Mark, 砍掉 Don't Bother.</p>
+        <p class="end-summary-sub">不画矩阵就排优先级 = 拍脑袋. 框架思维是 AI PM 和普通 PM 的分水岭.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 6): AI vs 规则的决策准则</div>
+        <p>决定了"先做哪个功能", 下一个问题: 这个功能到底该用 AI 还是用传统规则?<br/>
+        下一节学 6 条判断标准, 做成一棵决策树, 3 分钟就能给出答案.</p>
+        <p><strong>Vitamin 的 5 个状态, 哪些该 AI、哪些该 if-else? 一一过筛.</strong></p>
+        <a class="walk-arrow" href="../u6-ai-vs-rules/index.html">继续走 → Unit 6</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.2 · Unit 5 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

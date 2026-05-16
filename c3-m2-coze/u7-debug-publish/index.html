@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · 调试与发布 — AI for PM · M3.2</title>
+  <meta name="description" content="调试面板看每步输入输出, 发布到 Web / 微信 / 飞书." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM &middot; M3.2</span></a><div class="topbar-right"><span class="unit-label">Unit 7 &middot; 调试与发布</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">&#9654;</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">&#9632;</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">&middot;</span><br/>调试 + 发布: 最后一公里</h1>
+      <p class="hero-sub">所有积木都有了. 今天学怎么调试每一步, 然后发布给真实用户.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="你"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 &middot; 准 AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">Bot 搭好了, 但效果好不好怎么验证?</p>
+          <p class="cloud-line">出了问题, 怎么定位是哪个节点的错?</p>
+          <p class="cloud-line accent">-- 调试面板 + 发布流程, 一起搞定.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>用调试面板逐步检查每个节点的输入输出</li><li>定位"是哪个节点出了问题"</li><li>发布 Bot 到多个渠道 (Web / 微信 / 飞书)</li><li>理解灰度发布和版本管理</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1"><div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">"Bot 回答得不对" -- 然后呢?</h2>
+      <p class="step-lede">你问 Bot "经期能跑步吗", 它说"可以每天跑 10 公里". 显然不对. 但问题出在哪?</p>
+      <div class="callout callout-blue"><p><strong>可能的问题节点:</strong></p><ul>
+        <li>意图识别错了 (把运动问题识别成闲聊)?</li>
+        <li>知识库检索错了 (没检索到经期运动的内容)?</li>
+        <li>LLM 生成错了 (检索到了但没遵守)?</li>
+        <li>插件返回错了 (天气数据格式不对)?</li>
+      </ul><p>不打开调试面板, 你只看到最终结果, 不知道哪一步出了错.</p></div>
+      <div class="step-foot">调试面板长什么样? ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2"><div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Coze 调试面板: 透视每一步</h2>
+      <p class="step-lede">在 Bot 编辑页右栏, 发一条消息后, 点"查看详情" -- 你能看到每个工作流节点的<mark class="hl">输入和输出</mark>.</p>
+      <div class="callout callout-green"><p><strong>调试面板显示:</strong></p><ul>
+        <li>每个节点的名称和类型</li>
+        <li>每个节点接收到的输入数据</li>
+        <li>每个节点产出的输出数据</li>
+        <li>每个节点的执行时间 (延迟)</li>
+        <li>执行状态: 成功 / 失败 / 超时</li>
+      </ul></div>
+      <div class="step-foot">来体验一下逐步调试 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3"><div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">互动调试: 逐步执行</h2>
+      <p class="step-lede">点击"下一步"按钮, 逐步观察 Vitamin 工作流的每个节点:</p>
+
+      <!-- Interactive: Debug step-through panel -->
+      <div class="debug-panel">
+        <div class="debug-header">
+          <h3>&#128270; 调试面板 -- "经期第二天能跑步吗?"</h3>
+        </div>
+        <div class="debug-body">
+          <div class="debug-step" data-idx="0">
+            <div class="debug-step-header"><span class="debug-step-num">1</span><span class="debug-step-name">开始节点</span></div>
+            <div class="debug-step-io"><div class="debug-io-box"><div class="debug-io-label">Input</div><div class="debug-io-content">等待中...</div></div><div class="debug-io-box"><div class="debug-io-label">Output</div><div class="debug-io-content">等待中...</div></div></div>
+          </div>
+          <div class="debug-step" data-idx="1">
+            <div class="debug-step-header"><span class="debug-step-num">2</span><span class="debug-step-name">意图识别 (LLM)</span></div>
+            <div class="debug-step-io"><div class="debug-io-box"><div class="debug-io-label">Input</div><div class="debug-io-content">等待中...</div></div><div class="debug-io-box"><div class="debug-io-label">Output</div><div class="debug-io-content">等待中...</div></div></div>
+          </div>
+          <div class="debug-step" data-idx="2">
+            <div class="debug-step-header"><span class="debug-step-num">3</span><span class="debug-step-name">天气插件</span></div>
+            <div class="debug-step-io"><div class="debug-io-box"><div class="debug-io-label">Input</div><div class="debug-io-content">等待中...</div></div><div class="debug-io-box"><div class="debug-io-label">Output</div><div class="debug-io-content">等待中...</div></div></div>
+          </div>
+          <div class="debug-step" data-idx="3">
+            <div class="debug-step-header"><span class="debug-step-num">4</span><span class="debug-step-name">知识库检索</span></div>
+            <div class="debug-step-io"><div class="debug-io-box"><div class="debug-io-label">Input</div><div class="debug-io-content">等待中...</div></div><div class="debug-io-box"><div class="debug-io-label">Output</div><div class="debug-io-content">等待中...</div></div></div>
+          </div>
+          <div class="debug-step" data-idx="4">
+            <div class="debug-step-header"><span class="debug-step-num">5</span><span class="debug-step-name">回复生成 (LLM)</span></div>
+            <div class="debug-step-io"><div class="debug-io-box"><div class="debug-io-label">Input</div><div class="debug-io-content">等待中...</div></div><div class="debug-io-box"><div class="debug-io-label">Output</div><div class="debug-io-content">等待中...</div></div></div>
+          </div>
+          <div class="debug-step" data-idx="5">
+            <div class="debug-step-header"><span class="debug-step-num">6</span><span class="debug-step-name">结束节点</span></div>
+            <div class="debug-step-io"><div class="debug-io-box"><div class="debug-io-label">Input</div><div class="debug-io-content">等待中...</div></div><div class="debug-io-box"><div class="debug-io-label">Output</div><div class="debug-io-content">等待中...</div></div></div>
+          </div>
+          <div class="debug-controls">
+            <button id="debug-step-btn" class="btn btn-primary">下一步 &rarr;</button>
+            <button id="debug-reset-btn" class="btn btn-ghost">重来</button>
+            <span id="debug-status" class="debug-status">0/6 步</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-foot">调试出问题了怎么修? ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4"><div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">常见调试 3 板斧</h2>
+      <div class="three-cards">
+        <article class="wonder wonder-1"><div class="wonder-tag">板斧 1</div><h3>改 Prompt</h3><div class="wonder-note">如果意图识别不准, 改 LLM 节点的 Prompt -- 加更多示例, 或者加 Few-shot.</div></article>
+        <article class="wonder wonder-2"><div class="wonder-tag">板斧 2</div><h3>调知识库</h3><div class="wonder-note">如果检索结果不相关, 检查知识库内容质量, 或者调整切片大小和检索 Top-K 参数.</div></article>
+        <article class="wonder wonder-3"><div class="wonder-tag">板斧 3</div><h3>换模型</h3><div class="wonder-note">如果生成质量差, 试试换一个更强的模型. 或者降低 Temperature 让回答更稳定.</div></article>
+      </div>
+      <div class="callout callout-amber"><p><strong>调试循环:</strong> 改一处 -> 测 5 个 case -> 看结果 -> 再改. 通常需要 3-5 轮才能调到满意.</p></div>
+      <div class="step-foot">调试完了, 怎么发布? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5"><div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">发布: 从调试到上线</h2>
+      <div class="callout callout-green"><p><strong>发布步骤:</strong></p><ol><li>确认调试效果满意</li><li>点右上角"发布"按钮</li><li>填写发布说明 (非必须, 但建议写)</li><li>选择发布渠道</li><li>点击"发布" -- 审核通常 1 分钟内完成</li></ol></div>
+      <div class="step-foot">有哪些发布渠道? ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6"><div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">发布渠道一览</h2>
+      <div class="publish-grid">
+        <div class="publish-channel"><span class="publish-channel-icon">&#127760;</span><div class="publish-channel-name">Web SDK</div></div>
+        <div class="publish-channel"><span class="publish-channel-icon">&#128172;</span><div class="publish-channel-name">微信公众号</div></div>
+        <div class="publish-channel"><span class="publish-channel-icon">&#128233;</span><div class="publish-channel-name">飞书</div></div>
+        <div class="publish-channel"><span class="publish-channel-icon">&#127909;</span><div class="publish-channel-name">抖音</div></div>
+        <div class="publish-channel"><span class="publish-channel-icon">&#128230;</span><div class="publish-channel-name">豆包</div></div>
+        <div class="publish-channel"><span class="publish-channel-icon">&#128279;</span><div class="publish-channel-name">API 接口</div></div>
+      </div>
+      <div class="callout callout-amber"><p><strong>Vitamin 推荐:</strong></p><ul><li><span class="pill pill-blue">Web SDK</span> 用于面试 Demo 演示 -- 分享一个链接即可</li><li><span class="pill pill-green">微信公众号</span> 用于真实用户触达 -- Vitamin 目标用户最活跃的渠道</li></ul></div>
+      <div class="step-foot">发布后要注意什么? ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7"><div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">版本管理 + 灰度发布</h2>
+      <div class="callout callout-blue"><p><strong>版本管理:</strong></p><ul><li>每次发布自动生成版本号</li><li>可以回滚到任何历史版本</li><li>发布记录里写清楚"这次改了什么" -- 跟代码 commit 一样</li></ul></div>
+      <div class="callout callout-green"><p><strong>灰度发布思路:</strong></p><ul><li>先发到 Web SDK, 自己测 + 找 3-5 个朋友测</li><li>收集反馈, 改 Prompt / 知识库</li><li>测试满意后, 再发到微信公众号面向更大用户群</li></ul><p class="muted">这就是产品上线的标准流程: 内测 -> 小流量 -> 全量.</p></div>
+      <div class="step-foot">发布后的数据怎么看? ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8"><div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">发布后: 看数据</h2>
+      <div class="callout callout-amber"><p><strong>Coze 提供的使用数据:</strong></p><ul>
+        <li>对话次数 -- 多少人在用你的 Bot</li>
+        <li>消息数 -- 每个用户平均聊几轮</li>
+        <li>用户留存 -- 明天还来的人有多少</li>
+        <li>用户反馈 -- 点赞 / 点踩 比例</li>
+      </ul></div>
+      <div class="callout callout-blue"><p><strong>PM 视角:</strong> 这些数据就是 M2.3 学的 AI 产品指标! 对话次数 = 使用量, 消息数 = 粘性, 点踩率 = 质量信号. 现在你有真实数据来验证了.</p></div>
+      <div class="step-foot">Vitamin 视角 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9"><div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 调试 + 发布 Checklist</h2>
+      <div class="callout callout-green">
+        <p><strong>调试 Checklist (发布前):</strong></p>
+        <ul class="check-list">
+          <li>5 种身体状态各测 3 个问题, 确认回答质量</li>
+          <li>边界 case: 问医疗诊断, 确认拒答</li>
+          <li>边界 case: 问无关话题, 确认不跑偏</li>
+          <li>知识库检索: 确认来源标注正确</li>
+          <li>插件调用: 确认天气/计算结果正确</li>
+        </ul>
+        <p><strong>发布 Checklist:</strong></p>
+        <ul class="check-list">
+          <li>先发 Web SDK, 自己测 + 3 个朋友测</li>
+          <li>收集 10 条真实反馈</li>
+          <li>根据反馈改 2-3 处 Prompt</li>
+          <li>再次测试确认</li>
+          <li>发到微信公众号 (或保留 Web 链接用于面试)</li>
+        </ul>
+      </div>
+      <div class="step-foot">作业时间 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10"><div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话</div><p class="one-liner-text">调试 = 逐步检查每个节点. 发布 = 先内测再灰度再全量.</p><p class="one-liner-foot muted">出了问题, 调试面板帮你定位是哪个节点的锅. 别猜, 看数据.</p></div>
+
+      <div class="callout callout-green"><strong>课后作业 (今晚 30 分钟):</strong><ol>
+        <li>打开你的 Coze Bot, 用右栏调试面板测试 5 个问题. 对每个问题, 查看每个节点的输入输出.</li>
+        <li>找到 1 个回答不满意的 case, 用"3 板斧"定位并修复问题.</li>
+        <li>把 Bot 发布到 Web SDK, 获取一个分享链接.</li>
+        <li>把链接发给 1 个朋友, 让 ta 问 3 个问题, 记录反馈.</li>
+      </ol></div>
+
+      <div class="callout callout-blue"><strong>资源延伸:</strong><table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+        <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://zhuanlan.zhihu.com/p/695645718" target="_blank" rel="noopener">扣子智能体调试与发布</a></td><td>知乎</td><td>中文完整教程</td><td>15 min</td></tr>
+        <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://blog.csdn.net/LaoYuanPython/article/details/145753680" target="_blank" rel="noopener">发布过程及 API 查阅</a></td><td>CSDN</td><td>发布 + API 配置</td><td>10 min</td></tr>
+        <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 4px;">&#128250;</td><td><a href="https://www.bzfree.com/doc/coze" target="_blank" rel="noopener">扣子实战全流程</a></td><td>bzfree.com</td><td>视频教程含调试演示</td><td>30 min</td></tr>
+        <tr><td style="padding:6px 4px;">&#128736;</td><td><a href="https://help-en.salesmartly.com/docs/guide-to-configure-coze-bot" target="_blank" rel="noopener">Coze Bot 配置指南</a></td><td>SaleSmartly</td><td>英文发布教程</td><td>10 min</td></tr>
+      </table></div>
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 回答不对怎么查</a><a href="#s2" class="recap-cell"><span class="rc-num">2</span> 调试面板介绍</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 逐步调试体验</a><a href="#s4" class="recap-cell"><span class="rc-num">4</span> 调试 3 板斧</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 发布 5 步</a><a href="#s6" class="recap-cell"><span class="rc-num">6</span> 6 个发布渠道</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 版本管理 + 灰度</a><a href="#s8" class="recap-cell"><span class="rc-num">8</span> 看数据</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin Checklist</a><a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 7:</p><p class="end-summary-big">调试 = 看每个节点的输入输出. 发布 = 内测 -> 灰度 -> 全量.</p><p class="end-summary-sub">别猜问题出在哪, 打开调试面板, 数据会告诉你.</p></div>
+      <div class="next-card"><div class="next-tag">下节课 (Unit 8): Vitamin Bot 完整搭建</div><p>最后一步 -- 把 U2-U7 的所有产物组装起来, 搭出 Vitamin 身体翻译器.</p><p><strong>录 3 分钟 Demo 视频 -- 简历上最有力的证据.</strong></p><a class="walk-arrow" href="../u8-vitamin-bot/index.html">继续走 &rarr; Unit 8</a></div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM &middot; Module 3.2 &middot; Unit 7 &middot; 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

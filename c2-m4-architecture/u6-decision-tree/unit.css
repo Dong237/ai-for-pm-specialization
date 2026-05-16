@@ -1,0 +1,165 @@
+/* U6 · Decision Tree Widget */
+
+.decision-tree {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.dt-question-box {
+  background: var(--bg-elev);
+  border: 2px dashed var(--border-strong);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 16px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.dt-q-num {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+.dt-q-text {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.dt-q-hint {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.dt-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.dt-btn {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  padding: 12px 36px;
+  border: 3px solid;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s;
+  min-width: 100px;
+}
+.dt-btn-yes {
+  background: var(--green-bg);
+  border-color: var(--green);
+  color: var(--green);
+}
+.dt-btn-yes:hover { background: var(--green); color: white; transform: translateY(-2px); }
+.dt-btn-no {
+  background: var(--red-bg);
+  border-color: var(--red);
+  color: var(--red);
+}
+.dt-btn-no:hover { background: var(--red); color: white; transform: translateY(-2px); }
+
+.dt-path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+  min-height: 28px;
+}
+.dt-path-item {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.dt-path-yes { background: var(--green-bg); color: var(--green); }
+.dt-path-no { background: var(--red-bg); color: var(--red); }
+
+.dt-result {
+  border-radius: 12px;
+  padding: 22px;
+  text-align: center;
+  display: none;
+  animation: slideDown 0.4s ease;
+}
+.dt-result.visible { display: block; }
+.dt-result-icon { font-size: 48px; margin-bottom: 10px; }
+.dt-result-arch {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.dt-result-reason {
+  font-size: 15px;
+  color: var(--ink-soft);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.dt-reset {
+  text-align: center;
+  margin-top: 14px;
+}
+
+/* Decision tree static diagram */
+.tree-diagram {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.tree-node {
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 6px 0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tree-node-q {
+  font-weight: 600;
+  flex: 1;
+}
+.tree-branch {
+  display: flex;
+  gap: 12px;
+  margin-left: 24px;
+  position: relative;
+}
+.tree-branch::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.tree-leaf {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}

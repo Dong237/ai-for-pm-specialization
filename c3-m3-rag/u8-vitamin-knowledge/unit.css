@@ -1,0 +1,113 @@
+/* Unit 8 · Knowledge Organizer — unit-specific styles */
+
+.kb-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+.kb-tabs {
+  display: flex; gap: 4px; flex-wrap: wrap;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0;
+}
+.kb-tab {
+  padding: 8px 16px;
+  border: 1.5px solid var(--border);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  background: var(--bg-elev);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--ink-soft);
+  transition: all 0.2s;
+  position: relative;
+  bottom: -2px;
+}
+.kb-tab:hover { color: var(--ink); background: var(--bg-card); }
+.kb-tab.active {
+  color: var(--green);
+  background: var(--bg-card);
+  border-color: var(--green);
+  border-bottom: 2px solid var(--bg-card);
+}
+.kb-panel {
+  display: none;
+  padding: 16px 0;
+}
+.kb-panel.active { display: block; }
+.kb-doc-list { display: flex; flex-direction: column; gap: 8px; }
+.kb-doc {
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.kb-doc:hover { border-color: var(--blue); background: var(--blue-bg-soft); }
+.kb-doc-icon { font-size: 24px; flex-shrink: 0; }
+.kb-doc-info { flex: 1; }
+.kb-doc-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+.kb-doc-meta { font-size: 12px; color: var(--ink-muted); }
+.kb-doc-tags { margin-top: 4px; }
+.kb-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+.kb-tag.chunk { background: var(--blue-bg); color: var(--blue); }
+.kb-tag.embed { background: var(--green-bg); color: var(--green); }
+.kb-tag.update { background: var(--amber-bg); color: var(--amber); }
+
+.kb-summary {
+  background: var(--bg-elev);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-top: 14px;
+}
+.kb-summary-row {
+  display: flex; justify-content: space-between;
+  padding: 4px 0; font-size: 13px;
+  border-bottom: 1px dashed var(--border);
+}
+.kb-summary-row:last-child { border-bottom: none; }
+.kb-summary-label { color: var(--ink-soft); }
+.kb-summary-value { font-weight: 600; }
+
+/* Architecture diagram for Vitamin KB */
+.vkb-arch {
+  background: var(--bg-card);
+  border: 2px solid var(--green);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+.vkb-layer {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px dashed var(--border);
+  flex-wrap: wrap;
+}
+.vkb-layer:last-child { border-bottom: none; }
+.vkb-label {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 120px;
+  text-align: center;
+}
+.vkb-desc { font-size: 14px; color: var(--ink-soft); flex: 1; }

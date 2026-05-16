@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>U8 · Agent 工作交接 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M4.3 U8: Agent 之间的上下文传递, 信息丢失是最大坑." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M4.3</span></a><div class="topbar-right"><span class="unit-label">Unit 8 · Agent 交接</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 8<span class="title-dot">·</span><br/>Agent 工作交接</h1>
+      <p class="hero-sub">A Agent 完成任务后, 怎么把上下文传给 B Agent? 信息丢失 = Multi-Agent 最大坑.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head" /><circle cx="42" cy="28" r="2" fill="currentColor" /><circle cx="58" cy="28" r="2" fill="currentColor" /><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" /><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">周期 Agent 说"你在黄体期", 然后交给营养 Agent...</p>
+          <p class="cloud-line">但营养 Agent 不知道用户花生过敏!</p>
+          <p class="cloud-line">推荐了花生酱三明治... 用户: ???</p>
+          <p class="cloud-line accent">—— 交接设计, 决定 Multi-Agent 的成败.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>理解 3 种交接模式 (全量/摘要/结构化)</li><li>亲眼看到信息丢失如何导致回复质量暴跌</li><li>设计防丢失的 Context Object 结构</li><li>为 Vitamin 设计完整的交接协议</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">交接 = 医生转科室时的病历</h2>
+      <p class="step-lede">你从骨科转到康复科. 如果医生<strong>不传病历</strong>, 康复科医生对你的情况一无所知, 要从头问一遍. 更糟: 可能给你做了和骨科冲突的治疗.</p>
+      <div class="callout callout-red"><p><strong>Multi-Agent 的交接也一样:</strong> Agent A 知道的上下文, Agent B 一个字都不知道 — 除非你主动传过去.</p><p class="muted">每个 Agent 是独立的 LLM 调用, 它们之间<mark class="hl">不会自动共享任何信息</mark>.</p></div>
+      <div class="step-foot">交接信息丢失有多严重? ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">信息丢失的 3 个等级</h2>
+      <div class="callout callout-green"><p><span class="pill pill-green">完整交接</span> Agent B 收到所有上下文: 用户状态、对话摘要、前一个 Agent 的结论、约束条件 → 回复精准个性化</p></div>
+      <div class="callout callout-amber"><p><span class="pill pill-amber">部分丢失</span> 关键字段缺失 (如过敏信息、前次建议) → 回复不够个性化, 可能冲突</p></div>
+      <div class="callout callout-red"><p><span class="pill pill-blue">严重丢失</span> 几乎没有上下文传递 → Agent B 相当于跟新用户对话, 完全丧失连续性</p></div>
+      <div class="step-foot">3 种交接模式 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">3 种交接模式</h2>
+      <div class="pattern-cards">
+        <div class="pattern-card"><div class="pattern-title" style="color:var(--green);">全量传递</div><p style="font-size:14px;">把完整对话历史传给下一个 Agent.</p><p style="font-size:13px;color:var(--ink-muted);">优: 不丢信息. 缺: 上下文很长, 成本高, 可能超 context window.</p></div>
+        <div class="pattern-card"><div class="pattern-title" style="color:var(--blue);">摘要传递</div><p style="font-size:14px;">Agent A 输出一段摘要给 Agent B.</p><p style="font-size:13px;color:var(--ink-muted);">优: 精简. 缺: 摘要可能遗漏关键细节.</p></div>
+        <div class="pattern-card"><div class="pattern-title" style="color:var(--amber);">结构化 Context Object</div><p style="font-size:14px;">预定义字段的 JSON 对象, 必填字段不可省略.</p><p style="font-size:13px;color:var(--ink-muted);">优: 标准化, 不易遗漏. 推荐方案.</p></div>
+      </div>
+      <div class="step-foot">什么是 Context Object? ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Context Object: 结构化的交接协议</h2>
+      <div class="callout callout-blue" style="font-family:'Cascadia Code','SF Mono',monospace;font-size:13px;overflow-x:auto;">
+<pre style="margin:0;white-space:pre-wrap;">{
+  "user_id": "u_12345",
+  "cycle_phase": "黄体期",
+  "cycle_day": 22,
+  "current_mood": "有点烦躁",
+  "diet_today": ["燕麦", "牛奶"],
+  "allergies": ["花生"],
+  "previous_advice": "多补充镁",
+  "conversation_summary": "用户因PMS不适来咨询,
+    周期Agent已确认黄体期状态",
+  "handoff_reason": "用户问了饮食建议,
+    需要营养Agent处理",
+  "timestamp": "2026-05-15T14:30:00"
+}</pre>
+      </div>
+      <p>关键: <strong>allergies 是必填字段</strong>. 如果这个字段丢了, 营养 Agent 可能推荐过敏食物 — 这是产品事故.</p>
+      <div class="step-foot">哪些字段是必须传的? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">必填字段 vs 可选字段</h2>
+      <div class="callout callout-red">
+        <strong>必填 (丢了就出事):</strong>
+        <ul style="margin:4px 0 0;">
+          <li><strong>user_id</strong> — 不知道是谁, 无法个性化</li>
+          <li><strong>allergies/禁忌</strong> — 安全相关, 绝对不能丢</li>
+          <li><strong>conversation_summary</strong> — 上下文连续性</li>
+          <li><strong>current_mood</strong> — 决定回复语气</li>
+          <li><strong>handoff_reason</strong> — Agent B 知道为什么接到这个任务</li>
+        </ul>
+      </div>
+      <div class="callout callout-amber">
+        <strong>可选 (丢了体验降级但不出事):</strong>
+        <ul style="margin:4px 0 0;">
+          <li><strong>diet_today</strong> — 没有的话不影响安全, 只是建议不够精准</li>
+          <li><strong>cycle_day</strong> — 知道 phase 就够了, day 是锦上添花</li>
+          <li><strong>previous_advice</strong> — 没有的话可能重复建议, 但不会出错</li>
+        </ul>
+      </div>
+      <div class="step-foot">共享 Memory 怎么做? ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Shared Memory: 所有 Agent 共享的记忆</h2>
+      <p class="step-lede">除了交接时传递 Context Object, 更好的方案是所有 Agent 共享一个 Memory 层.</p>
+      <div class="callout callout-blue">
+        <strong>Shared Memory 的实现:</strong>
+        <ul style="margin:8px 0 0;">
+          <li><strong>用户画像:</strong> 固定信息 (过敏、偏好、年龄段) 存在数据库, 每个 Agent 都能读取</li>
+          <li><strong>会话状态:</strong> 当前对话的上下文, 用 Redis 或内存缓存存储</li>
+          <li><strong>历史摘要:</strong> 过去 7 天的对话摘要, 定期压缩更新</li>
+        </ul>
+        <p class="muted">Shared Memory 让 Agent 之间的"交接"变成"共同记忆" — 不需要传来传去, 大家都看同一份数据.</p>
+      </div>
+      <div class="step-foot">交接失败怎么处理? ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">交接失败的兜底策略</h2>
+      <p class="step-lede">再完美的设计也会有交接失败的时候. 兜底比完美更重要.</p>
+      <div class="callout callout-amber">
+        <strong>兜底策略:</strong>
+        <ol>
+          <li><strong>必填字段缺失 → 不交接:</strong> 缺少 allergies 或 user_id, 拒绝交接, 打日志, 用当前 Agent 兜底回答</li>
+          <li><strong>可选字段缺失 → 降级回答:</strong> Agent B 回答时标注"由于信息不完整, 建议仅供参考"</li>
+          <li><strong>回退机制:</strong> 如果 Agent B 判断上下文不够, 可以主动问用户 "我需要确认一下, 你有没有食物过敏?"</li>
+        </ol>
+      </div>
+      <div class="step-foot">来模拟交接 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">交接模拟器</h2>
+      <p class="step-lede">周期 Agent 完成分析后, 交接给营养 Agent. 点击左边的字段来"移除"上下文, 观察右边回复质量如何变化.</p>
+
+      <div id="handoff-sim" class="handoff-sim">
+        <div class="handoff-agents">
+          <div class="agent-panel source">
+            <div class="agent-panel-title">周期 Agent (源)</div>
+            <p style="font-size:13px;color:var(--ink-muted);">已完成分析, 准备交接以下上下文:</p>
+            <div class="context-fields" id="context-fields"></div>
+          </div>
+          <div class="handoff-arrow">→</div>
+          <div class="agent-panel target">
+            <div class="agent-panel-title">营养 Agent (目标)</div>
+            <div class="response-area" id="response-area">
+              <div class="quality-indicator">
+                <span class="quality-dot good" id="quality-dot"></span>
+                <span class="quality-label good" id="quality-label">完整上下文</span>
+              </div>
+              <p class="response-text" id="response-text"></p>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--ink-muted);text-align:center;">↑ 点击左侧的字段来移除/恢复上下文, 观察回复质量变化</p>
+      </div>
+      <div class="step-foot">Vitamin 交接设计 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的交接协议</h2>
+      <div class="callout callout-blue">
+        <strong>Vitamin Context Object 规范:</strong>
+        <ul style="margin:8px 0 0;">
+          <li><strong>必填 5 字段:</strong> user_id, allergies, current_mood, conversation_summary, handoff_reason</li>
+          <li><strong>可选 5 字段:</strong> cycle_phase, cycle_day, diet_today, previous_advice, timestamp</li>
+          <li><strong>Shared Memory:</strong> 用户画像 (Redis) + 当前会话状态 (内存)</li>
+          <li><strong>交接协议:</strong> 必填字段缺失 → 拒绝交接 → 日志告警 → 当前 Agent 兜底</li>
+        </ul>
+      </div>
+      <div class="callout callout-red"><strong>面试金句:</strong><p>"Multi-Agent 最大的坑不是路由, 而是交接. 我给 Vitamin 设计了结构化的 Context Object, 5 个必填字段确保安全信息(如过敏)永远不丢失. 同时用 Shared Memory 让所有 Agent 共享用户画像, 减少交接开销."</p></div>
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话</div><p class="one-liner-text">Agent 交接 = 结构化 Context Object + 必填字段校验.<br/>信息丢失是 Multi-Agent 最大坑, 防丢比做对更重要.</p></div>
+      <div class="callout callout-green"><strong>课后作业 (30 分钟):</strong><ol>
+        <li>在交接模拟器中, 逐个移除字段, 记录每次回复质量的变化.</li>
+        <li>为 Vitamin 设计完整的 Context Object Schema (JSON), 标注必填/可选.</li>
+        <li>设计 3 个交接场景, 画出 Agent A → Context Object → Agent B 的数据流.</li>
+        <li>写 200 字: "为什么结构化 Context Object 比传递完整对话历史更好?"</li>
+      </ol></div>
+      <div class="callout callout-blue"><strong>资源延伸:</strong>
+        <table class="resource-table"><thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead><tbody>
+          <tr><td>📖</td><td><a href="https://java2ai.com/docs/frameworks/agent-framework/advanced/multi-agent/" target="_blank">多智能体框架(中文)</a></td><td>Spring AI 的 Agent 交接模式详解</td><td>15 min</td></tr>
+          <tr><td>📖</td><td><a href="https://medium.com/@satvallu/multi-agent-architectures-patterns-every-ai-engineer-should-know-de1544d7ce78" target="_blank">Multi-Agent Architecture Patterns</a></td><td>交接和编排模式的工程实践</td><td>20 min</td></tr>
+          <tr><td>📖</td><td><a href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns" target="_blank">Azure Agent Patterns</a></td><td>企业级 Agent 交接设计</td><td>25 min</td></tr>
+          <tr><td>📖</td><td><a href="https://www.ginonotes.com/posts/agentic-design-patterns-routing-translation" target="_blank">智能体路由模式(中文)</a></td><td>路由和交接模式的翻译解读</td><td>15 min</td></tr>
+        </tbody></table>
+      </div>
+      <div class="step-foot">完成 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 交接=转科病历</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 信息丢失3等级</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 3种交接模式</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Context Object</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 必填vs可选</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Shared Memory</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 兜底策略</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 交接模拟器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin交接协议</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 8:</p><p class="end-summary-big">交接 = 结构化 Context Object + 必填字段.<br/>信息丢失 = Multi-Agent 最大坑.</p></div>
+      <div class="next-card"><div class="next-tag">下节课 (Unit 9): Vitamin Multi-Agent 终版</div><p>所有组件都就绪: ReAct + Tool Use + Router + Handoff. 最后一步 — <strong>把它们组装成 Vitamin 的完整 Multi-Agent 架构</strong>. 这是你的 Capstone 作品.</p><a class="walk-arrow" href="../u9-vitamin-multi-agent/index.html">继续走 → Unit 9</a></div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Course 4 · Module 3 · Unit 8 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

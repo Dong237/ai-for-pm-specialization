@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · 四种 AI 架构概览 — AI for PM · M2.4</title>
+  <meta name="description" content="Prompt-only / RAG / Fine-tune / Multi-Agent — 四种架构复杂度递增, 成本递增. 先看全貌." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · 四种架构概览</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 1<span class="title-dot">·</span><br/>四种 AI 架构概览</h1>
+      <p class="hero-sub">同一个 AI 功能, 竟然有 4 种完全不同的搭法?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head"/>
+            <circle cx="42" cy="28" r="2" fill="currentColor"/>
+            <circle cx="58" cy="28" r="2" fill="currentColor"/>
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · AI PM)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">PRD 写完了, 成本算完了, 指标定完了.</p>
+          <p class="cloud-line">老板问: "技术上到底怎么实现?"</p>
+          <p class="cloud-line">是直接调 API? 还是要建知识库? 还是要训模型?</p>
+          <p class="cloud-line accent">—— 今天 10 步, 把 4 种架构看清楚.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>画出 4 种 AI 架构的复杂度阶梯</li>
+          <li>一眼判断某个 AI 功能该用哪种架构</li>
+          <li>知道为什么 "越高级越好" 是错的</li>
+          <li>给 Vitamin 的每个功能匹配对应架构</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">同一个功能, 4 种搭法</h2>
+      <p class="step-lede">假设你要做一个 "帮用户总结文章" 的功能. 看下面 4 种实现方式:</p>
+
+      <div class="level-block" data-l="1">
+        <div class="level-tag">Level 1</div>
+        <div class="level-title">Prompt-only</div>
+        <div class="level-diagram">
+          用户输入文章 <span class="arrow">&rarr;</span> System Prompt: "请总结" <span class="arrow">&rarr;</span> LLM <span class="arrow">&rarr;</span> 输出摘要
+        </div>
+        <p style="font-size:14px;color:var(--ink-soft);margin:0;">一个 API 调用搞定. 几行代码.</p>
+      </div>
+
+      <div class="level-block" data-l="2">
+        <div class="level-tag">Level 2</div>
+        <div class="level-title">RAG</div>
+        <div class="level-diagram">
+          用户提问 <span class="arrow">&rarr;</span> 检索知识库 <span class="arrow">&rarr;</span> 拼装上下文 <span class="arrow">&rarr;</span> LLM <span class="arrow">&rarr;</span> 带来源的回答
+        </div>
+        <p style="font-size:14px;color:var(--ink-soft);margin:0;">多了一个 "检索" 步骤, 但回答有据可查.</p>
+      </div>
+
+      <div class="level-block" data-l="3">
+        <div class="level-tag">Level 3</div>
+        <div class="level-title">Fine-tune</div>
+        <div class="level-diagram">
+          准备训练数据 <span class="arrow">&rarr;</span> 微调模型 <span class="arrow">&rarr;</span> 部署新模型 <span class="arrow">&rarr;</span> 用户使用
+        </div>
+        <p style="font-size:14px;color:var(--ink-soft);margin:0;">改了模型本身. 风格/术语 "内化" 到权重里.</p>
+      </div>
+
+      <div class="level-block" data-l="4">
+        <div class="level-tag">Level 4</div>
+        <div class="level-title">Multi-Agent</div>
+        <div class="level-diagram">
+          用户输入 <span class="arrow">&rarr;</span> Agent A: 分析 <span class="arrow">&rarr;</span> Agent B: 检索 <span class="arrow">&rarr;</span> Agent C: 生成 <span class="arrow">&rarr;</span> Agent D: 审核 <span class="arrow">&rarr;</span> 输出
+        </div>
+        <p style="font-size:14px;color:var(--ink-soft);margin:0;">多个 Agent 分工合作, 各有专长.</p>
+      </div>
+
+      <div class="step-foot">哪个更好? 不是 "越高级越好" — 下一步说清楚 &darr;</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">最常见的错误: "越高级越好"</h2>
+
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>错觉: 我要用最先进的架构</h3>
+          <p>"Multi-Agent 听起来好厉害, 我们产品一定要用!"</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            过度工程是 AI 产品最常见的死因. 花 3 个月搭 Multi-Agent, 结果一个好的 Prompt 就能解决.
+          </div>
+        </article>
+        <article class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>错觉: Fine-tune 一定比 RAG 好</h3>
+          <p>"训练过的模型肯定更懂我的业务!"</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            Fine-tune 教的是 "风格", 不是 "事实". 要最新知识, RAG 才是正解. 搞混了等于烧钱.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">AI 架构选型的唯一原则:</p>
+        <p class="truth-line giant"><mark class="hl">从最简单的开始, 只在遇到瓶颈时升级.</mark></p>
+        <p class="truth-line muted">&rarr; 80% 的初创 AI 产品, Prompt-only 就够了. 真正需要 Multi-Agent 的, 可能不到 5%.</p>
+      </div>
+      <div class="step-foot">那每种架构到底怎么工作? 从最简单的开始 &darr;</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Level 1: Prompt-only — 最简单</h2>
+      <p class="step-lede">一个 API 调用 + 一段精心设计的 System Prompt. 就这样.</p>
+
+      <div class="level-block" data-l="1">
+        <div class="level-tag">Prompt-only</div>
+        <div class="level-title">怎么工作</div>
+        <div class="level-diagram">
+          你写好 System Prompt<br/>
+          <span class="arrow">&darr;</span><br/>
+          用户每次提问, 连同 Prompt 一起发给 LLM<br/>
+          <span class="arrow">&darr;</span><br/>
+          LLM 返回回答
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>适合什么场景:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>任务相对标准化 (分类 / 改写 / 翻译)</li>
+          <li>不需要外部知识 (模型自带的就够)</li>
+          <li>规模小, 不需要极致性能</li>
+          <li>MVP 阶段 — 先验证需求再说</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>什么时候不够了?</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>用户问了模型训练时不知道的事 &rarr; 需要 RAG</li>
+          <li>Prompt 太长, 超出 Context Window &rarr; 需要 RAG 或 Fine-tune</li>
+          <li>模型风格不对, 怎么调 Prompt 都不像 &rarr; 需要 Fine-tune</li>
+        </ul>
+      </div>
+      <div class="step-foot">当模型 "不知道" 你的知识时 &rarr; 升级到 RAG &darr;</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Level 2: RAG — 给模型配个 "图书馆"</h2>
+      <p class="step-lede">Retrieval-Augmented Generation. 不改模型, 改输入 — 用检索补充模型不知道的知识.</p>
+
+      <div class="level-block" data-l="2">
+        <div class="level-tag">RAG Pipeline</div>
+        <div class="level-title">4 步流程</div>
+        <div class="level-diagram">
+          <strong>Step 1:</strong> 把文档切块 + 向量化, 存入向量数据库<br/>
+          <span class="arrow">&darr;</span><br/>
+          <strong>Step 2:</strong> 用户提问 &rarr; 把问题也向量化<br/>
+          <span class="arrow">&darr;</span><br/>
+          <strong>Step 3:</strong> 在数据库里找最相似的文档块 (检索)<br/>
+          <span class="arrow">&darr;</span><br/>
+          <strong>Step 4:</strong> 把检索结果塞进 Prompt &rarr; LLM 生成回答
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>RAG 的核心优势:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li><strong>知识可更新</strong> — 换文档就行, 不用重新训练模型</li>
+          <li><strong>可溯源</strong> — 回答附带引用来源, 用户能验证</li>
+          <li><strong>成本可控</strong> — 不用训练, 只多了检索这一步</li>
+          <li><strong>降低幻觉</strong> — 有据可查, 比纯靠模型记忆靠谱</li>
+        </ul>
+      </div>
+
+      <p class="step-lede"><strong>一个数据:</strong> 据研究, 优化的 RAG 系统可以将幻觉率降低 85%. 这就是为什么医疗、法律场景几乎必用 RAG.</p>
+      <div class="step-foot">RAG 解决了 "知识" 问题. 但如果是 "风格" 问题呢? &darr;</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Level 3: Fine-tune — 改模型本身</h2>
+      <p class="step-lede">不是给模型 "看参考资料" (那是 RAG), 而是让模型 "上课学习", 把新知识/风格写进权重.</p>
+
+      <div class="level-block" data-l="3">
+        <div class="level-tag">Fine-tune</div>
+        <div class="level-title">流程</div>
+        <div class="level-diagram">
+          准备 500-5000 条标注数据 (input &rarr; ideal output)<br/>
+          <span class="arrow">&darr;</span><br/>
+          在基础模型上训练 (几小时到几天)<br/>
+          <span class="arrow">&darr;</span><br/>
+          得到一个 "你的专属模型"<br/>
+          <span class="arrow">&darr;</span><br/>
+          部署 &rarr; 用户使用
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>关键认知: Fine-tune 改的是 "怎么说", 不是 "知道什么".</strong></p>
+        <p style="font-size:14px;margin-top:8px;">Fine-tune 让模型学会一种<em>风格</em>、一套<em>术语</em>、一种<em>判断倾向</em>. 但不适合教它 "今天的新闻" — 那是 RAG 的活.</p>
+        <p style="font-size:14px;color:var(--ink-muted);">行业共识: "把变化的知识放 RAG, 把稳定的风格放 Fine-tune, 别搞反了."</p>
+      </div>
+
+      <div class="step-foot">当任务太复杂, 一个 Agent 搞不定时 &darr;</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Level 4: Multi-Agent — 团队作战</h2>
+      <p class="step-lede">一个人干不完, 就组个团队. Multi-Agent 的逻辑跟组建团队一样 — 每个 Agent 是一个 "专家角色".</p>
+
+      <div class="level-block" data-l="4">
+        <div class="level-tag">Multi-Agent</div>
+        <div class="level-title">典型模式: Orchestrator + Workers</div>
+        <div class="level-diagram">
+          用户请求 &rarr; <strong>Orchestrator</strong> (指挥官)<br/>
+          <span class="arrow">&darr;</span><br/>
+          ┌── Agent A: 信息收集 (搜索/检索)<br/>
+          ├── Agent B: 分析推理 (专业判断)<br/>
+          ├── Agent C: 内容生成 (写作/回复)<br/>
+          └── Agent D: 质量审核 (验证/修正)<br/>
+          <span class="arrow">&darr;</span><br/>
+          Orchestrator 整合 &rarr; 最终输出
+        </div>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>Multi-Agent 的代价:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>每个 Agent 都是一次或多次 API 调用 — <strong>成本翻倍</strong></li>
+          <li>Agent 间传递信息可能丢失或曲解 — <strong>调试困难</strong></li>
+          <li>响应时间 = 所有 Agent 延迟之和 — <strong>用户等更久</strong></li>
+          <li>2026 年预测: 40% 企业应用会嵌入 Agent — 但大部分是 single-agent</li>
+        </ul>
+      </div>
+      <div class="step-foot">4 种架构都看完了, 来一张总览对比 &darr;</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">四种架构并排比较</h2>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>维度</th>
+            <th>Prompt-only</th>
+            <th>RAG</th>
+            <th>Fine-tune</th>
+            <th>Multi-Agent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>搭建时间</td>
+            <td>几小时</td>
+            <td>1-2 周</td>
+            <td>2-8 周</td>
+            <td>1-3 个月</td>
+          </tr>
+          <tr>
+            <td>月成本</td>
+            <td>$10-100</td>
+            <td>$100-1K</td>
+            <td>$1K-10K</td>
+            <td>$5K-50K</td>
+          </tr>
+          <tr>
+            <td>知识更新</td>
+            <td>改 Prompt</td>
+            <td>换文档</td>
+            <td>重新训练</td>
+            <td>每个 Agent 独立</td>
+          </tr>
+          <tr>
+            <td>可溯源</td>
+            <td>不能</td>
+            <td>能</td>
+            <td>不能</td>
+            <td>部分能</td>
+          </tr>
+          <tr>
+            <td>维护难度</td>
+            <td>极低</td>
+            <td>中</td>
+            <td>高</td>
+            <td>很高</td>
+          </tr>
+          <tr>
+            <td>适合阶段</td>
+            <td>MVP</td>
+            <td>验证后</td>
+            <td>PMF 后</td>
+            <td>规模化后</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-blue">
+        <p><strong>复杂度阶梯:</strong></p>
+        <div class="complexity-meter">
+          <span class="complexity-label" style="color:var(--green)">Prompt</span>
+          <div class="complexity-bar"><div class="complexity-fill" data-value="20" style="background:var(--green);width:0%"></div></div>
+        </div>
+        <div class="complexity-meter">
+          <span class="complexity-label" style="color:var(--blue)">RAG</span>
+          <div class="complexity-bar"><div class="complexity-fill" data-value="45" style="background:var(--blue);width:0%"></div></div>
+        </div>
+        <div class="complexity-meter">
+          <span class="complexity-label" style="color:var(--amber)">Fine-tune</span>
+          <div class="complexity-bar"><div class="complexity-fill" data-value="70" style="background:var(--amber);width:0%"></div></div>
+        </div>
+        <div class="complexity-meter">
+          <span class="complexity-label" style="color:var(--red)">Multi-Agent</span>
+          <div class="complexity-bar"><div class="complexity-fill" data-value="95" style="background:var(--red);width:0%"></div></div>
+        </div>
+      </div>
+      <div class="step-foot">点击下面的卡片, 看每种架构的详细信息 &darr;</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试试 — 点击探索每种架构</h2>
+      <p class="step-lede">点击任意一张卡片, 展开看详情. 对比它们的成本、搭建时间、适用场景.</p>
+
+      <div class="arch-spectrum">
+        <div class="arch-card" data-level="1">
+          <div class="arch-level">Level 1</div>
+          <div class="arch-name">Prompt-only</div>
+          <div class="arch-brief">一个 API + 一段 Prompt</div>
+        </div>
+        <div class="arch-card" data-level="2">
+          <div class="arch-level">Level 2</div>
+          <div class="arch-name">RAG</div>
+          <div class="arch-brief">检索 + 增强生成</div>
+        </div>
+        <div class="arch-card" data-level="3">
+          <div class="arch-level">Level 3</div>
+          <div class="arch-name">Fine-tune</div>
+          <div class="arch-brief">微调模型权重</div>
+        </div>
+        <div class="arch-card" data-level="4">
+          <div class="arch-level">Level 4</div>
+          <div class="arch-name">Multi-Agent</div>
+          <div class="arch-brief">多 Agent 协作</div>
+        </div>
+      </div>
+
+      <div id="arch-detail-panel" class="arch-detail"></div>
+
+      <div class="step-foot">看清楚 4 种架构了 — 对照 Vitamin 看看 &darr;</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 每个功能对应哪种架构</h2>
+      <p class="step-lede">Vitamin 的 5 个核心功能, 不是同一种架构 — 是 <mark class="hl">混合架构</mark>.</p>
+
+      <div class="vitamin-map">
+        <div class="vitamin-map-item">
+          <div class="vitamin-map-feature">情绪安抚对话</div>
+          <p style="font-size:13px;color:var(--ink-soft);margin:4px 0;">标准化的温柔回复, 不需要专有知识</p>
+          <span class="vitamin-map-arch pill pill-green">Prompt-only</span>
+        </div>
+        <div class="vitamin-map-item">
+          <div class="vitamin-map-feature">医学知识问答</div>
+          <p style="font-size:13px;color:var(--ink-soft);margin:4px 0;">需要最新医学指南, 必须可溯源</p>
+          <span class="vitamin-map-arch pill pill-blue">RAG</span>
+        </div>
+        <div class="vitamin-map-item">
+          <div class="vitamin-map-feature">品牌语调一致性</div>
+          <p style="font-size:13px;color:var(--ink-soft);margin:4px 0;">Vitamin 特有的温暖关怀风格</p>
+          <span class="vitamin-map-arch pill pill-amber">Fine-tune (PMF 后)</span>
+        </div>
+        <div class="vitamin-map-item">
+          <div class="vitamin-map-feature">身体翻译器 (终版)</div>
+          <p style="font-size:13px;color:var(--ink-soft);margin:4px 0;">输入分析→知识检索→建议生成→安全审核</p>
+          <span class="vitamin-map-arch" style="background:var(--red-bg);color:var(--red);">Multi-Agent</span>
+        </div>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>面试金句, 抄走:</strong></p>
+        <p>"Vitamin 的架构不是一个统一选择, 而是按功能分层: 简单对话用 Prompt-only, 医学知识用 RAG, 品牌风格 PMF 后考虑 Fine-tune, 终版身体翻译器用 Multi-Agent 编排. 从简单到复杂, 逐步升级."</p>
+      </div>
+      <div class="step-foot">最后一步: 规则 + 作业 &darr;</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">AI 架构有 4 个 Level:<br/>Prompt &rarr; RAG &rarr; Fine-tune &rarr; Multi-Agent.<br/>从最简单的开始, 遇到瓶颈再升级.</p>
+        <p class="one-liner-foot muted">面试时画这个阶梯, 然后说 "80% 产品只需要 Level 1-2".</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>画一个 4 层阶梯图 (手画/iPad 随便), 标注每层的名字、成本、适合场景. 拍照存下来.</li>
+          <li>选一个你日常用的 AI 工具 (ChatGPT / 豆包 / Kimi), 猜它用的是哪种架构, 写出理由.</li>
+          <li>列出 Vitamin 的 3 个功能, 各匹配一种架构, 并写出选择理由 (一句话).</li>
+          <li>搜索 "RAG vs Fine-tuning 2026", 读一篇文章, 用一句话总结核心观点.</li>
+        </ol>
+
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 8px;">📖</td>
+              <td style="padding:6px 8px;"><a href="https://www.ibm.com/think/topics/rag-vs-fine-tuning-vs-prompt-engineering" target="_blank" style="color:var(--blue);">RAG vs Fine-tuning vs Prompt Engineering</a></td>
+              <td style="padding:6px 8px;">IBM</td>
+              <td style="padding:6px 8px;">最清晰的三者对比, 有决策树</td>
+              <td style="padding:6px 8px;">15 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 8px;">📖</td>
+              <td style="padding:6px 8px;"><a href="https://zhuanlan.zhihu.com/p/17321014859" target="_blank" style="color:var(--blue);">大模型项目策略选型 Prompt/RAG/微调</a></td>
+              <td style="padding:6px 8px;">知乎</td>
+              <td style="padding:6px 8px;">中文, 按场景分析选型</td>
+              <td style="padding:6px 8px;">10 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 8px;">📺</td>
+              <td style="padding:6px 8px;"><a href="https://www.youtube.com/results?search_query=RAG+vs+fine+tuning+explained" target="_blank" style="color:var(--blue);">RAG vs Fine-tuning Explained (YouTube)</a></td>
+              <td style="padding:6px 8px;">YouTube</td>
+              <td style="padding:6px 8px;">可视化讲解, 适合入门</td>
+              <td style="padding:6px 8px;">15 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px;">🎮</td>
+              <td style="padding:6px 8px;"><a href="https://ragplay.vercel.app/" target="_blank" style="color:var(--blue);">RAG Playground</a></td>
+              <td style="padding:6px 8px;">Interactive</td>
+              <td style="padding:6px 8px;">动手试 RAG pipeline, 超直观</td>
+              <td style="padding:6px 8px;">10 min</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 &darr;</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 同一功能 4 种搭法</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> "越高级越好" 是错的</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Prompt-only: 最简单</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> RAG: 配个图书馆</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Fine-tune: 改模型</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Multi-Agent: 团队</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 四者并排对比</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 架构探索工具</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 功能映射</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">AI 架构 4 级阶梯: Prompt &rarr; RAG &rarr; Fine-tune &rarr; Multi-Agent.<br/>从最简单的开始, 按需升级.</p>
+        <p class="end-summary-sub">80% 初创产品只需要 Level 1-2. 别过度工程.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 2): Prompt-only 适用场景</div>
+        <p>今天概览了 4 种架构. 下一节深入 Level 1 — 为什么 80% 初创 AI 产品只需要 Prompt-only?</p>
+        <p><strong>它真的能解决那么多问题? 什么时候会触顶?</strong></p>
+        <a class="walk-arrow" href="../u2-prompt-only/index.html">继续走 &rarr; Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 2.4 · Unit 1 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

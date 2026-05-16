@@ -1,0 +1,176 @@
+/* U4: Design Defense — unit-specific styles */
+
+/* Defense cards */
+.defense-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.defense-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  min-height: 180px;
+}
+
+.defense-card:nth-child(1) { border-color: var(--blue); transform: rotate(-0.4deg); }
+.defense-card:nth-child(2) { border-color: var(--green); transform: rotate(0.3deg); }
+.defense-card:nth-child(3) { border-color: var(--amber); transform: rotate(-0.3deg); }
+.defense-card:nth-child(4) { border-color: var(--red); transform: rotate(0.2deg); }
+
+.defense-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-elev);
+}
+
+.defense-card-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.defense-card-question {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+/* Answer section (toggled) */
+.defense-answer {
+  display: none;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 2px dashed var(--border);
+}
+
+.defense-card.revealed .defense-answer { display: block; }
+
+.defense-card .toggle-hint {
+  font-size: 12px;
+  color: var(--ink-faint);
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+}
+
+.defense-card.revealed .toggle-hint { display: none; }
+
+.why-framework {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.why-step {
+  padding: 8px 0 8px 28px;
+  position: relative;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.why-step::before {
+  content: attr(data-num);
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 20px;
+  height: 20px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.why-step strong { color: var(--ink); }
+
+.vitamin-answer {
+  background: var(--green-bg-soft);
+  border: 1.5px solid var(--green);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.vitamin-answer strong { color: var(--green); }
+
+/* Practice mode */
+.practice-mode {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.practice-question {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--red);
+  margin: 16px 0;
+  min-height: 60px;
+}
+
+.practice-answer-area {
+  background: var(--bg-elev);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: 10px;
+  padding: 18px;
+  margin: 16px 0;
+  min-height: 80px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+.practice-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+/* Why framework visualization */
+.why-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.why-flow-node {
+  background: var(--blue-bg);
+  border: 1.5px solid var(--blue);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.why-flow-arrow {
+  color: var(--ink-faint);
+  font-size: 20px;
+}

@@ -1,0 +1,253 @@
+/* U2: 算法术语速通 — unit-specific styles */
+
+/* Flash card deck */
+.flashcard-deck {
+  perspective: 1000px;
+  margin: 24px 0;
+}
+
+.flashcard-container {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 280px;
+}
+
+.flashcard {
+  width: 100%;
+  min-height: 280px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  min-height: 280px;
+  backface-visibility: hidden;
+  border-radius: 14px 16px 15px 17px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-elev);
+}
+
+.flashcard-front {
+  background: var(--bg-card);
+  border: 3px solid var(--blue);
+}
+
+.flashcard-back {
+  background: var(--green-bg);
+  border: 3px solid var(--green);
+  transform: rotateY(180deg);
+}
+
+.flashcard-term {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+
+.flashcard-hint {
+  font-size: 14px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+.flashcard-def {
+  font-size: 16px;
+  color: var(--ink);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.flashcard-example {
+  font-size: 14px;
+  color: var(--ink-soft);
+  background: var(--bg-card);
+  border: 1.5px dashed var(--green);
+  border-radius: 8px;
+  padding: 10px 14px;
+  width: 100%;
+}
+
+.flashcard-example strong {
+  color: var(--green);
+}
+
+/* Card counter + navigation */
+.flashcard-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.flashcard-counter {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  color: var(--ink-muted);
+}
+
+/* Quiz mode */
+.quiz-area {
+  margin: 24px 0;
+  display: none;
+}
+
+.quiz-area.active { display: block; }
+
+.quiz-prompt {
+  background: var(--bg-card);
+  border: 2px solid var(--purple);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.quiz-def-text {
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.quiz-input-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.quiz-input {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  padding: 8px 16px;
+  border: 2px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--ink);
+  width: 200px;
+  text-align: center;
+}
+
+.quiz-input:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+.quiz-result {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 15px;
+  min-height: 24px;
+}
+
+.quiz-result.correct { color: var(--green); font-weight: 600; }
+.quiz-result.wrong { color: var(--red); }
+
+.quiz-score-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0;
+  font-size: 16px;
+}
+
+.quiz-score-num {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--green);
+}
+
+/* Mode toggle */
+.mode-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+/* Term grid for steps 3-7 */
+.term-explain {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin: 16px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.term-explain:nth-child(odd) { transform: rotate(-0.3deg); }
+.term-explain:nth-child(even) { transform: rotate(0.3deg); }
+
+.term-name {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+
+.term-zh {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-bottom: 12px;
+}
+
+.term-analogy {
+  background: var(--amber-bg-soft);
+  border-left: 3px solid var(--amber);
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 12px 0;
+}
+
+/* Resource table (reused from U1) */
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 12px 0;
+}
+
+.resource-table th {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.resource-table td {
+  padding: 8px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+
+.resource-table a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.resource-table a:hover { text-decoration: underline; }

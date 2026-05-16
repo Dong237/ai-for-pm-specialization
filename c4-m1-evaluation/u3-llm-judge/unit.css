@@ -1,0 +1,206 @@
+/* U3 — LLM as Judge · unit-specific styles */
+
+/* Judge widget */
+.judge-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+.judge-prompt-area {
+  margin-bottom: 16px;
+}
+.judge-prompt-area label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.judge-prompt-area textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 2px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--ink);
+  font-family: "LXGW WenKai Screen", "Excalifont", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+}
+.judge-prompt-area textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+.judge-presets {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.judge-preset-btn {
+  padding: 6px 14px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+}
+.judge-preset-btn:hover {
+  border-color: var(--blue);
+  background: var(--blue-bg-soft);
+}
+.judge-preset-btn.active {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+
+.judge-samples {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+.judge-sample-card {
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  transition: border-color 0.2s;
+}
+.judge-sample-q {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+.judge-sample-a {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  border-left: 3px solid var(--blue);
+}
+.judge-scores {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.judge-score-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.judge-score-bar {
+  width: 60px;
+  height: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.judge-score-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+.score-high { background: var(--green); }
+.score-mid { background: var(--amber); }
+.score-low { background: var(--red); }
+.judge-score-val {
+  font-weight: 600;
+  font-family: "Excalifont", system-ui, sans-serif;
+  min-width: 28px;
+}
+
+.judge-run-btn {
+  margin-top: 16px;
+}
+
+/* Bias cards */
+.bias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+.bias-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px;
+  position: relative;
+  box-shadow: var(--shadow-card);
+}
+.bias-card:nth-child(1) { transform: rotate(-0.5deg); border-color: var(--red); }
+.bias-card:nth-child(2) { transform: rotate(0.4deg); border-color: var(--amber); }
+.bias-card:nth-child(3) { transform: rotate(-0.3deg); border-color: var(--purple); }
+.bias-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.bias-card h4 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  margin: 0 0 6px;
+}
+.bias-card p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* G-Eval flow */
+.geval-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 18px 0;
+  padding: 16px;
+  background: var(--bg-elev);
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+}
+.geval-step {
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--blue);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+.geval-arrow {
+  color: var(--ink-faint);
+  font-size: 20px;
+}
+
+/* Resource table */
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.resource-table th {
+  text-align: left; padding: 8px 10px;
+  border-bottom: 2px solid var(--border);
+  font-weight: 600; color: var(--ink-muted); font-size: 12px;
+}
+.resource-table td {
+  padding: 8px 10px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.resource-table a { color: var(--blue); }

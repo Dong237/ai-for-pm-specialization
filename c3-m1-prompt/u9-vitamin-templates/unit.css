@@ -1,0 +1,32 @@
+/* U9 · Vitamin Templates — unit-specific styles */
+.template-widget { background: var(--bg-card); border: 2px solid var(--ink); border-radius: 12px; margin: 24px 0; box-shadow: var(--shadow-card); overflow: hidden; }
+.tpl-tabs { display: flex; border-bottom: 2px dashed var(--border); overflow-x: auto; background: var(--bg-elev); }
+.tpl-tab { padding: 12px 16px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--ink-muted); border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; font-family: "Excalifont","LXGW WenKai Screen",system-ui,sans-serif; }
+.tpl-tab.active { color: var(--ink); background: var(--bg-card); }
+.tpl-tab[data-state="menstrual"].active { border-bottom-color: var(--red); }
+.tpl-tab[data-state="ovulation"].active { border-bottom-color: var(--green); }
+.tpl-tab[data-state="luteal"].active { border-bottom-color: var(--amber); }
+.tpl-tab[data-state="premenstrual"].active { border-bottom-color: var(--purple); }
+.tpl-tab[data-state="safe"].active { border-bottom-color: var(--blue); }
+.tpl-content { padding: 20px; min-height: 300px; }
+.tpl-panel { display: none; }
+.tpl-panel.active { display: block; }
+.tpl-section { margin: 12px 0; }
+.tpl-section-label { font-family: "Excalifont","LXGW WenKai Screen",system-ui,sans-serif; font-size: 14px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.tpl-section-label .tpl-badge { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+.tpl-badge.role-b { background: var(--amber-bg); color: var(--amber); }
+.tpl-badge.task-b { background: var(--blue-bg); color: var(--blue); }
+.tpl-badge.context-b { background: var(--green-bg); color: var(--green); }
+.tpl-badge.format-b { background: var(--purple-bg); color: var(--purple); }
+.tpl-textarea { width: 100%; min-height: 80px; padding: 10px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--bg-elev); color: var(--ink); font-family: "Cascadia Code","SF Mono",monospace; font-size: 12px; line-height: 1.6; resize: vertical; box-sizing: border-box; }
+.tpl-textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-bg); }
+.tpl-preview-area { background: var(--bg-elev); border-top: 2px dashed var(--border); padding: 16px 20px; }
+.tpl-preview-title { font-family: "Excalifont","LXGW WenKai Screen",system-ui,sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+.tpl-preview-output { background: var(--bg-card); border: 1.5px solid var(--border-strong); border-radius: 8px; padding: 14px; font-family: "Cascadia Code","SF Mono",monospace; font-size: 12px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto; }
+.tpl-copy { margin-top: 10px; padding: 8px 16px; background: var(--green-bg); border: 2px solid var(--green); border-radius: 8px; font-family: "Excalifont","LXGW WenKai Screen",system-ui,sans-serif; font-size: 13px; font-weight: 600; color: var(--ink); cursor: pointer; transition: transform 0.15s; }
+.tpl-copy:hover { transform: translateY(-2px); }
+.resource-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+.resource-table th { text-align: left; padding: 8px 12px; border-bottom: 2px solid var(--border-strong); font-size: 13px; color: var(--ink-muted); font-weight: 600; }
+.resource-table td { padding: 10px 12px; border-bottom: 1px dashed var(--border); vertical-align: top; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

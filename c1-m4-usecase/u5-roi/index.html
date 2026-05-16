@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 5 · ROI 评估框架 — AI for PM · M1.4</title>
+  <meta name="description" content="AI PM 课 · M1.4 Unit 5: 一个 AI 功能值不值得做? 4 维度 ROI 计算 + 灵敏度分析 + Vitamin 案例." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.4</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 5 · ROI 评估框架</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <!-- Step nav -->
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 5<span class="title-dot">·</span><br/>ROI 评估框架</h1>
+      <p class="hero-sub">从"能做什么" 到 "该做什么" — PM 的终极过滤器.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个好奇的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 预算有限, 要做取舍)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">上一课分清了 Q&A / Support / Companion. Vitamin 的 AI 功能列表已经有 6 个了.</p>
+          <p class="cloud-line">但开发资源只够做 2-3 个. 怎么选?</p>
+          <p class="cloud-line">"老板觉得好" 不是标准. "用户投票最多" 也不靠谱.</p>
+          <p class="cloud-line accent">—— 需要一把尺子. 那把尺子叫 ROI.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>用 4 维度公式计算一个 AI 功能的 ROI</li>
+          <li>做灵敏度分析: 哪个变量对 ROI 影响最大</li>
+          <li>算出 Vitamin 6 个候选功能各自的 ROI 排名</li>
+          <li>用 ROI Calculator 互动工具亲手算一遍</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (1) 6 个功能, 只能做 2 个                            -->
+    <!-- ================================================== -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">6 个候选功能, 只够做 2-3 个</h2>
+      <p class="step-lede">经过前面几课, 你给 Vitamin 列出了 6 个 AI 功能:</p>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1" data-rough="card">
+          <div class="wonder-tag">1</div>
+          <h3>健康知识 Q&A</h3>
+          <div class="wonder-note">用户问健康问题, AI 检索知识库回答. <span class="pill pill-blue">Q&A</span></div>
+        </article>
+        <article class="wonder wonder-2" data-rough="card">
+          <div class="wonder-tag">2</div>
+          <h3>每日身体总结</h3>
+          <div class="wonder-note">AI 读取用户数据, 生成当日健康小结. <span class="pill pill-green">Reading+Writing</span></div>
+        </article>
+        <article class="wonder wonder-3" data-rough="card">
+          <div class="wonder-tag">3</div>
+          <h3>症状排查助手</h3>
+          <div class="wonder-note">用户说不舒服, AI 逐步追问排查. <span class="pill pill-amber">Support</span></div>
+        </article>
+        <article class="wonder wonder-1" data-rough="card">
+          <div class="wonder-tag">4</div>
+          <h3>个性化饮食建议</h3>
+          <div class="wonder-note">根据经期阶段推荐饮食. <span class="pill pill-green">Writing</span></div>
+        </article>
+        <article class="wonder wonder-2" data-rough="card">
+          <div class="wonder-tag">5</div>
+          <h3>情绪陪伴对话</h3>
+          <div class="wonder-note">用户不开心时聊天陪伴. <span class="pill pill-amber">Companion</span></div>
+        </article>
+        <article class="wonder wonder-3" data-rough="card">
+          <div class="wonder-tag">6</div>
+          <h3>经期预测优化</h3>
+          <div class="wonder-note">用 AI 提高经期预测准确率. <span class="pill pill-blue">Reading</span></div>
+        </article>
+      </div>
+
+      <p class="step-lede">6 个都好. 但你的团队只有 1 个开发 + 1 个 PM (你), 2 个月时间. 只能做 2-3 个. <strong>怎么选?</strong></p>
+
+      <div class="step-foot">大多数 PM 的本能: 投票. 但投票有个致命问题 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (2) 错误直觉 vs 真相                                 -->
+    <!-- ================================================== -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">频率 ≠ 价值 — 投票的陷阱</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>"用户投票最多 = 最该做"</h3>
+          <p>"做个调研, 看哪个功能票数最高就做哪个."</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            用户可能投票给"情绪陪伴" (听起来酷), 但实际用的时候发现"每日身体总结"每天都用. <strong>使用频率 ≠ 感知价值 ≠ 商业价值.</strong>
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>"老板觉得重要 = 最该做"</h3>
+          <p>"老板说 AI 陪聊是趋势, 先做这个."</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            老板看趋势, PM 看 ROI. Companion 开发成本 ¥12 万、月影响 2000 人; 经期预测优化成本 ¥4.5 万、月影响 12000 人. <strong>数据说话, 不看直觉.</strong>
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">PM 选功能的终极标准不是"谁投票多", 而是:</p>
+        <p class="truth-line giant">ROI — 投入产出比</p>
+        <p class="truth-line muted">→ 花 1 块钱, 能赚回来几块? 这个数字决定你的优先级.</p>
+      </div>
+
+      <div class="step-foot">ROI 怎么算? 4 个积木块 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (3) ROI 公式: 4 个积木块                             -->
+    <!-- ================================================== -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">ROI 公式 — 4 个积木块</h2>
+      <p class="step-lede">AI 功能的 ROI 可以拆成 4 个变量:</p>
+
+      <div class="roi-formula">
+        <span class="roi-result-label">年 ROI</span>
+        <span class="roi-equals">=</span>
+        <span class="roi-op">(</span>
+        <div class="roi-block roi-block-time">每次节省时间<br/><small>Time saved</small></div>
+        <span class="roi-op">×</span>
+        <div class="roi-block roi-block-users">月影响用户<br/><small>Users affected</small></div>
+        <span class="roi-op">×</span>
+        <div class="roi-block roi-block-value">每分钟价值<br/><small>Value / min</small></div>
+        <span class="roi-op">× 12</span>
+        <span class="roi-op">)</span>
+        <span class="roi-op">÷</span>
+        <div class="roi-block roi-block-cost">实施成本<br/><small>Impl. cost</small></div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>举个例子 — "每日身体总结":</strong>
+        <ul style="margin:8px 0 0;padding-left:18px;">
+          <li><strong>Time saved:</strong> 用户手动看 7 项数据需要 8 分钟, AI 总结只需 3 分钟 → 省 5 min</li>
+          <li><strong>Users affected:</strong> 月活跃用户中 60% 会看总结 → 10,000 人</li>
+          <li><strong>Value / min:</strong> 健康管理类 App, 每分钟用户价值约 ¥2</li>
+          <li><strong>Impl. cost:</strong> Prompt + API 接入 + 前端 → ¥40,000</li>
+        </ul>
+        <p style="margin-top:12px;"><strong>ROI = (5 × 10,000 × 2 × 12) / 40,000 = <span style="color:var(--green);font-size:20px;">30x</span></strong></p>
+        <p class="muted">年回报是成本的 30 倍. 这是一个非常值得做的功能.</p>
+      </div>
+
+      <div class="step-foot">但 ROI 公式只算了一次性成本. 还有持续成本 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (4) 持续成本: 看不见的漏水                            -->
+    <!-- ================================================== -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">持续成本 — 上线后每月还在花钱</h2>
+      <p class="step-lede">很多 PM 只算开发成本, 忘了 AI 功能上线后<strong>每月都有持续开支</strong>:</p>
+
+      <div class="cost-cards">
+        <article class="cost-card" data-rough="card">
+          <h4>API 调用费</h4>
+          <p>每次 AI 回复 = 一次 API 调用. 用户越多, 账单越高.</p>
+          <p><span class="cost-range" style="color:var(--red);">¥150 ~ ¥3,000/月</span></p>
+          <p class="muted" style="margin-top:6px;font-size:12px;">回想 M1 U9: Token 定价直接决定这笔钱.</p>
+        </article>
+        <article class="cost-card" data-rough="card">
+          <h4>维护费</h4>
+          <p>Prompt 调优、知识库更新、监控异常回复、处理用户投诉.</p>
+          <p><span class="cost-range" style="color:var(--amber);">~10-20% 开发成本/年</span></p>
+          <p class="muted" style="margin-top:6px;font-size:12px;">AI 功能不是"上线就完了", 需要持续打磨.</p>
+        </article>
+        <article class="cost-card" data-rough="card">
+          <h4>机会成本</h4>
+          <p>做了这个功能, 开发就没空做别的. 你放弃的那个功能, 可能 ROI 更高.</p>
+          <p><span class="cost-range" style="color:var(--purple);">最容易被忽视</span></p>
+          <p class="muted" style="margin-top:6px;font-size:12px;">这就是为什么要算所有候选功能的 ROI 再比较.</p>
+        </article>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>更完整的 ROI 公式:</strong>
+        <p>真实 ROI = (月收益 × 12) ÷ (一次性开发成本 + 月运营成本 × 12)</p>
+        <p class="muted">→ 加上 API 费 + 维护费后, "每日身体总结" 的 ROI 从 30x 降到约 20x — 仍然很值, 但比纸面数字低.</p>
+      </div>
+
+      <div class="step-foot">4 个变量里, 哪个影响最大? ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (5) 灵敏度分析                                       -->
+    <!-- ================================================== -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">灵敏度分析 — 哪个变量转动 ROI 最狠</h2>
+      <p class="step-lede">如果每个变量增加 10%, ROI 分别变化多少? 这叫<strong>灵敏度分析 (Sensitivity Analysis)</strong>.</p>
+
+      <div class="sensitivity-chart" data-rough="card">
+        <h4>各变量增加 10% 对 ROI 的影响</h4>
+        <div class="sens-row">
+          <div class="sens-label">月影响用户</div>
+          <div class="sens-bar-track sens-glow">
+            <div class="sens-bar-fill" style="width:90%;background:var(--amber);">+10% → ROI +10%</div>
+          </div>
+          <div class="sens-impact" style="color:var(--amber);">最大</div>
+        </div>
+        <div class="sens-row">
+          <div class="sens-label">每次节省时间</div>
+          <div class="sens-bar-track">
+            <div class="sens-bar-fill" style="width:70%;background:var(--blue);">+10% → ROI +10%</div>
+          </div>
+          <div class="sens-impact" style="color:var(--blue);">大</div>
+        </div>
+        <div class="sens-row">
+          <div class="sens-label">每分钟价值</div>
+          <div class="sens-bar-track">
+            <div class="sens-bar-fill" style="width:70%;background:var(--green);">+10% → ROI +10%</div>
+          </div>
+          <div class="sens-impact" style="color:var(--green);">大</div>
+        </div>
+        <div class="sens-row">
+          <div class="sens-label">实施成本</div>
+          <div class="sens-bar-track">
+            <div class="sens-bar-fill" style="width:50%;background:var(--red);">+10% → ROI -9%</div>
+          </div>
+          <div class="sens-impact" style="color:var(--red);">中</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>关键发现:</strong>
+        <p>ROI 对 <mark class="hl">"月影响用户数"</mark> 最敏感. 一个省 1 分钟但影响 10,000 人的功能, 远远好过一个省 10 分钟但只影响 100 人的功能.</p>
+        <p class="muted">→ PM 的第一反应不应该是"这个功能多酷", 而是"有多少人会用它".</p>
+      </div>
+
+      <div class="step-foot">ROI 算出来了, 多久回本? ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (6) 回本时间线                                       -->
+    <!-- ================================================== -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">回本时间 — 几个月能赚回开发成本?</h2>
+      <p class="step-lede">ROI 告诉你"值不值得", 回本期 (Payback Period) 告诉你"等多久".</p>
+
+      <div class="breakeven-chart" data-rough="card">
+        <h4>Vitamin 6 功能的回本时间</h4>
+
+        <div class="breakeven-bar-container">
+          <div class="breakeven-label">健康知识 Q&A (成本 ¥3 万)</div>
+          <div class="breakeven-track">
+            <div class="breakeven-cost" style="width:8%;background:var(--green);">0.8 月</div>
+          </div>
+        </div>
+
+        <div class="breakeven-bar-container">
+          <div class="breakeven-label">每日身体总结 (成本 ¥4 万)</div>
+          <div class="breakeven-track">
+            <div class="breakeven-cost" style="width:8%;background:var(--green);">0.4 月</div>
+          </div>
+        </div>
+
+        <div class="breakeven-bar-container">
+          <div class="breakeven-label">经期预测优化 (成本 ¥4.5 万)</div>
+          <div class="breakeven-track">
+            <div class="breakeven-cost" style="width:10%;background:var(--green);">0.6 月</div>
+          </div>
+        </div>
+
+        <div class="breakeven-bar-container">
+          <div class="breakeven-label">个性化饮食建议 (成本 ¥6 万)</div>
+          <div class="breakeven-track">
+            <div class="breakeven-cost" style="width:17%;background:var(--amber);">1.0 月</div>
+          </div>
+        </div>
+
+        <div class="breakeven-bar-container">
+          <div class="breakeven-label">症状排查助手 (成本 ¥8 万)</div>
+          <div class="breakeven-track">
+            <div class="breakeven-cost" style="width:14%;background:var(--amber);">0.8 月</div>
+          </div>
+        </div>
+
+        <div class="breakeven-bar-container">
+          <div class="breakeven-label">情绪陪伴对话 (成本 ¥12 万)</div>
+          <div class="breakeven-track">
+            <div class="breakeven-cost" style="width:83%;background:var(--red);">5.0 月</div>
+          </div>
+        </div>
+
+        <div class="breakeven-months" style="margin-top:12px;">
+          <span>0 月</span><span>1 月</span><span>2 月</span><span>3 月</span><span>4 月</span><span>5 月</span><span>6 月</span>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>绿色 = 1 个月内回本</strong>, <strong style="color:var(--amber);">黄色 = 1-3 个月</strong>, <strong style="color:var(--red);">红色 = 3 个月以上</strong>.</p>
+        <p>"情绪陪伴" 虽然听起来很 "AI 时代", 但回本要 5 个月. 对于一个小团队, 5 个月没有回报是很危险的.</p>
+      </div>
+
+      <div class="step-foot">把 6 个功能的 ROI 放一起比 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (7) 6 功能 ROI 排名                                  -->
+    <!-- ================================================== -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">6 个功能 ROI 排名 — 数据说话</h2>
+      <p class="step-lede">用同一把尺子量一下, 排名一目了然:</p>
+
+      <div class="feature-bars" data-rough="card" style="background:var(--bg-card);border:1.5px solid var(--border-strong);border-radius:12px;padding:20px;box-shadow:var(--shadow-card);">
+        <div class="feature-bar-row">
+          <div class="feature-bar-name">每日身体总结</div>
+          <div class="feature-bar-track"><div class="bar" data-value="100" style="background:var(--green);">30x</div></div>
+          <div class="feature-bar-roi roi-green">30x</div>
+        </div>
+        <div class="feature-bar-row">
+          <div class="feature-bar-name">经期预测优化</div>
+          <div class="feature-bar-track"><div class="bar" data-value="64" style="background:var(--green);">19.2x</div></div>
+          <div class="feature-bar-roi roi-green">19.2x</div>
+        </div>
+        <div class="feature-bar-row">
+          <div class="feature-bar-name">健康知识 Q&A</div>
+          <div class="feature-bar-track"><div class="bar" data-value="48" style="background:var(--green);">14.4x</div></div>
+          <div class="feature-bar-roi roi-green">14.4x</div>
+        </div>
+        <div class="feature-bar-row">
+          <div class="feature-bar-name">个性化饮食建议</div>
+          <div class="feature-bar-track"><div class="bar" data-value="40" style="background:var(--green);">12x</div></div>
+          <div class="feature-bar-roi roi-green">12x</div>
+        </div>
+        <div class="feature-bar-row">
+          <div class="feature-bar-name">症状排查助手</div>
+          <div class="feature-bar-track"><div class="bar" data-value="16" style="background:var(--green);">4.8x</div></div>
+          <div class="feature-bar-roi roi-green">4.8x</div>
+        </div>
+        <div class="feature-bar-row">
+          <div class="feature-bar-name">情绪陪伴对话</div>
+          <div class="feature-bar-track"><div class="bar" data-value="7" style="background:var(--amber);">2x</div></div>
+          <div class="feature-bar-roi roi-amber">2x</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>ROI 红绿灯:</strong>
+        <ul style="margin:8px 0 0;padding-left:18px;">
+          <li><strong style="color:var(--green);">ROI > 3x</strong> → 绿灯, 值得做</li>
+          <li><strong style="color:var(--amber);">ROI 1-3x</strong> → 黄灯, 需要更多论证 (战略价值? 品牌效应?)</li>
+          <li><strong style="color:var(--red);">ROI < 1x</strong> → 红灯, 不值得 (除非有特殊战略原因)</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">光看数据还不够, 来自己动手算 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (8) Widget: ROI Calculator                          -->
+    <!-- ================================================== -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: ROI Calculator</h2>
+      <p class="step-lede">选一个功能, 调调参数, 看 ROI 怎么变. 注意哪个滑块对结果影响最大 (会发光).</p>
+
+      <div class="roi-calc-widget">
+        <div class="roi-calc-header">
+          <h3>ROI Calculator</h3>
+          <p>选择 Vitamin 功能或自定义参数, 实时看到 ROI 变化</p>
+        </div>
+
+        <div class="roi-calc-body">
+          <div class="roi-inputs">
+            <select id="roi-preset" class="roi-preset-select">
+              <option value="0">自定义</option>
+              <option value="1" selected>健康知识 Q&A</option>
+              <option value="2">每日身体总结</option>
+              <option value="3">症状排查助手</option>
+              <option value="4">个性化饮食建议</option>
+              <option value="5">情绪陪伴对话</option>
+              <option value="6">经期预测优化</option>
+            </select>
+
+            <div class="roi-slider-group">
+              <div class="roi-slider-label">
+                <span>每次节省时间</span>
+                <span class="roi-slider-val" id="val-time">3 min</span>
+              </div>
+              <input id="roi-time" type="range" min="1" max="30" value="3" step="1" />
+            </div>
+
+            <div class="roi-slider-group">
+              <div class="roi-slider-label">
+                <span>月影响用户数</span>
+                <span class="roi-slider-val" id="val-users">8,000</span>
+              </div>
+              <input id="roi-users" type="range" min="100" max="50000" value="8000" step="100" />
+            </div>
+
+            <div class="roi-slider-group">
+              <div class="roi-slider-label">
+                <span>每分钟价值 (¥)</span>
+                <span class="roi-slider-val" id="val-value">¥1.5</span>
+              </div>
+              <input id="roi-value" type="range" min="0.5" max="10" value="1.5" step="0.5" />
+            </div>
+
+            <div class="roi-slider-group">
+              <div class="roi-slider-label">
+                <span>实施成本 (¥)</span>
+                <span class="roi-slider-val" id="val-cost">¥3万</span>
+              </div>
+              <input id="roi-cost" type="range" min="5000" max="200000" value="30000" step="5000" />
+            </div>
+          </div>
+
+          <div class="roi-results">
+            <div class="roi-result-item">
+              <div class="roi-result-label">月收益</div>
+              <div class="roi-result-num" id="result-monthly" style="color:var(--blue);">¥3.6万</div>
+            </div>
+            <div class="roi-result-item">
+              <div class="roi-result-label">年 ROI</div>
+              <div class="roi-result-num" id="result-roi" style="color:var(--green);">14.4x</div>
+            </div>
+            <div class="roi-result-item">
+              <div class="roi-result-label">回本期</div>
+              <div class="roi-result-num" id="result-payback" style="color:var(--ink);">0.8 个月</div>
+              <div class="roi-result-sub">越短越好</div>
+            </div>
+            <div class="roi-verdict verdict-green" id="result-verdict">
+              GO! ROI > 3x
+            </div>
+          </div>
+        </div>
+
+        <div class="roi-compare-section">
+          <button class="roi-compare-btn" id="roi-compare-btn">对比所有功能 →</button>
+          <div class="roi-compare-chart" id="roi-compare-chart"></div>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>试试这些操作:</strong>
+        <ul style="margin:8px 0 0;padding-left:18px;">
+          <li>选"情绪陪伴" — 看 ROI 为什么低 (用户少 + 成本高)</li>
+          <li>把"月影响用户"从 2000 拉到 10000 — 看 ROI 暴涨 (灵敏度最高的变量)</li>
+          <li>点"对比所有功能" — 一眼看出排名</li>
+          <li>注意发光的数字 — 那是对 ROI 影响最大的变量</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">理论 + 工具都有了, 回到 Vitamin 做决策 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (9) Vitamin 决策                                     -->
+    <!-- ================================================== -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — ROI 决策矩阵</h2>
+      <p class="step-lede">综合 ROI、回本期、风险等级, 给 Vitamin 排出优先级:</p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <table class="vitamin-roi-table">
+          <thead>
+            <tr>
+              <th>功能</th>
+              <th>ROI</th>
+              <th>回本期</th>
+              <th>风险</th>
+              <th>决策</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>每日身体总结</td>
+              <td style="color:var(--green);font-weight:700;">30x</td>
+              <td>0.4 月</td>
+              <td style="color:var(--green);">低</td>
+              <td><strong style="color:var(--green);">第 1 个做</strong></td>
+            </tr>
+            <tr>
+              <td>经期预测优化</td>
+              <td style="color:var(--green);font-weight:700;">19.2x</td>
+              <td>0.6 月</td>
+              <td style="color:var(--green);">低</td>
+              <td><strong style="color:var(--green);">第 2 个做</strong></td>
+            </tr>
+            <tr>
+              <td>健康知识 Q&A</td>
+              <td style="color:var(--green);font-weight:700;">14.4x</td>
+              <td>0.8 月</td>
+              <td style="color:var(--green);">低</td>
+              <td><strong style="color:var(--green);">第 3 个做</strong></td>
+            </tr>
+            <tr>
+              <td>饮食建议</td>
+              <td style="color:var(--green);font-weight:700;">12x</td>
+              <td>1.0 月</td>
+              <td style="color:var(--amber);">中</td>
+              <td>下一轮</td>
+            </tr>
+            <tr>
+              <td>症状排查</td>
+              <td style="color:var(--green);font-weight:700;">4.8x</td>
+              <td>0.8 月</td>
+              <td style="color:var(--amber);">中</td>
+              <td>需要医学审核, 下一轮</td>
+            </tr>
+            <tr>
+              <td>情绪陪伴</td>
+              <td style="color:var(--amber);font-weight:700;">2x</td>
+              <td>5.0 月</td>
+              <td style="color:var(--red);">高</td>
+              <td>暂不做, 风险太高</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"我用 ROI 框架给 Vitamin 的 6 个 AI 功能排了优先级. 第一个做'每日身体总结' — ROI 30 倍, 半个月回本, 低风险. 第三个做'健康 Q&A' — ROI 14 倍, 需要搭知识库但技术成熟. '情绪陪伴'暂时不做 — ROI 只有 2 倍, 回本要 5 个月, 风险还最高."</p>
+        <p class="muted">→ 这段话展示了你会用数据做优先级决策, 而不是凭感觉.</p>
+      </div>
+
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (10) 一句话规则 + 作业                                -->
+    <!-- ================================================== -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">ROI > 3x = 绿灯<br/>ROI 1-3x = 黄灯 (需要战略理由)<br/>ROI < 1x = 红灯</p>
+        <p class="one-liner-foot muted">看到一个 AI 功能, 先算 ROI, 再做决定. 数据说话, 不看直觉.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>用上面的 ROI Calculator, 把 Vitamin 6 个功能各算一遍, 截图保存. 你的排名跟课上一样吗? 如果不一样, 想想是哪个参数你估的不同.</li>
+          <li>给你现在的产品 (或 Vitamin) 新增一个 AI 功能 idea, 用 4 维度公式算它的 ROI. 值得做吗?</li>
+          <li>"月影响用户数" 是灵敏度最高的变量. 写 200 字: 有什么方法可以提高一个 AI 功能的"月影响用户数"? (提示: 推送策略、默认开启、嵌入核心流程)</li>
+          <li>找一个你用过的 AI 产品功能 (比如豆包的翻译、Notion AI 的总结), 估算它的 ROI. 你觉得它值得做吗?</li>
+        </ol>
+
+        <div style="margin-top:16px;">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead>
+              <tr><th>类型</th><th>内容</th><th>来源</th><th>推荐理由</th><th>时间</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>🛠</td>
+                <td>AI ROI Calculator</td>
+                <td><a href="https://thinkaipm.com/tools/roi-calculator" target="_blank">Think AI PM</a></td>
+                <td>专为 AI PM 设计的在线 ROI 计算器</td>
+                <td>5 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td>产品经理常用 ROI 工具</td>
+                <td><a href="https://zhuanlan.zhihu.com/p/604271158" target="_blank">知乎</a></td>
+                <td>中文 ROI 基础教程, 从 PM 视角讲解</td>
+                <td>15 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td>Feature ROI Calculator Template</td>
+                <td><a href="https://productschool.com/blog/skills/product-templates-feature-roi-calculator" target="_blank">Product School</a></td>
+                <td>Product School 出品, 可下载的 ROI 模板</td>
+                <td>10 min</td>
+              </tr>
+              <tr>
+                <td>🎮</td>
+                <td>AI ROI Calculator (3 层成本)</td>
+                <td><a href="https://github.com/OptimNow/ai-roi-calculator" target="_blank">GitHub</a></td>
+                <td>开源的 AI ROI 计算器, 含灵敏度分析和场景对比</td>
+                <td>10 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td>AI 时代的 ROI 迷思</td>
+                <td><a href="https://www.53ai.com/news/zhishiguanli/2025070834928.html" target="_blank">53AI</a></td>
+                <td>中文深度文章: 传统 ROI 为什么不适用于 AI 项目</td>
+                <td>20 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- ■ END                                                -->
+    <!-- ================================================== -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 6 个功能, 只够做 2-3 个</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 频率 ≠ 价值, 投票有坑</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> ROI = 4 个积木块</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> 持续成本: API + 维护</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 灵敏度: 用户数影响最大</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 回本期: 快则 2 周, 慢则 5 月</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 6 功能 ROI 排名</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> ROI Calculator 动手算</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin ROI 决策矩阵</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 5:</p>
+        <p class="end-summary-big">先算 ROI, 再做决策. 数据说话, 不看直觉.</p>
+        <p class="end-summary-sub">ROI > 3x 就干. 用户数是最敏感的变量 — 做让更多人用到的功能.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 6): Build vs Buy vs API</div>
+        <p>ROI 告诉你"值得做". 下一个问题: <strong>怎么做?</strong></p>
+        <p>自己训模型? 用 Coze/Dify 搭? 还是调 API? 三条路, 选错了浪费几个月.</p>
+        <p><strong>下一课帮你 5 个问题定路线.</strong></p>
+        <a class="walk-arrow" href="../u6-build-buy-api/index.html">继续走 → Unit 6: Build vs Buy vs API</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.4 · Unit 5 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

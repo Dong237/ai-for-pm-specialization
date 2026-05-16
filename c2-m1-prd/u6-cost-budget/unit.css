@@ -1,0 +1,33 @@
+/* U6 — Cost Budget Calculator · unit-specific styles */
+.cost-calc { background: var(--bg-card); border: 2px solid var(--ink); border-radius: 12px; padding: 20px 22px; margin: 24px 0; box-shadow: var(--shadow-card); }
+.cost-title { font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 2px dashed var(--border); }
+.cost-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 16px; }
+.cost-field { display: flex; flex-direction: column; gap: 4px; }
+.cost-field label { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.cost-field input, .cost-field select { padding: 8px 12px; border: 1.5px solid var(--border-strong); border-radius: 6px; background: var(--bg-elev); color: var(--ink); font-size: 14px; font-family: inherit; }
+.cost-field input:focus, .cost-field select:focus { outline: none; border-color: var(--blue); }
+.cost-result { background: var(--bg-elev); border: 2px solid var(--green); border-radius: 10px; padding: 18px 22px; text-align: center; margin-top: 14px; }
+.cost-result-big { font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif; font-size: 36px; font-weight: 700; color: var(--green); }
+.cost-result-label { font-size: 13px; color: var(--ink-muted); margin-top: 4px; }
+.cost-result.over-budget { border-color: var(--red); }
+.cost-result.over-budget .cost-result-big { color: var(--red); }
+.cost-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 12px; }
+.cost-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; text-align: center; }
+.cost-item-val { font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif; font-size: 20px; font-weight: 700; color: var(--blue); }
+.cost-item-label { font-size: 11px; color: var(--ink-muted); }
+
+/* Formula display */
+.formula-box { background: var(--bg-elev); border: 2px dashed var(--amber); border-radius: 10px; padding: 18px 22px; margin: 18px 0; text-align: center; transform: rotate(-0.3deg); }
+.formula-text { font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif; font-size: clamp(16px, 3vw, 22px); font-weight: 600; color: var(--ink); line-height: 1.6; }
+.formula-text .op { color: var(--amber); }
+
+/* Price table */
+.price-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.price-table th { text-align: left; padding: 8px 12px; background: var(--bg-elev); border-bottom: 2px solid var(--border); font-size: 12px; color: var(--ink-muted); }
+.price-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+
+.resource-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+.resource-table th { text-align: left; padding: 6px 10px; border-bottom: 2px solid var(--border); color: var(--ink-muted); font-size: 12px; }
+.resource-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

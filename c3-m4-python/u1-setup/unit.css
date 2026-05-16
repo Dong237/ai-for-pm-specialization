@@ -1,0 +1,162 @@
+/* Unit 1 — Python Setup Checklist */
+
+.setup-checklist {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+.setup-checklist-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+.setup-progress {
+  background: var(--bg-elev);
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 12px 0 20px;
+  border: 1px solid var(--border);
+}
+.setup-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  width: 0%;
+  transition: width 0.5s ease;
+  border-radius: 6px;
+}
+.setup-progress-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+
+.setup-step {
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  margin: 10px 0;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.setup-step.done {
+  border-color: var(--green);
+}
+.setup-step-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  cursor: pointer;
+  background: var(--bg-elev);
+  user-select: none;
+  transition: background 0.2s;
+}
+.setup-step-header:hover {
+  background: var(--blue-bg-soft);
+}
+.setup-step-check {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: all 0.3s;
+  background: var(--bg-card);
+}
+.setup-step.done .setup-step-check {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+.setup-step-label {
+  font-weight: 600;
+  font-size: 15px;
+  flex: 1;
+}
+.setup-step-toggle {
+  color: var(--ink-faint);
+  font-size: 18px;
+  transition: transform 0.3s;
+}
+.setup-step.open .setup-step-toggle {
+  transform: rotate(180deg);
+}
+.setup-step-body {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+}
+.setup-step.open .setup-step-body {
+  max-height: 600px;
+  padding: 14px 18px;
+}
+.setup-step-body code {
+  display: block;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-family: "Cascadia Code", "SF Mono", "Courier New", monospace;
+  font-size: 13px;
+  margin: 8px 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+  color: var(--ink-soft);
+}
+.setup-step-body p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+/* Code block styling */
+.code-block {
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  font-family: "Cascadia Code", "SF Mono", "Courier New", monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  color: var(--ink-soft);
+  margin: 16px 0;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+.code-block .kw { color: var(--blue); }
+.code-block .fn { color: var(--purple); }
+.code-block .str { color: var(--green); }
+.code-block .cmt { color: var(--ink-faint); font-style: italic; }
+.code-block .op { color: var(--red); }
+
+/* Comparison table */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.compare-table th {
+  background: var(--bg-elev);
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.compare-table td {
+  padding: 10px 14px;
+  border-bottom: 1px dashed var(--border);
+  color: var(--ink-soft);
+}
+.compare-table tr:last-child td { border-bottom: none; }

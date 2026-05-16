@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 5 · Top-K + Reranking — AI for PM · M3.3</title>
+  <meta name="description" content="两阶段检索: 先广撒网, 再精筛选. Cross-Encoder Reranking" />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.3</span></a><div class="topbar-right"><span class="unit-label">Unit 5 · Top-K + Reranking</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 5<span class="title-dot">·</span><br/>Top-K + Reranking</h1>
+      <p class="hero-sub">向量搜索找回 50 个候选, 怎么精选出最好的 5 个?</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">向量搜索搜回来了一堆候选...</p>
+          <p class="cloud-line">但里面有些明显不相关 — "冷链物流"跟"经期吃冰"有啥关系?</p>
+          <p class="cloud-line">有没有办法"精筛"一遍, 只留最相关的?</p>
+          <p class="cloud-line accent">—— 有. 叫 Reranking.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解两阶段检索: 粗筛 (Bi-Encoder) + 精排 (Cross-Encoder)</li>
+          <li>知道为什么 Reranking 能提升 14~30% 准确率</li>
+          <li>亲手操作一个检索→精排的演示</li>
+          <li>为 Vitamin 设计 Top-K 和 Reranking 参数</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">向量搜索的"噪音"问题</h2>
+      <p class="step-lede">你问 "经期能吃冰吗?", 向量搜索 Top-7 里可能出现:</p>
+      <div class="callout callout-red">
+        <p>#1 经期饮食指南 (相关 ✓)</p>
+        <p>#2 <strong>夏季饮品推荐</strong> (不相关 — 只是都提到了"冰")</p>
+        <p>#3 中医养生 (相关 ✓)</p>
+        <p>#4 <strong>冰淇淋制作方法</strong> (不相关 — 只是"冰"这个词的表面匹配)</p>
+        <p>#5 经期运动建议 (部分相关)</p>
+        <p class="muted">向量搜索按"距离"排序 — 但距离近不一定真的"语义相关". 它容易被表面词汇骗.</p>
+      </div>
+      <div class="step-foot">问题清楚了. 怎么解决? ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两阶段检索: 先广后精</h2>
+      <div class="truth-bubble">
+        <div class="truth-tag">核心思路</div>
+        <p class="truth-line giant">粗筛快, 精排准</p>
+        <p class="truth-line">Phase 1: 用快速的 Bi-Encoder 搜出 Top-50 候选 (粗筛, 重recall)</p>
+        <p class="truth-line">Phase 2: 用慢但准的 Cross-Encoder 精排到 Top-5 (精排, 重precision)</p>
+        <p class="truth-line muted">就像招聘: 先 HR 粗筛简历 (快但可能漏), 再业务面试精选 (慢但准).</p>
+      </div>
+      <div class="step-foot">Bi-Encoder 和 Cross-Encoder 有什么区别? ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Bi-Encoder vs Cross-Encoder</h2>
+      <div class="encoder-compare">
+        <div class="encoder-card bi">
+          <h4>Bi-Encoder (Phase 1 · 粗筛)</h4>
+          <ul>
+            <li><strong>原理:</strong> 问题和文档分别编码成向量, 算距离</li>
+            <li><strong>速度:</strong> 极快 — 文档向量可以预计算, 查询只需一次编码</li>
+            <li><strong>精度:</strong> 中等 — 把整个文档意思压进一个向量, 信息有损失</li>
+            <li><strong>用途:</strong> 从百万文档中快速筛出 Top-50</li>
+          </ul>
+        </div>
+        <div class="encoder-card cross">
+          <h4>Cross-Encoder (Phase 2 · 精排)</h4>
+          <ul>
+            <li><strong>原理:</strong> 问题+文档拼在一起, 整体打分 (0~1)</li>
+            <li><strong>速度:</strong> 慢 — 每对(问题,文档)都要单独跑一次模型</li>
+            <li><strong>精度:</strong> 高 — 能看到问题和文档的交互, 理解更深</li>
+            <li><strong>用途:</strong> 对 Top-50 精排到 Top-5</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>为什么不直接用 Cross-Encoder?</strong> 因为太慢了. 知识库有 100 万个 chunk, 每个都要和问题配对跑一次 Cross-Encoder = 100 万次推理 = 不可接受的延迟. 所以先用 Bi-Encoder 筛到 50 个, 再 Cross-Encoder 处理 50 个 — 只需要 50 次推理.</p>
+      </div>
+      <div class="step-foot">Reranking 具体能提升多少? ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Reranking 的提升: 14~30%</h2>
+      <p class="step-lede">NVIDIA 和 MIT 的研究数据:</p>
+      <div class="prob-table">
+        <div class="prob-header"><div>场景</div><div>准确率提升</div></div>
+        <div class="prob-row top"><div class="prob-word" style="font-size:14px">Top-K=3</div><div class="prob-bar"><div class="bar" data-value="30" style="background:var(--green)"><span>+13%</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:14px">Top-K=5</div><div class="prob-bar"><div class="bar" data-value="50" style="background:var(--blue)"><span>+20%</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:14px">Top-K=15</div><div class="prob-bar"><div class="bar" data-value="70" style="background:var(--amber)"><span>+30%</span></div></div></div>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>关键发现:</strong> Top-K 越小, Reranking 越重要. 因为你给 LLM 的 chunk 越少, 每个 chunk 的质量就越关键. Reranker 确保这 3~5 个 chunk 真的是最相关的.</p>
+      </div>
+      <div class="step-foot">除了 Reranking, 还有什么方法提升检索? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Hybrid Search: 向量 + 关键词 双保险</h2>
+      <p class="step-lede">纯向量搜索会漏掉精确关键词匹配. 纯关键词搜索不懂语义. <mark class="hl">混合搜索 = 两者结合</mark>.</p>
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--blue)">向量搜索</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">擅长: 语义理解 ("吃冰" ≈ "寒凉食物"). 弱点: 可能漏掉精确词.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--amber)">关键词 (BM25)</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">擅长: 精确匹配 ("叶酸" = "叶酸"). 弱点: 不懂同义词.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--green)">Hybrid</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">两个列表合并, 取并集. <strong>RAG 质量提升 15~30%</strong> (行业共识).</div>
+        </div>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>最佳实践:</strong> Hybrid Search (Top-50) → Reranking (Top-5) → LLM. 这是 2025-2026 年最被推荐的 RAG 检索管线.</p>
+      </div>
+      <div class="step-foot">那 Top-K 这个 K 设多少好? ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">K 设多少: 粗筛 K vs 精排 N</h2>
+      <p class="step-lede">两个 K 不一样: 粗筛的 K (50~100) 和最终给 LLM 的 N (3~5).</p>
+      <div class="callout callout-amber">
+        <p><strong>推荐设置:</strong></p>
+        <ul>
+          <li><strong>粗筛 K = 50~100</strong> — 足够大, 确保不遗漏相关文档</li>
+          <li><strong>精排 N = 3~5</strong> — 给 LLM 的 chunk 数量. 太多增加噪音, 太少可能缺信息</li>
+          <li>K 太小 → 可能漏掉相关文档 (recall 下降)</li>
+          <li>K 太大 → Reranker 需要处理更多, 延迟增加</li>
+        </ul>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 建议:</strong></p>
+        <ul>
+          <li>医学问答: 粗筛 K=50, 精排到 N=5 (准确优先)</li>
+          <li>客服 FAQ: 粗筛 K=20, 精排到 N=3 (速度优先)</li>
+          <li>健康周报: 粗筛 K=30, 精排到 N=5 (信息完整优先)</li>
+        </ul>
+      </div>
+      <div class="step-foot">Query Expansion: 有时候问题本身不够好 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Query Expansion: 改写问题, 搜得更全</h2>
+      <p class="step-lede">用户的问题往往不够"专业". 比如 "经期能吃冰吗?" — 知识库里可能用的是 "寒凉食物" 而不是 "冰".</p>
+      <div class="callout callout-blue">
+        <p><strong>Query Expansion 策略:</strong></p>
+        <ol>
+          <li><strong>同义词扩展:</strong> "吃冰" → "吃冰" + "寒凉食物" + "冷饮"</li>
+          <li><strong>HyDE:</strong> 先让 LLM 生成一个"假回答", 用假回答的向量去搜 (因为假回答里会包含专业术语)</li>
+          <li><strong>多角度改写:</strong> 把一个问题改写成 3 种说法, 各搜一遍, 合并结果</li>
+        </ol>
+        <p class="muted">Query Expansion 提升 recall 的效果往往比调 chunk size 还大.</p>
+      </div>
+      <div class="step-foot">来动手试试检索 + Reranking ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: 检索 → Reranking 模拟器</h2>
+      <p class="step-lede">输入一个问题, 先看向量搜索的 Top-7, 再点 Rerank 精筛到 Top-3.</p>
+
+      <div class="retrieval-widget">
+        <div class="retrieval-query">
+          <input class="retrieval-input" id="retrieval-query" value="经期能吃冰吗" placeholder="试试: 经期能吃冰吗 / 备孕要吃叶酸吗" />
+          <button id="retrieval-search" class="btn btn-primary">搜索 →</button>
+          <button id="retrieval-rerank" class="btn btn-primary" disabled style="background:var(--green-bg);border-color:var(--green)">Rerank →</button>
+          <button id="retrieval-reset" class="btn btn-ghost">重来</button>
+        </div>
+        <div id="retrieval-results"></div>
+        <div id="retrieval-status" style="margin-top:10px;font-size:13px;color:var(--green);font-style:italic"></div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>注意观察:</strong></p>
+        <ul>
+          <li>向量搜索 Top-7 里混了不相关结果 (冰淇淋制作、冷链物流)</li>
+          <li>这些"噪音"的向量分数还挺高 (0.71~0.85) — 因为词面相似</li>
+          <li>Rerank 后, 噪音被正确识别并降权, Top-3 全是真正相关的</li>
+        </ul>
+      </div>
+      <div class="step-foot">回到 Vitamin ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的检索管线设计</h2>
+      <p class="step-lede">为 Vitamin 搭建一个完整的检索管线:</p>
+      <div class="callout callout-green">
+        <p><strong>Vitamin 检索架构:</strong></p>
+        <ol>
+          <li><strong>Hybrid Search:</strong> 向量搜索 (bge-large-zh) + BM25 关键词搜索</li>
+          <li><strong>粗筛 Top-K=50:</strong> 两路合并, 取并集</li>
+          <li><strong>Reranking:</strong> Cross-Encoder 精排到 Top-5</li>
+          <li><strong>Augment:</strong> Top-5 chunks + 用户问题 → LLM prompt</li>
+        </ol>
+        <p><strong>特殊处理:</strong></p>
+        <ul>
+          <li>医学问答: 加入 Query Expansion (同义词 + 专业术语)</li>
+          <li>安全过滤: 对涉及用药/诊断的问题, 额外检查是否有"不确定"标记</li>
+          <li>Metadata 过滤: 按文档类型、时间筛选 (优先最新指南)</li>
+        </ul>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">Hybrid Search (Top-50) → Reranking (Top-5) → LLM<br/>这是 2026 年最推荐的 RAG 检索管线.</p>
+        <p class="one-liner-foot muted">Reranking 提升 14~30% 准确率, 是 RAG 最高 ROI 的优化.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>打开 Perplexity, 问一个 Vitamin 相关问题, 观察它返回的引用来源里有没有"噪音" (不相关的来源).</li>
+          <li>用上面的模拟器, 分别搜 "经期能吃冰吗" 和 "备孕要吃叶酸吗", 对比 Rerank 前后的差异.</li>
+          <li>为 Vitamin 设计 3 种场景的 Top-K 和 N 参数, 写出每种设置的理由.</li>
+          <li>思考: 如果 Vitamin 的知识库很小 (只有 100 个 chunk), 还需要 Reranking 吗?</li>
+        </ol>
+        <div style="margin-top:18px">
+          <strong>资源延伸:</strong>
+          <table style="width:100%; font-size:13px; margin-top:8px; border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📖</td><td>Cross-Encoders & Reranking</td><td><a href="https://towardsdatascience.com/advanced-rag-retrieval-cross-encoders-reranking/" target="_blank">TDS</a></td><td>最清晰的 Reranking 解析</td><td>15 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📖</td><td>Rerankers 入门</td><td><a href="https://www.pinecone.io/learn/series/rag/rerankers/" target="_blank">Pinecone</a></td><td>两阶段检索的实战指南</td><td>20 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📄</td><td>Reranking 提升 40%</td><td><a href="https://app.ailog.fr/en/blog/news/reranking-cross-encoders-study" target="_blank">Ailog</a></td><td>Cross-Encoder 的最新研究数据</td><td>15 min</td></tr>
+            <tr><td style="padding:6px 8px">📖</td><td>RAG 高级检索</td><td><a href="https://vstorm.co/rag/advanced-rag-pipeline-part-1-rerankers/" target="_blank">Vstorm</a></td><td>生产环境 Reranker 实践</td><td>20 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 向量搜索的噪音</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 两阶段: 粗筛+精排</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Bi vs Cross Encoder</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 提升 14~30%</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Hybrid Search</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> K 设多少</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Query Expansion</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 检索模拟器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 管线</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 5:</p>
+        <p class="end-summary-big">Hybrid + Reranking = RAG 检索的最强组合.</p>
+        <p class="end-summary-sub">粗筛要广 (Top-50), 精排要狠 (Top-5). Reranker 是性价比最高的优化.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 6): 引用机制 (Citation)</div>
+        <p>检索做好了, LLM 生成了回答. 但用户问: "这个结论哪来的?"</p>
+        <p><strong>怎么让每句话都标注来源? Citation 机制登场.</strong></p>
+        <a class="walk-arrow" href="../u6-citation/index.html">继续走 → Unit 6</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 3.3 · Unit 5 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

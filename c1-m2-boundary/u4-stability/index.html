@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · AI 死穴 3 — 稳定性问题 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 4: 同样问题问两次得到不同答案. 这对医疗类产品意味着什么." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.2</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 4 · 稳定性问题</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <!-- Step nav -->
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ================================================== -->
+    <!-- ▶ START                                             -->
+    <!-- ================================================== -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>同一个问题, 两个答案?</h1>
+      <p class="hero-sub">AI 的第三个死穴: 稳定性. 对健康产品来说, 这是最容易出事的那个.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个困惑的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M44 38 Q50 34 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 在做 Vitamin)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">我用 AI 给用户回答"经期可以跑步吗?"</p>
+          <p class="cloud-line">第一次说"可以, 适度慢跑"</p>
+          <p class="cloud-line">第二次说"建议休息, 避免运动"</p>
+          <p class="cloud-line accent">—— 这不是闹呢吗?? 用户信哪个?</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解为什么 AI 同一个问题会给出不同答案</li>
+          <li>判断哪些场景能容忍不一致、哪些绝对不行</li>
+          <li>掌握 4 种工程手段让 AI 输出变稳定</li>
+          <li>给 Vitamin 健康问答设计一套"稳定性方案"</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (1) 同样的问题, 不同的答案                          -->
+    <!-- ================================================== -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">先看一个真实场景 — 你品, 你细品</h2>
+      <p class="step-lede">同一个用户, 问 Vitamin 同一个问题. AI 的回答:</p>
+
+      <div class="response-pair">
+        <div class="ai-response" data-rough="card">
+          <div class="ai-response-tag">第 1 次</div>
+          <div class="ai-response-text">
+            经期可以进行<b>适度</b>的跑步运动。建议选择<b>慢跑</b>，控制在 <b>20-30 分钟</b>以内。运动有助于缓解经期不适。如果感到不舒服，请<span class="diff-word">立即停止</span>。
+          </div>
+        </div>
+        <div class="ai-response" data-rough="card">
+          <div class="ai-response-tag">第 2 次</div>
+          <div class="ai-response-text">
+            经期<span class="diff-word">建议避免</span>跑步等剧烈运动。可以选择<span class="diff-word">散步或瑜伽</span>代替。跑步可能<span class="diff-word">加重子宫下坠感</span>，<span class="diff-word">增加经血量</span>。建议咨询医生。
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <p><strong>问题在哪?</strong> 第一次说"可以跑", 第二次说"别跑". 两个答案都像模像样, 都有理有据. 但它们<mark class="hl">互相矛盾</mark>.</p>
+        <p>如果你是用户, 你信哪个? 如果你是 PM, 你怎么向用户解释?</p>
+      </div>
+
+      <div class="step-foot">这是 bug 吗? 还是 AI 本来就这样? ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (2) 错猜测 + 真相                                   -->
+    <!-- ================================================== -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两个常见错猜测 — 都不对</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>猜测 A: "AI 应该像计算器, 同输入同输出"</h3>
+          <p>输入 2+3 永远得 5. AI 也该这样.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            AI 不是计算器 — 它是个<em>概率采样器</em>. 每次输出是从概率分布里"抽"出来的, 天然带随机性. 这是设计, 不是 bug.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>猜测 B: "不一致说明 AI 不靠谱, 别用了"</h3>
+          <p>每次答案都不同, 那还有什么用?</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            写诗、起名、生成文案 — 你<em>希望</em>它每次不同. 不一致是 feature 还是 bug, 取决于场景.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">随机性是<mark class="hl">设计进去的</mark>, 不是意外.</p>
+        <p class="truth-line giant">但对健康产品, 你必须把它控制住.</p>
+        <p class="truth-line muted">→ M1.1 U5 讲过 Temperature 决定"严谨 vs 放飞". 这节课我们从产品角度看: 不控制 = 出事.</p>
+      </div>
+
+      <div class="step-foot">那随机性到底从哪来? 为什么 T=0 也不能 100% 一致? ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (3) 技术根因                                        -->
+    <!-- ================================================== -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">不一致的四个技术根因 — PM 需要知道</h2>
+      <p class="step-lede">你不需要能修这些问题, 但你需要知道它们存在, 才能和工程师对话.</p>
+
+      <div class="root-causes">
+        <div class="root-cause-item">
+          <div class="root-cause-icon">🎲</div>
+          <div class="root-cause-body">
+            <h4>1. Temperature 采样</h4>
+            <p>Temperature > 0 时, 模型从概率分布里"抽签". 同样的概率表, 每次抽到的字可能不同. 这是最大的随机性来源, 也是最容易控制的.</p>
+          </div>
+        </div>
+        <div class="root-cause-item">
+          <div class="root-cause-icon">🔢</div>
+          <div class="root-cause-body">
+            <h4>2. 浮点运算精度</h4>
+            <p>GPU 做数学时, (a+b)+c 和 a+(b+c) 可能差一点点. 这种微小差异在 1400 亿参数里传播, 最终可能导致不同的 token 被选中.</p>
+          </div>
+        </div>
+        <div class="root-cause-item">
+          <div class="root-cause-icon">🔀</div>
+          <div class="root-cause-body">
+            <h4>3. MoE 路由 (专家混合)</h4>
+            <p>GPT-4 等模型用 Mixture of Experts 架构. 你的请求和别人的请求被打包成一批处理, 不同的"专家"可能被分配到不同的子任务, 导致结果微妙不同.</p>
+          </div>
+        </div>
+        <div class="root-cause-item">
+          <div class="root-cause-icon">📝</div>
+          <div class="root-cause-body">
+            <h4>4. Prompt 敏感性</h4>
+            <p>措辞微调 → 概率分布移动. "经期可以跑步吗" vs "月经期间适合跑步运动吗" — 对你来说一样, 对模型来说是不同的输入.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>PM 记住:</strong> 即使设了 T=0 + seed, 也不能保证 100% 一致. 因为 #2 和 #3 在 API 层面你控制不了. 所以光靠参数不够, 还需要产品层面的策略.
+      </div>
+
+      <div class="step-foot">知道了根因, 下一步: 什么时候不一致是 OK 的? ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (4) 不一致 OK vs 危险                               -->
+    <!-- ================================================== -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">不一致: 什么时候是 Feature, 什么时候是 Bug</h2>
+      <p class="step-lede">一条光谱, 从左到右风险递增:</p>
+
+      <div class="spectrum">
+        <div class="spectrum-zone">
+          <div class="spectrum-label" style="color:var(--green);">OK 区</div>
+          <div class="spectrum-examples">写诗、起名、生成文案、头脑风暴、聊天闲聊</div>
+        </div>
+        <div class="spectrum-zone">
+          <div class="spectrum-label" style="color:var(--amber);">灰色区</div>
+          <div class="spectrum-examples">客服回复、产品推荐、邮件草稿、内容摘要</div>
+        </div>
+        <div class="spectrum-zone">
+          <div class="spectrum-label" style="color:var(--red);">危险区</div>
+          <div class="spectrum-examples">健康建议、法律意见、财务计算、医疗诊断</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>关键判断标准:</strong>
+        <ol>
+          <li><strong>用户会根据答案做决定吗?</strong> 写诗不影响决定, 健康建议直接影响行为.</li>
+          <li><strong>矛盾答案的后果多严重?</strong> 文案换个说法没事, 用药建议前后不一致可能出人命.</li>
+          <li><strong>用户有能力自行判断吗?</strong> 程序员看 AI 写的代码能判断对错, 普通用户看健康建议不一定能.</li>
+        </ol>
+      </div>
+
+      <p class="step-lede"><strong>Vitamin 的定位:</strong> 女性健康 AI → 坐在光谱的<mark class="hl">最右边</mark>. 稳定性不是"nice to have", 是"must have".</p>
+
+      <div class="step-foot">那怎么量化"有多稳定"? ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (5) 量化稳定性                                      -->
+    <!-- ================================================== -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">怎么量化稳定性 — 跑 N 次, 比一比</h2>
+      <p class="step-lede">最简单的方法: 同一个 prompt, 跑 5 次 (或 10 次), 看输出有多像.</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>Consistency Score 的计算思路:</strong>
+        <ol>
+          <li>取 N 次输出 (通常 N = 5~10)</li>
+          <li>两两比较语义相似度 (可以用 embedding cosine similarity)</li>
+          <li>取平均值, 映射到 0~100% 分数</li>
+        </ol>
+        <p>或者更简单粗暴: <strong>人工看 5 次输出, 核心结论是否一致?</strong> 是 → 通过. 不是 → 不上线.</p>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 实用版:</strong> 上线前, 拿 top 50 个高频问题, 每个跑 5 次. 标记哪些问题的答案出现了矛盾. 这些矛盾问题 = 你的"高风险清单".
+      </div>
+
+      <div class="step-foot">测出来不稳定的, 怎么修? 4 种工程手段 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (6) 工程修复手段                                    -->
+    <!-- ================================================== -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">4 种工程手段 — 让 AI 输出变稳定</h2>
+      <p class="step-lede">你不用写代码, 但你得知道这些选项, 才能跟工程师开会时说到点子上.</p>
+
+      <div class="fix-grid">
+        <div class="fix-card" data-rough="card">
+          <div class="fix-card-icon">🧊</div>
+          <h4>T=0 + Seed</h4>
+          <p>Temperature 设为 0 (贪心解码), 加上 seed 参数. 最简单的一招, 能消除大部分随机性. 但不能保证 100%.</p>
+        </div>
+        <div class="fix-card" data-rough="card">
+          <div class="fix-card-icon">💾</div>
+          <h4>Response Caching</h4>
+          <p>高频问题只调一次 API, 缓存答案. 用户再问同样的问题, 直接返回缓存. 100% 一致, 零 API 成本.</p>
+        </div>
+        <div class="fix-card" data-rough="card">
+          <div class="fix-card-icon">📋</div>
+          <h4>后处理规则</h4>
+          <p>AI 输出后, 过一遍规则引擎. 比如: 健康建议必须包含"请咨询医生"声明, 不允许出现"必须/一定"等绝对词.</p>
+        </div>
+        <div class="fix-card" data-rough="card">
+          <div class="fix-card-icon">✅</div>
+          <h4>Golden Answer 审核</h4>
+          <p>高风险问题由人工预审, 存一份"标准答案". AI 输出与标准答案比对, 偏差太大则触发 fallback.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"稳定性不是 AI 的默认值 — 需要在 API 参数 + 缓存 + 后处理 + 人工审核四层叠加来保障. 层数取决于场景的风险等级."</p>
+      </div>
+
+      <div class="step-foot">第 4 种 "Golden Answer" 展开讲 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (7) Golden Answer 模式                              -->
+    <!-- ================================================== -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">"Golden Answer" 模式 — 健康产品的标配</h2>
+      <p class="step-lede">对于高风险问题, 与其让 AI 每次现场生成, 不如: 人工审核一个"标准答案", AI 只负责"匹配问题 → 返回答案".</p>
+
+      <div class="golden-flow">
+        <div class="golden-node">用户提问</div>
+        <div class="golden-arrow">→</div>
+        <div class="golden-node">AI 识别意图</div>
+        <div class="golden-arrow">→</div>
+        <div class="golden-node highlight">匹配 Golden Answer?</div>
+        <div class="golden-arrow">→</div>
+        <div class="golden-node" style="border-color:var(--green);">是: 返回预审答案</div>
+      </div>
+      <div class="golden-flow" style="margin-top:8px;">
+        <div class="golden-node" style="opacity:0;pointer-events:none;">占位</div>
+        <div class="golden-arrow" style="opacity:0;">→</div>
+        <div class="golden-node" style="opacity:0;pointer-events:none;">占位</div>
+        <div class="golden-arrow" style="opacity:0;">→</div>
+        <div class="golden-node highlight" style="background:var(--amber-bg);border-color:var(--amber);">不匹配?</div>
+        <div class="golden-arrow">→</div>
+        <div class="golden-node" style="border-color:var(--amber);">AI 生成 + 加声明</div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>这个模式的好处:</strong>
+        <ul class="check-list">
+          <li>高频问题 100% 一致 (直接返回缓存的人工审核答案)</li>
+          <li>低频/长尾问题仍有 AI 灵活回答, 但加 disclaimer</li>
+          <li>可以定期更新 Golden Answer (跟着医学指南走)</li>
+          <li>审核成本可控: top 50 问题覆盖 80% 用户流量</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">下面用互动小工具体验一下: 不同 Temperature, 稳定性差多少 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (8) WIDGET: Stability Tester                        -->
+    <!-- ================================================== -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Stability Tester</h2>
+      <p class="step-lede">调 Temperature, 点"运行 5 次", 看同一个健康问题 ("经期可以跑步吗?") 的 5 次回答有多不同.</p>
+
+      <div class="stability-widget" data-rough="card">
+        <div class="stability-header">
+          <div class="stability-prompt-display">Prompt: "经期可以跑步吗?"</div>
+          <div class="stability-temp-control">
+            <label>Temperature: <span id="stab-temp-val" class="stability-temp-val">0.7</span></label>
+            <input id="stab-temp-slider" type="range" min="0" max="4" value="2" step="1" />
+          </div>
+        </div>
+
+        <div class="stability-runs" id="stab-runs">
+          <!-- JS renders 5 run cards here -->
+        </div>
+
+        <div class="gauge-container">
+          <svg class="gauge-svg" viewBox="0 0 140 80">
+            <path class="gauge-arc-bg" d="M15,65 A55,55 0 0,1 125,65" />
+            <path class="gauge-arc-fill" id="gauge-arc" d="M15,65 A55,55 0 0,1 125,65" />
+            <text id="gauge-text" class="gauge-label" x="70" y="58" text-anchor="middle">62%</text>
+            <text class="gauge-sub" x="70" y="73" text-anchor="middle">Consistency</text>
+          </svg>
+          <div class="gauge-info">
+            <strong>一致性评分</strong>
+            <span id="gauge-note">T=0.7 (默认): 语气/内容开始分化.</span>
+          </div>
+        </div>
+
+        <div class="stability-controls">
+          <button id="stab-run-btn" class="btn btn-primary">运行 5 次 →</button>
+          <button id="stab-reset-btn" class="btn btn-ghost">重置 (T=0.7)</button>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>试试看:</strong>
+        <ul>
+          <li>把 T 拉到 <strong>0</strong> → 5 次输出完全一模一样</li>
+          <li>T = <strong>1.0</strong> → 开始出现矛盾 ("可以跑" vs "别跑")</li>
+          <li>T = <strong>1.5</strong> → 完全混乱, 有的还提到了"月球周期" ...</li>
+        </ul>
+        <p class="muted">→ 这就是为什么 Vitamin 的健康问答<em>必须</em>用 T=0.</p>
+      </div>
+
+      <div class="step-foot">回到 Vitamin — 稳定性方案怎么设计 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (9) Vitamin 案例                                    -->
+    <!-- ================================================== -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 健康问答的稳定性方案</h2>
+      <p class="step-lede">Vitamin 有 5 个身体状态 (经期、排卵期、黄体期...), 每个状态都有用户会问的健康问题. 方案:</p>
+
+      <div class="can-cant">
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">✓ 稳定性方案 (四层防护)</h3>
+          <ul>
+            <li>API 参数: T=0, seed=42, max_tokens 限定</li>
+            <li>Top 50 高频健康问题: Golden Answer 缓存</li>
+            <li>后处理: 自动添加"仅供参考, 请咨询医生"声明</li>
+            <li>矛盾检测: 同一会话内前后答案一致性校验</li>
+            <li>每月更新: 跟着最新医学指南刷新 Golden Answer</li>
+            <li>上线前: 每个问题跑 5 次, 一致性 < 90% 的不上线</li>
+          </ul>
+        </article>
+
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">✗ 不能犯的错</h3>
+          <ul>
+            <li>用默认 T=0.7 回答健康问题 (每次答案不同)</li>
+            <li>让 AI 自由发挥回答用药问题 (没有 Golden Answer)</li>
+            <li>不做后处理就直接展示 AI 输出 (可能出现绝对化表述)</li>
+            <li>忽略长尾问题 (没预审的问题也需要 disclaimer)</li>
+            <li>不做上线前的稳定性测试 (跑 5 次太简单了, 不做不行)</li>
+            <li>测一次就不管了 (模型更新后必须重新测)</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"做健康类 AI 产品, 我会用四层策略保障输出稳定性: 参数层 (T=0 + seed), 缓存层 (高频 Golden Answer), 规则层 (后处理校验), 流程层 (上线前 N 次一致性测试). 这四层叠加, 才能对用户负责."</p>
+      </div>
+
+      <div class="step-foot">最后: 一句话规则 + 作业 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (10) 一句话规则 + 作业                              -->
+    <!-- ================================================== -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">稳定性不是 AI 的默认值 ——<br/>它是你必须用参数 + 缓存 + 规则 + 测试四层叠加争取的.</p>
+        <p class="one-liner-foot muted">场景越高风险, 需要叠的层越多. 健康产品 = 叠满.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 ChatGPT / 豆包, 问同一个健康问题 5 次 (比如"感冒可以洗澡吗"), 截图对比. 有没有出现矛盾?</li>
+          <li>列出 Vitamin 的 10 个高频健康问题, 标记每个问题的风险等级 (OK / 灰色 / 危险). 危险级别的就是需要 Golden Answer 的.</li>
+          <li>用本课的"四层防护"框架, 给 Vitamin 写一份 200 字的"输出稳定性策略" — 可以直接用在 PRD 里.</li>
+          <li>思考: Vitamin 的"情绪安抚"功能 (比如"今天心情不好") 需要高稳定性吗? 还是适度随机反而更好? 写 100 字理由.</li>
+        </ol>
+
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead>
+              <tr><th>Type</th><th>What</th><th>Source</th><th>Why</th><th>Time</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://deepchecks.com/glossary/llm-output-consistency/" target="_blank">LLM Output Consistency</a></td>
+                <td>Deepchecks</td>
+                <td>一致性概念全景, 含衡量方法</td>
+                <td>10 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://medium.com/@avigoldfinger/why-llms-give-different-answers-to-the-same-question-and-how-to-fix-it-c1746ff49abc" target="_blank">Why LLMs Give Different Answers</a></td>
+                <td>Medium</td>
+                <td>根因分析 + 修复策略, 最清晰的一篇</td>
+                <td>12 min</td>
+              </tr>
+              <tr>
+                <td>🛠</td>
+                <td><a href="https://cookbook.openai.com/examples/reproducible_outputs_with_the_seed_parameter" target="_blank">Seed Parameter Cookbook</a></td>
+                <td>OpenAI</td>
+                <td>官方教程: 如何用 seed 实现近似确定性输出</td>
+                <td>15 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://developer.volcengine.com/articles/7381768919591157787" target="_blank">关于 LLM 的一些个人认知</a></td>
+                <td>火山引擎</td>
+                <td>中文好文: 从硬件/算法/产品设计多角度看 LLM</td>
+                <td>20 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://mbrenndoerfer.com/writing/why-llms-are-not-deterministic" target="_blank">Why T=0 Doesn't Guarantee Determinism</a></td>
+                <td>mbrenndoerfer.com</td>
+                <td>技术深挖: 为什么 T=0 仍然不确定</td>
+                <td>8 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- ■ END                                               -->
+    <!-- ================================================== -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 同一问题, 两个矛盾答案</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 随机性是设计, 不是 bug</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> 四个技术根因</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> Feature vs Bug: 看场景</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 跑 N 次, 量化一致性</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 四种工程修复手段</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> Golden Answer 模式</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Stability Tester 实操</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 四层防护方案</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">AI 输出天然不稳定 — 健康产品必须用参数 + 缓存 + 规则 + 测试四层叠加来保障一致性.</p>
+        <p class="end-summary-sub">场景风险越高, 需要的保障层越多. 稳定性不是附加功能, 是产品底线.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 5): Task Analysis — Feasibility × Value</div>
+        <p>知道了 AI 的三大死穴, 那到底哪些功能该上 AI? 哪些不该?<br/>
+        下一节学 Andrew Ng 最核心的方法: 把任何需求画到一个 2×2 矩阵上, 一眼看出优先级.</p>
+        <p><strong>Vitamin 有 8 个候选 AI 功能 — 你来决定先做哪个.</strong></p>
+        <a class="walk-arrow" href="../u5-task-analysis/index.html">继续走 → Unit 5</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.2 · Unit 4 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

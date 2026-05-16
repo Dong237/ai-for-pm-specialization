@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 8 · Prompt 调试 — AI for PM · M3.1</title>
+  <meta name="description" content="Prompt Engineering · Unit 8: 模型答错了怎么 debug — 4 步法: 确认输入 → 加 CoT → 加 Few-shot → 换模型." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.1</span></a><div class="topbar-right"><span class="unit-label">Unit 8 · 调试</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 8<span class="title-dot">·</span><br/>AI 答错了, 怎么 Debug?</h1>
+      <p class="hero-sub">不是改一个字碰运气. 有一套系统方法: Observe → Reproduce → Analyze → Fix.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="你 · PM"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head" /><circle cx="42" cy="28" r="2" fill="currentColor" /><circle cx="58" cy="28" r="2" fill="currentColor" /><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" /><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue"><p class="cloud-line">用户说 AI 回答"不靠谱", 但我不知道从哪里改...</p><p class="cloud-line">随便改一个字, 有时更好有时更差</p><p class="cloud-line accent">—— 4 步 Debug 法, 系统化定位问题.</p></div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>理解 Prompt 调试和代码调试的区别</li><li>掌握 4 步 Debug 法</li><li>知道如何避免"打地鼠"式调试</li><li>亲手走一遍 Debug 流程</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1"><div class="step-num"><span>(1)</span></div><h2 class="step-title">"打地鼠"式调试: 修一个 bug, 冒三个</h2><p class="step-lede">最常见的 Prompt 调试方式: 看到一个错误输出 → 在 Prompt 里加一句修补 → 推上线 → 过两天另一个场景又出问题了.</p>
+      <div class="callout callout-red"><strong>这叫 Whack-a-Mole Debugging:</strong><p>没有分析根因, 只是修补表面症状. 每次修补可能<mark class="hl">破坏其他正常的场景</mark>.</p></div>
+      <div class="step-foot">系统的方法是什么? ↓</div></section>
+
+    <section id="s2" class="step" data-step="2"><div class="step-num"><span>(2)</span></div><h2 class="step-title">4 步 Debug 法: ORAH</h2>
+      <div class="truth-bubble"><div class="truth-tag">方法论</div>
+        <p class="truth-line giant">Observe → Reproduce → Analyze → Hypothesize</p>
+        <p class="truth-line muted">→ 观察 → 复现 → 分析 → 假设并验证. 不是乱改, 是有假设地改.</p>
+      </div>
+      <div class="step-foot">每一步具体怎么做? ↓</div></section>
+
+    <section id="s3" class="step" data-step="3"><div class="step-num"><span>(3)</span></div><h2 class="step-title">Step 1: Observe — 记录出错的完整上下文</h2>
+      <div class="callout callout-blue"><strong>要记录什么:</strong><ol>
+        <li>完整的 System Prompt (当时用的版本号)</li>
+        <li>完整的 User Prompt (用户实际输入)</li>
+        <li>模型参数 (Temperature, Top-P, model name)</li>
+        <li>AI 的完整输出 (不只是"错了", 要看全文)</li>
+        <li>期望的正确输出是什么</li>
+      </ol></div>
+      <div class="callout callout-amber"><strong>PM 提示:</strong><p>很多时候"AI 答错了"不是 AI 的问题 — 是<strong>输入有问题</strong>. 比如用户的信息没有正确传递给 Prompt.</p></div>
+      <div class="step-foot">Step 2: 复现 ↓</div></section>
+
+    <section id="s4" class="step" data-step="4"><div class="step-num"><span>(4)</span></div><h2 class="step-title">Step 2: Reproduce — 在 Playground 里复现</h2>
+      <div class="callout callout-green"><strong>复现方法:</strong><ol>
+        <li>把记录的 System + User Prompt 复制到 Playground</li>
+        <li>设置完全一样的参数 (Temperature, model, etc.)</li>
+        <li>跑 3-5 次 — LLM 是非确定性的, 可能要跑几次才能复现</li>
+        <li>如果复现了 → 继续分析</li>
+        <li>如果复现不了 → 可能是偶发的随机性, 或者输入有差异</li>
+      </ol></div>
+      <div class="step-foot">Step 3: 分析 ↓</div></section>
+
+    <section id="s5" class="step" data-step="5"><div class="step-num"><span>(5)</span></div><h2 class="step-title">Step 3: Analyze — 定位问题出在哪一层</h2>
+      <div class="callout callout-amber"><strong>3 层定位法:</strong>
+        <p><span class="pill pill-blue">输入层</span> 用户的信息有没有正确传到 Prompt? 有没有被截断?</p>
+        <p><span class="pill pill-green">Prompt 层</span> 指令是否清晰? 有没有歧义? 有没有遗漏规则?</p>
+        <p><span class="pill pill-amber">模型层</span> 同样的 Prompt 换一个模型还错吗? 如果模型 A 错、模型 B 对, 说明是模型能力问题.</p>
+      </div>
+      <div class="callout callout-blue"><strong>快速诊断技巧:</strong><p>让 AI "解释"它为什么那样回答: "请解释你在上一步输出中的推理过程." 注意<strong>不要</strong>问"你为什么错了" — AI 会直接道歉, 没有诊断价值.</p></div>
+      <div class="step-foot">Step 4: 修复 ↓</div></section>
+
+    <section id="s6" class="step" data-step="6"><div class="step-num"><span>(6)</span></div><h2 class="step-title">Step 4: 按优先级尝试修复</h2>
+      <div class="callout callout-green"><strong>修复顺序 (从简单到复杂):</strong><ol>
+        <li><strong>确认输入:</strong> 检查数据传递有没有 bug (最常见的原因!)</li>
+        <li><strong>加 CoT:</strong> 让 AI "先想后答", 很多推理错误一步解决</li>
+        <li><strong>加/改 Few-shot:</strong> 给一个类似的正确示例</li>
+        <li><strong>改指令:</strong> 让 Task 或 Rules 更明确</li>
+        <li><strong>换模型:</strong> 如果以上都不行, 可能是模型能力不足</li>
+      </ol></div>
+      <p class="step-lede"><mark class="hl">每次只改一个变量</mark>. 同时改两个, 你不知道是哪个起了作用.</p>
+      <div class="step-foot">修复后必须做的事 ↓</div></section>
+
+    <section id="s7" class="step" data-step="7"><div class="step-num"><span>(7)</span></div><h2 class="step-title">回归测试: 修了这个, 别破坏那个</h2>
+      <div class="callout callout-red"><strong>最怕的事:</strong><p>为了修一个边界案例, 加了一条规则, 结果 80% 的正常场景受影响.</p></div>
+      <div class="callout callout-green"><strong>黄金测试集 (Golden Set):</strong><p>准备 20-30 个测试用例, 覆盖常见场景和边界场景. 每次修改 Prompt 后, 全部跑一遍.</p>
+        <p class="muted">→ 不需要复杂工具, 一个 Excel 表格就够: 输入 | 期望输出 | 实际输出 | Pass/Fail.</p></div>
+      <div class="step-foot">动手走一遍 Debug 流程 ↓</div></section>
+
+    <section id="s8" class="step" data-step="8"><div class="step-num"><span>(8)</span></div><h2 class="step-title">动手试: 4 步 Debug 流程</h2><p class="step-lede">点击每个步骤, 执行诊断动作, 看 Debug 结果:</p>
+      <div class="debug-widget">
+        <div class="debug-header">Debug 场景: AI 把"经前期"错误分类为"经期"</div>
+        <div class="debug-steps">
+          <button class="debug-step-btn active" data-step="1">Step 1: 观察</button>
+          <button class="debug-step-btn" data-step="2">Step 2: 复现</button>
+          <button class="debug-step-btn" data-step="3">Step 3: 分析</button>
+          <button class="debug-step-btn" data-step="4">Step 4: 修复</button>
+        </div>
+        <div class="debug-content">
+          <div id="debug-panel-1" class="debug-panel active">
+            <h3>观察: 记录完整上下文</h3>
+            <div class="debug-scenario"><strong>用户输入:</strong> "最近头疼, 想吃甜的, 心情不好"<br/><strong>AI 输出:</strong> {"state":"经期","mood":"低落"}<br/><strong>期望输出:</strong> {"state":"经前期","mood":"焦躁"}<br/><strong>Prompt 版本:</strong> v1.2.0 · <strong>模型:</strong> Claude Sonnet · <strong>Temperature:</strong> 0.3</div>
+            <div class="debug-action"><button class="debug-action-btn" data-result="debug-result-1">记录完毕, 进入下一步</button></div>
+            <div id="debug-result-1" class="debug-result info">已记录. 关键发现: Prompt 中没有针对"经前期 vs 经期"的区分示例.</div>
+          </div>
+          <div id="debug-panel-2" class="debug-panel">
+            <h3>复现: 在 Playground 中测试</h3>
+            <div class="debug-scenario">复制 Prompt 到 Playground, 设置 Temperature=0.3, 跑 5 次...<br/>结果: 5 次中有 3 次输出"经期", 2 次输出"经前期".</div>
+            <div class="debug-action"><button class="debug-action-btn" data-result="debug-result-2">复现完毕</button></div>
+            <div id="debug-result-2" class="debug-result info">已复现. AI 在两个状态间犹豫, 说明它<strong>没有足够的信号来区分</strong>.</div>
+          </div>
+          <div id="debug-panel-3" class="debug-panel">
+            <h3>分析: 定位问题层</h3>
+            <div class="debug-scenario">检查 3 层:<br/>1. 输入层: 用户信息正确传递 ✓<br/>2. Prompt 层: Few-shot 中没有"经前期"的示例 ← 问题在这里!<br/>3. 模型层: 换 GPT-4o 测试, 同样出错 → 不是模型问题, 是 Prompt 问题.</div>
+            <div class="debug-action"><button class="debug-action-btn" data-result="debug-result-3">分析完毕</button></div>
+            <div id="debug-result-3" class="debug-result info">根因: Few-shot 示例中缺少"经前期"的典型案例, AI 把 PMS 症状默认归类为"经期".</div>
+          </div>
+          <div id="debug-panel-4" class="debug-panel">
+            <h3>修复: 添加经前期示例</h3>
+            <div class="debug-scenario">修复方案: 在 Few-shot 中加一个经前期示例:<br/><code>输入: "头疼想吃甜的心情不好" → 经前期 · 焦躁 · 饮食建议</code><br/>跑黄金测试集 (25 个用例): 24/25 通过 ✓</div>
+            <div class="debug-action"><button class="debug-action-btn" data-result="debug-result-4">执行修复</button></div>
+            <div id="debug-result-4" class="debug-result success">修复成功! 加了 1 个经前期示例 → 分类准确率从 60% 提升到 96%. 版本号更新为 v1.3.0.</div>
+          </div>
+        </div>
+      </div>
+      <div class="step-foot">Vitamin 的 Debug 清单 ↓</div></section>
+
+    <section id="s9" class="step" data-step="9"><div class="step-num"><span>(9)</span></div><h2 class="step-title">Vitamin 实战: Debug 清单</h2>
+      <div class="callout callout-green"><strong>Vitamin 的常见 Bug 类型和修复策略:</strong><table class="resource-table"><thead><tr><th>Bug 类型</th><th>表现</th><th>修复策略</th></tr></thead><tbody>
+        <tr><td>分类错误</td><td>经前期 → 经期</td><td>加对应状态的 Few-shot 示例</td></tr>
+        <tr><td>格式错误</td><td>JSON 不合法</td><td>加 &lt;format&gt; 标签 + 强调"严格按格式"</td></tr>
+        <tr><td>越界回答</td><td>给了用药建议</td><td>加 Negative Instruction + 拒绝模板</td></tr>
+        <tr><td>语气不对</td><td>太生硬/太说教</td><td>在 Role 里加语气示范</td></tr>
+        <tr><td>遗漏信息</td><td>没考虑用户历史</td><td>检查 Context 传递是否完整</td></tr>
+      </tbody></table></div>
+      <div class="step-foot">总结 + 作业 ↓</div></section>
+
+    <section id="s10" class="step" data-step="10"><div class="step-num"><span>(10)</span></div><h2 class="step-title">一句话规则 + 今日作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话</div><p class="one-liner-text">Debug Prompt 不是碰运气.<br/>观察 → 复现 → 分析 → 修复, 每次只改一个变量.</p><p class="one-liner-foot muted">修完之后跑回归测试. 修一个 bug 不能冒三个.</p></div>
+      <div class="callout callout-green"><strong>课后作业 (30 分钟):</strong><ol><li>在 ChatGPT/Claude 里故意写一个会出错的 Prompt, 然后用 4 步法 Debug.</li><li>为 Vitamin 准备一个 20 条的"黄金测试集" (覆盖 5 个状态 × 4 种输入).</li><li>找一个你工作中 AI 回答不好的案例, 用 3 层定位法分析问题出在哪一层.</li><li>写 100 字: 给团队解释"为什么 Debug Prompt 不能只看一个案例".</li></ol></div>
+      <div class="callout callout-blue"><strong>资源延伸:</strong><table class="resource-table"><thead><tr><th>类型</th><th>资源</th><th>来源</th><th>值得看的原因</th><th>时间</th></tr></thead><tbody>
+        <tr><td>📖</td><td><a href="https://promptwritersai.com/prompt-debugging-diagnosing-and-fixing-broken-llm-outputs/" target="_blank">Prompt Debugging Guide</a></td><td>PromptWriters</td><td>系统化 Debug 方法论</td><td>15 min</td></tr>
+        <tr><td>📖</td><td><a href="https://tianpan.co/blog/2026-04-15-debugging-llm-failures-field-guide" target="_blank">Debug LLM Failures Field Guide</a></td><td>TianPan</td><td>工程师视角的 Debug 实操</td><td>20 min</td></tr>
+        <tr><td>📖</td><td><a href="https://addyo.substack.com/p/the-prompt-engineering-playbook-for" target="_blank">Prompt Engineering Playbook</a></td><td>Substack</td><td>程序员视角的 Prompt 手册</td><td>15 min</td></tr>
+        <tr><td>📖</td><td><a href="https://www.promptingguide.ai/zh" target="_blank">Prompt Guide 中文版</a></td><td>promptingguide.ai</td><td>中文 Prompt 调试技巧</td><td>10 min</td></tr>
+      </tbody></table></div>
+      <div class="step-foot">走完了 — 回顾 ↓</div></section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> "打地鼠"式调试</a><a href="#s2" class="recap-cell"><span class="rc-num">2</span> 4 步 ORAH 法</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Step 1: 观察</a><a href="#s4" class="recap-cell"><span class="rc-num">4</span> Step 2: 复现</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Step 3: 分析</a><a href="#s6" class="recap-cell"><span class="rc-num">6</span> Step 4: 修复</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 回归测试</a><a href="#s8" class="recap-cell"><span class="rc-num">8</span> Debug 流程实操</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin Debug 清单</a><a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 8:</p><p class="end-summary-big">Debug = 观察 → 复现 → 分析 → 修复. 每次只改一个变量, 改完跑回归.</p><p class="end-summary-sub">不碰运气, 不打地鼠.</p></div>
+      <div class="next-card"><div class="next-tag">下节课 (Unit 9): Vitamin 5 状态 Prompt 模板</div><p>前 8 个单元学了所有的 Prompt Engineering 技巧. 最后一步: <strong>把它们全部用上, 为 Vitamin 5 个身体状态各写一个生产级 Prompt</strong>.</p><a class="walk-arrow" href="../u9-vitamin-templates/index.html">继续走 → Unit 9</a></div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 3.1 · Unit 8 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+/* U3 · RAG Pipeline Visualizer */
+
+.rag-pipeline {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.rag-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.rag-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 10px;
+  transition: all 0.4s ease;
+  opacity: 0.4;
+  position: relative;
+}
+.rag-step.active {
+  opacity: 1;
+  background: var(--bg-elev);
+}
+
+.rag-step-num {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+  border: 2px solid;
+  transition: all 0.3s;
+}
+.rag-step[data-rag="1"] .rag-step-num { border-color: var(--blue); color: var(--blue); background: var(--blue-bg-soft); }
+.rag-step[data-rag="2"] .rag-step-num { border-color: var(--green); color: var(--green); background: var(--green-bg-soft); }
+.rag-step[data-rag="3"] .rag-step-num { border-color: var(--amber); color: var(--amber); background: var(--amber-bg-soft); }
+.rag-step[data-rag="4"] .rag-step-num { border-color: var(--red); color: var(--red); background: var(--red-bg-soft); }
+
+.rag-step-content {
+  flex: 1;
+}
+.rag-step-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.rag-step-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.rag-step-visual {
+  background: var(--bg-elev);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 8px;
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  font-size: 13px;
+  color: var(--ink-muted);
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+.rag-step.active .rag-step-visual { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rag-arrow {
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 20px;
+  padding: 4px 0;
+}
+
+.rag-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.rag-status {
+  margin-left: auto;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+/* Advantage cards */
+.advantage-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+.advantage-card {
+  background: var(--bg-card);
+  border: 2px solid var(--blue);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+.advantage-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+.advantage-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--blue);
+}
+.advantage-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* Pipeline step blocks */
+.pipeline-step {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 14px 0;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+.pipeline-step-tag {
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  padding: 2px 12px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+}
+.pipeline-step[data-p="1"] { border-color: var(--blue); }
+.pipeline-step[data-p="1"] .pipeline-step-tag { background: var(--blue); }
+.pipeline-step[data-p="2"] { border-color: var(--green); }
+.pipeline-step[data-p="2"] .pipeline-step-tag { background: var(--green); }
+.pipeline-step[data-p="3"] { border-color: var(--amber); }
+.pipeline-step[data-p="3"] .pipeline-step-tag { background: var(--amber); }
+.pipeline-step[data-p="4"] { border-color: var(--red); }
+.pipeline-step[data-p="4"] .pipeline-step-tag { background: var(--red); }

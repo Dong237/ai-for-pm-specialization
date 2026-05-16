@@ -1,0 +1,26 @@
+/* U6 · Negative Instructions — unit-specific styles */
+.safety-widget { background: var(--bg-card); border: 2px solid var(--ink); border-radius: 12px; margin: 24px 0; box-shadow: var(--shadow-card); overflow: hidden; }
+.safety-header { background: var(--bg-elev); padding: 14px 20px; border-bottom: 2px dashed var(--border); font-family: "Excalifont","LXGW WenKai Screen",system-ui,sans-serif; font-size: 16px; font-weight: 600; }
+.safety-rules { padding: 16px 20px; }
+.safety-rule { display: flex; align-items: center; gap: 12px; padding: 10px 14px; margin: 6px 0; background: var(--bg-elev); border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s; user-select: none; }
+.safety-rule:hover { border-color: var(--border-strong); }
+.safety-rule.active { border-color: var(--green); background: var(--green-bg-soft); }
+.safety-check { width: 24px; height: 24px; border: 2px solid var(--border-strong); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: transparent; transition: all 0.2s; flex-shrink: 0; }
+.safety-rule.active .safety-check { background: var(--green); border-color: var(--green); color: white; }
+.safety-text { font-size: 14px; flex: 1; }
+.safety-category { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; white-space: nowrap; }
+.safety-category.medical { background: var(--red-bg); color: var(--red); }
+.safety-category.scope { background: var(--blue-bg); color: var(--blue); }
+.safety-category.privacy { background: var(--amber-bg); color: var(--amber); }
+.safety-category.tone { background: var(--purple-bg); color: var(--purple); }
+.safety-score { padding: 16px 20px; background: var(--bg-elev); border-top: 2px dashed var(--border); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.safety-score-label { font-weight: 600; font-size: 14px; }
+.safety-bar-bg { flex: 1; min-width: 120px; height: 14px; background: var(--bg-card); border-radius: 7px; border: 1px solid var(--border); overflow: hidden; }
+.safety-bar-fill { height: 100%; border-radius: 7px; transition: width 0.4s, background 0.4s; }
+.safety-score-value { font-family: "Excalifont","LXGW WenKai Screen",system-ui,sans-serif; font-size: 22px; font-weight: 700; min-width: 50px; text-align: right; }
+.safety-hint { width: 100%; font-size: 13px; color: var(--ink-muted); font-style: italic; }
+.resource-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+.resource-table th { text-align: left; padding: 8px 12px; border-bottom: 2px solid var(--border-strong); font-size: 13px; color: var(--ink-muted); font-weight: 600; }
+.resource-table td { padding: 10px 12px; border-bottom: 1px dashed var(--border); vertical-align: top; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

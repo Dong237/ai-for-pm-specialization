@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · 为什么传统指标不够 — AI for PM · M2.3</title>
+  <meta name="description" content="DAU/留存/CTR 没法回答 AI 输出质量好不好. AI 产品需要全新指标." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.3</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · 为什么传统指标不够</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 1<span class="title-dot">·</span><br/>为什么传统指标不够</h1>
+      <p class="hero-sub">DAU 全是绿的, 老板问 "AI 写的建议靠不靠谱" — 你的 dashboard 答不上来.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你, 盯着绿色 dashboard 发愁的 PM">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head"/>
+            <circle cx="42" cy="28" r="2" fill="currentColor"/>
+            <circle cx="58" cy="28" r="2" fill="currentColor"/>
+            <path d="M44 38 Q50 36 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 看着满屏绿色)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">Dashboard 上 DAU 涨了 15%, 留存也不错...</p>
+          <p class="cloud-line">但 AI 聊天功能给用户推荐了个不存在的药...</p>
+          <p class="cloud-line">传统指标一个都没报警 ???</p>
+          <p class="cloud-line accent">—— 是指标的问题, 不是产品的问题.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>看出传统指标 (DAU / CTR / 留存) 对 AI 功能的 3 个盲区</li>
+          <li>理解 AI 产品为什么需要一套补充指标</li>
+          <li>对 Vitamin 的每个 AI 功能找出指标缺口</li>
+          <li>知道下一步该学哪些 AI 专用指标</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">场景: Dashboard 全绿, 但出事了</h2>
+      <p class="step-lede">你是 Vitamin 的 PM. 上线了 AI 聊天功能一周, 打开数据看板:</p>
+
+      <div class="dashboard-mock" data-rough="card">
+        <div class="dashboard-row">
+          <span class="dash-metric">DAU</span>
+          <span class="dash-value green">12,450</span>
+          <span class="dash-status">✅ +15%</span>
+        </div>
+        <div class="dashboard-row">
+          <span class="dash-metric">7日留存</span>
+          <span class="dash-value green">38.2%</span>
+          <span class="dash-status">✅ +3pp</span>
+        </div>
+        <div class="dashboard-row">
+          <span class="dash-metric">CTR (AI 推荐)</span>
+          <span class="dash-value green">22.5%</span>
+          <span class="dash-status">✅ 正常</span>
+        </div>
+        <div class="dashboard-row">
+          <span class="dash-metric">NPS</span>
+          <span class="dash-value green">42</span>
+          <span class="dash-status">✅ 良好</span>
+        </div>
+      </div>
+
+      <p class="step-lede">全是绿色. 你松了口气 —— 直到客服转来一条用户反馈:</p>
+      <div class="callout callout-red" data-rough="card">
+        <p>"你们 AI 说经期可以吃冰的, 我照做了结果痛得要死. 这是什么垃圾建议?"</p>
+        <p class="muted">— 用户 #4217, 1星评价</p>
+      </div>
+      <p>你回头看 dashboard. <strong>没有任何一个指标能提前告诉你这件事会发生.</strong></p>
+      <div class="step-foot">为什么所有指标都绿了, 还是出了问题? ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">传统指标的三个盲区</h2>
+      <p class="step-lede">DAU / CTR / 留存 / NPS 是好指标 — 但它们是给<em>传统产品</em>设计的. AI 产品有三个它们看不到的地方:</p>
+
+      <div class="blindspot-grid">
+        <div class="blindspot-card" data-rough="card">
+          <div class="blindspot-num">1</div>
+          <h3>输出质量是黑箱</h3>
+          <p>传统指标只知道 "用户点了", 不知道 "AI 说的对不对". CTR 22% 里, 有多少人看到的是错误信息?</p>
+        </div>
+        <div class="blindspot-card" data-rough="card">
+          <div class="blindspot-num">2</div>
+          <h3>信任是隐性的</h3>
+          <p>用户留存 ≠ 用户信任 AI. 她可能每次都把 AI 的回答改了才用 — 留存率看不出这个.</p>
+        </div>
+        <div class="blindspot-card" data-rough="card">
+          <div class="blindspot-num">3</div>
+          <h3>成本在暗处</h3>
+          <p>每次 AI 对话都有 token 费用. DAU 涨了 15%, token 成本可能涨了 40% — 传统 dashboard 里没这个数.</p>
+        </div>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">核心观点</div>
+        <p class="truth-line big">传统指标衡量的是 <mark class="hl">"用户有没有用"</mark></p>
+        <p class="truth-line giant">AI 指标衡量的是 "AI 输出的好不好"</p>
+        <p class="truth-line muted">一个看行为, 一个看质量. 两个维度, 不能互相替代.</p>
+      </div>
+      <div class="step-foot">三个盲区, 逐个拆开看 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">盲区 1: 质量黑箱</h2>
+      <p class="step-lede">传统产品的内容是人写的、审过的. AI 产品的内容是<em>实时生成的</em> — 每次都不一样.</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>传统产品:</strong> 编辑写了一篇"经期饮食指南" → 医学顾问审核 → 上线. 所有用户看到的是同一篇.</p>
+        <p><strong>AI 产品:</strong> 用户问"经期能吃什么" → AI 实时生成回答 → 每次措辞不同, 偶尔内容不准确.</p>
+      </div>
+
+      <p>CTR 只告诉你 "有 22% 的人点了". 但:</p>
+      <ul>
+        <li>点了 ≠ 读了</li>
+        <li>读了 ≠ 信了</li>
+        <li>信了 ≠ AI 说的是对的</li>
+      </ul>
+      <p><mark class="hl">传统 CTR 无法区分 "用户看了一条好建议" 和 "用户看了一条幻觉".</mark> 在传统产品里这不是问题 — 因为内容是固定的. 在 AI 产品里, 这是致命盲区.</p>
+      <div class="step-foot">第二个盲区: 信任 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">盲区 2: 信任是隐性的</h2>
+      <p class="step-lede">留存率告诉你用户还在用这个功能. 但"用"有两种:</p>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card" style="border-color:var(--green);background:var(--green-bg-soft);">
+          <div class="wrong-mark" style="color:var(--green);">A</div>
+          <h3>信任式使用</h3>
+          <p>AI 给了建议, 用户直接照做.</p>
+          <div class="wrong-why" style="border-color:var(--green);">
+            → 这说明 AI 输出质量高, 用户信任.
+          </div>
+        </article>
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">B</div>
+          <h3>怀疑式使用</h3>
+          <p>AI 给了建议, 用户每次都改完才用.</p>
+          <div class="wrong-why">
+            → AI 在制造工作量, 不是在帮忙. 但留存率一样好看.
+          </div>
+        </article>
+      </div>
+
+      <p>在传统产品里, "用了" = "有价值". 但在 AI 产品里, <strong>"用了但每次都改" 跟 "没用" 差不多</strong>. 你需要 Acceptance Rate (接受率) 来区分 A 和 B — 留存率做不到.</p>
+      <div class="step-foot">第三个盲区: 成本 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">盲区 3: 成本在暗处</h2>
+      <p class="step-lede">传统产品的边际成本接近零 — 多一个用户看文章, 服务器成本几乎不变. AI 产品不一样:</p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>传统产品:</strong> 10 万用户看同一篇文章 → 服务器成本 ≈ $2/天</p>
+        <p><strong>AI 产品:</strong> 10 万用户各问 3 个问题 → 30 万次 API 调用 → token 成本 ≈ $300/天</p>
+        <p class="muted">DAU 翻倍, 传统产品成本几乎不动; AI 产品成本直接翻倍甚至更多.</p>
+      </div>
+
+      <p>更要命的是: 如果 AI 回答不好, 用户点"重新生成", <strong>成本翻倍但 DAU 不变</strong>. 传统指标里完全看不到这个.</p>
+
+      <p>你需要知道:</p>
+      <ul>
+        <li><strong>Cost per Query:</strong> 每次对话花多少钱</li>
+        <li><strong>Cost per Successful Task:</strong> 每个<em>成功完成</em>的任务花多少钱 (含失败重试的成本)</li>
+        <li><strong>Regen Rate:</strong> 用户重新生成的频率 (隐性成本翻倍器)</li>
+      </ul>
+      <div class="step-foot">看个对比案例 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">同一个功能, 两种指标讲出相反的故事</h2>
+      <p class="step-lede">Vitamin 的 "AI 早餐建议" 功能, 上线一个月. 两个视角:</p>
+
+      <table class="contrast-table">
+        <thead>
+          <tr>
+            <th>维度</th>
+            <th>传统视角</th>
+            <th>AI 视角</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>用量</td>
+            <td class="col-trad">DAU 8,000 ✅</td>
+            <td class="col-ai">DAU 8,000 ✅ (相同)</td>
+          </tr>
+          <tr>
+            <td>参与</td>
+            <td class="col-trad">CTR 28% ✅</td>
+            <td class="col-ai">Acceptance Rate 仅 23% ⚠️</td>
+          </tr>
+          <tr>
+            <td>满意</td>
+            <td class="col-trad">NPS 40 ✅</td>
+            <td class="col-ai">Regen Rate 35% ⛔</td>
+          </tr>
+          <tr>
+            <td>成本</td>
+            <td class="col-trad">(没看过)</td>
+            <td class="col-ai">$0.08/次, 月花 $19,200 ⛔</td>
+          </tr>
+          <tr>
+            <td class="col-verdict" colspan="3">传统说 "功能很成功", AI 说 "用户不买账, 还很贵"</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>这不是编的 — 真实的 AI 产品每天都在发生这种分歧. Acceptance Rate 23% 意味着<strong>77% 的 AI 输出被用户改过或直接扔掉了</strong>.</p>
+      <div class="step-foot">那 AI 指标到底要解决什么? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">AI 指标 = 传统指标的补盲, 不是替代</h2>
+      <p class="step-lede">重要澄清: <mark class="hl">不是扔掉 DAU / CTR, 是在旁边加一列.</mark></p>
+
+      <div class="big-insight" data-rough="big">
+        <p>一句话:</p>
+        <p class="insight-text">传统指标看 <strong>"有没有人用"</strong><br/>AI 指标看 <strong>"AI 干得好不好"</strong></p>
+        <p>两层一起看, 才是完整的画面.</p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>打个比方:</strong></p>
+        <p>传统指标像一个餐厅的"客流量" 和 "翻台率" — 告诉你多少人来吃饭.</p>
+        <p>AI 指标像 "菜品评分" 和 "退菜率" — 告诉你厨师做得好不好.</p>
+        <p class="muted">客流量高但退菜率也高 = 有问题. 你需要两组数据一起看.</p>
+      </div>
+
+      <p>下一个 Unit 会把 AI 指标分成三大类: Quality / Adoption / Cost. 这个 Unit 先用一个小工具, 让你自己找找盲区在哪.</p>
+      <div class="step-foot">试试这个小工具 ↓</div>
+    </section>
+
+    <!-- (8) Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Metric Gap Finder</h2>
+      <p class="step-lede">选一个 AI 功能, 看看传统指标遗漏了什么:</p>
+
+      <div class="gap-finder" data-rough="card">
+        <select id="gap-select" class="gap-finder-select">
+          <option value="ai-chat">AI 聊天助手 (健康问答)</option>
+          <option value="ai-summary">AI 日报摘要 (健康数据总结)</option>
+          <option value="ai-recommend">AI 运动推荐</option>
+          <option value="ai-emotion">AI 情绪识别</option>
+        </select>
+        <div id="gap-result" class="gap-result"></div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>规律:</strong> 每个 AI 功能, 传统指标大约能覆盖 50% 的维度. 另外 50% — 质量、信任、成本 — 完全是盲区.</p>
+        <p class="muted">这就是为什么 AI PM 需要一套新指标. 不是因为传统指标不好, 是因为 AI 产品多了一个维度: <strong>输出质量</strong>.</p>
+      </div>
+      <div class="step-foot">Vitamin 的情况呢? ↓</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 五大 AI 功能的指标盲区</h2>
+      <p class="step-lede">把 Vitamin 的核心 AI 功能过一遍, 标出传统指标覆盖不到的地方:</p>
+
+      <div class="vitamin-funcs">
+        <div class="vf-card" data-rough="card">
+          <strong>AI 聊天 (健康问答)</strong>
+          <p>回答用户健康问题</p>
+          <div class="vf-blind">盲区: 回答准确性、幻觉率、用户采纳率</div>
+        </div>
+        <div class="vf-card" data-rough="card">
+          <strong>AI 身体日报</strong>
+          <p>总结今日健康数据</p>
+          <div class="vf-blind">盲区: 摘要质量、重新生成率</div>
+        </div>
+        <div class="vf-card" data-rough="card">
+          <strong>AI 饮食建议</strong>
+          <p>根据记录推荐饮食</p>
+          <div class="vf-blind">盲区: 建议采纳率、拒答率、单次成本</div>
+        </div>
+        <div class="vf-card" data-rough="card">
+          <strong>AI 情绪识别</strong>
+          <p>分析输入判断情绪状态</p>
+          <div class="vf-blind">盲区: 情绪标签准确率、用户修正率</div>
+        </div>
+        <div class="vf-card" data-rough="card">
+          <strong>AI 运动推荐</strong>
+          <p>生成个性化运动计划</p>
+          <div class="vf-blind">盲区: 任务完成率、响应延迟、成本/任务</div>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"传统指标衡量的是用户行为, AI 指标衡量的是模型输出质量. 两者不能互相替代. 做 AI PM, 你需要在传统 dashboard 旁边加一列: Quality / Trust / Cost."</p>
+      </div>
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">传统指标看 "有没有人用",<br/>AI 指标看 "AI 干得好不好".<br/>两层一起看, 才是完整的画面.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开你常用的 AI 产品 (豆包 / ChatGPT / Copilot), 用 10 分钟. 记录哪些输出你直接用了, 哪些你改了再用, 哪些你直接扔了重新问. 算一下你自己的 "Acceptance Rate".</li>
+          <li>画一张表: 左边列 Vitamin 的 5 个 AI 功能, 右边列出它们目前用什么指标衡量, 中间标出 "盲区".</li>
+          <li>想一个你见过的 AI 产品翻车案例 (新闻或自己的经历), 分析: 如果当时有 AI 指标, 能不能提前发现问题?</li>
+          <li>写 100 字: 如果面试被问 "AI 产品的指标跟传统产品有什么不同", 你怎么答.</li>
+        </ol>
+
+        <div style="margin-top:16px;padding-top:12px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr>
+              <td style="padding:6px 4px;">📖</td>
+              <td style="padding:6px 4px;"><a href="https://www.iamprayerson.com/p/ai-product-metrics-for-product-managers" target="_blank" style="color:var(--blue);">AI Product Metrics for PMs</a></td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">Prayerson</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">AI 指标全景梳理</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">15 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">📖</td>
+              <td style="padding:6px 4px;"><a href="https://www.woshipm.com/ai/6336434.html" target="_blank" style="color:var(--blue);">如何为 AI 产品设计成功指标</a></td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">人人都是产品经理</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">中文深度拆解</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">20 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">📖</td>
+              <td style="padding:6px 4px;"><a href="https://www.5dvision.com/post/metrics-for-ai-pms/" target="_blank" style="color:var(--blue);">Four Types of Metrics for AI PMs</a></td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">5D Vision</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">分类框架讲得清晰</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">10 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">📖</td>
+              <td style="padding:6px 4px;"><a href="https://cloud.google.com/transform/the-kpis-that-actually-matter-for-production-ai-agents" target="_blank" style="color:var(--blue);">KPIs for Production AI Agents</a></td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">Google Cloud</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">生产级 Agent 的 KPI 框架</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">15 min</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> Dashboard 全绿但出事了</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 传统指标的三个盲区</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> 盲区1: 质量黑箱</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> 盲区2: 信任是隐性的</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 盲区3: 成本在暗处</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 两种指标讲出相反故事</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> AI指标是补盲, 不是替代</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Metric Gap Finder</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 五大盲区</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 一句话 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">传统指标看行为, AI 指标看质量.<br/>两层一起看, 才是完整的画面.</p>
+        <p class="end-summary-sub">DAU 告诉你多少人来了, Acceptance Rate 告诉你 AI 做得好不好.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 2): 三大类 AI 指标</div>
+        <p>知道了传统指标有盲区, 下一步: AI 指标到底分哪几类?</p>
+        <p><strong>Quality / Adoption / Cost — 三大类, 每类挑 1-2 个就够用.</strong></p>
+        <a class="walk-arrow" href="../u2-three-categories/index.html">继续走 → Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 2.3 · Unit 1 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

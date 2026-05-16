@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · 模型选型 6 维度 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M1.3 Unit 4: 用 6 个维度给 AI 模型打分 — Cost / Chinese / Context / Speed / Multimodal / Reasoning." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.3</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 4 · 模型选型 6 维度</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>模型选型 6 维度</h1>
+      <p class="hero-sub">GPT-5.5、DeepSeek V4、Claude Opus 4.7 ... 选哪个? 不靠感觉, 靠框架.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个面对选择的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M44 38 Q50 36 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 要给产品选模型)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">模型那么多, 跑分榜看得眼花...</p>
+          <p class="cloud-line">便宜的怕不够好, 贵的怕花冤枉钱...</p>
+          <p class="cloud-line">有没有一个<strong>系统的框架</strong>来做选型?</p>
+          <p class="cloud-line accent">—— 有. 6 个维度, 画个雷达图.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>用 6 维度 (Cost / Chinese / Context / Speed / Multimodal / Reasoning) 评估任何模型</li>
+          <li>知道每个维度看什么指标、查什么数据源</li>
+          <li>用 Radar Chart 可视化对比 3 个模型</li>
+          <li>给 Vitamin 选出最匹配的模型候选</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">你面前有 10+ 个模型 — 怎么比?</h2>
+      <p class="step-lede">上节课你认识了国内国际的主流模型. 现在老板让你"选一个". 直觉想法:</p>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1" data-rough="card">
+          <div class="wonder-tag">直觉 A</div>
+          <h3>选跑分最高的</h3>
+          <div class="wonder-note">→ 但 GPT-5.5 跑分最高, 价格是 DeepSeek 的 107 倍. 你出得起吗?</div>
+        </article>
+        <article class="wonder wonder-2" data-rough="card">
+          <div class="wonder-tag">直觉 B</div>
+          <h3>选最便宜的</h3>
+          <div class="wonder-note">→ 但 Gemini Flash-Lite 中文能力一般, Vitamin 用户说中文啊.</div>
+        </article>
+        <article class="wonder wonder-3" data-rough="card">
+          <div class="wonder-tag">直觉 C</div>
+          <h3>选大家都在用的</h3>
+          <div class="wonder-note">→ "大家" 的产品跟你的不一样. 选模型要看<em>你的</em>需求.</div>
+        </article>
+      </div>
+
+      <div class="step-foot">所以不能靠单一维度选. 需要一个多维度的框架 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">6 个维度, 6 根轴 — 不同产品权重不同</h2>
+      <p class="step-lede">模型选型就像选手机: 你不会只看"跑分", 还要看屏幕、电池、拍照、价格. AI 模型也一样.</p>
+
+      <div class="dimension-overview" data-rough="card">
+        <div class="dim-item">
+          <span class="dim-icon">💰</span>
+          <div class="dim-info">
+            <strong>Cost 成本</strong>
+            <span class="dim-desc">API 价格 per million tokens</span>
+          </div>
+        </div>
+        <div class="dim-item">
+          <span class="dim-icon">🇨🇳</span>
+          <div class="dim-info">
+            <strong>Chinese 中文能力</strong>
+            <span class="dim-desc">SuperCLUE 排名, 中文理解/生成质量</span>
+          </div>
+        </div>
+        <div class="dim-item">
+          <span class="dim-icon">📏</span>
+          <div class="dim-info">
+            <strong>Context 上下文长度</strong>
+            <span class="dim-desc">最大 token 窗口 (8K → 1M → 10M)</span>
+          </div>
+        </div>
+        <div class="dim-item">
+          <span class="dim-icon">⚡</span>
+          <div class="dim-info">
+            <strong>Speed 速度</strong>
+            <span class="dim-desc">首字节延迟 (TTFT) + 生成速度 (tokens/sec)</span>
+          </div>
+        </div>
+        <div class="dim-item">
+          <span class="dim-icon">👁</span>
+          <div class="dim-info">
+            <strong>Multimodal 多模态</strong>
+            <span class="dim-desc">图片/音频/视频理解 + 生成</span>
+          </div>
+        </div>
+        <div class="dim-item">
+          <span class="dim-icon">🧠</span>
+          <div class="dim-info">
+            <strong>Reasoning 推理深度</strong>
+            <span class="dim-desc">GPQA Diamond, AIME, 复杂逻辑链</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>关键认知:</strong> 没有"全能冠军". GPT-5.5 推理最强但最贵, DeepSeek V4 性价比最高但稳定性有波动, Qwen3.6-Max 中文最好但多模态一般. <mark class="hl">不同产品需要不同的权重组合.</mark></p>
+      </div>
+
+      <div class="step-foot">下面逐一拆解每个维度: 看什么、怎么查 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">维度 1: Cost 成本 — 差距可达 100 倍</h2>
+      <p class="step-lede">模型 API 按 token 计费. 同一个功能, 选不同模型, 成本差距惊人:</p>
+
+      <div class="cost-compare" data-rough="card">
+        <div class="cost-row cost-cheap">
+          <div class="cost-model">DeepSeek V4 Flash</div>
+          <div class="cost-price">$0.14 / $0.28</div>
+          <div class="cost-bar"><div class="bar" data-value="2"></div></div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-model">Gemini 2.5 Flash</div>
+          <div class="cost-price">$0.30 / $2.50</div>
+          <div class="cost-bar"><div class="bar" data-value="10"></div></div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-model">Claude Haiku 4.5</div>
+          <div class="cost-price">$1.00 / $5.00</div>
+          <div class="cost-bar"><div class="bar" data-value="20"></div></div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-model">Claude Sonnet 4.6</div>
+          <div class="cost-price">$3.00 / $15.00</div>
+          <div class="cost-bar"><div class="bar" data-value="55"></div></div>
+        </div>
+        <div class="cost-row cost-expensive">
+          <div class="cost-model">GPT-5.5</div>
+          <div class="cost-price">$5.00 / $30.00</div>
+          <div class="cost-bar"><div class="bar" data-value="100"></div></div>
+        </div>
+        <p class="cost-note muted">价格: input / output per million tokens · 截至 2026 年 4 月</p>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>怎么查?</strong>
+        <ul style="margin:8px 0 0;padding-left:18px;">
+          <li>各家官网 Pricing 页 (最准)</li>
+          <li><a href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">artificialanalysis.ai</a> — 实时价格对比</li>
+          <li><a href="https://pricepertoken.com/" target="_blank" rel="noopener">pricepertoken.com</a> — 300+ 模型价格比较</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">价格只是一个维度 — 下一个同样重要 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">维度 2: Chinese 中文能力 — 做中文产品的命门</h2>
+      <p class="step-lede">Vitamin 的用户说中文, 所以中文能力直接决定产品体验. 看两个指标:</p>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card" style="border-color:var(--green);background:var(--green-bg-soft);">
+          <div class="wrong-mark" style="color:var(--green);">①</div>
+          <h3>SuperCLUE 排名</h3>
+          <p style="margin:8px 0;">中文综合能力评测. 截至 2026 年 3 月排名:</p>
+          <div class="wrong-why" style="border-color:var(--green);">
+            闭源 Top: Claude Opus 4.6 > Gemini 3.1 > GPT-5.4 > <strong>Doubao-Seed-2.0</strong><br/>
+            开源 Top: <strong>Kimi K2.5-Thinking</strong> > Qwen3-Max > DeepSeek > GLM
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card" style="border-color:var(--blue);background:var(--blue-bg-soft);">
+          <div class="wrong-mark" style="color:var(--blue);">②</div>
+          <h3>实测中文任务</h3>
+          <p style="margin:8px 0;">用你产品的真实 prompt 测. Vitamin 可以测:</p>
+          <div class="wrong-why" style="border-color:var(--blue);">
+            • 情绪分类 (5 状态识别)<br/>
+            • 中文健康科普改写<br/>
+            • 方言/口语理解 ("姨妈来了" = 月经)
+          </div>
+        </article>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 提醒:</strong> 国际模型在中文上进步很快 — Claude/GPT 的中文已经很好了. 但在<mark class="hl">方言、网络用语、文化背景</mark>方面, 国产模型仍有优势. 做中文产品一定要实测.
+      </div>
+
+      <div class="step-foot">第三个维度: 上下文能装多少 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">维度 3: Context 上下文长度 — 够用就好</h2>
+      <p class="step-lede">上下文窗口 = 模型一次能"看到"多少内容. 2026 年的主流:</p>
+
+      <div class="context-scale" data-rough="card">
+        <div class="ctx-row"><span class="ctx-model">Mistral Small 4</span><span class="ctx-len">128K</span></div>
+        <div class="ctx-row"><span class="ctx-model">DeepSeek V4 Flash</span><span class="ctx-len">128K</span></div>
+        <div class="ctx-row ctx-big"><span class="ctx-model">GPT-5.5 / Claude Opus 4.7 / Gemini 3.1 Pro</span><span class="ctx-len">1M</span></div>
+        <div class="ctx-row ctx-huge"><span class="ctx-model">Grok 4.3 Beta</span><span class="ctx-len">2M</span></div>
+        <div class="ctx-row ctx-huge"><span class="ctx-model">Llama 4 Scout</span><span class="ctx-len">10M</span></div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>Vitamin 需要多少?</strong></p>
+        <ul style="margin:8px 0 0;padding-left:18px;">
+          <li>用户单次输入: ~100 tokens</li>
+          <li>System prompt: ~500 tokens</li>
+          <li>历史对话 (5 轮): ~2,000 tokens</li>
+          <li>用户档案/健康数据: ~1,000 tokens</li>
+          <li><strong>总计: ~4,000 tokens</strong> → 128K 绰绰有余, 不需要 1M</li>
+        </ul>
+        <p class="muted" style="margin-top:12px;">→ 如果你做的是"全书搜索"或"代码仓库分析", 才需要 1M+. 大部分产品 128K 够了.</p>
+      </div>
+
+      <div class="step-foot">第四、五个维度一起讲 — 速度 + 多模态 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">维度 4+5: Speed 速度 + Multimodal 多模态</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card" style="border-color:var(--amber);background:var(--amber-bg-soft);">
+          <div class="wrong-mark" style="color:var(--amber);">⚡</div>
+          <h3>Speed 速度</h3>
+          <p style="margin:8px 0;">两个指标:</p>
+          <div class="wrong-why" style="border-color:var(--amber);">
+            <strong>TTFT</strong> (Time to First Token): 用户等多久看到第一个字<br/>
+            <strong>TPS</strong> (Tokens per Second): 生成有多快<br/><br/>
+            Vitamin 需要 streaming 体验 → TTFT < 1s 最好.<br/>
+            Flash 类模型 (DeepSeek V4 Flash, Gemini Flash) 速度快;<br/>
+            Opus/GPT-5.5 这种旗舰模型偏慢但更聪明.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card" style="border-color:var(--purple);background:var(--purple-bg);">
+          <div class="wrong-mark" style="color:var(--purple);">👁</div>
+          <h3>Multimodal 多模态</h3>
+          <p style="margin:8px 0;">能理解/生成什么类型的内容:</p>
+          <div class="wrong-why" style="border-color:var(--purple);">
+            <strong>图片理解:</strong> GPT-5.5, Gemini 3.1, Claude Opus 4.7 都支持<br/>
+            <strong>图片生成:</strong> GPT-5.5 (DALL-E 集成), Gemini<br/>
+            <strong>音频:</strong> GPT-5.5, Gemini 支持语音对话<br/>
+            <strong>视频:</strong> Gemini 3.1, Grok 4.3 原生支持<br/><br/>
+            <em>Vitamin 现阶段:</em> 可能需要图片理解 (用户拍食物), 暂不需要音视频.
+          </div>
+        </article>
+      </div>
+
+      <div class="step-foot">最后一个维度 — 推理深度 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">维度 6: Reasoning 推理深度 — 你真的需要最强推理吗?</h2>
+      <p class="step-lede">推理能力 = 模型处理复杂逻辑、多步骤问题的能力. 看这些 benchmark:</p>
+
+      <div class="reasoning-bench" data-rough="card">
+        <div class="bench-row bench-header">
+          <span>Benchmark</span><span>测什么</span><span>Top 模型</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">GPQA Diamond</span>
+          <span>研究生水平科学题</span>
+          <span>Claude Opus 4.7 94.2%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">AIME 2025</span>
+          <span>数学竞赛</span>
+          <span>GPT-5.5 领先</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">SWE-Bench</span>
+          <span>真实代码修复</span>
+          <span>Kimi K2.6 80.2%</span>
+        </div>
+        <div class="bench-row">
+          <span class="bench-name">Chatbot Arena</span>
+          <span>人类盲评 Elo</span>
+          <span>Claude Opus 4.6 Thinking Elo 1504</span>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>Vitamin 需要多强的推理?</strong>
+        <p>Vitamin 的核心 AI 任务是: 情绪分类、健康科普改写、饮食建议生成. 这些是<mark class="hl">中等推理</mark>任务, 不需要解数学竞赛. <strong>Flash 级别的模型足够</strong>, 用旗舰模型属于"杀鸡用牛刀".</p>
+      </div>
+
+      <div class="step-foot">6 个维度都讲完了 — 下一步: 把它们画在一张图上 ↓</div>
+    </section>
+
+    <!-- (8) 🎮 Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Radar Chart Builder — 选模型, 看对比</h2>
+      <p class="step-lede">选最多 3 个模型, 在 6 维度雷达图上直观对比. 截至 2026 年 4 月数据.</p>
+
+      <div class="radar-widget" data-rough="card">
+        <div class="radar-controls">
+          <div class="radar-select-group">
+            <label>模型 1: <select id="model-1" class="radar-select">
+              <option value="none">-- 选择 --</option>
+              <option value="deepseek-v4-flash" selected>DeepSeek V4 Flash</option>
+              <option value="gpt55">GPT-5.5</option>
+              <option value="claude-opus">Claude Opus 4.7</option>
+              <option value="qwen36-max">Qwen3.6-Max</option>
+              <option value="kimi-k26">Kimi K2.6</option>
+              <option value="gemini-flash">Gemini 2.5 Flash</option>
+              <option value="doubao">Doubao-Seed-2.0</option>
+              <option value="claude-haiku">Claude Haiku 4.5</option>
+            </select></label>
+            <label>模型 2: <select id="model-2" class="radar-select">
+              <option value="none">-- 选择 --</option>
+              <option value="deepseek-v4-flash">DeepSeek V4 Flash</option>
+              <option value="gpt55" selected>GPT-5.5</option>
+              <option value="claude-opus">Claude Opus 4.7</option>
+              <option value="qwen36-max">Qwen3.6-Max</option>
+              <option value="kimi-k26">Kimi K2.6</option>
+              <option value="gemini-flash">Gemini 2.5 Flash</option>
+              <option value="doubao">Doubao-Seed-2.0</option>
+              <option value="claude-haiku">Claude Haiku 4.5</option>
+            </select></label>
+            <label>模型 3: <select id="model-3" class="radar-select">
+              <option value="none" selected>-- 选择 --</option>
+              <option value="deepseek-v4-flash">DeepSeek V4 Flash</option>
+              <option value="gpt55">GPT-5.5</option>
+              <option value="claude-opus">Claude Opus 4.7</option>
+              <option value="qwen36-max">Qwen3.6-Max</option>
+              <option value="kimi-k26">Kimi K2.6</option>
+              <option value="gemini-flash">Gemini 2.5 Flash</option>
+              <option value="doubao">Doubao-Seed-2.0</option>
+              <option value="claude-haiku">Claude Haiku 4.5</option>
+            </select></label>
+          </div>
+        </div>
+        <div class="radar-chart-wrap">
+          <canvas id="radar-canvas" width="460" height="420"></canvas>
+        </div>
+        <div class="radar-legend" id="radar-legend"></div>
+        <div class="radar-scores" id="radar-scores"></div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>怎么读这个图?</strong> 面积越大 = 综合越强. 但<mark class="hl">不是面积大就该选</mark> — 要看你的产品最在乎哪几根轴. Vitamin 在乎成本和中文, 不太在乎上下文长度.</p>
+      </div>
+
+      <div class="step-foot">把 6 维度应用到 Vitamin ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 给 6 维度定权重</h2>
+      <p class="step-lede">不同产品对 6 维度的重要性排序不同. Vitamin (国内女性健康 app) 的排序:</p>
+
+      <div class="vitamin-weights" data-rough="card">
+        <div class="weight-row">
+          <span class="weight-rank">★★★★★</span>
+          <span class="weight-dim">💰 Cost 成本</span>
+          <span class="weight-why">早期创业, 预算有限, 不能烧钱在 API 上</span>
+        </div>
+        <div class="weight-row">
+          <span class="weight-rank">★★★★★</span>
+          <span class="weight-dim">🇨🇳 Chinese 中文</span>
+          <span class="weight-why">用户全是中文母语, 健康场景要求准确</span>
+        </div>
+        <div class="weight-row">
+          <span class="weight-rank">★★★★</span>
+          <span class="weight-dim">⚡ Speed 速度</span>
+          <span class="weight-why">移动端体验要求快速响应</span>
+        </div>
+        <div class="weight-row">
+          <span class="weight-rank">★★★</span>
+          <span class="weight-dim">🧠 Reasoning 推理</span>
+          <span class="weight-why">中等推理即可, 不需要解数学竞赛</span>
+        </div>
+        <div class="weight-row">
+          <span class="weight-rank">★★</span>
+          <span class="weight-dim">📏 Context 上下文</span>
+          <span class="weight-why">单次对话 ~4K tokens, 128K 绰绰有余</span>
+        </div>
+        <div class="weight-row">
+          <span class="weight-rank">★★</span>
+          <span class="weight-dim">👁 Multimodal 多模态</span>
+          <span class="weight-why">未来可能加食物拍照, 但 MVP 阶段不需要</span>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>Vitamin 初步结论:</strong>
+        <p>成本 + 中文 权重最高 → <mark class="hl">DeepSeek V4 Flash</mark> (便宜 + 中文好) 或 <mark class="hl">Qwen3.6-Max</mark> (中文 top + 国产合规) 是最匹配的候选.</p>
+        <p>GPT-5.5 虽然最强, 但对 Vitamin 来说是"杀鸡用牛刀 + 成本炸裂".</p>
+        <p class="muted">→ 这就是 6 维度框架的价值: 帮你用理性替代感觉.</p>
+      </div>
+
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">选模型不是选最强的,<br/>是选最匹配你需求的.</p>
+        <p class="one-liner-foot muted">6 维度 × 你的权重 = 最优选择. 没有万能模型.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开上面的 Radar Chart, 对比 DeepSeek V4 Flash vs Qwen3.6-Max vs Claude Haiku 4.5, 截图保存.</li>
+          <li>给 Vitamin 的 6 维度按 1-5 分打权重 (参考第 9 步), 写在笔记里.</li>
+          <li>去 <a href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">artificialanalysis.ai</a> 看看 2 个你感兴趣的模型的真实速度和价格数据.</li>
+          <li>用一句话向非技术同事解释: "为什么 Vitamin 不用 GPT-5.5?"</li>
+        </ol>
+
+        <div style="margin-top:20px;">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead><tr><th>类型</th><th>内容</th><th>来源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>🎮</td><td><a href="https://artificialanalysis.ai/leaderboards/models" target="_blank" rel="noopener">AI Model Leaderboard</a></td><td>Artificial Analysis</td><td>实时价格 + 速度 + 跑分对比</td><td>10 min</td></tr>
+              <tr><td>📖</td><td><a href="https://www.woshipm.com/pmd/6380589.html" target="_blank" rel="noopener">AI 产品经理真正重要的能力模型</a></td><td>人人都是产品经理</td><td>模型选型在 PM 工作中的位置</td><td>15 min</td></tr>
+              <tr><td>📖</td><td><a href="https://zhuanlan.zhihu.com/p/670574382" target="_blank" rel="noopener">国内外知名大模型及应用</a></td><td>知乎</td><td>2026 年最全的中文模型对比</td><td>20 min</td></tr>
+              <tr><td>🎮</td><td><a href="https://lmarena.ai/" target="_blank" rel="noopener">Chatbot Arena</a></td><td>LMSYS</td><td>人类盲评排名, 最公正的对比</td><td>10 min</td></tr>
+              <tr><td>📺</td><td><a href="https://www.youtube.com/@artificialanalysis" target="_blank" rel="noopener">Artificial Analysis YouTube</a></td><td>YouTube</td><td>模型评测视频解读</td><td>15 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 10+ 模型怎么比</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 6 维度总览</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> Cost 成本 (100x 差距)</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> Chinese 中文能力</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> Context 上下文长度</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> Speed + Multimodal</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> Reasoning 推理深度</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Radar Chart 对比工具</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 6 维度权重</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">6 维度 × 你的权重 = 最优模型选择.</p>
+        <p class="end-summary-sub">Cost · Chinese · Context · Speed · Multimodal · Reasoning — 没有全能冠军, 只有最匹配.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 5): 价格对比实战</div>
+        <p>知道了"成本"是一个维度 — 但到底差多少钱?<br/>
+        下一课用真实数据算一笔账: <strong>DeepSeek V4 Flash vs GPT-5.5, 同样 1000 个用户, 一个月差多少?</strong></p>
+        <a class="walk-arrow" href="../u5-pricing/index.html">继续走 → Unit 5</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.3 · Unit 4 · 个人定制版</p>
+    <p class="muted">数据截至 2026 年 4 月 · 字体: Excalifont + LXGW WenKai · 手绘: rough.js</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

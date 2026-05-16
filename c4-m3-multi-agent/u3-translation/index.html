@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>U3 · 模糊需求 → 工程语言 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M4.3 U3: 把'AI不准'翻译成算法工程师能执行的语言." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M4.3</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 · 模糊需求翻译</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 3<span class="title-dot">·</span><br/>模糊需求 → 工程语言</h1>
+      <p class="hero-sub">用户说"AI 不准". 你该怎么跟算法工程师说?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="翻译者 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" /><circle cx="42" cy="28" r="2" fill="currentColor" /><circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 翻译官 PM)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">"AI 不准" → 到底是 Precision 低还是 Recall 低?</p>
+          <p class="cloud-line">"太慢了" → 是首字延迟高还是整体耗时长?</p>
+          <p class="cloud-line">"成本太贵" → 贵在调用量还是单次成本?</p>
+          <p class="cloud-line accent">—— PM 最核心的能力: 双向翻译.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>把 5 类常见模糊需求翻译成工程语言</li>
+          <li>掌握"指标 + 数值 + 场景"的翻译框架</li>
+          <li>在模拟器中练习翻译并对比专家答案</li>
+          <li>为 Vitamin 写出可执行的技术需求</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">"AI 不准" — 算法工程师最怕听到的四个字</h2>
+      <p class="step-lede">这四个字传达了零信息. 算法不知道: 哪个功能不准? 不准的表现是什么? 多少不准算不可接受?</p>
+
+      <div class="translate-arrow">
+        <div class="translate-from">
+          <strong style="color:var(--red);">模糊版</strong><br/>
+          "AI 不准"
+        </div>
+        <div class="translate-mid">→</div>
+        <div class="translate-to">
+          <strong style="color:var(--green);">工程版</strong><br/>
+          "情绪分类模块的 Recall 只有 70%, 有 30% 的焦虑用户没被识别到. 目标: Recall ≥ 90%."
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p>看到区别了吗? 工程版有三个要素:</p>
+        <ol>
+          <li><strong>指标 (Metric):</strong> 具体是什么指标 — Recall</li>
+          <li><strong>数值 (Value):</strong> 当前值 70%, 目标值 90%</li>
+          <li><strong>场景 (Context):</strong> 哪个模块, 什么后果</li>
+        </ol>
+      </div>
+      <div class="step-foot">这就是翻译的核心框架 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">模糊不是错 — 但模糊的需求无法执行</h2>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">核心认知</div>
+        <p class="truth-line big">AI PM 的翻译框架:</p>
+        <p class="truth-line giant"><mark class="hl">模糊描述 → 指标 + 数值 + 场景</mark></p>
+        <p class="truth-line muted">每次听到模糊需求, 脑子里自动启动这个翻译器: 什么指标? 当前多少? 目标多少? 在什么场景?</p>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>为什么这个能力重要?</strong>
+        <ul style="margin:8px 0 0;">
+          <li><strong>对上:</strong> 用业务语言和老板/用户沟通, 接收模糊需求</li>
+          <li><strong>对下:</strong> 用工程语言和算法/开发沟通, 输出可执行需求</li>
+          <li><strong>双向翻译</strong> = AI PM 区别于传统 PM 的核心能力</li>
+        </ul>
+      </div>
+      <div class="step-foot">来看具体案例 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">案例 1: "推荐不准"</h2>
+
+      <div class="translate-arrow">
+        <div class="translate-from"><strong style="color:var(--red);">模糊</strong><br/>"推荐不准, 推的东西用户都不想看"</div>
+        <div class="translate-mid">→</div>
+        <div class="translate-to"><strong style="color:var(--green);">翻译</strong><br/>"推荐CTR当前2.1%, 目标5%+. 前10条曝光位相关性得分阈值从0.3→0.5"</div>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>翻译过程:</strong>
+        <ol>
+          <li><strong>指标:</strong> "不准" → 用什么衡量? → 推荐场景看 CTR(点击率)</li>
+          <li><strong>数值:</strong> 当前 CTR 2.1%, 行业平均 5%, 差距明确</li>
+          <li><strong>场景:</strong> 前 10 条曝光位 (用户注意力集中的区域)</li>
+          <li><strong>可执行动作:</strong> 提高相关性阈值, 加入近期行为特征</li>
+        </ol>
+      </div>
+      <div class="step-foot">案例 2 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">案例 2: "AI 太慢了"</h2>
+
+      <div class="translate-arrow">
+        <div class="translate-from"><strong style="color:var(--red);">模糊</strong><br/>"AI 回复太慢, 用户等不了"</div>
+        <div class="translate-mid">→</div>
+        <div class="translate-to"><strong style="color:var(--green);">翻译</strong><br/>"P95延迟3.2s, 目标≤1s. TTFT≥1.5s, 需启用streaming, 考虑降级到mini模型"</div>
+      </div>
+
+      <div class="callout callout-amber">
+        <strong>"慢"要区分两种:</strong>
+        <ul style="margin:8px 0 0;">
+          <li><span class="pill pill-blue">TTFT</span> Time To First Token — 用户按发送到看到第一个字的时间. 影响"反应感"</li>
+          <li><span class="pill pill-green">P95 延迟</span> 95% 的请求完成时间. 影响整体体验</li>
+          <li>优化方向: streaming(边生成边显示), 用更小模型, 加缓存层</li>
+        </ul>
+      </div>
+      <div class="step-foot">案例 3 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">案例 3: "AI 说错话"</h2>
+
+      <div class="translate-arrow">
+        <div class="translate-from"><strong style="color:var(--red);">模糊</strong><br/>"AI 经常说错话, 给了不靠谱的建议"</div>
+        <div class="translate-mid">→</div>
+        <div class="translate-to"><strong style="color:var(--green);">翻译</strong><br/>"有害回复率~5%, 目标≤0.5%. 需加safety guardrail + bad case库 + 每周人工审核"</div>
+      </div>
+
+      <div class="callout callout-red">
+        <strong>"说错话"有不同严重等级:</strong>
+        <ul style="margin:8px 0 0;">
+          <li><span class="pill pill-amber">轻微</span> 措辞不够好, 但信息正确 → 优化 Prompt</li>
+          <li><span class="pill pill-amber">中度</span> 信息不准确, 但无害 → 加事实检查 + 引用来源</li>
+          <li><span class="pill pill-blue">严重</span> 医疗/法律等有害建议 → Safety Guardrail + 硬过滤</li>
+        </ul>
+      </div>
+      <div class="step-foot">更多案例: 成本和瓶颈 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">案例 4 & 5: "成本太高" & "效果到瓶颈了"</h2>
+
+      <div class="callout callout-amber">
+        <strong>案例 4: "成本太高"</strong>
+        <p>模糊: "AI 功能成本太贵了"</p>
+        <p>翻译: "月API成本$2,400 (日8万次 × 600token × $0.005/1K). 优化: 短对话用mini模型(省70%), 高频问答缓存(减30%调用), 精简Prompt(从800→300token)."</p>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>案例 5: "效果到瓶颈了"</strong>
+        <p>模糊: "模型效果到瓶颈了, 再优化空间不大"</p>
+        <p>翻译: "情绪分类F1=0.82, 误差分析: 30%错误来自'平静vs轻微开心'混淆. 方案: 合并相似类别(5→3类), 补充边界case标注500条, 尝试更大base model."</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>注意:</strong> 案例5 中, PM 要做的不是催算法"继续优化", 而是和算法一起做<mark class="hl">误差分析(Error Analysis)</mark>, 找到错误集中在哪里, 然后针对性解决.
+      </div>
+      <div class="step-foot">总结: 5 个翻译模板 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">速查表: 5 大翻译模板</h2>
+      <p class="step-lede">遇到模糊需求, 直接套这个模板.</p>
+
+      <table class="template-table">
+        <thead><tr><th>模糊需求</th><th>核心指标</th><th>翻译模板</th></tr></thead>
+        <tbody>
+          <tr><td>"不准"</td><td>Precision / Recall / F1 / CTR</td><td>"[功能]的[指标]当前X%, 目标Y%. 错误集中在[场景]."</td></tr>
+          <tr><td>"太慢"</td><td>TTFT / P95 延迟</td><td>"[功能]P95延迟Xs, 目标≤Ys. 考虑[streaming/小模型/缓存]."</td></tr>
+          <tr><td>"说错话"</td><td>有害率 / 准确率</td><td>"有害回复率X%, 目标≤Y%. 需加[guardrail/审核/bad case库]."</td></tr>
+          <tr><td>"太贵"</td><td>单次成本 / 月总成本</td><td>"月成本$X (日N次×M token×单价). 可优化: [模型降级/缓存/精简Prompt]."</td></tr>
+          <tr><td>"到瓶颈了"</td><td>F1 / 误差分析</td><td>"[指标]=X, 误差集中在[类型]. 方案: [合并类别/补数据/换模型]."</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-amber">
+        <strong>面试技巧:</strong> 面试官问"你怎么和算法沟通需求?" — 直接说这个框架: <mark class="hl">"我把模糊需求拆解为: 指标 + 当前值 + 目标值 + 场景, 确保算法能直接执行."</mark>
+      </div>
+      <div class="step-foot">来练练手 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">翻译模拟器</h2>
+      <p class="step-lede">5 个场景, 每个给你一段模糊描述. 你写出工程翻译, 然后对比专家的答案.</p>
+
+      <div id="translation-sim" class="translation-sim">
+        <div id="sim-nav" class="sim-nav"></div>
+        <div id="sim-scenario" class="sim-scenario">
+          <span class="sim-speaker" id="sim-speaker"></span>
+          <p class="sim-quote" id="sim-quote"></p>
+        </div>
+        <div class="sim-input-area">
+          <textarea class="sim-textarea" id="sim-textarea" placeholder="写出你的工程语言翻译... 包含: 指标 + 数值 + 优化方向"></textarea>
+          <div class="sim-actions">
+            <button id="sim-compare" class="btn btn-primary">对比专家翻译 →</button>
+            <span class="sim-score" id="sim-score"></span>
+          </div>
+        </div>
+        <div class="sim-expert" id="sim-expert">
+          <div class="sim-expert-label">专家翻译:</div>
+          <p class="sim-expert-text" id="sim-expert-text"></p>
+        </div>
+      </div>
+
+      <div class="step-foot">看看 Vitamin 的翻译 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 5 个需求翻译</h2>
+
+      <div class="callout callout-blue">
+        <p><strong>"Vitamin 情绪识别不准"</strong> → 情绪分类 F1=0.78, 目标 ≥ 0.85. "平静"和"轻度焦虑"混淆率 35%, 需补充 300 条边界标注.</p>
+        <p><strong>"AI 管家回复太慢"</strong> → 对话 TTFT=2.1s, 目标 ≤ 0.8s. 启用 streaming, 非复杂问题用 mini 模型.</p>
+        <p><strong>"营养建议不靠谱"</strong> → 营养回复准确率 88%, 有害建议率 2%. 目标: 准确率 ≥ 95%, 有害率 ≤ 0.1%. 加医学知识库 RAG + guardrail.</p>
+        <p><strong>"API 太贵了"</strong> → 月成本 ¥15,000. 60% 花在 System Prompt (太长). 优化: 精简 Prompt, 对话缓存, 分级调用.</p>
+        <p><strong>"经期预测不准"</strong> → MAE(平均绝对误差)=3.2天, 目标≤1.5天. 需要更多用户历史数据 + 个性化特征.</p>
+      </div>
+
+      <div class="callout callout-red">
+        <strong>面试金句:</strong>
+        <p>"作为 AI PM, 我最核心的能力是双向翻译 — 把用户的模糊诉求翻译成算法可执行的指标体系, 再把算法的技术限制翻译成用户能理解的产品预期."</p>
+      </div>
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">模糊需求 → 指标 + 数值 + 场景.<br/>这是 AI PM 的核心翻译能力.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>在翻译模拟器中完成全部 5 个场景, 每个达到"不错"以上评分.</li>
+          <li>为 Vitamin 写 3 个 PRD 级别的需求描述 (用翻译模板).</li>
+          <li>找一份你之前写过的 PRD, 找出里面的模糊描述, 用今天学的框架重写.</li>
+          <li>写 200 字: 解释"双向翻译能力"对 AI PM 的重要性.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+          <tbody>
+            <tr><td>📖</td><td><a href="https://blog.csdn.net/sinat_28461591/article/details/148502374" target="_blank">AI PM跨界挑战实战</a></td><td>技术-业务翻译的真实案例</td><td>15 min</td></tr>
+            <tr><td>📖</td><td><a href="https://www.promptingguide.ai/applications/function_calling" target="_blank">Function Calling Guide</a></td><td>理解 AI 工程侧的语言体系</td><td>20 min</td></tr>
+            <tr><td>📖</td><td><a href="https://zhuanlan.zhihu.com/p/1926995938305636021" target="_blank">AI PM全景成长指南</a></td><td>从定位到精通的系统化路径</td><td>25 min</td></tr>
+            <tr><td>🛠</td><td><a href="https://modao.cc/ad/blog/ai-vs-traditional-product-manager.html" target="_blank">AI PM vs 传统PM区别</a></td><td>理解翻译能力为什么是核心差异</td><td>10 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="step-foot">完成 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> "AI不准"=零信息</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 翻译框架: 指标+数值+场景</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 案例: 推荐不准</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 案例: AI太慢</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 案例: 说错话</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 案例: 成本&瓶颈</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 5大翻译模板</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 翻译模拟器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin翻译实战</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">模糊需求 → 指标 + 数值 + 场景 = 可执行的工程语言.</p>
+        <p class="end-summary-sub">AI PM 的核心价值: 业务和技术之间的双向翻译官.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 4): 当 1 个 LLM 不够用</div>
+        <p>前 3 节课你学会了和算法协作. 现在问题来了: Vitamin 的 AI 管家要同时处理营养、周期、情绪... 一个 LLM 搞不定怎么办?</p>
+        <p><strong>答案是: Multi-Agent. 从下一节开始进入 Agent 的世界.</strong></p>
+        <a class="walk-arrow" href="../u4-single-agent-limits/index.html">继续走 → Unit 4</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 4 · Module 3 · Unit 3 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

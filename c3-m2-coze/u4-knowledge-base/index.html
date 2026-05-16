@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · 知识库挂载 — AI for PM · M3.2</title>
+  <meta name="description" content="上传文档, 设置切片策略, 让 Bot 带着私有知识回答问题." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM &middot; M3.2</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 4 &middot; 知识库挂载</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航"><ol>
+    <li><a href="#start" data-step="0">&#9654;</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+    <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+    <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+    <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+    <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">&#9632;</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 4<span class="title-dot">&middot;</span><br/>给 Bot 喂知识</h1>
+      <p class="hero-sub">Bot 有灵魂了, 但还没有"记忆". 今天上传文档, 让它变成领域专家.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="你"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 &middot; 准 AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">Bot 配了人设, 但问专业问题还是瞎编...</p>
+          <p class="cloud-line">怎么让它回答 Vitamin 相关的医学知识?</p>
+          <p class="cloud-line accent">-- 答案: 喂知识库.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>在 Coze 上创建知识库并上传文档</li>
+          <li>理解切片策略的区别 (段落 / 固定 / 语义)</li>
+          <li>选择合适的检索策略 (混合 / 语义 / 全文)</li>
+          <li>把知识库挂载到 Bot 上</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">问一个 Bot 答不了的问题</h2>
+      <p class="step-lede">试试问你的 Hello World Bot: "Vitamin 的 5 种身体状态分别是什么?"</p>
+      <div class="truth-bubble">
+        <div class="truth-tag">结果</div>
+        <p class="truth-line big">Bot 会一本正经地编一个答案.</p>
+        <p class="truth-line muted">因为它的训练数据里没有 Vitamin 的信息 -- 它在"猜"而不是"知道".</p>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>解决方案:</strong> 把 Vitamin 的资料上传到知识库. Bot 回答时先检索知识库, 再基于检索到的内容生成回复. 这就是 <mark class="hl">RAG (Retrieval-Augmented Generation)</mark>.</p>
+      </div>
+      <div class="step-foot">Coze 的知识库怎么创建? ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Coze 知识库 = 内置 RAG</h2>
+      <p class="step-lede">在 Coze 中栏的"工具"区域, 点击"添加知识库"就能开始.</p>
+      <div class="callout callout-green">
+        <p><strong>创建知识库 3 步:</strong></p>
+        <ol>
+          <li><strong>新建知识库</strong> -- 取名"Vitamin 健康百科"</li>
+          <li><strong>上传文档</strong> -- 拖入 PDF / Word / TXT 文件</li>
+          <li><strong>等待处理</strong> -- Coze 自动切片 + 向量化 (通常 1-2 分钟)</li>
+        </ol>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>支持的数据源:</strong></p>
+        <ul>
+          <li>本地文件: PDF / Word / TXT / Markdown</li>
+          <li>在线网页: 输入 URL, 自动抓取内容</li>
+          <li>表格: Excel / CSV (适合 FAQ 数据)</li>
+        </ul>
+      </div>
+      <div class="step-foot">试试模拟上传 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">模拟上传: 拖文件进来</h2>
+      <p class="step-lede">点击下方上传区域, 看看文档上传 + 处理的全过程:</p>
+
+      <div id="kb-uploader" class="kb-uploader">
+        <span class="kb-uploader-icon">&#128229;</span>
+        <p class="kb-uploader-text">点击或拖拽文件到这里上传</p>
+        <p class="kb-uploader-hint">支持 PDF / Word / TXT / Markdown / Excel</p>
+      </div>
+      <ul id="kb-file-list" class="kb-file-list"></ul>
+
+      <div class="step-foot">文件上传后, 最关键的一步: 切片 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">切片策略: 文档怎么切成小段?</h2>
+      <p class="step-lede">一份 10 页的 PDF 不能直接塞给模型 (太长了). 知识库会把它切成几十个小段 (chunk), 检索时只取最相关的几段.</p>
+      <div class="callout callout-blue">
+        <p><strong>三种切片策略, 点击切换看效果:</strong></p>
+      </div>
+
+      <div class="chunk-selector">
+        <div class="chunk-option selected" data-strategy="paragraph">
+          <div class="chunk-option-name">段落切分</div>
+          <div class="chunk-option-desc">按自然段落分割, 保持语义完整</div>
+        </div>
+        <div class="chunk-option" data-strategy="fixed">
+          <div class="chunk-option-name">固定字数</div>
+          <div class="chunk-option-desc">每 300 字切一段, 简单粗暴</div>
+        </div>
+        <div class="chunk-option" data-strategy="semantic">
+          <div class="chunk-option-name">语义切分</div>
+          <div class="chunk-option-desc">按意思变化切, 最智能但最慢</div>
+        </div>
+      </div>
+
+      <div id="chunk-preview" class="chunk-preview"></div>
+
+      <div class="callout callout-amber">
+        <p><strong>Vitamin 建议:</strong> 用<span class="pill pill-green">段落切分</span>. 医学科普文章通常按主题分段, 段落切分能保持每个健康知识点的完整性.</p>
+        <p class="muted">Coze 默认推荐 ~300 字一段, 对中文健康内容来说刚好.</p>
+      </div>
+      <div class="step-foot">切完了, 怎么检索? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">检索策略: 3 种找答案的方式</h2>
+
+      <div class="retrieval-cards">
+        <div class="retrieval-card" style="border-color:var(--blue);">
+          <h4 style="color:var(--blue);">混合检索</h4>
+          <p>全文 + 语义结合, 准确率最高. <strong>推荐</strong></p>
+        </div>
+        <div class="retrieval-card" style="border-color:var(--green);">
+          <h4 style="color:var(--green);">语义检索</h4>
+          <p>理解意思而非匹配关键词. 适合跨语言</p>
+        </div>
+        <div class="retrieval-card" style="border-color:var(--amber);">
+          <h4 style="color:var(--amber);">全文检索</h4>
+          <p>关键词匹配. 适合专有名词精确查找</p>
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>怎么选?</strong></p>
+        <ul>
+          <li>Vitamin Bot 用<span class="pill pill-blue">混合检索</span> -- 用户可能用各种方式描述症状, 需要语义理解 + 关键词匹配双保险</li>
+          <li>默认返回 <strong>Top 5</strong> 最相关段落, 可以调整 (1-20)</li>
+          <li>设置匹配率阈值 -- 低于阈值的结果不返回, 避免不相关内容干扰</li>
+        </ul>
+      </div>
+      <div class="step-foot">知识库建好了, 怎么挂到 Bot 上? ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">挂载: 一键让 Bot 拥有知识</h2>
+      <p class="step-lede">知识库和 Bot 是分开的. 你需要在 Bot 编辑页<strong>手动挂载</strong>.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>挂载步骤:</strong></p>
+        <ol>
+          <li>进入 Bot 编辑页</li>
+          <li>在中栏找到"知识库"区域</li>
+          <li>点"添加" -> 选择你创建的知识库</li>
+          <li>完成! 现在 Bot 回答问题时会自动检索知识库</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>小细节:</strong></p>
+        <ul>
+          <li>一个 Bot 可以挂载<strong>多个</strong>知识库 (比如"经期知识" + "营养知识")</li>
+          <li>在 Prompt 中用 <code>{知识库: xxx}</code> 可以指定什么时候检索哪个知识库</li>
+          <li>知识库更新后, Bot 自动使用最新内容 -- 不用重新发布</li>
+        </ul>
+      </div>
+      <div class="step-foot">挂载后, 回答质量有多大变化? ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Before vs After: 知识库的魔力</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" style="border-color:var(--red);border-style:solid;">
+          <div class="wrong-mark" style="color:var(--red);">Before</div>
+          <h3>没有知识库</h3>
+          <p style="font-size:14px;">"经期可以运动, 但要注意适度. 建议咨询医生."</p>
+          <div class="wrong-why"><strong>问题:</strong> 太笼统, 没有具体建议. 用户得不到有用信息.</div>
+        </article>
+        <article class="wrong" style="border-color:var(--green);border-style:solid;">
+          <div class="wrong-mark" style="color:var(--green);">After</div>
+          <h3>有知识库</h3>
+          <p style="font-size:14px;">"经期前两天建议轻柔运动 (散步、拉伸), 第 3-5 天可以恢复中等强度运动. 避免剧烈运动和倒立类动作哦~ [来源: 女性经期健康指南]"</p>
+          <div class="wrong-why" style="border-color:var(--green);"><strong>变化:</strong> 具体、分阶段、有来源标注. 用户信任度直线上升.</div>
+        </article>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>关键认知:</strong> 知识库不只让回答更准确, 还让回答<mark class="hl">可溯源</mark>. 用户能看到"这个建议来自哪份资料", 信任度翻倍. 这对健康类产品至关重要.</p>
+      </div>
+      <div class="step-foot">知识库维护有什么注意事项? ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">知识库维护: 3 个常见坑</h2>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1">
+          <div class="wonder-tag">坑 1</div>
+          <h3>文档太长, 切片太大</h3>
+          <div class="wonder-note">一个 50 页的 PDF 如果不切, 检索精度会很差. 建议按主题拆成多个小文档再上传.</div>
+        </article>
+        <article class="wonder wonder-2">
+          <div class="wonder-tag">坑 2</div>
+          <h3>信息过时不更新</h3>
+          <div class="wonder-note">健康资讯会更新. 定期检查知识库内容是否过时, 及时替换. Coze 支持增量更新.</div>
+        </article>
+        <article class="wonder wonder-3">
+          <div class="wonder-tag">坑 3</div>
+          <h3>质量参差不齐</h3>
+          <div class="wonder-note">知识库内容质量决定回答质量. "垃圾进 = 垃圾出". Vitamin 的医学内容要确保来源可靠.</div>
+        </article>
+      </div>
+      <div class="step-foot">回到 Vitamin -- 知识库该怎么规划? ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 知识库规划</h2>
+
+      <div class="callout callout-green">
+        <p><strong>建议创建 3 个知识库:</strong></p>
+        <table style="width:100%;font-size:14px;border-collapse:collapse;margin:10px 0;">
+          <tr style="border-bottom:2px solid var(--border-strong);">
+            <th style="padding:8px;text-align:left;">知识库</th>
+            <th style="padding:8px;text-align:left;">内容</th>
+            <th style="padding:8px;text-align:left;">切片策略</th>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:8px;">经期健康百科</td>
+            <td style="padding:8px;">5 状态解读、经期护理、常见问题</td>
+            <td style="padding:8px;">段落切分</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:8px;">营养饮食指南</td>
+            <td style="padding:8px;">食物营养表、饮食建议、禁忌</td>
+            <td style="padding:8px;">固定 300 字</td>
+          </tr>
+          <tr>
+            <td style="padding:8px;">运动与睡眠</td>
+            <td style="padding:8px;">运动建议、睡眠改善、情绪管理</td>
+            <td style="padding:8px;">段落切分</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>面试金句:</strong> "Vitamin Bot 的知识库按 3 个主题域组织, 每个域选择不同的切片策略. 经期知识用段落切分保持语义完整, 营养表格用固定字数适应结构化数据. 检索用混合策略, Top 5 召回, 带来源标注让用户可溯源."</p>
+      </div>
+      <div class="step-foot">作业时间 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">知识库 = Bot 的记忆.<br/>上传 -> 切片 -> 向量化 -> 检索 -> 回答, 5 步全自动.</p>
+        <p class="one-liner-foot muted">内容质量决定回答质量. 垃圾进 = 垃圾出.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>在你的 Coze Bot 上创建知识库"Vitamin 健康百科", 上传一份女性健康相关的文档 (可以从百度百科复制一篇经期护理文章).</li>
+          <li>观察 Coze 的自动切片结果, 看看它把文档切成了几段, 每段大概多少字.</li>
+          <li>在 Bot 里挂载知识库, 然后问 5 个 Vitamin 相关问题, 对比挂载前后回答质量的变化.</li>
+          <li>写 100 字: Vitamin 知识库应该包含哪些内容? 为什么?</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128214;</td>
+            <td><a href="https://docs.coze.com/guides/use_knowledge" target="_blank" rel="noopener">Coze 知识库官方文档</a></td>
+            <td>docs.coze.com</td>
+            <td>最权威操作指南</td>
+            <td>15 min</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128214;</td>
+            <td><a href="https://www.f22labs.com/blogs/7-chunking-strategies-in-rag-you-need-to-know/" target="_blank" rel="noopener">7 种 RAG 切片策略</a></td>
+            <td>f22labs</td>
+            <td>深入理解切片技术</td>
+            <td>20 min</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128214;</td>
+            <td><a href="https://docs.coze.com/guides/knowledge_node" target="_blank" rel="noopener">知识库检索节点文档</a></td>
+            <td>docs.coze.com</td>
+            <td>工作流中的知识库用法</td>
+            <td>10 min</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 4px;">&#128736;</td>
+            <td><a href="https://stackoverflow.blog/2024/12/27/breaking-up-is-hard-to-do-chunking-in-rag-applications/" target="_blank" rel="noopener">Chunking in RAG</a></td>
+            <td>Stack Overflow</td>
+            <td>切片策略深度解析</td>
+            <td>15 min</td>
+          </tr>
+        </table>
+      </div>
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> Bot 答不了的问题</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 知识库 = 内置 RAG</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 模拟上传文档</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 切片策略选择</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 3 种检索策略</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 一键挂载</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Before vs After</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 3 个维护坑</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 知识库规划</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">知识库 = Bot 的记忆. 上传文档, 自动切片, 带着资料回答.</p>
+        <p class="end-summary-sub">内容质量决定回答质量. 切片策略选对, 检索精度翻倍.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 5): 工作流节点编排</div>
+        <p>Bot 有灵魂, 有记忆, 但还不会"按步骤办事". 下一步用工作流把多个节点串起来.</p>
+        <p><strong>意图识别 -> 知识库检索 -> 回复生成, 一条完整链路.</strong></p>
+        <a class="walk-arrow" href="../u5-workflow/index.html">继续走 &rarr; Unit 5</a>
+      </div>
+    </section>
+
+  </main>
+  <footer class="footer"><p>AI for PM &middot; Module 3.2 &middot; Unit 4 &middot; 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

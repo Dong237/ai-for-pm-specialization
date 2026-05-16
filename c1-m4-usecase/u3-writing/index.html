@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · Writing 类用例 — AI for PM · M1.4</title>
+  <meta name="description" content="AI PM 课 · M1.4 Unit 3: AI 的第二种超能力 -- Writing. 拆解 Draft / Paraphrase / Expand 三种模式." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.4</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 · Writing 类用例</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">&#9654;</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">&#9632;</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">&#9654;</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 3<span class="title-dot">·</span><br/>Writing: AI 的 "嘴巴"</h1>
+      <p class="hero-sub">上一课你学了 Reading (text &rarr; data). 现在翻转方向: Writing (data &rarr; text).</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你 · PM">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 产品经理)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">Reading 是 AI 的 "耳朵", Writing 是 AI 的 "嘴巴".</p>
+          <p class="cloud-line">但 "写" 也有 <strong>3 种不同模式</strong>?</p>
+          <p class="cloud-line">Draft / Paraphrase / Expand -- 风险差别很大!</p>
+          <p class="cloud-line accent">-- 10 步, 全掌握.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>分清 Draft / Paraphrase / Expand 三种 Writing 模式</li>
+          <li>理解 Reading 和 Writing 是对称的镜像关系</li>
+          <li>知道 Temperature 如何影响 Writing 的输出风格</li>
+          <li>给 Vitamin 的每个身体状态选对 Writing 策略</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">同一份数据, 三种不同的 "说法"</h2>
+      <p class="step-lede">Vitamin 知道用户的状态:</p>
+
+      <div class="data-card">
+        <div class="data-card-label">&#128202; 用户数据</div>
+        <div class="data-fields">
+          <span class="data-field"><span class="df-key">状态:</span> 经期第 2 天</span>
+          <span class="data-field"><span class="df-key">情绪:</span> 疲惫</span>
+          <span class="data-field"><span class="df-key">饮食:</span> 没吃早餐</span>
+          <span class="data-field"><span class="df-key">睡眠:</span> 5 小时</span>
+        </div>
+      </div>
+
+      <p class="step-lede">AI 拿到这些数据, 可以做 3 件完全不同的事:</p>
+
+      <div class="three-writings">
+        <article class="writing-card w-draft">
+          <div class="w-tag w-tag-blue">&#9997;&#65039; Draft 从零写</div>
+          <div class="w-output">
+            <p>"早上好呀! 经期第二天, 昨晚只睡了 5 小时, 辛苦了. 没吃早餐的话, 先喝杯温水, 等一会儿吃点容易消化的东西. 今天对自己温柔一点 &#128156;"</p>
+          </div>
+          <div class="w-nature">数据 &rarr; 全新文本</div>
+        </article>
+
+        <article class="writing-card w-paraphrase">
+          <div class="w-tag w-tag-green">&#128260; Paraphrase 改写</div>
+          <div class="w-input-ref">原文: "子宫内膜异位症是指子宫内膜组织生长在子宫腔以外的部位"</div>
+          <div class="w-output">
+            <p>"简单说就是: 本来应该长在子宫里面的组织, 跑到外面去了."</p>
+          </div>
+          <div class="w-nature">已有文本 &rarr; 换风格</div>
+        </article>
+
+        <article class="writing-card w-expand">
+          <div class="w-tag w-tag-amber">&#128200; Expand 展开</div>
+          <div class="w-input-ref">原文: "多喝水"</div>
+          <div class="w-output">
+            <p>"建议每天喝 1500-2000ml 温水. 经期期间可以加一些红枣枸杞, 既补水又暖身. 避免冷饮和咖啡因饮料, 它们可能加重痛经."</p>
+          </div>
+          <div class="w-nature">短句 &rarr; 详细段落</div>
+        </article>
+      </div>
+
+      <div class="step-foot">三种模式, 输入和风险完全不同. 但它们之间有个有趣的对称 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">一个误解和真相: Writing 不只是 "让 AI 写东西"</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">&times;</div>
+          <h3>误解: "Writing 就是给 AI 一个 prompt, 让它随便写"</h3>
+          <p>反正 LLM 擅长生成文本, 给个提示就行.</p>
+          <div class="wrong-why">
+            <strong>问题:</strong>
+            Draft (从零写) 的风险远大于 Paraphrase (改写) 和 Expand (展开).
+            Draft 可能凭空编造不存在的 "医学事实"; Paraphrase 只是换种说法, 原始信息有保障; Expand 展开已有要点, 也更可控.
+            <br/><br/>
+            PM 不能把三种混为一谈 -- <strong>风险管理完全不同</strong>.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">Writing 和 Reading 是 <mark class="hl">完美的镜像</mark>:</p>
+
+        <div class="mirror-diagram">
+          <div class="mirror-side mirror-reading">
+            <div class="mirror-title">&#128066; Reading<br/><small>text &rarr; data</small></div>
+            <div class="mirror-item mi-blue">Summarize<br/><small>长 &rarr; 短</small></div>
+            <div class="mirror-item mi-green">Classify<br/><small>文本 &rarr; 标签</small></div>
+            <div class="mirror-item mi-amber">Extract<br/><small>散乱 &rarr; 结构</small></div>
+          </div>
+
+          <div class="mirror-arrows">
+            <div class="mirror-arrow">&harr;</div>
+            <div class="mirror-arrow">&harr;</div>
+            <div class="mirror-arrow">&harr;</div>
+          </div>
+
+          <div class="mirror-side mirror-writing">
+            <div class="mirror-title">&#128227; Writing<br/><small>data &rarr; text</small></div>
+            <div class="mirror-item mi-amber">Expand<br/><small>短 &rarr; 长</small></div>
+            <div class="mirror-item mi-blue">Draft<br/><small>数据 &rarr; 文本</small></div>
+            <div class="mirror-item mi-green">Paraphrase<br/><small>换风格</small></div>
+          </div>
+        </div>
+
+        <p class="truth-line muted">&rarr; Summarize 的镜像是 Expand (压缩 vs 展开). Classify 的镜像是 Draft (从标签/数据生成文本). Extract 的镜像是 Paraphrase (结构 vs 表达).</p>
+      </div>
+
+      <div class="step-foot">先深入第一种: Draft ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Pattern 1: Draft -- 从零生成</h2>
+      <p class="step-lede">Draft 的本质: 从种子数据 (关键词/参数/结构化信息) 生成全新文本. 是 Writing 中<strong>自由度最高、风险也最高</strong>的模式.</p>
+
+      <div class="draft-demo">
+        <div class="draft-input">
+          <div class="draft-label">&#127793; 种子数据</div>
+          <div class="data-fields compact">
+            <span class="data-field"><span class="df-key">状态:</span> 经期第 2 天</span>
+            <span class="data-field"><span class="df-key">情绪:</span> 疲惫</span>
+            <span class="data-field"><span class="df-key">饮食:</span> 没吃早餐</span>
+          </div>
+        </div>
+
+        <div class="draft-arrow">&darr; AI 生成 &darr;</div>
+
+        <div class="draft-output">
+          <div class="draft-label">&#128172; 生成结果: 晨间问候</div>
+          <p class="draft-text">"早上好呀! &#128156; 经期第二天, 今天可能会有点累. 你还没吃早餐呢 -- 要不先来杯温热的红枣茶? 暖暖肚子, 也补补铁. 今天不用逼自己, 能做多少做多少就好."</p>
+        </div>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>&#9888;&#65039; Draft 的风险:</strong></p>
+        <ul>
+          <li>"补补铁" -- AI 从哪来的? 用户没问过, 这是 AI 自行补充的</li>
+          <li>"红枣茶" -- 经期喝红枣茶确实常见, 但如果用户有特殊体质呢?</li>
+          <li>"不用逼自己" -- 这是心理建议, AI 有资格说吗?</li>
+        </ul>
+        <p class="muted">&rarr; Draft 生成的每一句话, PM 都需要问: "这个信息从哪来? 如果错了, 后果是什么?"</p>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>Draft 的安全公式:</strong></p>
+        <p>System Prompt + Guardrails + Human Review = 可控的 Draft</p>
+        <ul>
+          <li><strong>System Prompt</strong>: 限定 AI 的角色 (只做健康伙伴, 不做医生)</li>
+          <li><strong>Guardrails</strong>: 禁止输出用药建议、诊断、剂量</li>
+          <li><strong>Human Review</strong>: 涉及医疗内容的 Draft 先过人工审核</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">第二种: Paraphrase -- 比 Draft 安全得多 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Pattern 2: Paraphrase -- 换种说法</h2>
+      <p class="step-lede">Paraphrase 的本质: 已有文本换风格/语气/难度. 内容不变, 只变表达. 比 Draft 安全得多, 因为<strong>原始信息有保障</strong>.</p>
+
+      <div class="paraphrase-demo">
+        <div class="pp-before">
+          <div class="pp-label">&#128218; 原文 (医学文献)</div>
+          <p class="pp-text-formal">"子宫内膜异位症是指具有生长功能的子宫内膜组织出现在子宫腔被覆黏膜及宫体肌层以外的其他部位."</p>
+        </div>
+        <div class="pp-arrow">&darr; Paraphrase &darr;</div>
+        <div class="pp-after">
+          <div class="pp-label">&#128172; 改写后 (大白话)</div>
+          <p class="pp-text-casual">"简单说就是: 本来应该长在子宫里面的一层组织, 跑到外面去了 -- 可能跑到卵巢、输卵管甚至肠子上. 所以你会在经期感到比平时更痛."</p>
+        </div>
+      </div>
+
+      <div class="pp-comparison">
+        <div class="pp-col">
+          <div class="pp-col-header">&#128683; 没变的</div>
+          <ul>
+            <li>医学事实本身</li>
+            <li>关键信息: 子宫内膜 + 异位</li>
+            <li>核心逻辑: 组织长错了位置</li>
+          </ul>
+        </div>
+        <div class="pp-col">
+          <div class="pp-col-header">&#128260; 变了的</div>
+          <ul>
+            <li>语气: 医学 &rarr; 口语化</li>
+            <li>难度: 专业术语 &rarr; 日常词汇</li>
+            <li>补充: 加了 "所以你会痛" 的因果连接</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 怎么用 Paraphrase?</strong></p>
+        <ul>
+          <li>医学知识库改写: 专业文献 &rarr; 用户能看懂的解释</li>
+          <li>健康建议降级: 医生级别的建议 &rarr; 普通人能理解的话</li>
+          <li>多语言适配: 同一条建议 &rarr; 不同地区的表达习惯</li>
+        </ul>
+        <p class="muted">&rarr; Paraphrase 是健康 App 最安全的 Writing 模式 -- 原始信息来自可信源, AI 只负责 "翻译" 成用户能懂的话.</p>
+      </div>
+
+      <div class="step-foot">第三种: Expand -- 把要点展开 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Pattern 3: Expand -- 简短变详细</h2>
+      <p class="step-lede">Expand 的本质: 把一个简短的要点, 展开成有理有据的详细段落. 比 Draft 安全 (有原始要点做锚点), 比 Paraphrase 自由 (可以补充细节).</p>
+
+      <div class="expand-demo">
+        <div class="exp-before">
+          <div class="exp-label">&#128221; 原始要点</div>
+          <p class="exp-text-short">"多喝水"</p>
+        </div>
+        <div class="exp-arrow">&darr; Expand &darr;</div>
+        <div class="exp-after">
+          <div class="exp-label">&#128172; 展开后</div>
+          <p class="exp-text-long">"建议每天喝 1500-2000ml 温水. 经期期间可以加一些红枣枸杞, 既补水又暖身. 避免冷饮和咖啡因饮料, 它们可能加重痛经. 如果觉得白水没味道, 试试加几片柠檬 &#127819;"</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>&#9888;&#65039; Expand 的风险点:</strong></p>
+        <p>展开时 AI 会<em>补充</em>细节 (红枣枸杞、柠檬、1500ml). 这些细节从哪来?</p>
+        <ul>
+          <li>"1500-2000ml" -- 有科学依据, OK</li>
+          <li>"红枣枸杞" -- 中医传统说法, 有争议但不危险</li>
+          <li>"避免咖啡因" -- 有研究支持, OK</li>
+          <li>但如果用户有<strong>肾病</strong>, 2000ml 可能是危险的量</li>
+        </ul>
+        <p><strong>结论:</strong> Expand 比 Draft 安全, 但展开的细节仍需要 guardrail 限制.</p>
+      </div>
+
+      <div class="step-foot">三种模式的风险有什么规律? ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">风险梯度: Draft > Expand > Paraphrase</h2>
+      <p class="step-lede">三种 Writing 模式, 风险递减:</p>
+
+      <div class="risk-ladder">
+        <div class="rl-step rl-high">
+          <div class="rl-level">&#128308; 高风险</div>
+          <div class="rl-mode">&#9997;&#65039; Draft</div>
+          <div class="rl-why">从零生成, 没有原始信息锚点. AI 可能编造.</div>
+          <div class="rl-rule">必须: System Prompt + Guardrails + Human Review</div>
+        </div>
+        <div class="rl-connector">&darr;</div>
+        <div class="rl-step rl-mid">
+          <div class="rl-level">&#128992; 中风险</div>
+          <div class="rl-mode">&#128200; Expand</div>
+          <div class="rl-why">有原始要点, 但补充的细节可能不准确.</div>
+          <div class="rl-rule">必须: 限制展开范围 + 标注 "仅供参考"</div>
+        </div>
+        <div class="rl-connector">&darr;</div>
+        <div class="rl-step rl-low">
+          <div class="rl-level">&#128994; 低风险</div>
+          <div class="rl-mode">&#128260; Paraphrase</div>
+          <div class="rl-why">原始信息来自可信源, AI 只改表达方式.</div>
+          <div class="rl-rule">必须: 保留原始出处链接 + 不改变核心含义</div>
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>PM 的安全策略:</strong></p>
+        <p>健康产品的 Writing, 应该 <strong>优先用 Paraphrase + Expand, 慎用 Draft</strong>.</p>
+        <p>如果必须用 Draft (比如晨间问候), 确保 AI 不输出任何医疗建议, 只输出情感支持类内容.</p>
+      </div>
+
+      <div class="step-foot">三种模式还有一个关键区别: Temperature 的影响 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Temperature 回调 -- 同一个 prompt, 三种风格</h2>
+      <p class="step-lede">还记得 Module 1.1 的 Temperature 旋钮吗? 在 Writing 场景下, 它决定了输出的 "风格":</p>
+
+      <div class="temp-comparison" id="temp-comparison">
+        <div class="tc-input">
+          <div class="tc-label">&#127793; 输入 prompt</div>
+          <p class="tc-prompt">"给经期第 2 天、睡眠不足的用户写一条晨间问候"</p>
+        </div>
+
+        <div class="tc-outputs">
+          <div class="tc-card tc-pro">
+            <div class="tc-temp-tag">
+              <span class="pill pill-blue">T = 0.3 专业</span>
+            </div>
+            <p class="tc-text">"早上好. 经期第二天, 建议注意休息. 睡眠不足可能影响身体恢复, 建议今天减少剧烈运动, 多补充水分和铁质食物."</p>
+            <div class="tc-traits">
+              <span class="tc-trait">&#128300; 克制</span>
+              <span class="tc-trait">&#128203; 信息密集</span>
+              <span class="tc-trait">&#129302; 机器感</span>
+            </div>
+          </div>
+
+          <div class="tc-card tc-warm">
+            <div class="tc-temp-tag">
+              <span class="pill pill-green">T = 0.7 温暖</span>
+            </div>
+            <p class="tc-text">"早上好呀 &#128156; 经期第二天, 昨晚没睡好, 辛苦了. 今天对自己温柔一点, 先喝杯温水, 吃点容易消化的东西. 你已经做得很好了."</p>
+            <div class="tc-traits">
+              <span class="tc-trait">&#128150; 共情</span>
+              <span class="tc-trait">&#127774; 自然</span>
+              <span class="tc-trait">&#127919; 平衡</span>
+            </div>
+          </div>
+
+          <div class="tc-card tc-lively">
+            <div class="tc-temp-tag">
+              <span class="pill pill-amber">T = 1.0 活泼</span>
+            </div>
+            <p class="tc-text">"嘿! 经期第二天 + 熬夜组合拳? &#128131; 你的身体正在偷偷抗议呢! 先别想工作了, 给自己泡杯暖暖的姜茶, 今天的任务是 -- 做一个快乐的废物 &#128054;"</p>
+            <div class="tc-traits">
+              <span class="tc-trait">&#127881; 俏皮</span>
+              <span class="tc-trait">&#127912; 创意</span>
+              <span class="tc-trait">&#9888; 可能不适合所有人</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tc-verdict">
+          <p><strong>&#128161; Vitamin 该选哪个?</strong></p>
+          <p>大多数用户: <span class="pill pill-green">T = 0.7</span> -- 温暖但不过度. 情感支持类内容需要人味, 但不能太跳脱.</p>
+          <p>专业数据报告: <span class="pill pill-blue">T = 0.3</span> -- 精确表述, 不加修饰.</p>
+          <p>节日/活动文案: <span class="pill pill-amber">T = 1.0</span> -- 要惊喜感, 容忍偶尔的 "飞了".</p>
+        </div>
+      </div>
+
+      <div class="step-foot">概念都讲完了. 来动手体验 ↓</div>
+    </section>
+
+    <!-- (8) -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试试 -- Writing 工作坊</h2>
+      <p class="step-lede">3 个标签页, 每个对应一种 Writing 模式. 点 "生成" 看 3 种温度下的输出对比.</p>
+
+      <div class="writing-studio" id="writing-studio">
+        <div class="ws-tabs">
+          <button class="ws-tab active" data-mode="draft">&#9997;&#65039; Draft</button>
+          <button class="ws-tab" data-mode="paraphrase">&#128260; Paraphrase</button>
+          <button class="ws-tab" data-mode="expand">&#128200; Expand</button>
+        </div>
+
+        <!-- Draft panel -->
+        <div class="ws-panel active" data-mode="draft">
+          <div class="ws-input-section">
+            <label class="ws-label">种子数据 (Vitamin 用户状态):</label>
+            <div class="ws-seed">
+              <div class="ws-seed-fields">
+                <select class="ws-select" id="ws-draft-state">
+                  <option value="经期第2天">经期第2天</option>
+                  <option value="备孕中">备孕中</option>
+                  <option value="孕期16周">孕期16周</option>
+                  <option value="产后第3周">产后第3周</option>
+                </select>
+                <select class="ws-select" id="ws-draft-mood">
+                  <option value="疲惫">疲惫</option>
+                  <option value="焦虑">焦虑</option>
+                  <option value="开心">开心</option>
+                  <option value="平静">平静</option>
+                </select>
+                <select class="ws-select" id="ws-draft-context">
+                  <option value="没吃早餐">没吃早餐</option>
+                  <option value="刚运动完">刚运动完</option>
+                  <option value="工作很忙">工作很忙</option>
+                  <option value="周末休息">周末休息</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary ws-generate" data-mode="draft">&#9997;&#65039; 生成 3 种风格 &rarr;</button>
+          <div class="ws-output" id="ws-draft-output" style="display:none;"></div>
+        </div>
+
+        <!-- Paraphrase panel -->
+        <div class="ws-panel" data-mode="paraphrase">
+          <div class="ws-input-section">
+            <label class="ws-label">原始文本 (可编辑):</label>
+            <textarea class="ws-textarea" id="ws-para-input" rows="4">围绝经期综合征是指妇女在绝经前后由于性激素波动或减少所致的一系列躯体及精神心理症状, 通常发生于45至55岁.</textarea>
+          </div>
+          <button class="btn btn-primary ws-generate" data-mode="paraphrase">&#128260; 改写成 3 种风格 &rarr;</button>
+          <div class="ws-output" id="ws-para-output" style="display:none;"></div>
+        </div>
+
+        <!-- Expand panel -->
+        <div class="ws-panel" data-mode="expand">
+          <div class="ws-input-section">
+            <label class="ws-label">简短要点 (可编辑):</label>
+            <textarea class="ws-textarea" id="ws-exp-input" rows="2">注意保暖, 别吃冷的</textarea>
+          </div>
+          <button class="btn btn-primary ws-generate" data-mode="expand">&#128200; 展开成 3 种风格 &rarr;</button>
+          <div class="ws-output" id="ws-exp-output" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="step-foot">Writing 在 Vitamin 的 5 个状态里怎么用? ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 5 个状态, Writing 策略全不同</h2>
+      <p class="step-lede">每个身体状态, 对 AI "说什么" 和 "怎么说" 的要求都不一样:</p>
+
+      <div class="state-writing-map">
+        <div class="swm-row">
+          <div class="swm-state swm-jq">经期</div>
+          <div class="swm-strategy">
+            <div class="swm-mode-list">
+              <span class="pill pill-green">Paraphrase 为主</span>
+              <span class="pill pill-amber">Expand 辅助</span>
+            </div>
+            <p><strong>语气:</strong> 温暖 (T=0.7). 经期用户需要情感支持, 不是冷冰冰的数据.</p>
+            <p><strong>内容:</strong> 健康知识改写 + 简短建议展开. 避免 Draft 生成医疗建议.</p>
+            <p><strong>例子:</strong> "痛经缓解方法" 改写成大白话 + "多喝水" 展开成具体建议.</p>
+          </div>
+        </div>
+        <div class="swm-row">
+          <div class="swm-state swm-by">备孕</div>
+          <div class="swm-strategy">
+            <div class="swm-mode-list">
+              <span class="pill pill-blue">Draft 慎用</span>
+              <span class="pill pill-green">Paraphrase 为主</span>
+            </div>
+            <p><strong>语气:</strong> 专业 + 鼓励 (T=0.5). 备孕用户需要准确信息, 同时保持信心.</p>
+            <p><strong>内容:</strong> 排卵知识改写 + 追踪建议. Draft 只用于生成鼓励性话语.</p>
+            <p><strong>禁区:</strong> 绝不 Draft 生成 "你这个月很可能怀孕" 这种判断.</p>
+          </div>
+        </div>
+        <div class="swm-row">
+          <div class="swm-state swm-yq">孕期</div>
+          <div class="swm-strategy">
+            <div class="swm-mode-list">
+              <span class="pill pill-green">Paraphrase 为主</span>
+              <span class="pill pill-blue">Draft 禁用于医疗</span>
+            </div>
+            <p><strong>语气:</strong> 谨慎 + 温柔 (T=0.3-0.5). 孕期信息必须准确, 不能有任何误导.</p>
+            <p><strong>内容:</strong> 产检指标解读 (Paraphrase) + 每周发育提示 (Expand). 所有医疗相关内容必须加 "请咨询医生".</p>
+            <p><strong>禁区:</strong> 绝不 Draft 生成任何像诊断的内容.</p>
+          </div>
+        </div>
+        <div class="swm-row">
+          <div class="swm-state swm-ch">产后</div>
+          <div class="swm-strategy">
+            <div class="swm-mode-list">
+              <span class="pill pill-amber">Expand 为主</span>
+              <span class="pill pill-blue">Draft 用于情感支持</span>
+            </div>
+            <p><strong>语气:</strong> 温暖 + 支持 (T=0.7). 产后情绪波动大, 文字要有陪伴感.</p>
+            <p><strong>内容:</strong> 恢复建议展开 + 情感支持 Draft. 注意产后抑郁筛查结果只用 Paraphrase 解读.</p>
+          </div>
+        </div>
+        <div class="swm-row">
+          <div class="swm-state swm-gnq">更年期</div>
+          <div class="swm-strategy">
+            <div class="swm-mode-list">
+              <span class="pill pill-green">Paraphrase 为主</span>
+              <span class="pill pill-amber">Expand 辅助</span>
+            </div>
+            <p><strong>语气:</strong> 平和 + 知性 (T=0.5). 更年期用户通常更成熟, 不需要过度情感化.</p>
+            <p><strong>内容:</strong> HRT 知识改写 + 症状管理建议展开. 尊重用户的判断力.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>核心原则:</strong> 在 Vitamin 中, <mark class="hl">Paraphrase 是默认选择, Draft 是限制使用, Expand 是补充工具</mark>.</p>
+        <p>理由很简单: 健康产品的信息必须有源头. Paraphrase 保留了源头, Draft 没有.</p>
+      </div>
+
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">Draft 风险最高, Expand 中间, Paraphrase 最安全.<br/>健康产品: 先用 Paraphrase + Expand, 慎用 Draft.</p>
+        <p class="one-liner-foot muted">Writing 的风险和 "AI 自由发挥的空间" 成正比. 自由度越高, guardrail 要越严.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 ChatGPT/豆包, 分别在 Temperature 0.3、0.7、1.0 下让 AI 给 Vitamin 用户写一段晨间问候. 对比差异, 哪个最适合?</li>
+          <li>找一段医学百科上的健康知识 (比如 "痛经"), 让 AI 做 Paraphrase, 改写成 Vitamin 用户能看懂的话. 检查有没有 "改变原意" 的地方.</li>
+          <li>给 Vitamin 的 5 个身体状态各写一个 Writing prompt (指定模式: Draft/Paraphrase/Expand + Temperature 值 + 禁止内容).</li>
+          <li>写 200 字: 为什么 Paraphrase 比 Draft 更适合健康 App? 用 "信息源" 和 "风险" 两个角度解释.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue resource-table-callout">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead>
+            <tr><th>类型</th><th>内容</th><th>来源</th><th>为什么值得看</th><th>时间</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>&#128214;</td>
+              <td>AI Text Generation: Top 17 Use Cases</td>
+              <td>AIMultiple</td>
+              <td>大量 AI 写作的真实产品案例</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>&#128736;&#65039;</td>
+              <td>QuillBot Paraphrasing Tool</td>
+              <td>QuillBot</td>
+              <td>实际体验 Paraphrase 工具, 9 种改写模式</td>
+              <td>10 min</td>
+            </tr>
+            <tr>
+              <td>&#128214;</td>
+              <td>在线 AI 文本生成器: 创建高质量文案</td>
+              <td>Manus</td>
+              <td>中文 AI 写作工具, 体验 Draft + Expand</td>
+              <td>10 min</td>
+            </tr>
+            <tr>
+              <td>&#128250;</td>
+              <td>Prompt Engineering for Content Generation</td>
+              <td>YouTube</td>
+              <td>如何通过 Prompt 控制 AI 写作质量</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>&#128214;</td>
+              <td>I Tested 5 AI Tools to Write a PRD</td>
+              <td>Substack</td>
+              <td>PM 视角的 AI 写作工具评测, 实战参考</td>
+              <td>15 min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">&#9632;</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 同一份数据, 3 种 "说法"</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Reading 和 Writing 是镜像</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Draft: 从零生成 (高风险)</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Paraphrase: 换种说法 (低风险)</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Expand: 简短变详细</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 风险梯度: Draft > Expand > Para</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Temperature 三种风格对比</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Writing 工作坊实战</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 5 状态的 Writing 策略</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">Writing = AI 的 "嘴巴".<br/>Draft 从零写 (高险), Paraphrase 改写 (低险), Expand 展开 (中险).</p>
+        <p class="end-summary-sub">健康产品先用 Paraphrase + Expand, 慎用 Draft. 风险和 AI 自由度成正比.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 4): Chatting 类用例</div>
+        <p>Reading 是 one-shot: text in, data out. Writing 是 one-shot: seed in, text out.</p>
+        <p><strong>Chatting 加了 "循环"</strong> -- 来回多轮, 有记忆, 有上下文. 它是 Reading + Writing + Context Management, 三合一.</p>
+        <p>同样是 "聊天机器人", Vitamin 至少需要 3 种完全不同的对话模式: Q&A / Support / Companion. 下一课拆解.</p>
+        <a class="walk-arrow" href="../u4-chatting/index.html">继续走 &rarr; Unit 4</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.4 · Unit 3 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

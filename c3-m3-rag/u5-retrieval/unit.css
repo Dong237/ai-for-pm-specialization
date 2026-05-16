@@ -1,0 +1,84 @@
+/* Unit 5 · Retrieval Simulator — unit-specific styles */
+
+.retrieval-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+.retrieval-query {
+  display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.retrieval-input {
+  flex: 1; min-width: 200px;
+  background: var(--bg-elev); border: 1.5px solid var(--border-strong);
+  border-radius: 8px; padding: 10px 14px; font-size: 15px;
+  font-family: inherit; color: var(--ink);
+}
+.retrieval-input:focus { outline: 2px solid var(--blue); border-color: var(--blue); }
+.retrieval-results {
+  display: flex; flex-direction: column; gap: 0;
+}
+.retrieval-phase {
+  margin: 14px 0 8px;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 15px; font-weight: 600;
+}
+.retrieval-phase.phase1 { color: var(--blue); }
+.retrieval-phase.phase2 { color: var(--green); }
+.result-card {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 4px 0;
+  transition: all 0.3s;
+}
+.result-card.promoted {
+  border-color: var(--green);
+  background: var(--green-bg-soft);
+}
+.result-card.demoted {
+  opacity: 0.4;
+  border-style: dashed;
+}
+.result-card.eliminated {
+  display: none;
+}
+.result-rank {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 22px; font-weight: 700; min-width: 30px;
+  text-align: center; color: var(--ink-muted);
+}
+.result-card.promoted .result-rank { color: var(--green); }
+.result-content { flex: 1; font-size: 13px; }
+.result-title { font-weight: 600; margin-bottom: 2px; }
+.result-snippet { color: var(--ink-soft); }
+.result-scores {
+  display: flex; flex-direction: column; gap: 2px;
+  font-size: 11px; text-align: right; min-width: 80px;
+}
+.score-bi { color: var(--blue); font-weight: 600; }
+.score-cross { color: var(--green); font-weight: 600; }
+
+/* Bi vs Cross encoder comparison */
+.encoder-compare {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0;
+}
+@media (max-width: 600px) { .encoder-compare { grid-template-columns: 1fr; } }
+.encoder-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px; padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+}
+.encoder-card.bi { border-color: var(--blue); transform: rotate(-0.4deg); }
+.encoder-card.cross { border-color: var(--green); transform: rotate(0.3deg); }
+.encoder-card h4 { margin: 0 0 8px; font-size: 16px; }
+.encoder-card.bi h4 { color: var(--blue); }
+.encoder-card.cross h4 { color: var(--green); }
+.encoder-card ul { margin: 0; padding-left: 18px; font-size: 14px; }
+.encoder-card li { padding: 3px 0; }

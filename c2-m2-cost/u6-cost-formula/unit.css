@@ -1,0 +1,111 @@
+/* ============================================
+   Unit 6 · 成本预估公式 — unit-specific styles
+   ============================================ */
+
+/* Formula display */
+.formula-box {
+  background: var(--bg-card);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  padding: 28px;
+  margin: 24px 0;
+  text-align: center;
+  box-shadow: var(--shadow-elev);
+  transform: rotate(-0.3deg);
+}
+.formula-text {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: clamp(16px, 3.5vw, 22px);
+  font-weight: 600;
+  line-height: 1.8;
+}
+.formula-var {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  margin: 2px;
+}
+.var-dau { background: var(--blue-bg); color: var(--blue); }
+.var-freq { background: var(--green-bg); color: var(--green); }
+.var-tok { background: var(--amber-bg); color: var(--amber); }
+.var-price { background: var(--red-bg); color: var(--red); }
+.var-cache { background: var(--purple-bg); color: var(--purple); }
+
+/* Formula builder widget */
+.formula-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.fw-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 80px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+@media (max-width: 600px) {
+  .fw-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .fw-row > span:first-child { grid-column: 1 / -1; }
+}
+.fw-row:last-child { border-bottom: none; }
+.fw-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+.fw-val {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: right;
+}
+.fw-result {
+  background: var(--bg-elev);
+  border-radius: 10px;
+  padding: 18px;
+  margin-top: 16px;
+  text-align: center;
+}
+.fw-result-label { font-size: 14px; color: var(--ink-muted); }
+.fw-result-val {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  display: block;
+  margin: 8px 0;
+}
+.fw-result-detail { font-size: 13px; color: var(--ink-soft); }
+
+/* Variable cards */
+.var-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 18px 0;
+}
+.var-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.var-card-icon {
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+.var-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.var-card-desc {
+  font-size: 12px;
+  color: var(--ink-muted);
+}

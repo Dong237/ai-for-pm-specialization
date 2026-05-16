@@ -1,0 +1,76 @@
+/* U9 · Vitamin 北极星指标 — unit-specific styles */
+.ns-builder {
+  background: var(--bg-card); border: 2px solid var(--ink);
+  border-radius: 12px; padding: 22px; margin: 20px 0; box-shadow: var(--shadow-card);
+}
+.ns-feature-select {
+  width: 100%; padding: 10px 14px; font-size: 16px;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  border: 2px solid var(--border-strong); border-radius: 8px;
+  background: var(--bg-elev); color: var(--ink); cursor: pointer; margin-bottom: 16px;
+}
+.ns-row {
+  display: flex; align-items: center; gap: 12px; padding: 10px 0;
+  border-bottom: 1px dashed var(--border); flex-wrap: wrap;
+}
+.ns-row:last-child { border-bottom: none; }
+.ns-label {
+  min-width: 110px; font-weight: 700; font-size: 14px;
+}
+.ns-label.star { color: var(--amber); }
+.ns-label.guard { color: var(--blue); }
+.ns-select {
+  flex: 1; min-width: 180px; padding: 8px 12px; font-size: 14px;
+  border: 1.5px solid var(--border-strong); border-radius: 6px;
+  background: var(--bg-elev); color: var(--ink);
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+}
+.ns-result {
+  margin-top: 16px; padding: 16px; border-radius: 10px;
+  border: 2px solid var(--amber); background: var(--amber-bg-soft);
+  min-height: 80px;
+}
+.ns-result-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px; font-weight: 700; color: var(--amber); margin-bottom: 8px;
+}
+.ns-result-item {
+  padding: 4px 0; font-size: 14px; color: var(--ink-soft);
+}
+.ns-result-item strong { color: var(--ink); }
+
+/* North star diagram */
+.ns-diagram {
+  text-align: center; margin: 24px 0; padding: 24px;
+  background: var(--bg-elev); border-radius: 12px; border: 1.5px solid var(--border);
+}
+.ns-star-icon {
+  font-size: 48px; margin-bottom: 8px;
+}
+.ns-star-text {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 22px; font-weight: 700; color: var(--amber); margin-bottom: 16px;
+}
+.ns-guards {
+  display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+}
+.ns-guard-box {
+  padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 600;
+  background: var(--blue-bg); border: 1.5px solid var(--blue); color: var(--blue);
+}
+
+/* Complete metrics table */
+.metrics-final {
+  width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px;
+}
+.metrics-final th {
+  text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border-strong);
+  font-size: 12px; color: var(--ink-muted); font-weight: 700;
+}
+.metrics-final td {
+  padding: 10px 12px; border-bottom: 1px dashed var(--border); vertical-align: top;
+}
+.metrics-final tr:last-child td { border-bottom: none; }
+.metrics-final .feat { font-weight: 700; color: var(--ink); }
+.metrics-final .ns { color: var(--amber); font-weight: 700; }
+.metrics-final .guard { color: var(--blue); }

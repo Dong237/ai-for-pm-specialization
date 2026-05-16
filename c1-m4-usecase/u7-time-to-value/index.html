@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · Time-to-value 估算 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M1.4 Unit 7: 选好了 Build/Buy/API, 多久能上线? 三条路径的真实时间线 + 隐藏延误 + Timeline Estimator." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M1.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 7 · Time-to-value 估算</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">·</span><br/>Time-to-value 估算</h1>
+      <p class="hero-sub">选好了 Build / Buy / API, 但老板下一句一定是: "多久能上线?"</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <figcaption>(你 · PM · 学完 Build/Buy/API)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">我选了 API 方案, 老板说 "两周能上线吗?"</p>
+          <p class="cloud-line">我说 "应该可以吧..." 心里完全没底.</p>
+          <p class="cloud-line accent">—— 到底怎么估时间? AI 项目跟传统开发有啥不同?</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道 No-code / API / Fine-tune 三条路各需要多久</li>
+          <li>识别 AI 项目中 5 个最常见的隐藏延误</li>
+          <li>用 "现实乘数" 把乐观估计修正为合理时间</li>
+          <li>给 Vitamin 的首发功能做出完整时间计划</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) The deadline question -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">PM 最怕的那个问题: "多久能上线?"</h2>
+      <p class="step-lede">面试、周会、OKR 评审 — 无论哪个场景, 这个问题都逃不掉.</p>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1" data-rough="card">
+          <div class="wonder-tag">场景 1</div>
+          <h3>面试官问</h3>
+          <p class="wonder-note">"你打算用 API 做这个功能, 大概多久能让用户用上?"</p>
+        </article>
+        <article class="wonder wonder-2" data-rough="card">
+          <div class="wonder-tag">场景 2</div>
+          <h3>老板在周会上问</h3>
+          <p class="wonder-note">"这个 AI 功能能赶上 Q3 发布吗? 时间表给我."</p>
+        </article>
+        <article class="wonder wonder-3" data-rough="card">
+          <div class="wonder-tag">场景 3</div>
+          <h3>工程师反问你</h3>
+          <p class="wonder-note">"你说两周, 但 prompt 调优你算了吗? 测试数据准备了吗?"</p>
+        </article>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <p><strong>AI 项目时间估计为啥特别难?</strong></p>
+        <p>传统软件: 功能明确 → 写代码 → 测试 → 上线. 流程成熟, 可预测.</p>
+        <p>AI 项目: 多了一个 <mark class="hl">"模型效果不确定" 的变量</mark>. 你不知道 prompt 要调几轮, 不知道 edge case 有多少, 不知道合规审查要多久.</p>
+      </div>
+
+      <div class="step-foot">但好消息是 — 有框架可以估. 先看三条路径各自的时间线 ↓</div>
+    </section>
+
+    <!-- (2) Wrong intuitions -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两个常见误判 — 都会坑你</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>误判 A: "API 接一下, 两天搞定"</h3>
+          <p>觉得调 API 就像调个天气接口一样简单.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong> API 返回的是 "概率性输出", 你需要 prompt engineering (1-3天), edge case 处理 (2-3天), 输出格式解析 (1天), 还有安全审查. 不是 "接上就能用".
+          </div>
+        </article>
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>误判 B: "反正是 no-code, 不用开发"</h3>
+          <p>觉得 Coze/Dify 拖拖拽拽, 一下午就好.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong> No-code 工具确实快, 但"能跑" ≠ "能上线". 你还需要: 测试各种用户输入 (2天), 对接现有系统 (1-2天), 写操作文档 (1天).
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">AI 项目的交付时间 =</p>
+        <p class="truth-line giant">技术开发 × 不确定性乘数</p>
+        <p class="truth-line muted">Productboard 的 PM 团队分享过: "我们在 2 周内做完了 UI 和后端, 然后花了 2 个月调 AI 质量." 这个乘数通常是 1.5x 到 2.5x.</p>
+      </div>
+
+      <div class="step-foot">具体到三条路径, 各自要多久? ↓</div>
+    </section>
+
+    <!-- (3) Three lanes -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">三条路径的时间地图</h2>
+      <p class="step-lede">从 U6 你已经选好了路径. 现在给每条路标上真实时间.</p>
+
+      <div class="three-lanes">
+        <article class="lane lane-nocode" data-rough="card">
+          <div class="lane-header">
+            <span class="lane-icon">🧩</span>
+            <div>
+              <h3>No-code (Coze / Dify)</h3>
+              <span class="lane-time">1-2 周 MVP</span>
+            </div>
+          </div>
+          <div class="lane-bar-container">
+            <div class="lane-bar" style="--bar-width:18%">
+              <span class="bar-label">设计 2d</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:25%">
+              <span class="bar-label">搭建 3d</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:18%">
+              <span class="bar-label">测试 2d</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:9%">
+              <span class="bar-label">上线 1d</span>
+            </div>
+          </div>
+          <p class="lane-note">适合: 内部工具、原型验证、简单对话流</p>
+        </article>
+
+        <article class="lane lane-api" data-rough="card">
+          <div class="lane-header">
+            <span class="lane-icon">🔌</span>
+            <div>
+              <h3>API + 代码 (Python / Node)</h3>
+              <span class="lane-time">2-4 周 MVP</span>
+            </div>
+          </div>
+          <div class="lane-bar-container">
+            <div class="lane-bar" style="--bar-width:15%">
+              <span class="bar-label">设计 3d</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:25%">
+              <span class="bar-label">API 对接 5d</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:25%">
+              <span class="bar-label">UI 开发 5d</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:15%">
+              <span class="bar-label">测试 3d</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:10%">
+              <span class="bar-label">部署 2d</span>
+            </div>
+          </div>
+          <p class="lane-note">适合: 大多数生产级 AI 功能、需要深度定制的场景</p>
+        </article>
+
+        <article class="lane lane-finetune" data-rough="card">
+          <div class="lane-header">
+            <span class="lane-icon">🔬</span>
+            <div>
+              <h3>Fine-tune + 自部署</h3>
+              <span class="lane-time">2-6 个月</span>
+            </div>
+          </div>
+          <div class="lane-bar-container">
+            <div class="lane-bar" style="--bar-width:30%">
+              <span class="bar-label">数据收集 2-4w</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:25%">
+              <span class="bar-label">训练 2-4w</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:15%">
+              <span class="bar-label">评估 1-2w</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:15%">
+              <span class="bar-label">部署 1-2w</span>
+            </div>
+            <div class="lane-bar" style="--bar-width:10%">
+              <span class="bar-label">监控 持续</span>
+            </div>
+          </div>
+          <p class="lane-note">适合: 核心竞争力功能、数据隐私要求极高的场景</p>
+        </article>
+      </div>
+
+      <div class="step-foot">这些是 "技术开发" 的时间. 但还有很多隐藏时间 ↓</div>
+    </section>
+
+    <!-- (4) Phase breakdown -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">每个阶段里到底在干啥?</h2>
+      <p class="step-lede">把每条路径的阶段拆开, 你就知道时间花在了哪里.</p>
+
+      <div class="phase-detail" data-rough="card">
+        <h3 class="phase-title">📋 设计阶段 (所有路径共有)</h3>
+        <ul>
+          <li><strong>需求文档:</strong> 输入什么 → AI 做什么 → 输出什么</li>
+          <li><strong>Prompt 草稿:</strong> 写初版 system prompt + 几个 few-shot 示例</li>
+          <li><strong>数据准备:</strong> 收集 10-50 个真实用户输入做测试集</li>
+          <li><strong>安全边界:</strong> 定义 AI 不该说什么 (尤其健康类产品)</li>
+        </ul>
+      </div>
+
+      <div class="phase-detail" data-rough="card">
+        <h3 class="phase-title">🔧 开发阶段 (差异最大)</h3>
+        <div class="phase-compare">
+          <div class="phase-col">
+            <span class="pill pill-green">No-code</span>
+            <p>在 Coze/Dify 拖拽 workflow, 配置 prompt + 变量, 接知识库.</p>
+            <p class="muted">耗时: 1-3 天</p>
+          </div>
+          <div class="phase-col">
+            <span class="pill pill-blue">API</span>
+            <p>写 API 调用代码, 处理流式输出, 做错误重试, 解析返回格式, 构建前端 UI.</p>
+            <p class="muted">耗时: 5-10 天</p>
+          </div>
+          <div class="phase-col">
+            <span class="pill pill-amber">Fine-tune</span>
+            <p>清洗训练数据, 标注, 选基础模型, 配置训练参数, 跑训练, 评估, 迭代.</p>
+            <p class="muted">耗时: 4-8 周</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-detail" data-rough="card">
+        <h3 class="phase-title">🧪 测试 + 部署阶段</h3>
+        <ul>
+          <li><strong>功能测试:</strong> 正常输入能跑通</li>
+          <li><strong>边界测试:</strong> 奇怪输入不会崩 (空字符串、超长文本、注入攻击)</li>
+          <li><strong>质量测试:</strong> AI 输出是否达标 (这步最耗时!)</li>
+          <li><strong>合规审查:</strong> 尤其是健康/金融类 — 可能单独需要 1-2 周</li>
+          <li><strong>灰度发布:</strong> 先给 5% 用户试, 观察 1 周</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">好了, 时间看起来够清楚了? 不, 还有 5 个 "隐藏时间黑洞" ↓</div>
+    </section>
+
+    <!-- (5) Hidden time sinks -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">5 个隐藏时间黑洞 — 每个都坑过人</h2>
+      <p class="step-lede">这些时间不在任何 "技术开发" 排期里, 但每一个都能让你延期.</p>
+
+      <div class="time-sink-list">
+        <article class="time-sink" data-rough="card">
+          <div class="sink-num">1</div>
+          <div class="sink-content">
+            <h3>数据准备 <span class="sink-extra">+3-10 天</span></h3>
+            <p>你以为数据 "已经有了" — 实际上: 格式不对, 有脏数据, 缺少标注, 需要脱敏处理. <strong>这个环节永远比预期长.</strong></p>
+          </div>
+        </article>
+        <article class="time-sink" data-rough="card">
+          <div class="sink-num">2</div>
+          <div class="sink-content">
+            <h3>Prompt 调优迭代 <span class="sink-extra">+2-7 天</span></h3>
+            <p>第一版 prompt 写完, 效果只有 60%. 接下来是反复测试 → 修改 → 测试的循环. 从 60% 到 90% 的路比 0% 到 60% 更长.</p>
+          </div>
+        </article>
+        <article class="time-sink" data-rough="card">
+          <div class="sink-num">3</div>
+          <div class="sink-content">
+            <h3>合规审查 <span class="sink-extra">+5-15 天</span></h3>
+            <p>健康类产品尤其严格: AI 生成的内容不能构成医疗建议, 需要加免责声明, 敏感词过滤, 可能需要法务审批. Vitamin 必须过这关.</p>
+          </div>
+        </article>
+        <article class="time-sink" data-rough="card">
+          <div class="sink-num">4</div>
+          <div class="sink-content">
+            <h3>团队学习曲线 <span class="sink-extra">+3-5 天</span></h3>
+            <p>如果团队第一次用 LLM API / no-code 工具, 需要时间学习. 文档阅读, 踩坑, 问 StackOverflow... 首个 AI 功能永远最慢.</p>
+          </div>
+        </article>
+        <article class="time-sink" data-rough="card">
+          <div class="sink-num">5</div>
+          <div class="sink-content">
+            <h3>Edge Case 长尾 <span class="sink-extra">+2-5 天</span></h3>
+            <p>AI 在 90% 的正常输入上表现好, 但那 10% 的奇怪输入会让你抓狂: 方言、错别字、中英混输、emoji... 每修一个坑又冒出两个.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>Productboard PM 的真实分享:</strong></p>
+        <p>"我们用 2 周做完了 UI 和后端. 然后花了 <mark class="hl">2 个月</mark> 调 AI 质量. 我们没有在估计中加上'质量迭代'这个环节, 这是最大的教训."</p>
+      </div>
+
+      <div class="step-foot">所以 "估计时间" 到底应该怎么修正? ↓</div>
+    </section>
+
+    <!-- (6) Reality multiplier -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">现实乘数: 把你的估计 ×1.5 到 ×2.5</h2>
+      <p class="step-lede">软件工程有个经典规律: <mark class="hl">开发者永远低估时间, 且低估的倍数惊人地一致</mark>.</p>
+
+      <div class="multiplier-table" data-rough="card">
+        <table>
+          <thead>
+            <tr><th>路径</th><th>乐观估计</th><th>×1.5 (正常)</th><th>×2.0 (常见)</th><th>×2.5 (首次)</th></tr>
+          </thead>
+          <tbody>
+            <tr class="row-nocode">
+              <td><span class="pill pill-green">No-code</span></td>
+              <td>1 周</td><td>1.5 周</td><td>2 周</td><td>2.5 周</td>
+            </tr>
+            <tr class="row-api">
+              <td><span class="pill pill-blue">API</span></td>
+              <td>2 周</td><td>3 周</td><td>4 周</td><td>5 周</td>
+            </tr>
+            <tr class="row-finetune">
+              <td><span class="pill pill-amber">Fine-tune</span></td>
+              <td>2 月</td><td>3 月</td><td>4 月</td><td>5 月</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>怎么选乘数?</strong>
+        <ul>
+          <li><strong>×1.5</strong> — 团队做过类似 AI 项目, 数据已准备好, 合规流程清楚</li>
+          <li><strong>×2.0</strong> — 团队有经验但第一次做这类功能, 数据需要处理</li>
+          <li><strong>×2.5</strong> — 第一个 AI 功能, 团队刚学 LLM, 合规没走过</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>2024 vs 2026: 工具进化让速度变快了</strong>
+        <div class="speed-compare">
+          <div class="speed-row">
+            <span class="speed-label">Coze/Dify</span>
+            <span class="speed-old">2024: 不存在 / 刚出生</span>
+            <span class="speed-arrow">→</span>
+            <span class="speed-new">2026: 成熟, 模板丰富</span>
+          </div>
+          <div class="speed-row">
+            <span class="speed-label">API 工具链</span>
+            <span class="speed-old">2024: 手写, 缺文档</span>
+            <span class="speed-arrow">→</span>
+            <span class="speed-new">2026: SDK 完善, Cursor 辅助写代码</span>
+          </div>
+          <div class="speed-row">
+            <span class="speed-label">Fine-tune</span>
+            <span class="speed-old">2024: 需要 GPU 集群, $1000+</span>
+            <span class="speed-arrow">→</span>
+            <span class="speed-new">2026: LoRA 在消费 GPU 上跑, &lt;$2</span>
+          </div>
+        </div>
+        <p class="muted">→ 所以 2026 年的乘数可以比 2024 年低一档, 但永远不要用 ×1.0.</p>
+      </div>
+
+      <div class="step-foot">除了时间, 还有风险 — 哪些环节最容易出问题? ↓</div>
+    </section>
+
+    <!-- (7) Risk heatmap -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">风险热力图 — 哪里最容易翻车</h2>
+      <p class="step-lede">不同阶段的风险概率和影响不一样. PM 要提前知道 "地雷" 在哪.</p>
+
+      <div class="risk-heatmap" data-rough="card">
+        <div class="heatmap-header">
+          <div class="heatmap-corner"></div>
+          <div class="heatmap-col-label">影响: 低</div>
+          <div class="heatmap-col-label">影响: 中</div>
+          <div class="heatmap-col-label">影响: 高</div>
+        </div>
+        <div class="heatmap-row">
+          <div class="heatmap-row-label">概率: 高</div>
+          <div class="heatmap-cell risk-medium">团队学习曲线</div>
+          <div class="heatmap-cell risk-high">Prompt 调优超时</div>
+          <div class="heatmap-cell risk-critical">数据质量不达标</div>
+        </div>
+        <div class="heatmap-row">
+          <div class="heatmap-row-label">概率: 中</div>
+          <div class="heatmap-cell risk-low">文档缺失</div>
+          <div class="heatmap-cell risk-medium">Edge case 爆炸</div>
+          <div class="heatmap-cell risk-high">合规审查卡住</div>
+        </div>
+        <div class="heatmap-row">
+          <div class="heatmap-row-label">概率: 低</div>
+          <div class="heatmap-cell risk-low">服务器配置</div>
+          <div class="heatmap-cell risk-low">API 价格变动</div>
+          <div class="heatmap-cell risk-medium">模型供应商宕机</div>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>红区 = 必须有 contingency plan:</strong>
+        <ol>
+          <li><strong>数据质量不达标:</strong> Plan B = 先用人工标注 50 条黄金数据, 后续再扩</li>
+          <li><strong>Prompt 调优超时:</strong> Plan B = 设置 "够用就上线" 的质量阈值, 后续迭代</li>
+          <li><strong>合规审查卡住:</strong> Plan B = 提前 1 周提交审查, 先用内部灰度版</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">理论够了, 来动手估一个 ↓</div>
+    </section>
+
+    <!-- (8) WIDGET: Timeline Estimator -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Timeline Estimator</h2>
+      <p class="step-lede">选一个 Vitamin 功能 + 一条路径, 看看真实时间线长什么样.</p>
+
+      <div class="timeline-widget" data-rough="card">
+        <div class="tw-controls">
+          <div class="tw-select-group">
+            <label for="tw-feature">功能:</label>
+            <select id="tw-feature">
+              <option value="0">症状关键词提取 (Reading)</option>
+              <option value="1">个性化健康建议 (Writing)</option>
+              <option value="2">多轮身体状态对话 (Chatting)</option>
+              <option value="3">饮食拍照识别 (Multimodal)</option>
+              <option value="4">医学术语翻译 (Writing)</option>
+              <option value="5">情绪分类识别 (Reading)</option>
+            </select>
+          </div>
+          <div class="tw-select-group">
+            <label for="tw-approach">路径:</label>
+            <select id="tw-approach">
+              <option value="nocode">No-code (Coze/Dify)</option>
+              <option value="api" selected>API + 代码</option>
+              <option value="finetune">Fine-tune + 自部署</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Gantt chart area -->
+        <div class="tw-gantt" id="tw-gantt">
+          <!-- JS renders bars here -->
+        </div>
+
+        <!-- Total duration -->
+        <div class="tw-total" id="tw-total"></div>
+
+        <!-- Risk warnings -->
+        <div class="tw-risks" id="tw-risks"></div>
+
+        <!-- Compare toggle -->
+        <div class="tw-compare-row">
+          <label class="tw-compare-label">
+            <input type="checkbox" id="tw-compare" />
+            <span>对比三条路径</span>
+          </label>
+        </div>
+
+        <!-- Compare gantt -->
+        <div class="tw-compare-gantt" id="tw-compare-gantt" style="display:none"></div>
+
+        <!-- Reality multiplier -->
+        <div class="tw-multiplier">
+          <label for="tw-mult-slider">现实乘数: <span id="tw-mult-val" class="temp-val">1.5</span>x</label>
+          <input id="tw-mult-slider" type="range" min="10" max="25" value="15" step="1" />
+          <div class="temp-scale">
+            <span>1.0x 乐观</span>
+            <span>1.5x 正常</span>
+            <span>2.5x 首次</span>
+          </div>
+          <div class="tw-mult-result" id="tw-mult-result"></div>
+        </div>
+      </div>
+
+      <div class="step-foot">把这个框架用到 Vitamin 的首发功能 ↓</div>
+    </section>
+
+    <!-- (9) Vitamin case study -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 首发功能时间线</h2>
+      <p class="step-lede">假设我们选了 Vitamin 的 #1 功能: <mark class="hl">症状关键词提取</mark> (用 API 路径).</p>
+
+      <div class="vitamin-timeline" data-rough="card">
+        <h3>症状关键词提取 · API 路径 · 详细排期</h3>
+        <div class="vt-phase">
+          <div class="vt-phase-bar vt-design"><span>设计 3d</span></div>
+          <ul class="vt-tasks">
+            <li>Day 1: 需求文档 — 用户输入症状文本 → 提取关键词 → 结构化输出</li>
+            <li>Day 2: 初版 prompt + 20 条测试用例</li>
+            <li>Day 3: 安全边界定义 (不做诊断, 只做提取)</li>
+          </ul>
+        </div>
+        <div class="vt-phase">
+          <div class="vt-phase-bar vt-build"><span>API 对接 5d</span></div>
+          <ul class="vt-tasks">
+            <li>Day 4-5: 搭 API 调用框架, 处理流式输出</li>
+            <li>Day 6-7: Prompt 迭代 (从 60% 准确率 → 85%+)</li>
+            <li>Day 8: 输出格式解析 + 错误重试机制</li>
+          </ul>
+        </div>
+        <div class="vt-phase">
+          <div class="vt-phase-bar vt-test"><span>测试 4d</span></div>
+          <ul class="vt-tasks">
+            <li>Day 9-10: 正常输入 + 边界输入测试</li>
+            <li>Day 11: 合规审查提交 (健康类内容)</li>
+            <li>Day 12: 修复测试发现的问题</li>
+          </ul>
+        </div>
+        <div class="vt-phase">
+          <div class="vt-phase-bar vt-deploy"><span>部署 2d</span></div>
+          <ul class="vt-tasks">
+            <li>Day 13: 灰度发布 5% 用户</li>
+            <li>Day 14: 观察指标, 准备全量发布</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>Vitamin 的特殊风险:</strong>
+        <ul>
+          <li>🔴 <strong>合规审查 (高风险):</strong> 健康类 App, AI 输出不能有医疗诊断暗示. 可能需要额外 1-2 周法务审批.</li>
+          <li>🟡 <strong>数据质量 (中风险):</strong> 中文健康描述多样性高, "头疼" "头痛" "脑壳疼" 都是同一个症状.</li>
+          <li>🟢 <strong>API 对接 (低风险):</strong> 症状提取是成熟的 NLP 任务, prompt 调优有大量参考.</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"我估计这个功能 API 路径需要 2 周开发 + ×1.5 的现实乘数 = 3 周. 最大风险是合规审查, 我的 contingency plan 是提前提交审查 + 先内部灰度."</p>
+        <p class="muted">→ 这种 "数字 + 乘数 + 风险 + Plan B" 的回答, 比 "大概两周吧" 强 10 倍.</p>
+      </div>
+
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) One-line rule + homework -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">乐观估计 × 2 = 你应该给老板的时间.<br/>再加一个 contingency plan = 靠谱 PM.</p>
+        <p class="one-liner-foot muted">AI 项目的不确定性不是 bug, 是 feature. 你的价值就是把不确定性变成可管理的风险.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>用上面的 Timeline Estimator, 为 Vitamin 的 "个性化健康建议" 功能选择最适合的路径, 并生成完整时间线.</li>
+          <li>找出该功能 time-to-value 中最大的风险, 写出你的 contingency plan (100 字).</li>
+          <li>比较三条路径的时间线, 写 150 字分析: 为什么你选了这条路径而不是另外两条?</li>
+          <li>上 Coze (coze.cn) 或 Dify, 花 15 分钟搭一个最简的 "症状关键词提取" workflow, 体会 no-code 的速度.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>内容</th><th>来源</th><th>推荐理由</th><th>时间</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>📖</td>
+              <td>The AI Value Curve for Product Managers</td>
+              <td><a href="https://www.productfocus.com/product-management-resources/infographics/the-ai-value-curve-for-product-managers/" target="_blank">Product Focus</a></td>
+              <td>AI 产品价值曲线, 直观理解 TTV 演变</td>
+              <td>10 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>Building AI Products: Lessons from Productboard</td>
+              <td><a href="https://blog.ravi-mehta.com/p/building-ai-products-lessons-from" target="_blank">Ravi Mehta</a></td>
+              <td>"质量迭代" 是 AI 项目最大时间黑洞</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>🛠</td>
+              <td>Coze (扣子) — 免费 AI 搭建平台</td>
+              <td><a href="https://www.coze.cn" target="_blank">coze.cn</a></td>
+              <td>亲手体验 no-code 开发速度</td>
+              <td>30 min</td>
+            </tr>
+            <tr>
+              <td>📺</td>
+              <td>AI ROI Measurement Framework</td>
+              <td><a href="https://larridin.com/blog/ai-roi-measurement" target="_blank">Larridin</a></td>
+              <td>从 "感觉型" 到 "量化型" 的 ROI 方法论</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>AI 产品经理全景成长指南</td>
+              <td><a href="https://www.woshipm.com/zhichang/6240879.html" target="_blank">人人都是产品经理</a></td>
+              <td>中文 AI PM 成长路径, 从定位到精通</td>
+              <td>20 min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> PM 最怕的 deadline 问题</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 两个常见误判</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> 三条路径时间地图</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> 每阶段在干啥</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 5 个隐藏时间黑洞</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 现实乘数 ×1.5~2.5</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 风险热力图</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Timeline Estimator</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 首发时间线</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 7:</p>
+        <p class="end-summary-big">乐观估计 × 2 = 靠谱时间. 再备一个 Plan B = 资深 PM.</p>
+        <p class="end-summary-sub">AI 项目的不确定性是常态, 管理不确定性才是 PM 的价值.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 8): Vitamin 6 候选场景取舍 — Capstone</div>
+        <p>所有框架都到齐了: Augmentation/Automation 谱系, R/W/C 分类, ROI 计算, Build/Buy/API 决策, 时间线估算.</p>
+        <p><strong>最终 Boss 关: 把 6 个候选 AI 功能放进 ROI × TTV 矩阵, 产出 Vitamin 的分阶段路线图.</strong></p>
+        <a class="walk-arrow" href="../u8-vitamin-priority/index.html">继续走 → Unit 8 (Capstone)</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.4 · Unit 7 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

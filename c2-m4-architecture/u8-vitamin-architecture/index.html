@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 8 · Vitamin 架构选型 — AI for PM · M2.4</title>
+  <meta name="description" content="Vitamin 身体翻译器为什么选 RAG + Multi-Agent? 完整论证过程." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.4</span></a><div class="topbar-right"><span class="unit-label">Unit 8 · Vitamin 架构</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 8<span class="title-dot">·</span><br/>Vitamin 架构选型</h1>
+      <p class="hero-sub">把前 7 个单元学的全用上 — 给 Vitamin 做完整架构决策.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">面试官问: "Vitamin 的技术架构怎么选的? 为什么?"</p>
+          <p class="cloud-line accent">—— 今天, 你要能完整论证这个决策.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>为 Vitamin 每个功能匹配最优架构, 并论证理由</li>
+          <li>画出 Vitamin 架构的演进路线图</li>
+          <li>解释 "为什么选 RAG + Multi-Agent 而不是 Fine-tune"</li>
+          <li>产出一份可用于面试的《架构决策文档》</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">Vitamin 的 6 个核心功能</h2>
+      <p class="step-lede">先把 Vitamin 的核心功能列出来, 然后逐个选架构:</p>
+      <div class="recall-table">
+        <div class="recall-row"><div class="recall-task" style="min-width:150px;">5 状态情绪分类</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">用户输入 → 分到活力/平稳/疲惫/经期/恢复 之一</div></div>
+        <div class="recall-row"><div class="recall-task" style="min-width:150px;">每日健康提醒</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">根据当前状态生成个性化提醒文案</div></div>
+        <div class="recall-row"><div class="recall-task" style="min-width:150px;">医学知识问答</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">"经期能吃布洛芬吗" → 基于权威指南回答</div></div>
+        <div class="recall-row"><div class="recall-task" style="min-width:150px;">药物交互查询</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">检查药物之间的禁忌和注意事项</div></div>
+        <div class="recall-row"><div class="recall-task" style="min-width:150px;">品牌语调</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">所有输出统一 "闺蜜式关怀" 风格</div></div>
+        <div class="recall-row"><div class="recall-task" style="min-width:150px;">身体翻译器</div><div class="recall-arrow">&rarr;</div><div class="recall-explain">分析→检索→生成→审核 的完整流程</div></div>
+      </div>
+      <div class="step-foot">一个个分析 &darr;</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">用决策树逐个分析</h2>
+      <p class="step-lede">把 Unit 6 的决策树用起来:</p>
+      <table class="compare-table">
+        <thead><tr><th>功能</th><th>Q1 知识</th><th>Q2 溯源</th><th>Q3 Prompt</th><th>推荐</th></tr></thead>
+        <tbody>
+          <tr><td>情绪分类</td><td style="color:var(--green);">够</td><td style="color:var(--green);">不要</td><td style="color:var(--green);">满意</td><td><span class="pill pill-green">Prompt-only</span></td></tr>
+          <tr><td>健康提醒</td><td style="color:var(--green);">够</td><td style="color:var(--green);">不要</td><td style="color:var(--green);">满意</td><td><span class="pill pill-green">Prompt-only</span></td></tr>
+          <tr><td>医学问答</td><td style="color:var(--red);">不够</td><td colspan="2">—</td><td><span class="pill pill-blue">RAG</span></td></tr>
+          <tr><td>药物查询</td><td style="color:var(--red);">不够</td><td colspan="2">—</td><td><span class="pill pill-blue">RAG + 规则</span></td></tr>
+          <tr><td>品牌语调</td><td style="color:var(--green);">够</td><td style="color:var(--green);">不要</td><td style="color:var(--red);">不满意</td><td><span class="pill pill-amber">Fine-tune (后期)</span></td></tr>
+          <tr><td>身体翻译器</td><td style="color:var(--red);">不够</td><td colspan="2">→ Q6: 多步骤+多专长 = Yes</td><td style="background:var(--red-bg);color:var(--red);padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;">Multi-Agent</td></tr>
+        </tbody>
+      </table>
+      <div class="step-foot">结论: 混合架构 &darr;</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">结论: Vitamin 是混合架构</h2>
+      <div class="truth-bubble">
+        <div class="truth-tag">核心结论</div>
+        <p class="truth-line giant">Vitamin 不是 "选一种架构",<br/>而是 "每个功能选最合适的架构".</p>
+        <p class="truth-line muted">这就是 2026 年的最佳实践 — 混合架构 (Hybrid Architecture).</p>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 架构摘要:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li><span class="pill pill-green">Prompt-only</span> 情绪分类 + 健康提醒 + 文案生成</li>
+          <li><span class="pill pill-blue">RAG</span> 医学知识问答 + 药物交互查询</li>
+          <li><span class="pill pill-amber">Fine-tune</span> 品牌语调统一 (PMF 后)</li>
+          <li><span style="background:var(--red-bg);color:var(--red);padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;">Multi-Agent</span> 身体翻译器完整版 (规模化后)</li>
+        </ul>
+      </div>
+      <div class="step-foot">为什么不直接 Fine-tune 一切? &darr;</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">为什么不 Fine-tune 一切?</h2>
+      <p class="step-lede">面试官可能会问: "为什么不直接 Fine-tune 一个 Vitamin 专用模型, 什么都能干?"</p>
+      <div class="callout callout-red">
+        <p><strong>3 个原因:</strong></p>
+        <ol style="margin:8px 0 0;padding-left:20px;">
+          <li><strong>知识更新</strong> — 医学指南每季度更新. Fine-tune 要重新训练, RAG 只需换文档.</li>
+          <li><strong>溯源需求</strong> — 健康产品必须标注建议来源. Fine-tune 做不到引用, RAG 天然支持.</li>
+          <li><strong>成本节奏</strong> — 现阶段没有 PMF, 花 5 万训模型可能需求一变就白花了. 等稳定了再做.</li>
+        </ol>
+      </div>
+      <div class="step-foot">架构演进路线图 &darr;</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Vitamin 架构演进路线图</h2>
+      <div class="arch-timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot" style="border-color:var(--green);"></div>
+          <div class="timeline-phase" style="color:var(--green);">Phase 1: MVP (现在)</div>
+          <div class="timeline-desc">全部用 Prompt-only. 快速上线, 验证核心需求.</div>
+          <div class="timeline-arch" style="background:var(--green-bg);color:var(--green);">Prompt-only 全覆盖</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="border-color:var(--blue);"></div>
+          <div class="timeline-phase" style="color:var(--blue);">Phase 2: 验证后 (1-2 月后)</div>
+          <div class="timeline-desc">医学问答和药物查询升级到 RAG. 搭建知识库, 接入权威医学指南.</div>
+          <div class="timeline-arch" style="background:var(--blue-bg);color:var(--blue);">Prompt + RAG</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="border-color:var(--amber);"></div>
+          <div class="timeline-phase" style="color:var(--amber);">Phase 3: PMF 后 (6 月后)</div>
+          <div class="timeline-desc">积累 1000+ 条品牌风格数据, 用 LoRA 微调品牌语调. 考虑成本优化 (小模型 Fine-tune 替代大模型).</div>
+          <div class="timeline-arch" style="background:var(--amber-bg);color:var(--amber);">Prompt + RAG + Fine-tune</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="border-color:var(--red);"></div>
+          <div class="timeline-phase" style="color:var(--red);">Phase 4: 规模化 (1 年后)</div>
+          <div class="timeline-desc">身体翻译器升级到 Multi-Agent: 症状分析 Agent + RAG 检索 Agent + 建议生成 Agent + 安全审核 Agent.</div>
+          <div class="timeline-arch" style="background:var(--red-bg);color:var(--red);">全混合架构</div>
+        </div>
+      </div>
+      <div class="step-foot">三角取舍在每个阶段的体现 &darr;</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">每个阶段的三角取舍</h2>
+      <table class="compare-table">
+        <thead><tr><th>阶段</th><th>优化了</th><th>牺牲了</th><th>理由</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--green);">Phase 1</td><td>成本 + 简单</td><td>效果上限</td><td>验证需求 > 追求效果</td></tr>
+          <tr><td style="color:var(--blue);">Phase 2</td><td>效果 + 成本</td><td>复杂度</td><td>用户要准确的医学信息</td></tr>
+          <tr><td style="color:var(--amber);">Phase 3</td><td>效果</td><td>成本 + 复杂度</td><td>品牌差异化是竞争力</td></tr>
+          <tr><td style="color:var(--red);">Phase 4</td><td>效果 (极致)</td><td>成本 + 复杂度 (极高)</td><td>规模化后的用户体验壁垒</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-amber">
+        <p><strong>关键:</strong> 每个阶段都有明确的 "我们牺牲了什么". 这不是偷懒, 是 <mark class="hl">阶段性最优解</mark>.</p>
+      </div>
+      <div class="step-foot">完整论证 &darr;</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">完整论证: 为什么选 RAG + Multi-Agent</h2>
+      <div class="callout callout-blue">
+        <p><strong>身体翻译器为什么不能只用 Fine-tune?</strong></p>
+        <ol style="margin:8px 0 0;padding-left:20px;">
+          <li><strong>Fine-tune 教 "怎么说", 不教 "知道什么"</strong> — 医学知识需要 RAG 实时检索, Fine-tune 搞不定</li>
+          <li><strong>Fine-tune 没有溯源能力</strong> — 健康建议必须标注来源, RAG 天然支持</li>
+          <li><strong>Fine-tune 是单步的</strong> — 身体翻译器有 4 步 (分析→检索→生成→审核), 需要 Multi-Agent 编排</li>
+          <li><strong>Fine-tune 更新代价高</strong> — 医学指南更新要重新训练, RAG 换文档即可</li>
+        </ol>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>最终架构: RAG + Multi-Agent 的组合</strong></p>
+        <p style="font-size:14px;">RAG 负责 "知识层" (检索医学指南), Multi-Agent 负责 "编排层" (协调 4 个 Agent). Fine-tune 作为 "润色层" (PMF 后给生成 Agent 微调品牌语调). 三者不是替代关系, 是互补关系.</p>
+      </div>
+      <div class="step-foot">动手: 生成架构报告 &darr;</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试试 — 架构报告生成器</h2>
+      <p class="step-lede">为每个功能选择架构, 然后点击 "生成报告", 看看你的选择和推荐是否一致.</p>
+      <div class="report-builder">
+        <div class="feature-selector">
+          <div class="feature-row">
+            <span class="feature-name">5 状态情绪分类</span>
+            <select class="feature-select"><option value="prompt">Prompt-only</option><option value="rag">RAG</option><option value="finetune">Fine-tune</option><option value="multiagent">Multi-Agent</option></select>
+          </div>
+          <div class="feature-row">
+            <span class="feature-name">每日健康提醒</span>
+            <select class="feature-select"><option value="prompt">Prompt-only</option><option value="rag">RAG</option><option value="finetune">Fine-tune</option><option value="multiagent">Multi-Agent</option></select>
+          </div>
+          <div class="feature-row">
+            <span class="feature-name">医学知识问答</span>
+            <select class="feature-select"><option value="prompt">Prompt-only</option><option value="rag" selected>RAG</option><option value="finetune">Fine-tune</option><option value="multiagent">Multi-Agent</option></select>
+          </div>
+          <div class="feature-row">
+            <span class="feature-name">药物交互查询</span>
+            <select class="feature-select"><option value="prompt">Prompt-only</option><option value="rag" selected>RAG</option><option value="finetune">Fine-tune</option><option value="multiagent">Multi-Agent</option></select>
+          </div>
+          <div class="feature-row">
+            <span class="feature-name">品牌语调统一</span>
+            <select class="feature-select"><option value="prompt">Prompt-only</option><option value="rag">RAG</option><option value="finetune" selected>Fine-tune</option><option value="multiagent">Multi-Agent</option></select>
+          </div>
+          <div class="feature-row">
+            <span class="feature-name">身体翻译器</span>
+            <select class="feature-select"><option value="prompt">Prompt-only</option><option value="rag">RAG</option><option value="finetune">Fine-tune</option><option value="multiagent" selected>Multi-Agent</option></select>
+          </div>
+        </div>
+        <button class="btn btn-primary generate-btn" id="generate-report">生成架构报告 &rarr;</button>
+        <div class="report-output" id="report-output">
+          <p style="color:var(--ink-muted);text-align:center;padding:40px 0;">为每个功能选择架构, 然后点击 "生成报告"</p>
+        </div>
+      </div>
+      <div class="step-foot">面试怎么说? &darr;</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">面试回答模板</h2>
+      <p class="step-lede">面试官问 "Vitamin 的架构怎么选的", 这样答:</p>
+      <div class="callout callout-red">
+        <p><strong>面试完整版回答 (2 分钟):</strong></p>
+        <p style="font-size:14px;margin-top:8px;">"Vitamin 是混合架构, 按功能分层选型.</p>
+        <p style="font-size:14px;"><strong>第一层</strong>, 情绪分类、文案生成这类标准化任务, 用 <strong>Prompt-only</strong> — 成本最低, 效果够用.</p>
+        <p style="font-size:14px;"><strong>第二层</strong>, 医学知识问答必须用 <strong>RAG</strong> — 原因三点: 知识需要更新, 回答需要溯源, 幻觉在健康领域零容忍.</p>
+        <p style="font-size:14px;"><strong>第三层</strong>, <strong>Fine-tune</strong> 放在 PMF 后 — 现在 Prompt + Few-shot 能控制 80% 语调, 等品牌风格确定、数据积累够了再做.</p>
+        <p style="font-size:14px;"><strong>第四层</strong>, 身体翻译器终版用 <strong>Multi-Agent</strong> — 因为有 4 步 (分析→检索→生成→审核), 每步需要不同专长, 单 Agent 搞不定.</p>
+        <p style="font-size:14px;">整体策略: <strong>从简到繁, 按需升级</strong>. MVP 先用最简方案上线, 验证需求后再逐步加 RAG、Fine-tune、Multi-Agent."</p>
+      </div>
+      <div class="step-foot">最后: 作业 + Course 2 收官 &darr;</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Vitamin 不是 "选一种架构",<br/>而是 "每个功能选最合适的架构".<br/>混合架构, 按需升级.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>用架构报告生成器, 给 Vitamin 的 6 个功能都选好架构, 截图保存.</li>
+          <li>画出 Vitamin 的 4 阶段架构演进路线图 (手画), 标注每阶段的架构和理由.</li>
+          <li>写出完整的面试回答 (参考 Step 9 模板), 对着镜子说一遍, 控制在 2 分钟内.</li>
+          <li>整理成一页《Vitamin 架构决策文档》— 包含: 功能清单 + 架构选择 + 决策理由 + 演进路线.</li>
+        </ol>
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://www.ibm.com/think/topics/rag-vs-fine-tuning-vs-prompt-engineering" target="_blank" style="color:var(--blue);">IBM: RAG vs Fine-tuning vs Prompt</a></td><td style="padding:6px 8px;">IBM</td><td style="padding:6px 8px;">最权威的三者对比</td><td style="padding:6px 8px;">15 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://zhuanlan.zhihu.com/p/17321014859" target="_blank" style="color:var(--blue);">大模型项目策略选型</a></td><td style="padding:6px 8px;">知乎</td><td style="padding:6px 8px;">中文, 企业选型全流程</td><td style="padding:6px 8px;">15 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://umesh-malik.com/blog/rag-vs-fine-tuning-llms-2026" target="_blank" style="color:var(--blue);">RAG vs Fine-tuning 2026 Production Guide</a></td><td style="padding:6px 8px;">umesh-malik</td><td style="padding:6px 8px;">生产级选型指南</td><td style="padding:6px 8px;">20 min</td></tr>
+            <tr><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://www.news.aakashg.com/p/rag-vs-fine-tuning-vs-prompt-engineering" target="_blank" style="color:var(--blue);">Complete Guide to AI Optimization</a></td><td style="padding:6px 8px;">aakashg</td><td style="padding:6px 8px;">2025 完整优化指南</td><td style="padding:6px 8px;">20 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 &darr;</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 6 个核心功能</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 决策树逐个分析</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 混合架构</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 为什么不 Fine-tune</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 演进路线图</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 每阶段取舍</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 完整论证</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 报告生成器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> 面试回答</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 8:</p>
+        <p class="end-summary-big">Vitamin = 混合架构: Prompt + RAG + Fine-tune + Multi-Agent, 按功能分层, 按阶段升级.</p>
+      </div>
+
+      <!-- Course 2 completion -->
+      <div class="course-complete">
+        <div class="course-complete-badge">🎓</div>
+        <div class="course-complete-title">Course 2: Design 完成!</div>
+        <p style="font-size:15px;color:var(--ink-soft);margin:0 0 12px;">恭喜! 你已经完成了 Course 2 的全部 4 个模块.</p>
+        <ul class="course-complete-list">
+          <li>Vitamin PRD v2 (AI 版 PRD, 含 IO/指标/兜底/Prompt)</li>
+          <li>成本模型 (Token 经济学 + 3 档优化方案)</li>
+          <li>指标体系 (北极星 + 守门指标 + 报警阈值)</li>
+          <li>架构决策文档 (功能选型 + 演进路线 + 论证)</li>
+        </ul>
+        <p style="font-size:14px;color:var(--ink-muted);">这 4 份文档 = 你的<strong>面试作品集核心</strong>.</p>
+      </div>
+
+      <div class="next-card" style="border-color:var(--green);border-style:solid;">
+        <div class="next-tag" style="background:var(--green-bg);color:var(--green);">下一门课: Course 3 · Build</div>
+        <p>Design 阶段完成了. 接下来 <strong>动手搭建</strong>:</p>
+        <p>Prompt Engineering 系统方法 &rarr; Coze Agent 实操 &rarr; Python 自动化 &rarr; Demo 录制.</p>
+        <p><strong>从 "写文档" 到 "做出来" — 这是 AI PM 和传统 PM 的分水岭.</strong></p>
+        <a class="walk-arrow" href="../../c3-m1-prompt/u1-four-sections/index.html">继续走 → Course 3</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.4 · Unit 8 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

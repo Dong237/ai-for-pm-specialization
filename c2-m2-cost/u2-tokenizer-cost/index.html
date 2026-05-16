@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 2 · Tokenizer 差异放大成本 — AI for PM · M2.2</title>
+  <meta name="description" content="同一句中文, GPT 比 Qwen 多 30% token. 选错模型, 成本翻番." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.2</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 · Tokenizer 差异</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航"><ol>
+    <li><a href="#start" data-step="0">&#9654;</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+    <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+    <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+    <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+    <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">&#9632;</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 2<span class="title-dot">&middot;</span><br/>Tokenizer 差异<br/>放大成本</h1>
+      <p class="hero-sub">同一句中文 &mdash; GPT 切 19 个 token, Qwen 只切 6 个. 选错 tokenizer, 成本直接翻 3 倍.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="你"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M44 38 Q50 34 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 &middot; 中文 AI 产品 PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">上节课我知道了模型之间价差 100 倍.</p>
+          <p class="cloud-line">但是... 我用中文发 prompt, 是不是比英文更贵?</p>
+          <p class="cloud-line accent">&mdash;&mdash; 是的. 而且可以避免.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 BPE tokenizer 为什么对中文不友好</li>
+          <li>知道同一句话在 GPT / Claude / DeepSeek 分别生成多少 token</li>
+          <li>学会用 "中文友好度" 作为选模型的依据之一</li>
+          <li>算出 Vitamin 因为 tokenizer 差异多花了多少钱</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">同一句话, 三个 tokenizer 切出不同结果</h2>
+      <p class="step-lede">来看这句话: <strong>"人工智能正在重塑全球的信息基础设施"</strong> &mdash; 16 个汉字.</p>
+
+      <div class="tok-compare">
+        <div class="tok-model">
+          <div class="tok-model-head" style="color:var(--green);">GPT-5.5 (o200k)</div>
+          <div class="tok-segments">
+            <span class="tok-seg c0">人工</span><span class="tok-seg c1">智能</span><span class="tok-seg c2">正在</span><span class="tok-seg c3">重</span><span class="tok-seg c4">塑</span><span class="tok-seg c0">全球</span><span class="tok-seg c1">的</span><span class="tok-seg c2">信息</span><span class="tok-seg c3">基础</span><span class="tok-seg c4">设</span><span class="tok-seg c0">施</span>
+          </div>
+          <span class="tok-count" style="color:var(--red);">11</span> tokens
+          <div class="tok-cost" style="color:var(--red);">GPT-5.5: $0.000055 输入</div>
+        </div>
+        <div class="tok-model">
+          <div class="tok-model-head" style="color:var(--amber);">Claude (cl200k)</div>
+          <div class="tok-segments">
+            <span class="tok-seg c0">人工智能</span><span class="tok-seg c1">正在</span><span class="tok-seg c2">重塑</span><span class="tok-seg c3">全球</span><span class="tok-seg c4">的</span><span class="tok-seg c0">信息</span><span class="tok-seg c1">基础</span><span class="tok-seg c2">设施</span>
+          </div>
+          <span class="tok-count" style="color:var(--amber);">8</span> tokens
+          <div class="tok-cost" style="color:var(--amber);">Claude Sonnet: $0.000024 输入</div>
+        </div>
+        <div class="tok-model">
+          <div class="tok-model-head" style="color:var(--blue);">Qwen3 / DeepSeek</div>
+          <div class="tok-segments">
+            <span class="tok-seg c0">人工智能</span><span class="tok-seg c1">正在</span><span class="tok-seg c2">重塑</span><span class="tok-seg c3">全球的</span><span class="tok-seg c4">信息基础设施</span>
+          </div>
+          <span class="tok-count" style="color:var(--green);">5</span> tokens
+          <div class="tok-cost" style="color:var(--green);">DeepSeek V4: $0.0000007 输入</div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>同一句 16 字的中文:</strong> GPT 切了 11 个 token, Qwen 只切了 5 个 &mdash; 差了 <strong>2.2 倍</strong>. 再乘以价格差, 成本差距就更大了.</p>
+      </div>
+      <div class="step-foot">为什么差这么多? 答案在训练数据里 &darr;</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">BPE: 训练数据决定 token 效率</h2>
+      <p class="step-lede">所有主流模型用的分词算法叫 <strong>BPE (Byte Pair Encoding)</strong>. 它的原理很简单:</p>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">BPE 原理</div>
+        <p class="truth-line big">BPE 统计训练文本中<mark class="hl">哪些字符对出现最频繁</mark>, 然后把它们合并成一个 token.</p>
+        <p class="truth-line">训练数据中英文多 &rarr; "the", "ing", "tion" 被合并成单个 token &rarr; 英文 token 效率高</p>
+        <p class="truth-line">训练数据中中文少 &rarr; 中文汉字没机会合并 &rarr; 每个字都是单独 token &rarr; 效率低</p>
+        <p class="truth-line muted">&rarr; 这就是中文 "税" 的根源: 不是中文天生低效, 是 tokenizer 偏心了.</p>
+      </div>
+
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">&cross;</div>
+          <h3>GPT-2 时代 (英文至上)</h3>
+          <p>训练数据 90%+ 英文, 中文汉字被拆成 UTF-8 字节, 一个汉字 = 3 个 token!</p>
+        </article>
+        <article class="wrong" style="border-color:var(--green); background:var(--green-bg-soft);">
+          <div class="wrong-mark" style="color:var(--green);">&#10003;</div>
+          <h3>Qwen / DeepSeek (中文优化)</h3>
+          <p>训练数据包含大量中文, "人工智能" "信息基础设施" 整体成为一个 token. 效率反超英文!</p>
+        </article>
+      </div>
+      <div class="step-foot">GPT 后来改善了, 但中文依然比英文贵 &darr;</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">GPT 的进化: 越来越好, 但仍有差距</h2>
+      <p class="step-lede">GPT 的词表从 50k &rarr; 100k &rarr; 200k, 中文效率逐步提升, 但跟国产模型比仍有差距.</p>
+
+      <div class="zh-tax-chart" style="height:200px; padding-bottom:36px;">
+        <div class="zh-tax-bar-group">
+          <div class="zh-tax-bars">
+            <div class="zh-bar" style="height:160px; background:var(--red); width:40px;">21</div>
+          </div>
+          <div class="zh-bar-label">GPT-2<br/><span style="font-size:10px;color:var(--ink-muted);">50k vocab</span></div>
+        </div>
+        <div class="zh-tax-bar-group">
+          <div class="zh-tax-bars">
+            <div class="zh-bar" style="height:100px; background:var(--amber); width:40px;">11</div>
+          </div>
+          <div class="zh-bar-label">GPT-4<br/><span style="font-size:10px;color:var(--ink-muted);">100k vocab</span></div>
+        </div>
+        <div class="zh-tax-bar-group">
+          <div class="zh-tax-bars">
+            <div class="zh-bar" style="height:75px; background:var(--amber); width:40px;">8</div>
+          </div>
+          <div class="zh-bar-label">GPT-5.5<br/><span style="font-size:10px;color:var(--ink-muted);">200k vocab</span></div>
+        </div>
+        <div class="zh-tax-bar-group">
+          <div class="zh-tax-bars">
+            <div class="zh-bar" style="height:40px; background:var(--green); width:40px;">5</div>
+          </div>
+          <div class="zh-bar-label">Qwen3<br/><span style="font-size:10px;color:var(--ink-muted);">152k vocab</span></div>
+        </div>
+      </div>
+      <p class="muted" style="text-align:center;">* "人工智能正在重塑全球的信息基础设施" 在各模型的 token 数</p>
+      <div class="step-foot">这种差异带来的 "中文税" 有多大? &darr;</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">中文 "税": 同样意思, 中文比英文贵 30-50%</h2>
+      <p class="step-lede">在 GPT 模型上, 中文文本比等价英文文本多消耗 30-50% 的 token. 这就是所谓的 <mark class="hl">"中文税"</mark>.</p>
+
+      <div class="callout callout-red">
+        <p><strong>对比实验:</strong></p>
+        <p>"人工智能正在改变世界" vs "AI is changing the world"</p>
+        <ul>
+          <li>中文在 GPT-5.5: ~8 tokens</li>
+          <li>英文在 GPT-5.5: ~5 tokens</li>
+          <li>中文多了 <strong>60%</strong></li>
+        </ul>
+        <p class="muted">&rarr; 但在 Qwen / DeepSeek 上, 中文反而可能比英文 <strong>少</strong> token &mdash; 中/英比率低至 0.65x!</p>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>PM 决策影响:</strong></p>
+        <p>如果你的产品是中文为主 (Vitamin 就是), 选择 <mark class="hl">中文友好的 tokenizer</mark> (Qwen / DeepSeek) 能直接省 30-50% 的 token 费用. 这还没算上价格差, 只是 token 数量的差异.</p>
+      </div>
+      <div class="step-foot">Token 差异 x 价格差异 = 复合效应, 有多可怕? &darr;</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">复合效应: Token 差异 &times; 价格差异</h2>
+      <p class="step-lede">Tokenizer 差异和价格差异叠加, 产生惊人的复合效应.</p>
+
+      <div class="callout callout-amber">
+        <p><strong>算个账 &mdash; Vitamin 一天 1000 用户, 每人 5 次对话, 每次 ~500 token:</strong></p>
+        <table style="width:100%; font-size:14px; border-collapse:collapse; margin:12px 0;">
+          <tr style="border-bottom:2px solid var(--border);">
+            <th style="text-align:left; padding:8px 4px;">模型</th>
+            <th style="text-align:right; padding:8px 4px;">Token/次</th>
+            <th style="text-align:right; padding:8px 4px;">日 Token</th>
+            <th style="text-align:right; padding:8px 4px;">月费用</th>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:8px 4px;">GPT-5.5</td>
+            <td style="text-align:right; padding:8px 4px;">~575</td>
+            <td style="text-align:right; padding:8px 4px;">2.875M</td>
+            <td style="text-align:right; padding:8px 4px; color:var(--red); font-weight:700;">$3,019</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:8px 4px;">Claude Sonnet 4.6</td>
+            <td style="text-align:right; padding:8px 4px;">~520</td>
+            <td style="text-align:right; padding:8px 4px;">2.6M</td>
+            <td style="text-align:right; padding:8px 4px; color:var(--amber); font-weight:700;">$1,404</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 4px;">DeepSeek V4 Flash</td>
+            <td style="text-align:right; padding:8px 4px;">~400</td>
+            <td style="text-align:right; padding:8px 4px;">2.0M</td>
+            <td style="text-align:right; padding:8px 4px; color:var(--green); font-weight:700;">$25</td>
+          </tr>
+        </table>
+        <p>GPT-5.5 是 DeepSeek 的 <strong style="color:var(--red);">121 倍</strong>. 其中 ~35 倍来自价格差, ~3.5 倍来自 tokenizer 差异.</p>
+      </div>
+      <div class="step-foot">怎么查自己文本的 token 数? &darr;</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">工具推荐: 查 Token 数的 3 种方式</h2>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1">
+          <div class="wonder-tag">方式 1</div>
+          <h3>在线 Token Counter</h3>
+          <p class="wonder-note">打开 <a href="https://tiktokenizer.vercel.app/" target="_blank">tiktokenizer.vercel.app</a>, 粘贴文字, 选模型, 立刻看到 token 数 + 切分方式.</p>
+        </article>
+        <article class="wonder wonder-2">
+          <div class="wonder-tag">方式 2</div>
+          <h3>API 返回的 usage</h3>
+          <p class="wonder-note">每次 API 调用的 response 里都有 prompt_tokens 和 completion_tokens &mdash; 这是最精确的.</p>
+        </article>
+        <article class="wonder wonder-3">
+          <div class="wonder-tag">方式 3</div>
+          <h3>经验公式</h3>
+          <p class="wonder-note">快速估算: 1 英文词 &asymp; 1.3 token, 1 中文字 &asymp; 1-1.5 token (GPT) 或 0.6-0.9 token (Qwen/DS).</p>
+        </article>
+      </div>
+      <div class="step-foot">知道了差异, 下一步: 怎么选 &darr;</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">选模型的新维度: Tokenizer 友好度</h2>
+      <p class="step-lede">除了 "模型能力" 和 "价格", 你还需要考虑第三个维度: <mark class="hl">Tokenizer 对你语言的友好度</mark>.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>中文产品的 Tokenizer 友好度排名:</strong></p>
+        <ol>
+          <li><span class="pill pill-green">极好</span> Qwen3 系列 / DeepSeek V4 &mdash; 中文 token 效率比英文还高</li>
+          <li><span class="pill pill-green">好</span> GLM / 文心 &mdash; 国产模型, 中文优化</li>
+          <li><span class="pill pill-amber">中等</span> GPT-5.5 (o200k) &mdash; 比 GPT-4 大幅改善, 但仍偏英文</li>
+          <li><span class="pill pill-amber">中等</span> Claude (cl200k) &mdash; 类似 GPT-5.5 水平</li>
+          <li><span class="pill pill-blue">一般</span> Gemini &mdash; 支持多语言但中文不突出</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>PM 决策框架:</strong></p>
+        <p>选模型 = <span style="color:var(--blue);">能力够用</span> &times; <span style="color:var(--green);">价格可承受</span> &times; <span style="color:var(--amber);">tokenizer 友好</span></p>
+        <p class="muted">&rarr; 对中文产品来说, tokenizer 友好度直接影响 30-50% 的成本.</p>
+      </div>
+      <div class="step-foot">来动手体验一下 &darr;</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Tokenizer 成本放大器</h2>
+      <p class="step-lede">输入一段中文, 看看在 3 个模型上的 token 数和费用差异.</p>
+
+      <div class="amplifier-widget">
+        <textarea id="amp-text" class="amplifier-input" placeholder="输入中文文字试试...">你好, 我最近月经不太规律, 上个月推迟了5天, 这个月又提前了3天. 我平时作息比较规律, 饮食也还算健康. 请问这种情况正常吗?</textarea>
+        <div id="amp-results" class="amplifier-results"></div>
+        <p class="muted" style="margin-top:12px; font-size:12px;">* Token 数为估算值. 实际值请用 tiktokenizer.vercel.app 精确查看.</p>
+      </div>
+      <div class="step-foot">回到 Vitamin &darr;</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: 中文产品选中文友好 tokenizer</h2>
+      <p class="step-lede">Vitamin 是纯中文产品 &mdash; 用户输入中文, 回复中文, system prompt 也是中文. Tokenizer 友好度直接影响成本.</p>
+
+      <div class="can-cant">
+        <article class="can-list">
+          <h3 class="can-head" style="color:var(--green);">&#10003; Vitamin 应该优先考虑</h3>
+          <ul>
+            <li>DeepSeek V4 Flash &mdash; 中文最友好 + 最便宜</li>
+            <li>Qwen3 Max &mdash; 中文效率极高 + 阿里生态</li>
+            <li>国产模型 &mdash; 中文天然优化</li>
+          </ul>
+        </article>
+        <article class="cant-list">
+          <h3 class="cant-head" style="color:var(--red);">&#10007; 谨慎使用 (非必要不选)</h3>
+          <ul>
+            <li>GPT-5.5 &mdash; 能力强但中文 token 效率低 + 价格贵</li>
+            <li>Claude Opus &mdash; 质量顶级但中文 token 多 + 贵</li>
+            <li>只在 "质量优先" 场景才用 (复杂健康推理)</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-amber">
+        <strong>面试金句:</strong>
+        <p>"做中文 AI 产品, 选模型不能只看排行榜. 一个对中文不友好的 tokenizer, 会让你的<mark class="hl">每条消息的 token 数多 30-60%</mark>, 再叠加价格差异, 成本可能差 100 倍."</p>
+      </div>
+      <div class="step-foot">一句话总结 + 作业 &darr;</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Tokenizer 是隐形的成本放大器 &mdash;<br/>选对了省 30%, 选错了多花 60%.</p>
+        <p class="one-liner-foot muted">做中文产品, 永远先查: 你选的模型对中文友好吗?</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://tiktokenizer.vercel.app/" target="_blank">tiktokenizer.vercel.app</a>, 把 Vitamin 的 system prompt 粘进去, 分别选 cl100k 和 o200k, 看 token 数差异.</li>
+          <li>用同一段 Vitamin 的用户输入 (比如一段经期咨询), 估算在 GPT-5.5 vs DeepSeek V4 上的费用差.</li>
+          <li>列出 Vitamin 的 3 个最高频功能, 标注它们在不同模型上的 token 数量差.</li>
+          <li>写 200 字: 如果你是 PM, 你会怎么向工程团队提议 "从 GPT 切到 DeepSeek" 而不引起质量担忧?</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue" style="transform:rotate(0.2deg);">
+        <strong>资源延伸:</strong>
+        <table style="width:100%; font-size:13px; border-collapse:collapse; margin-top:8px;">
+          <tr><td style="padding:6px 4px;">&#127918;</td><td><a href="https://tiktokenizer.vercel.app/" target="_blank">Tiktokenizer</a></td><td>在线 tokenizer 可视化工具</td><td>5 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://lafucode.com/en/posts/token-principle-chinese-vs-english-cost" target="_blank">Why Chinese Costs More</a></td><td>中英文 token 差异深度解析</td><td>15 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://www.techflowpost.com/en-US/article/31420" target="_blank">中文 Token 税</a></td><td>TechFlow 深度报道</td><td>15 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128196;</td><td><a href="https://arxiv.org/html/2604.14210v1" target="_blank">Chinese vs English Token Cost</a></td><td>arXiv 论文: 中英文 token 效率实证研究</td><td>30 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#127918;</td><td><a href="https://www.spaceprompts.com/ai-tools/tokenizer" target="_blank">AI Token Counter</a></td><td>支持多模型的免费 token 计数器</td><td>5 min</td></tr>
+        </table>
+      </div>
+      <div class="step-foot">走完了 &mdash; 回顾 &darr;</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 同一句话, 3 种 token 切分</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> BPE 训练偏向</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> GPT 词表进化 50k→200k</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 中文 "税" 30-50%</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 复合效应 121 倍</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 3 种查 token 方式</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Tokenizer 友好度排名</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 成本放大器 widget</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 选中文友好模型</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">Tokenizer = 隐形的成本乘数器. 中文产品选中文友好模型, 直接省 30%.</p>
+        <p class="end-summary-sub">GPT 切 11 个 token 的句子, Qwen 只切 5 个. 这个差距每天乘以百万次调用.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 3): Input vs Output 价格不对称</div>
+        <p>你已经知道了模型价格差和 tokenizer 差. 但还有一个被忽视的成本因素:<br/><strong>输出 token 比输入 token 贵 2-5 倍.</strong> 让模型少说废话, 就是省钱.</p>
+        <a class="walk-arrow" href="../u3-io-asymmetry/index.html">继续走 &rarr; Unit 3</a>
+      </div>
+    </section>
+
+  </main>
+  <footer class="footer"><p>AI for PM &middot; Module 2.2 &middot; Unit 2 &middot; 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

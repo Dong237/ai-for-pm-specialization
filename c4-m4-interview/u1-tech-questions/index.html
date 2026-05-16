@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · 7大高频技术追问 — AI for PM</title>
+  <meta name="description" content="AI PM 面试 7 道最高频的技术追问: RAG vs Fine-tune, Token 成本, 幻觉处理等. 每题准备标准答案." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M4.4</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · 7大高频技术追问</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 1<span class="title-dot">·</span><br/>7 大高频技术追问</h1>
+      <p class="hero-sub">面试官问 "RAG 和 Fine-tune 怎么选?" 你能 30 秒答清楚吗?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="面试中的你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M44 38 Q50 34 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · AI PM 候选人)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">面试官连珠炮: "RAG? Fine-tune? Token 怎么省?"</p>
+          <p class="cloud-line">我知道这些词, 但要我 30 秒讲清楚...</p>
+          <p class="cloud-line">有没有一套"面试标准答案" 让我直接背?</p>
+          <p class="cloud-line accent">—— 有的. 7 题, 今天全过一遍.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>用 30 秒清晰回答 "RAG vs Fine-tune 怎么选"</li>
+          <li>讲清 Token 成本控制的 4 个杠杆</li>
+          <li>掌握幻觉处理的三层防线</li>
+          <li>拿到 7 道高频技术题的"面试逐字稿"</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">AI PM 面试, 技术题考什么?</h2>
+      <p class="step-lede">好消息: 不考你写代码. 坏消息: 考你能不能<mark class="hl">用产品语言讲技术 trade-off</mark>.</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p>根据 2026 年面试数据, AI PM 技术面最高频的 7 个问题:</p>
+        <ol>
+          <li><strong>RAG vs Fine-tune 怎么选?</strong></li>
+          <li><strong>Token 成本怎么控?</strong></li>
+          <li><strong>幻觉 (Hallucination) 怎么处理?</strong></li>
+          <li><strong>Prompt Engineering 和写代码有什么区别?</strong></li>
+          <li><strong>怎么评测模型好不好?</strong></li>
+          <li><strong>用户等太久 (延迟) 怎么办?</strong></li>
+          <li><strong>数据安全怎么保障?</strong></li>
+        </ol>
+      </div>
+
+      <p>面试官问这些, 不是要考你会不会训模型 — 是想看你有没有<strong>和工程师对话的能力</strong>.</p>
+      <p>一个能讲清 trade-off 的 PM, 工程师愿意跟你合作; 一个说 "我不懂技术" 的 PM, 工程师会直接绕过你.</p>
+
+      <div class="step-foot">先看面试里最常犯的错 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两种死法 — 都别踩</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>"我是 PM, 技术的事我不管"</h3>
+          <p>面试官内心: 连 RAG 和 Fine-tune 都分不清, 怎么写 PRD?</p>
+          <div class="wrong-why">
+            <strong>为啥致命:</strong>
+            AI PM 的核心能力就是在技术约束下做产品决策. 不懂技术 = 不会做产品.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>"我来给你讲 Transformer 的 Attention 机制..."</h3>
+          <p>面试官内心: 我要的是 PM, 不是 ML Engineer.</p>
+          <div class="wrong-why">
+            <strong>为啥致命:</strong>
+            过度秀技术深度, 反而让人觉得你"不像 PM". 面试官要的是 trade-off 思维, 不是论文复述.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">正确姿势</div>
+        <p class="truth-line big">技术题的回答公式:</p>
+        <p class="truth-line giant">"取决于场景 + 三个考量 + 我的选择"</p>
+        <p class="truth-line muted">→ 不说 "我不懂", 也不说 "我全懂". 说 "这取决于 X、Y、Z, 我在 Vitamin 里选了 A, 因为..."</p>
+      </div>
+
+      <div class="step-foot">用这个公式, 我们来拆第一题 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Q1: RAG 和 Fine-tune 怎么选?</h2>
+      <p class="step-lede">这是 2026 年 AI PM 面试<mark class="hl">出现率最高</mark>的一题. 30 秒标准答案:</p>
+
+      <div class="decision-tree">
+        <div class="tree-node">你的数据是否频繁更新?</div>
+        <div class="tree-arrow">↓</div>
+        <div class="tree-branch">
+          <div class="tree-yes">
+            <strong>是 → RAG</strong><br/>
+            知识库可以随时更新, 不需要重新训练模型
+          </div>
+          <div class="tree-no">
+            <strong>否 → 继续问 ↓</strong><br/>
+            数据相对稳定, 可以考虑其他方案
+          </div>
+        </div>
+        <div class="tree-node">你需要统一输出风格/格式吗?</div>
+        <div class="tree-arrow">↓</div>
+        <div class="tree-branch">
+          <div class="tree-yes">
+            <strong>是 → Fine-tune</strong><br/>
+            训练模型学会你的风格, 每次输出都稳定
+          </div>
+          <div class="tree-no">
+            <strong>否 → Prompt Engineering</strong><br/>
+            预算有限就先从 Prompt 开始, 逐步升级
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"我的原则是 Prompt → RAG → Fine-tune 逐步升级. 先用 Prompt Engineering 验证可行性, 不够就加 RAG 做知识增强, 最后才考虑 Fine-tune. 而且最佳实践是<strong>组合使用</strong>: Fine-tune 管风格, RAG 管事实."</p>
+      </div>
+
+      <div class="step-foot">第二题: 钱的问题 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Q2: Token 成本怎么控?</h2>
+      <p class="step-lede">面试官问这题, 是在考你有没有<mark class="hl">成本意识</mark>. AI PM 必须会算账.</p>
+
+      <div class="qa-card" data-rough="card">
+        <div class="qa-q">面试官: "你们的 AI 功能一个月 Token 成本多少? 怎么控?"</div>
+        <div class="qa-a">
+          <p><strong>4 个杠杆, 从易到难:</strong></p>
+          <ol>
+            <li><strong>Prompt 压缩</strong> — 去掉冗余指令, 把 500 token 的 prompt 压到 200. 效果不变, 成本直降 60%.</li>
+            <li><strong>模型分级</strong> — 简单任务 (分类/摘要) 用 GPT-4o-mini ($0.15/1M token), 复杂任务 (推理/创作) 才用 GPT-4o ($2.5/1M token). 成本差 15 倍.</li>
+            <li><strong>Prompt Caching</strong> — 相同前缀的 prompt 走缓存, 重复调用成本降 50%.</li>
+            <li><strong>输出控制</strong> — 设 max_tokens 限制生成长度, 避免模型"话痨".</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 要会算的账:</strong>
+        <p>假设 Vitamin 日活 10,000, 每用户每天平均 3 次 AI 交互, 每次 ~800 token (输入+输出).<br/>
+        月 Token 用量 = 10,000 × 3 × 800 × 30 = <strong>7.2 亿 token</strong>.<br/>
+        用 GPT-4o-mini: 7.2 亿 × $0.15/1M ≈ <strong>$108/月</strong>.<br/>
+        用 GPT-4o: 7.2 亿 × $2.5/1M ≈ <strong>$1,800/月</strong>.</p>
+      </div>
+
+      <div class="step-foot">第三题: 最让人头疼的幻觉 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Q3: 幻觉怎么处理?</h2>
+      <p class="step-lede">AI 一本正经地编 — 这是所有 AI 产品最大的风险. 面试官必问.</p>
+
+      <div class="qa-card" data-rough="card">
+        <div class="qa-q">面试官: "你的产品里, 模型如果说错了怎么办?"</div>
+        <div class="qa-a">
+          <p><strong>三层防线, 从底层到产品层:</strong></p>
+          <ol>
+            <li><strong>底层 Grounding</strong> — 用 RAG 给模型喂真实数据源. 模型基于检索到的文档生成, 而不是凭"记忆"编造. 并要求输出<strong>引用来源</strong>.</li>
+            <li><strong>中间层检测</strong> — 让模型同时输出 confidence score. 低于阈值 (比如 0.7) 的回答, 走人工审核队列, 不直接展示给用户.</li>
+            <li><strong>产品层兜底</strong> — UI 上标注 "AI 生成, 仅供参考". 关键决策场景 (健康/金融/法律) 强制人工确认. 用户可以一键反馈 "这个回答有误".</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>健康类产品 (如 Vitamin) 的红线:</strong>
+        <p>绝对不能让 AI 给出诊断性建议 (如 "你可能得了 X 病"). 只能给信息性建议 (如 "经期运动的一般建议是..."). 这不是技术问题, 是<strong>法律问题</strong>.</p>
+      </div>
+
+      <div class="step-foot">第四题: Prompt 到底是啥 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Q4: Prompt Engineering 和写代码有什么区别?</h2>
+      <p class="step-lede">很多面试官会追问: "Prompt 不就是写指令吗? 跟写代码有什么不一样?"</p>
+
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task">代码</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain"><strong>确定性</strong>: 同样输入, 永远同样输出. 可以 debug.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task">Prompt</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain"><strong>概率性</strong>: 同样输入, 每次输出可能不同. 需要评测集来验证.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"我把 Prompt 当作<strong>产品规格说明 (spec)</strong>来管理. 每次修改都走版本控制, 用 50-200 条评测用例跑 regression test, 效果下降就回滚. 跟代码的 CI/CD 流程一样, 只是验证方式从 unit test 变成了 eval set."</p>
+      </div>
+
+      <div class="step-foot">最后三题, 一起过 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Q5 / Q6 / Q7 — 评测 / 延迟 / 安全</h2>
+      <p class="step-lede">这三题出现频率稍低, 但都是加分项. 每题 20 秒答完.</p>
+
+      <div class="quick-qa">
+        <div class="quick-qa-card" data-rough="card" style="transform:rotate(-0.5deg)">
+          <h4>Q5: 怎么评测模型?</h4>
+          <p><strong>3 步:</strong> (1) 建 50-200 条 golden truth 评测集 (2) 选指标: 分类用 F1, 生成用 ROUGE, RAG 用 RAGAS (3) 上线后持续跑 regression test, 模型更新时全量回归.</p>
+        </div>
+        <div class="quick-qa-card" data-rough="card" style="transform:rotate(0.4deg)">
+          <h4>Q6: 延迟怎么降?</h4>
+          <p><strong>4 招:</strong> (1) Streaming 逐字输出, 感知延迟降 50% (2) 简单任务用小模型 <1s (3) 非实时任务走异步 (4) 高频场景预生成, 缓存结果.</p>
+        </div>
+        <div class="quick-qa-card" data-rough="card" style="transform:rotate(-0.3deg)">
+          <h4>Q7: 数据安全?</h4>
+          <p><strong>4 层:</strong> (1) PII 脱敏再送模型 (2) 敏感场景私有部署 (3) 遵守 GDPR/个保法, 不用用户数据训练 (4) 所有 API 调用留审计日志.</p>
+        </div>
+      </div>
+
+      <div class="step-foot">7 道题都过了, 现在用互动卡片练一遍 ↓</div>
+    </section>
+
+    <!-- (8) Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">互动练习: 翻卡片, 测自己</h2>
+      <p class="step-lede">7 张卡片, 每张一道高频题. 点击翻转看答案, 然后给自己打分 — 4 星以上算"掌握".</p>
+
+      <div id="card-deck" class="card-deck"></div>
+
+      <div class="deck-progress">
+        <div class="deck-progress-text" id="deck-progress-text">0 / 7 已掌握 (4星+)</div>
+        <div class="deck-progress-bar">
+          <div class="deck-progress-fill" id="deck-progress-fill"></div>
+        </div>
+        <button id="deck-reset" class="btn btn-ghost">重置</button>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>练法建议:</strong>
+        <p>先不翻卡, 自己说 30 秒答案, 再翻过来对照. 反复练到每题都能脱口而出. 面试时的流畅度 = 你练了多少遍.</p>
+      </div>
+
+      <div class="step-foot">这些题在 Vitamin 项目里怎么答 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 7 题都套上你的项目</h2>
+      <p class="step-lede">面试官追问 "你自己的项目呢?" 时, 你要能<mark class="hl">秒切到 Vitamin 案例</mark>.</p>
+
+      <div class="can-cant">
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">Vitamin 用到的技术选型</h3>
+          <ul>
+            <li><strong>RAG</strong>: 健康知识库 (经期/运动/饮食) 用 RAG 检索, 数据可以随时更新</li>
+            <li><strong>Prompt Engineering</strong>: 情绪安抚对话用精调 prompt, 版本管理 + eval set</li>
+            <li><strong>模型分级</strong>: 情绪分类用 GPT-4o-mini, 复杂健康问答用 GPT-4o</li>
+            <li><strong>Streaming</strong>: 对话回复逐字输出, 用户感知延迟 < 2s</li>
+          </ul>
+        </article>
+
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">Vitamin 的安全红线</h3>
+          <ul>
+            <li><strong>PII 脱敏</strong>: 用户生理数据脱敏后才送入模型</li>
+            <li><strong>不做诊断</strong>: AI 只给信息性建议, 不做医疗诊断</li>
+            <li><strong>幻觉兜底</strong>: 健康建议标注 "仅供参考", 异常回答走人工审核</li>
+            <li><strong>合规</strong>: 用户数据不进训练集, 符合个人信息保护法</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>面试话术模板:</strong>
+        <p>"在 Vitamin 项目里, 我选了 RAG + Prompt Engineering 的组合. RAG 负责健康知识检索, Prompt 负责输出风格控制. 没有用 Fine-tune, 因为我们的数据量不够 1000 条, 而且健康知识需要频繁更新, RAG 更合适."</p>
+      </div>
+
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">AI PM 技术题不考深度, 考 trade-off 思维 ——<br/>
+          "取决于场景 + 三个考量 + 我的选择".</p>
+        <p class="one-liner-foot muted">面试时说 "取决于" 比说 "一定要" 高明 10 倍.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>对着镜子, 用 30 秒回答 "RAG vs Fine-tune 怎么选". 录音, 听自己的流畅度.</li>
+          <li>算一下 Vitamin 的月 Token 成本: 估算 DAU、每用户交互次数、每次 token 量, 算出总费用.</li>
+          <li>把 7 道题的答案写成自己的话 (不要背原文), 各 3-4 句, 存在手机备忘录里.</li>
+          <li>找一个朋友, 让他随机抽 3 题问你, 练习"被追问"时不慌张.</li>
+        </ol>
+
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📖</td>
+              <td><a href="https://www.institutepm.com/knowledge-hub/ai-product-manager-interview-questions" target="_blank" style="color:var(--blue);">50+ AI PM Interview Questions (2026)</a></td>
+              <td style="color:var(--ink-muted);">Institute PM</td>
+              <td style="color:var(--ink-muted);">最全面的题库</td>
+              <td style="color:var(--ink-muted);">30 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📖</td>
+              <td><a href="https://www.ideaplan.io/blog/ai-pm-interview-questions" target="_blank" style="color:var(--blue);">30 AI PM Interview Questions</a></td>
+              <td style="color:var(--ink-muted);">IdeaPlan</td>
+              <td style="color:var(--ink-muted);">精选 30 题 + 答案</td>
+              <td style="color:var(--ink-muted);">20 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📖</td>
+              <td><a href="https://www.datacamp.com/blog/rag-interview-questions" target="_blank" style="color:var(--blue);">Top 30 RAG Interview Questions</a></td>
+              <td style="color:var(--ink-muted);">DataCamp</td>
+              <td style="color:var(--ink-muted);">RAG 专题深入</td>
+              <td style="color:var(--ink-muted);">25 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">📺</td>
+              <td><a href="https://www.tryexponent.com/questions?role=pm&type=artificial-intelligence" target="_blank" style="color:var(--blue);">Exponent AI PM Questions</a></td>
+              <td style="color:var(--ink-muted);">Exponent</td>
+              <td style="color:var(--ink-muted);">视频模拟面试</td>
+              <td style="color:var(--ink-muted);">45 min</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 技术题考 trade-off</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 两种死法别踩</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> RAG vs Fine-tune</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> Token 成本 4 杠杆</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 幻觉三层防线</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> Prompt = 产品 Spec</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 评测/延迟/安全</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> 翻卡片练习</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 套用</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">技术题回答公式: "取决于场景 + 三个考量 + 我的选择".</p>
+        <p class="end-summary-sub">不说"不懂", 不秀论文, 用产品语言讲 trade-off.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 2): STAR 法讲 AI 项目</div>
+        <p>技术题答完了, 面试官下一个问题一定是:<br/>
+        <strong>"说说你做过的 AI 项目?"</strong></p>
+        <p>怎么用 Situation + Task + Action + Result 把 Vitamin 讲成一个让人印象深刻的故事?</p>
+        <a class="walk-arrow" href="../u2-star-method/index.html">继续走 → Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 4 · Module 4 · Unit 1 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

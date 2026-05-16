@@ -1,0 +1,581 @@
+/* ============================================
+   Unit 2 · Reading 类用例
+   Unit-specific styles
+   ============================================ */
+
+/* ===== Step (1) — Input block ===== */
+.input-block {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+  transform: rotate(-0.3deg);
+}
+.input-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.input-text {
+  font-size: 16px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* ===== Three reading cards ===== */
+.three-readings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.reading-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.r-summarize { border-color: var(--blue); transform: rotate(-0.5deg); }
+.r-classify { border-color: var(--green); transform: rotate(0.4deg); }
+.r-extract { border-color: var(--amber); transform: rotate(-0.3deg); }
+
+.r-tag {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.r-tag-blue { background: var(--blue-bg); color: var(--blue); }
+.r-tag-green { background: var(--green-bg); color: var(--green); }
+.r-tag-amber { background: var(--amber-bg); color: var(--amber); }
+
+.r-arrow {
+  font-size: 24px;
+  color: var(--ink-faint);
+  margin: 4px 0;
+}
+.r-output {
+  text-align: left;
+  padding: 12px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  min-height: 60px;
+}
+.r-output p { margin: 4px 0; font-size: 14px; color: var(--ink-soft); }
+
+.r-nature {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+
+/* Classify bars in step 1 */
+.r-class-bars { display: grid; gap: 6px; }
+.r-cbar { display: grid; grid-template-columns: 50px 1fr; gap: 8px; align-items: center; }
+.r-cbar-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-align: right; }
+.r-cbar-track {
+  height: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.r-cbar-fill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  border-radius: 4px;
+  transition: width 1s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+/* Entity tags */
+.r-entity-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.r-entity {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.e-symptom { background: var(--red-bg); color: var(--red); }
+.e-mood { background: var(--purple-bg); color: var(--purple); }
+.e-med { background: var(--blue-bg); color: var(--blue); }
+.e-time { background: var(--green-bg); color: var(--green); }
+.e-cause { background: var(--amber-bg); color: var(--amber); }
+.e-vital { background: var(--blue-bg-soft); color: var(--blue); }
+
+/* ===== Step (2) — Truth trio ===== */
+.truth-trio {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.truth-mode {
+  text-align: center;
+  padding: 14px;
+}
+.truth-mode-icon { font-size: 32px; margin-bottom: 6px; }
+.truth-mode-name {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.truth-mode-eq {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+/* ===== Steps (3-5) — Transform demos ===== */
+.transform-demo {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.td-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+}
+.td-text {
+  font-size: 16px;
+  line-height: 2;
+  margin-bottom: 16px;
+  padding: 14px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  border: 1px dashed var(--border);
+}
+.td-word {
+  display: inline;
+  transition: all 0.3s ease;
+  padding: 2px 0;
+  border-radius: 3px;
+}
+.td-word.key {
+  /* Will be highlighted by JS */
+}
+.td-word.highlighted {
+  background: var(--amber-bg);
+  color: var(--amber);
+  font-weight: 600;
+  padding: 2px 4px;
+}
+.td-word.emph {
+  /* Will be highlighted by JS */
+}
+.td-word.emph-active {
+  background: var(--red-bg);
+  color: var(--red);
+  font-weight: 600;
+  padding: 2px 4px;
+}
+.td-word.dimmed {
+  opacity: 0.3;
+}
+
+.td-process {
+  text-align: center;
+  margin: 16px 0;
+}
+
+.td-output {
+  animation: fadeSlide 0.4s ease;
+}
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.td-result {
+  padding: 14px;
+  background: var(--green-bg-soft);
+  border: 1.5px solid var(--green);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.td-result p { margin: 4px 0; font-size: 15px; }
+.td-meta {
+  font-size: 13px;
+  color: var(--ink-muted);
+  text-align: right;
+  font-style: italic;
+}
+
+/* ===== Step (4) — Classify bars ===== */
+.cls-bars { margin: 10px 0; }
+.cls-bar-row {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 4px 0;
+}
+.cls-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-align: right;
+}
+.cls-track {
+  height: 28px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.cls-fill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  border-radius: 6px;
+  width: 0;
+  transition: width 1s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.cls-fill-red { background: var(--red); }
+.cls-fill-amber { background: var(--amber); }
+.cls-fill-purple { background: var(--purple); }
+.cls-fill-green { background: var(--green); }
+.cls-fill-blue { background: var(--blue); }
+
+.cls-verdict {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ===== Step (5) — Extract JSON ===== */
+.ext-json {
+  padding: 16px;
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: "Cascadia Code", "SF Mono", "Courier New", monospace;
+  font-size: 14px;
+}
+.ext-field {
+  padding: 6px 0;
+  border-bottom: 1px dotted var(--border);
+}
+.ext-field:last-child { border-bottom: none; }
+.ext-key {
+  color: var(--blue);
+  font-weight: 600;
+  margin-right: 8px;
+}
+.ext-val { color: var(--ink-soft); }
+
+/* ===== Step (6) — Comparison table ===== */
+.comparison-table {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.ct-header, .ct-row {
+  display: grid;
+  grid-template-columns: 100px repeat(3, 1fr);
+  gap: 0;
+}
+@media (max-width: 600px) {
+  .ct-header, .ct-row {
+    grid-template-columns: 80px repeat(3, 1fr);
+  }
+}
+.ct-cell {
+  padding: 10px 12px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  color: var(--ink-soft);
+}
+.ct-cell:last-child { border-right: none; }
+.ct-row:last-child .ct-cell { border-bottom: none; }
+.ct-corner {
+  background: var(--bg-elev);
+}
+.ct-h {
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+}
+.ct-h-blue { background: var(--blue-bg-soft); color: var(--blue); }
+.ct-h-green { background: var(--green-bg-soft); color: var(--green); }
+.ct-h-amber { background: var(--amber-bg-soft); color: var(--amber); }
+.ct-label {
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--bg-elev);
+  font-size: 12px;
+}
+
+/* ===== Step (7) — Risk cards ===== */
+.risk-cards {
+  display: grid;
+  gap: 16px;
+  margin: 20px 0;
+}
+.risk-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+}
+.risk-sum { border-color: var(--blue); transform: rotate(-0.3deg); }
+.risk-cls { border-color: var(--green); transform: rotate(0.3deg); }
+.risk-ext { border-color: var(--amber); transform: rotate(-0.2deg); }
+
+.risk-card h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  margin: 0 0 12px;
+  font-size: 17px;
+}
+.risk-scenario { font-size: 14px; }
+.risk-scenario p { margin: 6px 0; color: var(--ink-soft); }
+.risk-q { color: var(--ink); font-weight: 600; margin-top: 12px !important; }
+.risk-scenario ul { padding-left: 18px; margin: 6px 0; }
+.risk-scenario li { padding: 3px 0; }
+
+/* ===== Step (8) — Reading Toolkit widget ===== */
+.reading-toolkit {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: var(--shadow-elev);
+}
+.rt-tabs {
+  display: flex;
+  background: var(--bg-elev);
+  border-bottom: 2px solid var(--border);
+}
+.rt-tab {
+  flex: 1;
+  padding: 12px 10px;
+  background: transparent;
+  border: none;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--ink-muted);
+  transition: background 0.2s, color 0.2s;
+  border-bottom: 3px solid transparent;
+}
+.rt-tab:hover { background: var(--bg-card); color: var(--ink); }
+.rt-tab.active {
+  color: var(--green);
+  background: var(--bg-card);
+  border-bottom-color: var(--green);
+}
+
+.rt-panel {
+  display: none;
+  padding: 22px;
+}
+.rt-panel.active { display: block; animation: fadeSlide 0.3s ease; }
+
+.rt-input-section { margin-bottom: 14px; }
+.rt-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.rt-textarea {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--ink);
+  font-family: "LXGW WenKai Screen", "LXGW WenKai", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.rt-textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+.rt-process {
+  margin-bottom: 16px;
+}
+.rt-output {
+  animation: fadeSlide 0.4s ease;
+}
+.rt-output-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+}
+.rt-output-content {
+  padding: 16px;
+  background: var(--bg-elev);
+  border: 1.5px solid var(--green);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.rt-vitamin-note {
+  padding: 12px 16px;
+  background: var(--green-bg-soft);
+  border: 1.5px solid var(--green);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.rt-vitamin-note strong { display: block; margin-bottom: 4px; color: var(--green); }
+
+/* Output specific styles for toolkit */
+.rt-sum-bullets p {
+  margin: 6px 0;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.rt-cls-bars {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.rt-cls-bar {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 8px;
+  align-items: center;
+}
+.rt-cls-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+  color: var(--ink-soft);
+}
+.rt-cls-track {
+  height: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.rt-cls-fill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  border-radius: 4px;
+  width: 0;
+  transition: width 0.8s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.rt-ext-fields {
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  font-size: 13px;
+}
+.rt-ext-field {
+  padding: 6px 0;
+  border-bottom: 1px dotted var(--border);
+}
+.rt-ext-field:last-child { border-bottom: none; }
+
+/* ===== Step (9) — State Reading Map ===== */
+.state-reading-map {
+  margin: 20px 0;
+}
+.srm-row {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: start;
+}
+.srm-row:last-child { border-bottom: none; }
+@media (max-width: 600px) {
+  .srm-row { grid-template-columns: 1fr; }
+}
+.srm-state {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+.srm-jq { background: var(--red-bg); color: var(--red); }
+.srm-by { background: var(--amber-bg); color: var(--amber); }
+.srm-yq { background: var(--purple-bg); color: var(--purple); }
+.srm-ch { background: var(--green-bg); color: var(--green); }
+.srm-gnq { background: var(--blue-bg); color: var(--blue); }
+
+.srm-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+.srm-mode {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+.srm-mode strong { display: block; margin-bottom: 4px; font-size: 14px; }
+.srm-mode p { margin: 0; color: var(--ink-soft); font-size: 12px; }
+
+/* ===== Resource table (shared pattern) ===== */
+.resource-table-callout { transform: rotate(0deg); }
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 12px;
+}
+.resource-table th {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+.resource-table td {
+  padding: 8px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.resource-table tr:last-child td { border-bottom: none; }

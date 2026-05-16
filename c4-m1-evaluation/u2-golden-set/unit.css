@@ -1,0 +1,271 @@
+/* U2 — Golden Set 构建 · unit-specific styles */
+
+/* Golden Set Builder widget */
+.gs-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+.gs-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 16px;
+}
+@media (max-width: 700px) {
+  .gs-layout { grid-template-columns: 1fr; }
+}
+
+/* Sample bank */
+.gs-bank {
+  background: var(--bg-elev);
+  border: 1.5px dashed var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+.gs-bank h4 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+.gs-bank-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.gs-sample {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: grab;
+  transition: transform 0.15s, box-shadow 0.15s;
+  user-select: none;
+  touch-action: none;
+}
+.gs-sample:active {
+  cursor: grabbing;
+  transform: scale(1.03);
+  box-shadow: var(--shadow-card);
+}
+.gs-sample.placed {
+  opacity: 0.35;
+  cursor: default;
+  text-decoration: line-through;
+}
+.gs-sample-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* Category buckets */
+.gs-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.gs-bucket {
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 12px;
+  min-height: 80px;
+  transition: background 0.2s;
+}
+.gs-bucket.drag-over {
+  box-shadow: var(--shadow-elev);
+}
+.gs-bucket-real {
+  border-color: var(--green);
+  background: var(--green-bg-soft);
+}
+.gs-bucket-edge {
+  border-color: var(--amber);
+  background: var(--amber-bg-soft);
+}
+.gs-bucket-attack {
+  border-color: var(--red);
+  background: var(--red-bg-soft);
+}
+.gs-bucket-label {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.gs-bucket-count {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.gs-bucket-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 30px;
+}
+.gs-placed-chip {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.gs-placed-chip.correct { border-color: var(--green); color: var(--green); }
+.gs-placed-chip.wrong { border-color: var(--red); color: var(--red); }
+
+/* Radar chart placeholder */
+.gs-radar {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+}
+.gs-radar h4 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.gs-radar-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.gs-radar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.gs-radar-label {
+  width: 80px;
+  text-align: right;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.gs-radar-track {
+  flex: 1;
+  height: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.gs-radar-fill {
+  height: 100%;
+  transition: width 0.4s ease;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+}
+.gs-radar-fill-real { background: var(--green); }
+.gs-radar-fill-edge { background: var(--amber); }
+.gs-radar-fill-attack { background: var(--red); }
+.gs-radar-target {
+  font-size: 11px;
+  color: var(--ink-muted);
+  width: 40px;
+}
+
+.gs-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.gs-score {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.gs-score .score-val { color: var(--green); font-size: 22px; }
+
+/* Ratio visual */
+.ratio-visual {
+  display: flex;
+  gap: 4px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+.ratio-block {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid;
+}
+.ratio-real { background: var(--green-bg); border-color: var(--green); }
+.ratio-edge { background: var(--amber-bg); border-color: var(--amber); }
+.ratio-attack { background: var(--red-bg); border-color: var(--red); }
+
+/* Sample table */
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 16px 0;
+}
+.sample-table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--border);
+  font-weight: 600;
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+.sample-table td {
+  padding: 8px 10px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.sample-table .cat-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.cat-real { background: var(--green-bg); color: var(--green); }
+.cat-edge { background: var(--amber-bg); color: var(--amber); }
+.cat-attack { background: var(--red-bg); color: var(--red); }
+
+/* Resource table */
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.resource-table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--border);
+  font-weight: 600;
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+.resource-table td {
+  padding: 8px 10px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.resource-table a { color: var(--blue); }

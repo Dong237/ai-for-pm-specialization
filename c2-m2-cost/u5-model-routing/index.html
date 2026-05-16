@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 5 · 模型分级路由 — AI for PM · M2.2</title>
+  <meta name="description" content="80% 简单问题走便宜模型, 20% 难问题走贵模型. 一个路由策略省 60-80%." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.2</span></a><div class="topbar-right"><span class="unit-label">Unit 5 · 模型路由</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">&#9654;</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">&#9632;</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 5<span class="title-dot">&middot;</span><br/>模型分级路由</h1>
+      <p class="hero-sub">不是每个问题都需要最强大脑. 80% 的简单问题走便宜模型, 就能省 60-80%.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 &middot; 在做成本规划)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">用户说 "你好" 我也走 Claude Opus?</p>
+          <p class="cloud-line">太浪费了! 简单的用便宜模型就行!</p>
+          <p class="cloud-line accent">&mdash;&mdash; 对, 这就是路由的精髓.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>理解路由的核心逻辑: 按复杂度分流</li><li>设计三档模型的路由规则</li><li>知道路由器怎么判断复杂度</li><li>为 Vitamin 写出完整的路由方案</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">不是所有问题都需要 "最强大脑"</h2>
+      <p class="step-lede">看看 Vitamin 一天收到的消息, 按复杂度分:</p>
+      <div class="callout callout-green">
+        <p><span class="pill pill-green">60%</span> <strong>简单</strong> &mdash; "你好" / "帮我记一下早餐" / "今天心情还不错"</p>
+        <p><span class="pill pill-amber">25%</span> <strong>中等</strong> &mdash; "经期可以跑步吗" / "最近老失眠怎么办"</p>
+        <p><span class="pill pill-blue">15%</span> <strong>复杂</strong> &mdash; "我有多囊, 在吃达英-35, 想了解副作用" / 需要深度推理的问题</p>
+      </div>
+      <div class="callout callout-red">
+        <p><strong>如果全用 Claude Opus 4.7:</strong> 60% 的 "你好" 也花 $0.0045/次. 这钱花得冤!</p>
+        <p><strong>用 DeepSeek V4 Flash 处理 "你好":</strong> $0.00006/次. 质量完全够用. <strong style="color:var(--green);">省 75 倍.</strong></p>
+      </div>
+      <div class="step-foot">路由的核心是什么? &darr;</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">路由的核心: 复杂度 &rarr; 模型档位</h2>
+      <div class="truth-bubble">
+        <div class="truth-tag">路由公式</div>
+        <p class="truth-line giant">判断复杂度 &rarr; 选模型</p>
+        <p class="truth-line">简单 &rarr; 便宜模型 (DeepSeek V4 Flash)</p>
+        <p class="truth-line">中等 &rarr; 中档模型 (Claude Sonnet / GPT-5.4)</p>
+        <p class="truth-line">复杂 &rarr; 贵模型 (Claude Opus / GPT-5.5)</p>
+        <p class="truth-line muted">&rarr; 像分诊台: 感冒去社区诊所, 骨折去骨科, 疑难杂症去专家门诊.</p>
+      </div>
+      <div class="step-foot">路由器怎么判断复杂度? &darr;</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">路由器: 4 种判断复杂度的方式</h2>
+      <div class="control-grid">
+        <div class="control-card"><div class="control-num">1</div><h3 style="margin:0 0 6px; font-size:15px;">关键词规则</h3><p style="font-size:13px; color:var(--ink-soft); margin:0;">包含 "你好" / "记录" &rarr; 简单. 包含 "副作用" / "诊断" &rarr; 复杂. 最简单, 0 成本.</p></div>
+        <div class="control-card"><div class="control-num">2</div><h3 style="margin:0 0 6px; font-size:15px;">输入长度</h3><p style="font-size:13px; color:var(--ink-soft); margin:0;">短消息 (&lt;20 token) 大概率简单. 长消息 (&gt;100 token) 可能复杂.</p></div>
+        <div class="control-card"><div class="control-num">3</div><h3 style="margin:0 0 6px; font-size:15px;">便宜模型先分类</h3><p style="font-size:13px; color:var(--ink-soft); margin:0;">用 DeepSeek V4 Flash 做一次 "这个问题是简单/中等/复杂?" 的分类, 成本 $0.00003.</p></div>
+        <div class="control-card"><div class="control-num">4</div><h3 style="margin:0 0 6px; font-size:15px;">功能级路由</h3><p style="font-size:13px; color:var(--ink-soft); margin:0;">不按消息分, 按功能分: 闲聊功能 = 便宜, 健康咨询 = 中档, 医疗问答 = 贵.</p></div>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>PM 推荐:</strong> 先用 <span class="pill pill-green">方式 4 (功能级路由)</span>, 最简单最稳定. 后期再加 <span class="pill pill-amber">方式 3 (模型分类)</span> 做精细化.</p>
+      </div>
+      <div class="step-foot">路由能省多少钱? &darr;</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">路由的省钱数学</h2>
+      <p class="step-lede">假设 Vitamin 每天 5000 次调用, 平均每次 $0.003 (用 Sonnet).</p>
+      <div class="savings-compare">
+        <div class="savings-box" style="border-color:var(--red);">
+          <div class="savings-label">无路由 (全 Sonnet)</div>
+          <span class="savings-amount" style="color:var(--red);">$450/月</span>
+          <div class="savings-label">5000 &times; 30 &times; $0.003</div>
+        </div>
+        <div class="savings-arrow">&rarr;</div>
+        <div class="savings-box" style="border-color:var(--green);">
+          <div class="savings-label">有路由 (三档)</div>
+          <span class="savings-amount" style="color:var(--green);">$112/月</span>
+          <div class="savings-label">60% &times; $0.00006 + 25% &times; $0.003 + 15% &times; $0.005</div>
+        </div>
+      </div>
+      <div class="big-insight">
+        <p class="insight-text">路由省了 <span style="color:var(--green);">75%</span> 的成本.</p>
+        <p style="font-size:14px; margin:0;">$450 &rarr; $112, 每月省 $338.</p>
+      </div>
+      <div class="step-foot">路由失误怎么办? &darr;</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">路由失误 vs 不路由 &mdash; 哪个更贵?</h2>
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">!</div>
+          <h3>路由错误: 复杂问题走了便宜模型</h3>
+          <p>回复质量差, 用户不满意, 可能需要重试 &rarr; 花 2 倍钱</p>
+          <div class="wrong-why"><strong>解决:</strong> 加 "兜底机制" &mdash; 如果便宜模型回复不确定度高, 自动升级到贵模型.</div>
+        </article>
+        <article class="wrong" style="border-color:var(--amber);">
+          <div class="wrong-mark" style="color:var(--amber);">!</div>
+          <h3>不路由: 全用贵模型</h3>
+          <p>"你好" 也花 $0.005 &rarr; 60% 的钱都浪费了</p>
+          <div class="wrong-why"><strong>结论:</strong> 路由偶尔失误 (5-10%), 总成本仍然远低于不路由. 不路由才是最大的浪费.</div>
+        </article>
+      </div>
+      <div class="step-foot">实战: 路由规则怎么写 &darr;</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Vitamin 的路由规则表</h2>
+      <div class="routing-rules">
+        <table>
+          <thead><tr><th>功能 / 场景</th><th>模型档位</th><th>模型</th><th>单次成本</th></tr></thead>
+          <tbody>
+            <tr><td>打招呼 / 闲聊</td><td><span class="pill pill-green">便宜</span></td><td>DeepSeek V4 Flash</td><td>~$0.00006</td></tr>
+            <tr><td>记录饮食 / 运动</td><td><span class="pill pill-green">便宜</span></td><td>DeepSeek V4 Flash</td><td>~$0.00008</td></tr>
+            <tr><td>情绪分类 (5 状态)</td><td><span class="pill pill-green">便宜</span></td><td>DeepSeek V4 Flash</td><td>~$0.00004</td></tr>
+            <tr><td>日常健康问答</td><td><span class="pill pill-amber">中档</span></td><td>Claude Sonnet 4.6</td><td>~$0.003</td></tr>
+            <tr><td>饮食 / 运动建议</td><td><span class="pill pill-amber">中档</span></td><td>Claude Sonnet 4.6</td><td>~$0.004</td></tr>
+            <tr><td>周报 / 月报生成</td><td><span class="pill pill-amber">中档</span></td><td>Claude Sonnet 4.6</td><td>~$0.008</td></tr>
+            <tr><td>复杂健康推理</td><td><span class="pill pill-blue">贵档</span></td><td>Claude Opus 4.7</td><td>~$0.005</td></tr>
+            <tr><td>敏感医疗话题</td><td><span class="pill pill-blue">贵档</span></td><td>Claude Opus 4.7</td><td>~$0.006</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="step-foot">兜底机制: 不确定就升级 &darr;</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">兜底机制: 便宜模型不行就升级</h2>
+      <p class="step-lede">路由不是一锤子买卖. 加一个 <mark class="hl">"不确定就升级"</mark> 的兜底机制:</p>
+      <div class="callout callout-blue">
+        <ol>
+          <li>先用便宜模型回答</li>
+          <li>检查回复: 是否包含 "我不确定" / "建议咨询医生" / 置信度低?</li>
+          <li>如果是 &rarr; 自动升级到中/贵档重新回答</li>
+          <li>如果不是 &rarr; 直接返回便宜模型的回复</li>
+        </ol>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>额外成本:</strong> 大概 5-10% 的请求会触发升级, 花了两次钱. 但总成本仍然远低于全用贵模型.</p>
+        <p class="muted">&rarr; 这是 "保底质量" 和 "控制成本" 的最佳平衡点.</p>
+      </div>
+      <div class="step-foot">来动手试试路由 &darr;</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: 路由设计器</h2>
+      <p class="step-lede">把左边的消息拖到对应的模型通道里. 看看你的路由方案能省多少钱.</p>
+      <div class="router-widget">
+        <div id="router-inbox" style="margin-bottom:14px; padding:12px; background:var(--bg-elev); border-radius:8px; min-height:60px;">
+        </div>
+        <div class="router-lanes">
+          <div id="lane-cheap" class="lane cheap">
+            <div class="lane-header">&#128154; DeepSeek V4 Flash<br/><span style="font-size:11px; color:var(--ink-muted);">$0.00006/次</span></div>
+          </div>
+          <div id="lane-mid" class="lane mid">
+            <div class="lane-header">&#128155; Claude Sonnet 4.6<br/><span style="font-size:11px; color:var(--ink-muted);">$0.0027/次</span></div>
+          </div>
+          <div id="lane-expensive" class="lane expensive">
+            <div class="lane-header">&#128308; Claude Opus 4.7<br/><span style="font-size:11px; color:var(--ink-muted);">$0.0045/次</span></div>
+          </div>
+        </div>
+        <div id="router-result" class="router-result"></div>
+        <button id="router-reset" class="btn btn-ghost" style="margin-top:10px;">重来</button>
+      </div>
+      <div class="step-foot">回到 Vitamin &darr;</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的完整路由方案</h2>
+      <div class="callout callout-green">
+        <p><strong>Vitamin 路由架构:</strong></p>
+        <ol>
+          <li><strong>入口层:</strong> 按功能模块直接路由 (闲聊/记录 &rarr; 便宜, 健康问答 &rarr; 中档)</li>
+          <li><strong>判断层:</strong> 中档模型回复后检查置信度, 低于阈值 &rarr; 升级贵档</li>
+          <li><strong>兜底层:</strong> 贵档仍然不确定 &rarr; 返回 "建议咨询医生" + 附近医院推荐</li>
+        </ol>
+      </div>
+      <div class="callout callout-amber">
+        <strong>面试金句:</strong>
+        <p>"Vitamin 的模型路由方案是三档: 60% 流量走 DeepSeek 处理简单对话, 25% 走 Sonnet 做健康问答, 15% 走 Opus 做复杂推理. 加上兜底升级机制, <mark class="hl">在保证质量的前提下省了 75% 的模型成本</mark>."</p>
+      </div>
+      <div class="step-foot">一句话总结 + 作业 &darr;</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">路由 = 分诊台.<br/>感冒去诊所, 大病去专家, 别让每个 "你好" 都挂专家号.</p>
+        <p class="one-liner-foot muted">先按功能分, 再按复杂度分, 加上兜底升级 &mdash; 省 60-80%.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>列出 Vitamin 的全部 AI 功能 (至少 8 个), 给每个标注应该走哪档模型.</li>
+          <li>设计 3 条路由规则 (关键词 / 长度 / 功能), 画一个简单的流程图.</li>
+          <li>算一算: 如果 Vitamin 不做路由 (全用 Claude Sonnet) vs 做路由, 每月成本差多少?</li>
+          <li>思考: 路由器自己也需要调用模型做分类, 这个成本值得吗? 怎么判断?</li>
+        </ol>
+      </div>
+      <div class="callout callout-blue" style="transform:rotate(0.2deg);">
+        <strong>资源延伸:</strong>
+        <table style="width:100%; font-size:13px; border-collapse:collapse; margin-top:8px;">
+          <tr><td style="padding:6px 4px;">&#128214;</td><td><a href="https://abhyashsuchi.in/model-routing-llm-2026-best-practices/" target="_blank">Model Routing Best Practices</a></td><td>7 种路由策略详解</td><td>15 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://paxrel.com/blog-ai-agent-cost-optimization" target="_blank">AI Agent Cost Optimization</a></td><td>省 80% 的实战指南</td><td>20 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://teamai.com/blog/large-language-models-llms/ai-model-economics-choosing-by-budget-and-scale-2026/" target="_blank">AI Model Economics</a></td><td>按预算选模型的决策框架</td><td>15 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://www.maviklabs.com/blog/llm-cost-optimization-2026" target="_blank">LLM Cost Optimization 2026</a></td><td>路由 + 缓存 + 批量完整方案</td><td>20 min</td></tr>
+        </table>
+      </div>
+      <div class="step-foot">走完了 &mdash; 回顾 &darr;</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 不是所有问题都需要最强</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 复杂度 &rarr; 模型档位</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 4 种判断方式</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 路由省 75% 的数学</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 路由失误 vs 不路由</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 路由规则表</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 兜底升级机制</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 路由设计器 widget</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 完整路由方案</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 5:</p>
+        <p class="end-summary-big">路由 = 分诊台. 60% 简单问题走便宜模型, 总成本省 75%.</p>
+        <p class="end-summary-sub">先按功能分, 再按复杂度分, 加兜底升级 &mdash; 质量不降, 成本大降.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 6): 成本预估公式</div>
+        <p>你已经学了 5 种省钱手段. 现在需要一个公式把它们串起来 &mdash;<br/><strong>月成本 = (DAU &times; 日调用频次 &times; 单次 token &times; 单价) - 缓存折扣 - 路由节省.</strong></p>
+        <a class="walk-arrow" href="../u6-cost-formula/index.html">继续走 &rarr; Unit 6</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM &middot; Module 2.2 &middot; Unit 5 &middot; 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

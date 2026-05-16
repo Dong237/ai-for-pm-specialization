@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · Input vs Output 价格不对称 — AI for PM · M2.2</title>
+  <meta name="description" content="输出比输入贵 2-5 倍. 能让模型少说就少说." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.2</span></a><div class="topbar-right"><span class="unit-label">Unit 3 · IO 不对称</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">&#9654;</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">&#9632;</a></li></ol></nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 3<span class="title-dot">&middot;</span><br/>输出比输入贵 2-5 倍</h1>
+      <p class="hero-sub">LLM 的定价不对称: 让模型 "说" 一段话, 比让它 "听" 同样长的话贵好几倍.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M44 38 Q50 34 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 &middot; 在优化 prompt)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">我已经知道价格和 tokenizer 的差异了.</p>
+          <p class="cloud-line">但为什么输出 token 总是比输入贵好几倍?</p>
+          <p class="cloud-line accent">&mdash;&mdash; 因为 GPU 算力的消耗方式不同.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>理解输入/输出定价不对称的技术原因</li><li>掌握 4 种控制输出量的方法</li><li>知道 max_tokens 参数怎么设</li><li>给 Vitamin 的每个功能设定合理的输出上限</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">所有模型都一样: 输出比输入贵</h2>
+      <p class="step-lede">翻遍各家价格表, 你会发现一个规律: <strong>输出价格 = 输入价格的 2 到 6 倍</strong>.</p>
+      <div class="io-chart">
+        <div class="io-row">
+          <div class="io-model">DeepSeek V4 Flash</div>
+          <div class="io-bars">
+            <div class="io-bar io-bar-in" style="width:30%;">$0.14</div>
+            <div class="io-bar io-bar-out" style="width:60%;">$0.28</div>
+          </div>
+          <div class="io-ratio" style="color:var(--green);">2x</div>
+        </div>
+        <div class="io-row">
+          <div class="io-model">Qwen3 Max</div>
+          <div class="io-bars">
+            <div class="io-bar io-bar-in" style="width:18%;">$0.78</div>
+            <div class="io-bar io-bar-out" style="width:72%;">$3.12</div>
+          </div>
+          <div class="io-ratio" style="color:var(--amber);">4x</div>
+        </div>
+        <div class="io-row">
+          <div class="io-model">Claude Opus 4.7</div>
+          <div class="io-bars">
+            <div class="io-bar io-bar-in" style="width:22%;">$5.00</div>
+            <div class="io-bar io-bar-out" style="width:100%;">$25.00</div>
+          </div>
+          <div class="io-ratio" style="color:var(--red);">5x</div>
+        </div>
+        <div class="io-row">
+          <div class="io-model">GPT-5.5</div>
+          <div class="io-bars">
+            <div class="io-bar io-bar-in" style="width:18%;">$5.00</div>
+            <div class="io-bar io-bar-out" style="width:100%;">$30.00</div>
+          </div>
+          <div class="io-ratio" style="color:var(--red);">6x</div>
+        </div>
+      </div>
+      <div class="step-foot">为什么输出更贵? 原因在 GPU 的计算方式 &darr;</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Prefill vs Decoding &mdash; 技术原因</h2>
+      <div class="two-wrong" style="margin:18px 0;">
+        <article class="stage stage-train" style="transform:rotate(-0.3deg);">
+          <div class="stage-tag" style="color:var(--blue);">Prefill (处理输入)</div>
+          <p style="margin:4px 0;">把你的全部输入<strong>一次性并行</strong>送进 GPU. 大批量并行计算, GPU 利用率高, 成本低.</p>
+          <div class="stage-output">= 便宜 (Input Price)</div>
+        </article>
+        <article class="stage stage-infer" style="transform:rotate(0.3deg);">
+          <div class="stage-tag" style="color:var(--red);">Decoding (生成输出)</div>
+          <p style="margin:4px 0;">一个 token 一个 token <strong>串行生成</strong>. 每生成一个字都要等上一个字. GPU 利用率低, 成本高.</p>
+          <div class="stage-output" style="background:var(--red-bg); border-color:var(--red);">= 贵 (Output Price)</div>
+        </article>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>类比:</strong> 输入 = 批发 (一卡车同时运), 输出 = 零售 (一件一件发). 零售当然比批发贵.</p>
+      </div>
+      <div class="step-foot">这意味着什么? 控制输出量 = 省钱 &darr;</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">输出占了你账单的大头</h2>
+      <p class="step-lede">一条典型的 Vitamin 对话: 输入 400 tokens (system + user), 输出 300 tokens (回复). 算算看:</p>
+      <div class="callout callout-amber">
+        <p><strong>以 Claude Sonnet 4.6 ($3/$15) 为例:</strong></p>
+        <ul>
+          <li>输入费: 400 &divide; 1M &times; $3 = <strong style="color:var(--blue);">$0.0012</strong></li>
+          <li>输出费: 300 &divide; 1M &times; $15 = <strong style="color:var(--red);">$0.0045</strong></li>
+          <li>总计: $0.0057</li>
+        </ul>
+        <p><strong>输出只占总 token 数的 43%, 但占了总费用的 <span style="color:var(--red);">79%</span>!</strong></p>
+      </div>
+      <div class="big-insight">
+        <p class="insight-text">控制输出量 =<br/>控制你 80% 的账单.</p>
+      </div>
+      <div class="step-foot">怎么控制输出量? 4 种手段 &darr;</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">控制输出量的 4 种手段</h2>
+      <div class="control-grid">
+        <div class="control-card">
+          <div class="control-num">1</div>
+          <h3 style="margin:0 0 6px; font-size:16px;">设 max_tokens</h3>
+          <p style="font-size:14px; color:var(--ink-soft); margin:0;">API 参数直接限制输出上限. 超出就截断.</p>
+        </div>
+        <div class="control-card">
+          <div class="control-num">2</div>
+          <h3 style="margin:0 0 6px; font-size:16px;">Prompt 指令约束</h3>
+          <p style="font-size:14px; color:var(--ink-soft); margin:0;">"请用 3 句话总结", "回复不超过 100 字", "只返回 JSON".</p>
+        </div>
+        <div class="control-card">
+          <div class="control-num">3</div>
+          <h3 style="margin:0 0 6px; font-size:16px;">结构化输出格式</h3>
+          <p style="font-size:14px; color:var(--ink-soft); margin:0;">用 JSON / 固定模板, 避免模型自由发挥写长文.</p>
+        </div>
+        <div class="control-card">
+          <div class="control-num">4</div>
+          <h3 style="margin:0 0 6px; font-size:16px;">分步骤拆解</h3>
+          <p style="font-size:14px; color:var(--ink-soft); margin:0;">不要一次让模型做 5 件事. 拆成 5 次短输出, 总量可能更少.</p>
+        </div>
+      </div>
+      <div class="step-foot">先看第一种 &mdash; max_tokens &darr;</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">max_tokens: 给输出上一道锁</h2>
+      <p class="step-lede">所有 API 都支持 <code>max_tokens</code> 参数 &mdash; 设了它, 模型生成到上限就自动停止.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 推荐设置:</strong></p>
+        <ul>
+          <li><span class="pill pill-blue">情绪分类</span> max_tokens = <strong>20</strong> (只需返回一个标签)</li>
+          <li><span class="pill pill-green">简短回复</span> max_tokens = <strong>150</strong> (日常对话)</li>
+          <li><span class="pill pill-amber">健康建议</span> max_tokens = <strong>300</strong> (需要一些解释)</li>
+          <li><span class="pill pill-blue">详细报告</span> max_tokens = <strong>800</strong> (周报/月报)</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>注意:</strong> max_tokens 设太小会导致回复被截断, 用户体验差. 设太大又浪费钱. 需要针对每个功能调优.</p>
+      </div>
+      <div class="step-foot">第二种手段: Prompt 指令约束 &darr;</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Prompt 约束 + 结构化输出</h2>
+      <p class="step-lede">在 system prompt 里加一句话, 就能把输出量砍掉 40-60%.</p>
+
+      <div class="before-after">
+        <div class="ba-card before">
+          <div class="ba-tag">Before (无约束)</div>
+          <div class="ba-output">好的, 关于经期跑步这个问题, 我来详细为你解答. 首先, 经期是否可以跑步取决于个人的身体状况和经期的阶段. 一般来说, 轻度到中度的运动在经期是安全的, 甚至可能有益... (后面还有 200 字)</div>
+          <div class="ba-stats">输出: ~320 tokens &middot; 费用 (Sonnet): $0.0048</div>
+        </div>
+        <div class="ba-card after">
+          <div class="ba-tag">After (加约束)</div>
+          <div class="ba-output">经期轻度跑步通常安全. 建议: 1) 减速减量 2) 注意身体信号 3) 经量大或痛经严重时休息. 如持续不适请咨询医生.</div>
+          <div class="ba-stats">输出: ~80 tokens &middot; 费用 (Sonnet): $0.0012 &middot; <strong style="color:var(--green);">省 75%!</strong></div>
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>加的那句 prompt:</strong></p>
+        <p style="background:var(--bg-elev); padding:10px; border-radius:6px; font-family:monospace; font-size:13px;">"请用 2-3 句话简洁回答. 给出具体建议, 不要寒暄和铺垫."</p>
+        <p class="muted">&rarr; 多了 ~15 个输入 token, 但省了 ~240 个输出 token. 净省 $0.0036/次.</p>
+      </div>
+      <div class="step-foot">看看结构化输出能省多少 &darr;</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">结构化输出: JSON 比自由文本省 50%</h2>
+      <p class="step-lede">如果你不需要给用户看回复 (比如后台分类/打标), 直接让模型返回 JSON &mdash; 比自由文本短 50%+.</p>
+
+      <div class="before-after">
+        <div class="ba-card before">
+          <div class="ba-tag">自由文本</div>
+          <div class="ba-output">根据用户的描述, 她的情绪状态可以归类为 "焦虑", 主要表现在对月经不规律的担忧, 以及对是否需要就医的不确定性.</div>
+          <div class="ba-stats">~65 tokens</div>
+        </div>
+        <div class="ba-card after">
+          <div class="ba-tag">JSON 输出</div>
+          <div class="ba-output" style="font-family:monospace; font-size:13px;">{"emotion": "anxious", "confidence": 0.85, "trigger": "irregular_period"}</div>
+          <div class="ba-stats">~22 tokens &middot; <strong style="color:var(--green);">省 66%!</strong></div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>PM 规则:</strong> 后台逻辑 (分类 / 打标 / 路由判断) &rarr; 用 JSON. 给用户看的回复 &rarr; 用自然语言, 但加长度约束.</p>
+      </div>
+      <div class="step-foot">来动手试试输入输出比例对费用的影响 &darr;</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: IO 比例费用计算器</h2>
+      <p class="step-lede">拖动滑块, 看输入/输出 token 数变化时, 各模型的费用怎么变.</p>
+
+      <div class="io-widget">
+        <div class="io-slider-row">
+          <span class="io-slider-label" style="color:var(--blue);">输入 Token:</span>
+          <input id="io-in-slider" type="range" min="50" max="2000" value="400" step="50" style="flex:1;" />
+          <span id="io-in-val" class="io-slider-val" style="color:var(--blue);">400</span>
+        </div>
+        <div class="io-slider-row">
+          <span class="io-slider-label" style="color:var(--red);">输出 Token:</span>
+          <input id="io-out-slider" type="range" min="20" max="1000" value="300" step="20" style="flex:1;" />
+          <span id="io-out-val" class="io-slider-val" style="color:var(--red);">300</span>
+        </div>
+        <div id="io-result-grid" class="io-result-grid"></div>
+        <p class="muted" style="margin-top:12px; font-size:12px;">* 试着把输出从 300 拉到 80 &mdash; 看费用降了多少.</p>
+      </div>
+      <div class="step-foot">回到 Vitamin &darr;</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: 每个功能的输出预算</h2>
+      <p class="step-lede">给 Vitamin 的每个 AI 功能设定 <mark class="hl">"输出 token 预算"</mark> &mdash; 这是 PM 能做的最直接的成本控制.</p>
+
+      <div class="callout callout-green">
+        <table style="width:100%; font-size:14px; border-collapse:collapse;">
+          <tr style="border-bottom:2px solid var(--border);">
+            <th style="text-align:left; padding:8px 4px;">Vitamin 功能</th>
+            <th style="text-align:center; padding:8px 4px;">max_tokens</th>
+            <th style="text-align:left; padding:8px 4px;">输出格式</th>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px 4px;">情绪 5 状态分类</td><td style="text-align:center;">20</td><td>JSON</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px 4px;">日常闲聊回复</td><td style="text-align:center;">150</td><td>自然语言 (简洁)</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px 4px;">饮食建议</td><td style="text-align:center;">200</td><td>自然语言 + 列表</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px 4px;">健康问答</td><td style="text-align:center;">300</td><td>自然语言</td></tr>
+          <tr><td style="padding:8px 4px;">每周/月健康报告</td><td style="text-align:center;">800</td><td>Markdown</td></tr>
+        </table>
+      </div>
+
+      <div class="callout callout-amber">
+        <strong>面试金句:</strong>
+        <p>"输出 token 是成本大头. 我给每个 AI 功能设了<mark class="hl">输出预算</mark>: 分类任务 20 token, 对话 150 token, 报告 800 token. 光这一步就能比无控制方案省 40-60%."</p>
+      </div>
+      <div class="step-foot">一句话总结 + 作业 &darr;</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">输出 token 是账单大头 &mdash;<br/>控制输出量就是控制 80% 的成本.</p>
+        <p class="one-liner-foot muted">给每个 AI 功能设 "输出预算" (max_tokens + prompt 约束), 这是 PM 的成本第一刀.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开任意 LLM 对话工具, 对同一个问题分别用 "随便聊" 和 "请用 3 句话回答" 两种方式提问, 对比输出长度.</li>
+          <li>给 Vitamin 的 5 个核心功能各设一个 max_tokens 值和输出格式 (JSON / 自然语言).</li>
+          <li>算一算: 如果把平均输出从 300 token 降到 100 token, 用 Claude Sonnet, 每天 5000 次调用能省多少钱?</li>
+          <li>写 200 字: "输出预算" 这个概念, 你会怎么在内部文档中描述给工程师?</li>
+        </ol>
+      </div>
+      <div class="callout callout-blue" style="transform:rotate(0.2deg);">
+        <strong>资源延伸:</strong>
+        <table style="width:100%; font-size:13px; border-collapse:collapse; margin-top:8px;">
+          <tr><td style="padding:6px 4px;">&#128214;</td><td><a href="https://blog.csdn.net/i042416/article/details/149787690" target="_blank">理解 Input/Output Price</a></td><td>CSDN 中文解析 IO 定价</td><td>10 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://zhuanlan.zhihu.com/p/702874946" target="_blank">减少 Token 消耗的实战策略</a></td><td>知乎 &middot; 输出优化实战</td><td>15 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#127918;</td><td><a href="https://www.helicone.ai/llm-cost" target="_blank">Helicone LLM Cost</a></td><td>300+ 模型 IO 价格对比</td><td>5 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128250;</td><td><a href="https://codezilla.io/blog/how-to-optimize-llm-costs-in-production-2026-guide" target="_blank">Optimize LLM Costs 2026</a></td><td>英文 &middot; 生产环境成本优化全指南</td><td>20 min</td></tr>
+        </table>
+      </div>
+      <div class="step-foot">走完了 &mdash; 回顾 &darr;</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 输出永远比输入贵</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Prefill vs Decoding</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 输出占账单 80%</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 4 种控制手段</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> max_tokens 参数</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Prompt 约束省 75%</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> JSON 比自由文本省 66%</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> IO 比例计算器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 输出预算表</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">输出比输入贵 2-5 倍. 给每个功能设 "输出预算", 立省 40%+.</p>
+        <p class="end-summary-sub">一句 "请用 3 句话回答" 能省 75% 的输出 token. 成本控制从 prompt 开始.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 4): Prompt Caching 机制</div>
+        <p>你已经知道了怎么控制输出. 但输入端也能省钱 &mdash;<br/><strong>Prompt Caching 让重复的 system prompt 只算一次, 输入费用最高省 98%.</strong></p>
+        <a class="walk-arrow" href="../u4-prompt-caching/index.html">继续走 &rarr; Unit 4</a>
+      </div>
+    </section>
+
+  </main>
+  <footer class="footer"><p>AI for PM &middot; Module 2.2 &middot; Unit 3 &middot; 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

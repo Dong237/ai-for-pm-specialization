@@ -1,0 +1,191 @@
+/* ============================================
+   Unit 8 · Vitamin 成本优化路径 — unit-specific styles
+   ============================================ */
+
+/* Waterfall chart */
+.waterfall {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.wf-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  min-height: 280px;
+  padding: 20px 0 40px;
+  position: relative;
+}
+.wf-bar-group {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+.wf-bar {
+  border-radius: 6px 6px 0 0;
+  margin: 0 auto;
+  width: 60px;
+  position: relative;
+  transition: height 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 8px;
+}
+@media (max-width: 600px) { .wf-bar { width: 48px; } }
+.wf-bar-val {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+.wf-bar-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  position: absolute;
+  bottom: -30px;
+  width: 100%;
+  text-align: center;
+}
+.wf-arrow {
+  position: absolute;
+  top: 50%;
+  right: -16px;
+  color: var(--green);
+  font-size: 20px;
+  font-weight: 700;
+  transform: translateY(-50%);
+}
+.wf-savings-tag {
+  position: absolute;
+  top: -24px;
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Step-by-step optimization */
+.opt-steps {
+  counter-reset: opt-step;
+}
+.opt-step {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin: 14px 0;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  padding-left: 60px;
+}
+.opt-step::before {
+  counter-increment: opt-step;
+  content: counter(opt-step);
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+}
+.opt-step:nth-child(1) { border-color: var(--red); }
+.opt-step:nth-child(1)::before { background: var(--red-bg); color: var(--red); }
+.opt-step:nth-child(2) { border-color: var(--amber); transform: rotate(0.3deg); }
+.opt-step:nth-child(2)::before { background: var(--amber-bg); color: var(--amber); }
+.opt-step:nth-child(3) { border-color: var(--green); transform: rotate(-0.2deg); }
+.opt-step:nth-child(3)::before { background: var(--green-bg); color: var(--green); }
+.opt-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+.opt-detail { font-size: 14px; color: var(--ink-soft); margin: 0; }
+.opt-result {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 8px;
+}
+
+/* Animate button */
+.animate-btn {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  padding: 10px 24px;
+  border: 2px solid var(--green);
+  background: var(--green-bg);
+  color: var(--ink);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 12px auto;
+  display: block;
+  transition: transform 0.15s;
+}
+.animate-btn:hover { transform: translateY(-2px); }
+
+/* Optimization summary card */
+.opt-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+.opt-sum-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+.opt-sum-val {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  display: block;
+  margin: 4px 0;
+}
+.opt-sum-label { font-size: 13px; color: var(--ink-muted); }
+
+/* Action plan table */
+.action-table {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 0;
+  margin: 18px 0;
+  overflow-x: auto;
+}
+.action-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.action-table th {
+  background: var(--bg-elev);
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ink-muted);
+  border-bottom: 2px solid var(--border);
+}
+.action-table td {
+  padding: 10px 12px;
+  border-bottom: 1px dashed var(--border);
+}
+.action-table tr:last-child td { border-bottom: none; }

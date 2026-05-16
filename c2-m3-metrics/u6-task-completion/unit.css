@@ -1,0 +1,48 @@
+/* U6 · Task Completion Rate — unit-specific styles */
+.task-flow {
+  background: var(--bg-card); border: 2px solid var(--ink);
+  border-radius: 12px; padding: 22px; margin: 20px 0; box-shadow: var(--shadow-card);
+}
+.flow-steps {
+  display: flex; flex-direction: column; gap: 0;
+}
+.flow-step {
+  display: flex; align-items: center; gap: 14px; padding: 14px;
+  border-left: 3px solid var(--green); position: relative; cursor: pointer;
+  transition: background 0.2s;
+}
+.flow-step:hover { background: var(--bg-elev); }
+.flow-step.dropped { border-left-color: var(--red); opacity: 0.6; }
+.flow-step-num {
+  width: 32px; height: 32px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-weight: 700;
+  font-size: 14px; flex-shrink: 0;
+  background: var(--green-bg); color: var(--green); border: 2px solid var(--green);
+}
+.flow-step.dropped .flow-step-num { background: var(--red-bg); color: var(--red); border-color: var(--red); }
+.flow-step-info { flex: 1; }
+.flow-step-name { font-weight: 600; font-size: 15px; }
+.flow-step-users { font-size: 13px; color: var(--ink-muted); }
+.flow-step-bar {
+  width: 100px; height: 20px; background: var(--bg-elev);
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--border);
+}
+.flow-step-fill {
+  height: 100%; background: var(--green); border-radius: 10px;
+  transition: width 0.5s ease;
+}
+.flow-step.dropped .flow-step-fill { background: var(--red); }
+.flow-summary {
+  margin-top: 16px; padding-top: 14px; border-top: 2px dashed var(--border);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+}
+.flow-tcr {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 36px; font-weight: 700;
+}
+.flow-scenario-select {
+  padding: 8px 14px; font-size: 14px; border: 2px solid var(--border-strong);
+  border-radius: 8px; background: var(--bg-elev); color: var(--ink);
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  cursor: pointer;
+}

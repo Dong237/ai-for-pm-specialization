@@ -1,0 +1,63 @@
+/* U7 · P50/P95 Latency — unit-specific styles */
+.latency-widget {
+  background: var(--bg-card); border: 2px solid var(--ink);
+  border-radius: 12px; padding: 22px; margin: 20px 0; box-shadow: var(--shadow-card);
+}
+.histogram {
+  position: relative; height: 200px; display: flex; align-items: flex-end;
+  gap: 2px; padding: 0 10px; margin-bottom: 16px;
+  border-bottom: 2px solid var(--border-strong);
+  border-left: 2px solid var(--border-strong);
+}
+.hist-bar {
+  flex: 1; border-radius: 3px 3px 0 0; transition: height 0.5s ease, background 0.3s;
+  min-width: 8px; position: relative; cursor: help;
+}
+.hist-bar:hover { opacity: 0.8; }
+.hist-bar .hist-tooltip {
+  display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: var(--bg); padding: 4px 8px; border-radius: 4px;
+  font-size: 11px; white-space: nowrap; z-index: 5;
+}
+.hist-bar:hover .hist-tooltip { display: block; }
+.hist-axis {
+  display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-muted);
+  padding: 4px 10px 0;
+}
+.hist-markers {
+  position: absolute; top: 0; left: 10px; right: 10px; height: 100%; pointer-events: none;
+}
+.hist-marker {
+  position: absolute; top: 0; height: 100%; width: 2px;
+  border-left: 2px dashed;
+}
+.hist-marker-label {
+  position: absolute; top: -18px; transform: translateX(-50%);
+  font-size: 11px; font-weight: 700; white-space: nowrap;
+}
+.marker-p50 { border-color: var(--blue); }
+.marker-p50 .hist-marker-label { color: var(--blue); }
+.marker-p95 { border-color: var(--red); }
+.marker-p95 .hist-marker-label { color: var(--red); }
+.marker-avg { border-color: var(--amber); border-style: dotted; }
+.marker-avg .hist-marker-label { color: var(--amber); }
+
+.latency-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px;
+}
+@media (max-width: 600px) { .latency-stats { grid-template-columns: repeat(2, 1fr); } }
+.lat-stat {
+  text-align: center; padding: 10px; border-radius: 8px;
+  background: var(--bg-elev); border: 1px solid var(--border);
+}
+.lat-stat-num {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 24px; font-weight: 700; display: block;
+}
+.lat-stat-label { font-size: 11px; color: var(--ink-muted); }
+.latency-scenario-select {
+  padding: 8px 14px; font-size: 14px; border: 2px solid var(--border-strong);
+  border-radius: 8px; background: var(--bg-elev); color: var(--ink);
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  cursor: pointer; width: 100%; margin-bottom: 14px;
+}

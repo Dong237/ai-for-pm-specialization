@@ -1,0 +1,204 @@
+/* U8 Vitamin Safety Capstone — unit-specific styles */
+
+.safety-pipeline {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.pipeline-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pipeline-layer {
+  border: 2px solid var(--border-strong);
+  border-bottom: none;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg-card);
+  position: relative;
+}
+.pipeline-layer:first-child { border-radius: 10px 10px 0 0; }
+.pipeline-layer:last-child { border-bottom: 2px solid var(--border-strong); border-radius: 0 0 10px 10px; }
+.pipeline-layer:hover { background: var(--bg-elev); }
+.pipeline-layer.active-layer { border-color: var(--green); background: var(--green-bg-soft); }
+
+.layer-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.layer-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.layer-icon-input { background: var(--blue-bg); border: 2px solid var(--blue); }
+.layer-icon-llm { background: var(--amber-bg); border: 2px solid var(--amber); }
+.layer-icon-output { background: var(--green-bg); border: 2px solid var(--green); }
+.layer-icon-display { background: var(--purple-bg); border: 2px solid var(--purple); }
+
+.layer-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+.layer-subtitle {
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.layer-arrow {
+  text-align: center;
+  padding: 4px 0;
+  color: var(--ink-faint);
+  font-size: 18px;
+}
+
+.layer-config {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.pipeline-layer.active-layer .layer-config {
+  max-height: 500px;
+}
+.layer-config-inner {
+  padding: 14px 0 4px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.config-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+.config-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--green);
+  background: var(--green-bg);
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Simulation preview */
+.sim-preview {
+  margin-top: 18px;
+  border-top: 2px dashed var(--border);
+  padding-top: 16px;
+}
+
+.sim-scenario {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.sim-scenario select {
+  padding: 8px 12px;
+  border: 2px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--ink);
+  font-size: 14px;
+  font-family: inherit;
+  flex: 1;
+  min-width: 200px;
+}
+
+.sim-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.sim-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--border);
+  margin-left: 16px;
+  animation: fadeIn 0.3s ease;
+}
+.sim-step:last-child { border-left: 3px solid transparent; }
+.sim-step-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-left: -26px;
+}
+.sim-step-pass { border-color: var(--green); }
+.sim-step-pass .sim-step-icon { background: var(--green-bg); border: 2px solid var(--green); }
+.sim-step-block { border-color: var(--red); }
+.sim-step-block .sim-step-icon { background: var(--red-bg); border: 2px solid var(--red); }
+.sim-step-warn { border-color: var(--amber); }
+.sim-step-warn .sim-step-icon { background: var(--amber-bg); border: 2px solid var(--amber); }
+
+.sim-step-content {
+  flex: 1;
+}
+.sim-step-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+.sim-step-text {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* Capstone summary */
+.capstone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+.capstone-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px 18px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.capstone-card-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+.capstone-card-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.capstone-card-ref {
+  font-size: 12px;
+  color: var(--ink-muted);
+}

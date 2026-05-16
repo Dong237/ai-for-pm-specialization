@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · RAG 评测 — AI for PM · M3.3</title>
+  <meta name="description" content="RAGAS: Faithfulness + Relevancy, 给 RAG 打分" />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.3</span></a><div class="topbar-right"><span class="unit-label">Unit 7 · RAG 评测</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">·</span><br/>RAG 评测</h1>
+      <p class="hero-sub">怎么知道你的 RAG "好不好"? RAGAS 来打分.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">Pipeline 搭好了, 但怎么量化"好不好"?</p>
+          <p class="cloud-line">用户说"回答不准" — 是检索的锅还是 LLM 的锅?</p>
+          <p class="cloud-line accent">—— RAGAS 帮你拆解.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道 RAGAS 4 个核心指标: Faithfulness, Relevancy, Precision, Recall</li>
+          <li>用 2x2 矩阵诊断 RAG 问题出在哪个环节</li>
+          <li>亲手给 4 种 RAG 回答打分, 看分数差异</li>
+          <li>为 Vitamin 设定评测目标和监控方案</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">"回答不好" 到底是哪里不好?</h2>
+      <p class="step-lede">RAG 出错时, 可能是 3 个环节中任何一个:</p>
+      <div class="recall-table">
+        <div class="recall-row"><div class="recall-task" style="color:var(--red)">检索错</div><div class="recall-arrow">→</div><div class="recall-explain">搜到了不相关的文档. 后面再好也没用.</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--amber)">检索漏</div><div class="recall-arrow">→</div><div class="recall-explain">遗漏了关键文档. 回答虽然对, 但不完整.</div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--purple)">生成错</div><div class="recall-arrow">→</div><div class="recall-explain">检索到了对的文档, 但 LLM 理解错了或者编了.</div></div>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>RAGAS</strong> (Retrieval Augmented Generation Assessment) 就是把这三类问题<strong>量化</strong>的框架. 它给你 4 个分数, 告诉你问题出在哪.</p>
+      </div>
+      <div class="step-foot">4 个核心指标是什么? ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">RAGAS 四大指标</h2>
+      <div class="recall-table">
+        <div class="recall-row"><div class="recall-task" style="color:var(--green)">Faithfulness</div><div class="recall-arrow">→</div><div class="recall-explain"><strong>忠实度:</strong> 回答中的每句话, 是否有来源支持? 没来源的 = 幻觉. <em>目标: >0.9</em></div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--blue)">Relevancy</div><div class="recall-arrow">→</div><div class="recall-explain"><strong>相关度:</strong> 回答是否直接回答了用户的问题? <em>目标: >0.85</em></div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--amber)">Context Precision</div><div class="recall-arrow">→</div><div class="recall-explain"><strong>检索精度:</strong> 检索到的文档是否都是相关的? 不相关的越多, 精度越低. <em>目标: >0.8</em></div></div>
+        <div class="recall-row"><div class="recall-task" style="color:var(--purple)">Context Recall</div><div class="recall-arrow">→</div><div class="recall-explain"><strong>检索召回:</strong> 是否找到了所有需要的文档? 遗漏越多, 召回越低. <em>目标: >0.8</em></div></div>
+      </div>
+      <div class="step-foot">这 4 个指标怎么配合使用? ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">2x2 矩阵: 快速诊断 RAG 问题</h2>
+      <div class="metric-matrix">
+        <div class="matrix-cell" style="background:var(--green-bg-soft)">
+          <div class="matrix-icon">✅</div>
+          <div class="matrix-label">高 Faithfulness + 高 Relevancy</div>
+          <div class="matrix-desc">理想状态. 回答准确且相关.</div>
+        </div>
+        <div class="matrix-cell" style="background:var(--amber-bg-soft)">
+          <div class="matrix-icon">⚠️</div>
+          <div class="matrix-label">高 Faithfulness + 低 Relevancy</div>
+          <div class="matrix-desc">回答忠实但没用. 检索搜偏了.</div>
+        </div>
+        <div class="matrix-cell" style="background:var(--amber-bg-soft)">
+          <div class="matrix-icon">⚠️</div>
+          <div class="matrix-label">低 Faithfulness + 高 Relevancy</div>
+          <div class="matrix-desc">回答看似相关但不可信. LLM 在编.</div>
+        </div>
+        <div class="matrix-cell" style="background:var(--red-bg-soft)">
+          <div class="matrix-icon">❌</div>
+          <div class="matrix-label">低 Faithfulness + 低 Relevancy</div>
+          <div class="matrix-desc">最差: 既不忠实又不相关. 全面返工.</div>
+        </div>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>PM 用法:</strong> 定期跑 RAGAS, 看分数落在哪个象限. 右上角 = 继续优化. 左下角 = 重大问题, 优先排查检索.</p>
+      </div>
+      <div class="step-foot">每个指标具体怎么算? ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Faithfulness 怎么算: 逐句验证</h2>
+      <p class="step-lede">Faithfulness = 有来源支持的 claims 数 / 总 claims 数</p>
+      <div class="callout callout-blue">
+        <p><strong>计算步骤:</strong></p>
+        <ol>
+          <li>把 LLM 回答拆成多个 claims (事实陈述)</li>
+          <li>对每个 claim, 检查是否有检索到的 chunk 支持它</li>
+          <li>Faithfulness = 被支持的 claims / 总 claims</li>
+        </ol>
+        <p><strong>例子:</strong></p>
+        <p>"经期应避免寒凉食物 [来源支持 ✓]. 否则会导致不孕不育 [无来源 ✗]."</p>
+        <p>Faithfulness = 1/2 = 0.50 — 很低, 有幻觉!</p>
+      </div>
+      <div class="step-foot">Relevancy 怎么算? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Relevancy 和 Context Metrics</h2>
+      <div class="callout callout-amber">
+        <p><strong>Answer Relevancy:</strong></p>
+        <ul>
+          <li>从回答中生成 N 个"假问题"</li>
+          <li>计算这些假问题和原始问题的相似度</li>
+          <li>如果回答真的在回答原始问题, 假问题应该和原始问题很像</li>
+        </ul>
+        <p><strong>Context Precision:</strong></p>
+        <ul>
+          <li>检索到的 5 个 chunks, 有几个是真正相关的?</li>
+          <li>5 个都相关 = 1.0, 只有 2 个相关 = 0.4</li>
+        </ul>
+        <p><strong>Context Recall:</strong></p>
+        <ul>
+          <li>理想回答中需要的信息, 在检索到的 chunks 中找到了多少?</li>
+          <li>全部找到 = 1.0, 只找到一半 = 0.5</li>
+        </ul>
+      </div>
+      <div class="step-foot">RAGAS 不需要人工标注吗? ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Reference-Free: 不需要人工标注</h2>
+      <p class="step-lede">RAGAS 的厉害之处: <mark class="hl">它不需要"标准答案"</mark>. 它用 LLM 来评估 LLM.</p>
+      <div class="callout callout-blue">
+        <p><strong>传统评测:</strong> 需要人工准备 (问题, 标准答案) 对 → 成本高, 难扩展</p>
+        <p><strong>RAGAS:</strong> 只需要 (问题, 检索上下文, 生成回答) → 用另一个 LLM 打分</p>
+        <p class="muted">注意: 因为用 LLM 打分, 结果可能有波动. 建议跑多次取平均, 或结合少量人工抽查.</p>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>实践建议:</strong></p>
+        <ul>
+          <li>自动化: 用 RAGAS 跑 200 个测试 query, 全自动打分</li>
+          <li>人工补充: 随机抽 20 个结果, 人工检查 RAGAS 评分是否合理</li>
+          <li>持续监控: 每天/每周跑一次, 看分数趋势</li>
+        </ul>
+      </div>
+      <div class="step-foot">分数低了怎么改进? ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">分数低 → 对症下药</h2>
+      <div class="recall-table">
+        <div class="recall-row"><div class="recall-task" style="font-size:13px;color:var(--red)">Faithfulness 低</div><div class="recall-arrow">→</div><div class="recall-explain">LLM 在编. 降低 Temperature, 加强 "只根据资料回答" 的 prompt, 加 post-hoc 验证.</div></div>
+        <div class="recall-row"><div class="recall-task" style="font-size:13px;color:var(--blue)">Relevancy 低</div><div class="recall-arrow">→</div><div class="recall-explain">答非所问. 检查检索结果, 可能搜偏了. 加 Reranking, 改 query expansion.</div></div>
+        <div class="recall-row"><div class="recall-task" style="font-size:13px;color:var(--amber)">Precision 低</div><div class="recall-arrow">→</div><div class="recall-explain">检索到太多不相关 chunk. 减小 Top-K, 加 Reranking, 优化 chunk size.</div></div>
+        <div class="recall-row"><div class="recall-task" style="font-size:13px;color:var(--purple)">Recall 低</div><div class="recall-arrow">→</div><div class="recall-explain">遗漏了关键文档. 增大 Top-K, 加 Hybrid Search, 用 Query Expansion.</div></div>
+      </div>
+      <div class="step-foot">来动手给几种 RAG 回答打分 ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: RAG Evaluator</h2>
+      <p class="step-lede">切换不同的场景, 看 RAGAS 4 个指标的变化. 注意分数怎么"诊断"问题.</p>
+
+      <div class="eval-widget">
+        <div class="eval-selector">
+          <button class="eval-btn active" data-scenario="good">良好回答</button>
+          <button class="eval-btn" data-scenario="hallucination">幻觉回答</button>
+          <button class="eval-btn" data-scenario="irrelevant">答非所问</button>
+          <button class="eval-btn" data-scenario="partial">不完整回答</button>
+        </div>
+
+        <div class="eval-scenario" id="eval-scenario"></div>
+        <div class="eval-gauges" id="eval-gauges"></div>
+        <div class="eval-diagnosis" id="eval-diagnosis"></div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>观察:</strong></p>
+        <ul>
+          <li>"幻觉回答": Faithfulness 极低 (25), 但 Relevancy 还行 — 说明 LLM 在"相关地编"</li>
+          <li>"答非所问": Faithfulness 高 (90), 但 Relevancy 极低 — 说明检索搜偏了</li>
+          <li>"不完整回答": Recall 极低 (30) — 说明遗漏了很多相关文档</li>
+          <li>每种问题的"指纹"不同 — RAGAS 帮你精确定位</li>
+        </ul>
+      </div>
+      <div class="step-foot">回到 Vitamin ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 RAG 评测方案</h2>
+      <div class="callout callout-green">
+        <p><strong>Vitamin 评测目标:</strong></p>
+        <ul>
+          <li>Faithfulness > 0.90 (医学内容, 零容忍幻觉)</li>
+          <li>Answer Relevancy > 0.85</li>
+          <li>Context Precision > 0.80</li>
+          <li>Context Recall > 0.75</li>
+        </ul>
+        <p><strong>评测流程:</strong></p>
+        <ol>
+          <li>准备 200 个测试 query (覆盖经期/备孕/营养/中医/客服)</li>
+          <li>每周自动跑 RAGAS, 输出分数报告</li>
+          <li>每月人工抽查 30 个, 校准 RAGAS 的评分准确性</li>
+          <li>分数低于阈值 → 自动告警, 分类排查</li>
+        </ol>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">RAGAS 4 个分数告诉你 RAG 哪里出了问题:<br/>Faithfulness 看 LLM, Precision/Recall 看检索.</p>
+        <p class="one-liner-foot muted">Faithfulness >0.9, Relevancy >0.85 = 生产环境及格线.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>回到 Unit 8 的 RAG Evaluator, 把 4 种场景都试一遍, 写下每种场景的"问题诊断".</li>
+          <li>为 Vitamin 准备 10 个测试 query, 标注每个 query 的"期望回答要点".</li>
+          <li>画一个 2x2 矩阵 (Faithfulness x Relevancy), 标注每个象限的典型症状和修复方向.</li>
+          <li>思考: 如果 Vitamin 的 Faithfulness=0.95 但 Recall=0.40, 你第一步该优化什么?</li>
+        </ol>
+        <div style="margin-top:18px">
+          <strong>资源延伸:</strong>
+          <table style="width:100%; font-size:13px; margin-top:8px; border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">🛠</td><td>RAGAS 官方文档</td><td><a href="https://docs.ragas.io/en/stable/" target="_blank">ragas.io</a></td><td>所有指标的定义和用法</td><td>20 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📖</td><td>RAG Evaluation 深度解析</td><td><a href="https://www.confident-ai.com/blog/rag-evaluation-metrics-answer-relevancy-faithfulness-and-more" target="_blank">ConfidentAI</a></td><td>最清晰的 RAGAS 指标解读</td><td>15 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📖</td><td>RAGAS + Langfuse 集成</td><td><a href="https://langfuse.com/guides/cookbook/evaluation_of_rag_with_ragas" target="_blank">Langfuse</a></td><td>生产环境自动化评测实践</td><td>20 min</td></tr>
+            <tr><td style="padding:6px 8px">📄</td><td>RAGAS 论文</td><td><a href="https://arxiv.org/abs/2309.15217" target="_blank">arXiv</a></td><td>原始论文, 理解评测方法论</td><td>30 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 三类错误</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> RAGAS 四指标</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 2x2 诊断矩阵</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Faithfulness 算法</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Relevancy 算法</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Reference-Free</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 对症下药</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> RAG Evaluator</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 方案</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 7:</p>
+        <p class="end-summary-big">RAGAS 用 4 个分数诊断 RAG: 检索错? 检索漏? 还是 LLM 编?</p>
+        <p class="end-summary-sub">Faithfulness >0.9 = 不编. Precision/Recall >0.8 = 搜得准搜得全.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 8): Vitamin 医学知识库结构</div>
+        <p>前 7 个 Unit 学了 RAG 的所有组件. 现在把它们<strong>全部用上</strong>.</p>
+        <p><strong>为 Vitamin 设计一个完整的 5 类文档医学知识库.</strong></p>
+        <a class="walk-arrow" href="../u8-vitamin-knowledge/index.html">继续走 → Unit 8</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 3.3 · Unit 7 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

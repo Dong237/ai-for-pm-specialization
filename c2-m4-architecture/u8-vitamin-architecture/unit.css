@@ -1,0 +1,187 @@
+/* U8 · Vitamin Architecture Report Builder */
+
+.report-builder {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.feature-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.feature-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+.feature-name {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  min-width: 140px;
+}
+.feature-select {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 2px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--ink);
+  cursor: pointer;
+  min-width: 140px;
+}
+.feature-status {
+  font-size: 13px;
+  color: var(--ink-muted);
+  flex: 1;
+  min-width: 100px;
+}
+
+.report-output {
+  background: var(--bg-elev);
+  border: 2px dashed var(--border-strong);
+  border-radius: 10px;
+  padding: 18px;
+  min-height: 200px;
+}
+.report-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: var(--ink);
+}
+.report-item {
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.report-item:last-child { border-bottom: none; }
+.report-item-feature {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+.report-item-arch {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+.report-item-reason {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+
+.generate-btn {
+  margin-top: 14px;
+}
+
+/* Architecture journey timeline */
+.arch-timeline {
+  position: relative;
+  padding-left: 32px;
+  margin: 18px 0;
+}
+.arch-timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--green), var(--blue), var(--amber), var(--red));
+  border-radius: 2px;
+}
+.timeline-item {
+  position: relative;
+  padding: 14px 0;
+}
+.timeline-dot {
+  position: absolute;
+  left: -25px;
+  top: 18px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 3px solid;
+  background: var(--bg-card);
+}
+.timeline-phase {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.timeline-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.timeline-arch {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Course completion card */
+.course-complete {
+  background: linear-gradient(135deg, var(--green-bg) 0%, var(--blue-bg-soft) 50%, var(--amber-bg-soft) 100%);
+  border: 3px solid var(--green);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  margin: 28px 0;
+  box-shadow: var(--shadow-elev);
+  transform: rotate(-0.3deg);
+}
+.course-complete-badge {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+.course-complete-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: clamp(24px, 5vw, 32px);
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+.course-complete-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+  text-align: left;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.course-complete-list li {
+  padding: 6px 0 6px 28px;
+  position: relative;
+  font-size: 15px;
+}
+.course-complete-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: 700;
+  font-size: 18px;
+}

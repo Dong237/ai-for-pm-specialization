@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · AI 三大主战场 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M1.2 Unit 1: 任何 AI 产品功能都能映射到 Reading / Writing / Chatting 三类之一." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.2</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · Reading / Writing / Chatting</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 1<span class="title-dot">·</span><br/>AI 三大主战场</h1>
+      <p class="hero-sub">Reading / Writing / Chatting — 你的产品功能逃不出这三类</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个思考中的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 正在设计 AI 功能)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">老板说"给产品加个 AI 功能"...</p>
+          <p class="cloud-line">可 AI 能做的事情那么多, 从哪下手?</p>
+          <p class="cloud-line">有没有一个框架能帮我<strong>分类</strong>所有 AI 需求?</p>
+          <p class="cloud-line accent">—— 有. 今天 10 步讲清楚.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>用 Reading / Writing / Chatting 三个词分类任何 AI 功能</li>
+          <li>知道每种类型的 Prompt 设计、评估指标有什么不同</li>
+          <li>拿到需求时, 3 秒钟判断它属于哪一类</li>
+          <li>把 Vitamin 5 个状态的功能都映射到 R/W/C</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">所有 AI 产品, 都在做这三件事之一</h2>
+      <p class="step-lede">先看三个你肯定用过的产品 ——</p>
+
+      <div class="product-cards">
+        <article class="product-card">
+          <div class="product-icon">📝</div>
+          <h3>Notion AI</h3>
+          <p class="product-task">帮你总结会议纪要、提取行动项</p>
+          <span class="product-type pill pill-blue">Reading</span>
+        </article>
+        <article class="product-card">
+          <div class="product-icon">✍️</div>
+          <h3>Jasper / 文心一言</h3>
+          <p class="product-task">帮你写营销文案、起标题</p>
+          <span class="product-type pill pill-green">Writing</span>
+        </article>
+        <article class="product-card">
+          <div class="product-icon">💬</div>
+          <h3>Character.ai / 豆包</h3>
+          <p class="product-task">跟你多轮对话、扮演角色</p>
+          <span class="product-type pill pill-amber">Chatting</span>
+        </article>
+      </div>
+
+      <p class="step-lede">它们用的都是同一种底层技术 (LLM), 但解决的任务完全不同. 这三类任务, 就是 Andrew Ng 在 <em>Generative AI for Everyone</em> 中提出的框架:</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>任何 AI 产品功能 = Reading, Writing, 或 Chatting 之一.</strong></p>
+        <p>没有第四种. 就这三个.</p>
+      </div>
+
+      <div class="step-foot">具体每个类型是什么意思? 一个一个拆 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两个常见错觉 — 都不对</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错觉 A: "AI 什么都能做"</h3>
+          <p>老板说加 AI, 就什么需求都往上堆.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            AI 的能力是有限的, 且不同类型的任务需要完全不同的设计. 不分类就上, 一定翻车.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错觉 B: "每个 AI 功能都是独特发明"</h3>
+          <p>觉得自己的场景特殊, 没有参考.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            看似千变万化的 AI 产品, 底层都是同样三种 primitive 的组合. 搞清楚类型, 前人的经验直接照搬.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">Andrew Ng 的三分法:</p>
+        <p class="truth-line giant"><mark class="hl">Reading · Writing · Chatting</mark></p>
+        <p class="truth-line">任何 AI 产品功能, 都能映射到这三类之一.<br/>分清楚类型, Prompt 怎么写、指标怎么定、成本怎么算, 全不一样.</p>
+        <p class="truth-line muted">→ 这个框架出自 Andrew Ng《Generative AI for Everyone》Week 1, 是 AI PM 最基础的思维工具.</p>
+      </div>
+
+      <div class="step-foot">先看第一类: Reading ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Reading — AI 帮你"读懂"</h2>
+
+      <div class="rwc-card reading">
+        <div class="rwc-badge">Reading</div>
+        <p class="rwc-subtitle">AI 消化已有内容, 输出结构化理解</p>
+        <p class="rwc-desc">你给 AI 一段文字, 让它告诉你"这段话说了什么". 输入是现有内容, 输出是提炼后的信息.</p>
+
+        <div class="rwc-subtypes">
+          <span class="pill pill-blue">Summarize 总结</span>
+          <span class="pill pill-blue">Classify 分类</span>
+          <span class="pill pill-blue">Extract 提取</span>
+        </div>
+
+        <div class="rwc-examples">
+          <strong>Vitamin 场景举例:</strong>
+          <ul>
+            <li><strong>Summarize:</strong> 把用户一周的健康日记总结成 3 句话</li>
+            <li><strong>Classify:</strong> 判断用户输入的情绪是焦虑、开心还是低落</li>
+            <li><strong>Extract:</strong> 从"今早吃了全麦面包和牛奶"里提取食物关键词</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>Reading 的特征:</strong> AI 是在"<mark class="hl">消费</mark>"已有内容, 不创造新内容. 你关心的是它"读得准不准".</p>
+      </div>
+
+      <div class="step-foot">第二类: Writing ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Writing — AI 帮你"写出来"</h2>
+
+      <div class="rwc-card writing">
+        <div class="rwc-badge">Writing</div>
+        <p class="rwc-subtitle">AI 根据指令, 生成新内容</p>
+        <p class="rwc-desc">你给 AI 一个简短的指令或种子, 让它产出一段新的文字. 输入是要求, 输出是创作.</p>
+
+        <div class="rwc-subtypes">
+          <span class="pill pill-green">Draft 草拟</span>
+          <span class="pill pill-green">Paraphrase 改写</span>
+          <span class="pill pill-green">Expand 扩写</span>
+        </div>
+
+        <div class="rwc-examples">
+          <strong>Vitamin 场景举例:</strong>
+          <ul>
+            <li><strong>Draft:</strong> 根据用户的经期状态, 生成今日健康小贴士</li>
+            <li><strong>Paraphrase:</strong> 把"黄体期孕酮升高"改写成大白话</li>
+            <li><strong>Expand:</strong> 用户输入"有点累", 扩写为详细的身体状态描述</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>Writing 的特征:</strong> AI 是在"<mark class="hl">创造</mark>"新内容. 你关心的是它"写得好不好、用户愿不愿意用".</p>
+      </div>
+
+      <div class="step-foot">第三类: Chatting ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Chatting — AI 跟用户"聊起来"</h2>
+
+      <div class="rwc-card chatting">
+        <div class="rwc-badge">Chatting</div>
+        <p class="rwc-subtitle">AI 维持多轮上下文, 持续交互</p>
+        <p class="rwc-desc">用户和 AI 来回对话, AI 需要记住前面说过的话, 并根据上下文做出合理回应.</p>
+
+        <div class="rwc-subtypes">
+          <span class="pill pill-amber">Q&A 问答</span>
+          <span class="pill pill-amber">Support 客服</span>
+          <span class="pill pill-amber">Companion 陪伴</span>
+        </div>
+
+        <div class="rwc-examples">
+          <strong>Vitamin 场景举例:</strong>
+          <ul>
+            <li><strong>Q&A:</strong> "备孕期间能吃辣吗?" → AI 根据知识库回答</li>
+            <li><strong>Support:</strong> "怎么修改我的周期设置?" → 引导用户完成操作</li>
+            <li><strong>Companion:</strong> 经期情绪低落时, AI 持续陪聊、给温暖回应</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>Chatting 的特征:</strong> AI 需要"<mark class="hl">记住上下文</mark>", 在多轮中保持连贯. 你关心的是对话质量和上下文管理.</p>
+      </div>
+
+      <div class="step-foot">那遇到模糊的需求, 怎么分? ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">模糊需求怎么分 — 三个问题搞定</h2>
+      <p class="step-lede">遇到一个需求, 心里过三个问题:</p>
+
+      <div class="decision-flow">
+        <div class="flow-question">Q1: AI 需要读懂已有内容吗?</div>
+        <div class="flow-branches">
+          <div class="flow-branch yes">是 → 可能是 Reading</div>
+          <div class="flow-branch no">否 → 继续往下</div>
+        </div>
+
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-question">Q2: AI 需要创造新内容吗?</div>
+        <div class="flow-branches">
+          <div class="flow-branch yes">是 → 可能是 Writing</div>
+          <div class="flow-branch no">否 → 继续往下</div>
+        </div>
+
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-question">Q3: AI 需要跟用户来回对话吗?</div>
+        <div class="flow-branches">
+          <div class="flow-branch yes">是 → 可能是 Chatting</div>
+          <div class="flow-branch no">也许不需要 AI?</div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>边界情况:</strong> 有些功能是<mark class="hl">链式组合</mark>. 比如"AI 帮我改写日记" = Reading (读懂原文) + Writing (生成新版本). 这种情况, 按主要目的分类, 并在 PRD 里标注两步.</p>
+      </div>
+
+      <div class="step-foot">分清类型有什么实际意义? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">分类的意义 — 每种类型, PM 的操心点完全不同</h2>
+      <p class="step-lede">这不是学术分类, 是<strong>直接影响你怎么做产品</strong>的分类:</p>
+
+      <table class="pm-table">
+        <thead>
+          <tr>
+            <th>维度</th>
+            <th><span class="type-label type-r">Reading</span></th>
+            <th><span class="type-label type-w">Writing</span></th>
+            <th><span class="type-label type-c">Chatting</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>核心指标</strong></td>
+            <td>准确率 / 召回率</td>
+            <td>接受率 / 重新生成率</td>
+            <td>任务完成率 / 满意度</td>
+          </tr>
+          <tr>
+            <td><strong>Temperature</strong></td>
+            <td>低 (0.1-0.3) 要稳</td>
+            <td>中高 (0.5-0.9) 要创意</td>
+            <td>中 (0.4-0.7) 要自然</td>
+          </tr>
+          <tr>
+            <td><strong>Prompt 重点</strong></td>
+            <td>给清输出格式 (JSON)</td>
+            <td>给清风格/语气/长度</td>
+            <td>给清人设 + 上下文管理</td>
+          </tr>
+          <tr>
+            <td><strong>主要成本</strong></td>
+            <td>Input token (文档长)</td>
+            <td>Output token (生成多)</td>
+            <td>两头都贵 (多轮累积)</td>
+          </tr>
+          <tr>
+            <td><strong>最怕什么</strong></td>
+            <td>漏信息 / 分错类</td>
+            <td>写得平庸 / 幻觉</td>
+            <td>丢上下文 / 答非所问</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"拿到 AI 需求, 我第一步是分类: Reading、Writing 还是 Chatting. 因为每种类型的评估指标、Temperature 设置、Prompt 策略和成本结构完全不同. 分错类, 后面全错."</p>
+      </div>
+
+      <div class="step-foot">来动手试试 — 分类 12 个 Vitamin 功能 ↓</div>
+    </section>
+
+    <!-- (8) WIDGET -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手分类 — Feature Classifier</h2>
+      <p class="step-lede">点击下面的功能卡片, 它会自动飞入正确的分类列. 看看你的直觉对不对:</p>
+
+      <div class="classifier-widget" data-rough="card">
+        <!-- Three columns -->
+        <div class="classifier-columns">
+          <div class="cls-column reading-col">
+            <div class="cls-column-title">📖 Reading</div>
+            <div id="col-reading"></div>
+          </div>
+          <div class="cls-column writing-col">
+            <div class="cls-column-title">✍️ Writing</div>
+            <div id="col-writing"></div>
+          </div>
+          <div class="cls-column chatting-col">
+            <div class="cls-column-title">💬 Chatting</div>
+            <div id="col-chatting"></div>
+          </div>
+        </div>
+
+        <!-- Feature pool -->
+        <div id="feature-pool" class="feature-pool"></div>
+
+        <!-- Explanation -->
+        <div id="cls-explain" class="cls-explain"></div>
+
+        <!-- Custom input -->
+        <div class="cls-custom">
+          <input id="custom-feature-input" type="text" placeholder="输入你自己的功能, 按 Enter 分类..." />
+          <button id="custom-feature-btn" class="btn btn-primary">分类 →</button>
+          <button id="cls-reset" class="btn btn-ghost">重来</button>
+        </div>
+      </div>
+
+      <div class="step-foot">把整个 Vitamin 的 5 个状态都映射一遍 ↓</div>
+    </section>
+
+    <!-- (9) Vitamin case study -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 5 状态 × R/W/C 全景图</h2>
+      <p class="step-lede">Vitamin 有 5 个身体状态, 每个状态都需要 Reading + Writing + Chatting. 但<mark class="hl">侧重点不同</mark>:</p>
+
+      <div class="state-matrix">
+        <div class="sm-header">状态</div>
+        <div class="sm-header">📖 Reading</div>
+        <div class="sm-header">✍️ Writing</div>
+        <div class="sm-header">💬 Chatting</div>
+
+        <div class="sm-state">经期</div>
+        <div class="sm-cell">情绪分类 · 症状提取</div>
+        <div class="sm-cell">每日暖心提醒 · 饮食建议</div>
+        <div class="sm-cell">疼痛问答 · 情绪陪伴</div>
+
+        <div class="sm-state">备孕</div>
+        <div class="sm-cell">排卵日预测信号提取</div>
+        <div class="sm-cell">备孕知识科普文案</div>
+        <div class="sm-cell">备孕问答 · 心理支持</div>
+
+        <div class="sm-state">孕期</div>
+        <div class="sm-cell">产检报告关键词提取</div>
+        <div class="sm-cell">每周胎儿发育播报</div>
+        <div class="sm-cell">孕期不适问答</div>
+
+        <div class="sm-state">产后</div>
+        <div class="sm-cell">恢复进度评估</div>
+        <div class="sm-cell">产后营养食谱生成</div>
+        <div class="sm-cell">育儿问答 · 情绪支持</div>
+
+        <div class="sm-state">更年期</div>
+        <div class="sm-cell">症状严重度分类</div>
+        <div class="sm-cell">生活方式改善建议</div>
+        <div class="sm-cell">长期健康陪伴对话</div>
+      </div>
+
+      <div class="can-cant">
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">✓ 用 R/W/C 框架的好处</h3>
+          <ul>
+            <li>需求评审时, 每个功能都能用一个词定义类型</li>
+            <li>和算法工程师沟通时, 直接说 "这是一个 Reading task"</li>
+            <li>设计 Prompt 时, 知道该强调什么 (格式 / 风格 / 上下文)</li>
+            <li>评估效果时, 知道该看什么指标</li>
+            <li>估算成本时, 知道 token 会花在哪里</li>
+          </ul>
+        </article>
+
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">✗ 常见踩坑</h3>
+          <ul>
+            <li>把 Reading 当 Chatting 做 → 多余的多轮交互</li>
+            <li>把 Writing 当 Reading 做 → 没给创意空间</li>
+            <li>所有功能都做成 Chatting → 成本暴涨</li>
+            <li>不分类就上线 → Prompt 策略混乱</li>
+            <li>忽视链式组合 → R+W 的功能只设计了一半</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">拿到任何 AI 需求, 先问:<br/>这是 Reading, Writing, 还是 Chatting?<br/>答不上来, 说明需求没想清楚.</p>
+        <p class="one-liner-foot muted">—— Andrew Ng, Generative AI for Everyone</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>打开你常用的 3 个 AI 产品 (ChatGPT / 豆包 / Notion AI 等), 分别判断它们的<strong>核心功能</strong>属于 R、W 还是 C. 写出理由.</li>
+          <li>打开 Vitamin 的功能列表, 把每个现有/计划中的功能标注为 R、W 或 C. 有哪些是链式组合 (R→W)?</li>
+          <li>找一个你觉得"模糊难分"的 AI 功能需求, 用第 6 步的三个问题判断它属于哪类, 写下判断过程.</li>
+          <li>用 200 字, 给一个非技术朋友解释 Reading / Writing / Chatting 三分法. 尽量用 Vitamin 的例子.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead>
+            <tr><th>类型</th><th>资源</th><th>来源</th><th>为什么值得看</th><th>时间</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>📺</td>
+              <td><a href="https://www.coursera.org/learn/generative-ai-for-everyone" target="_blank">Generative AI for Everyone</a></td>
+              <td>Coursera / Andrew Ng</td>
+              <td>R/W/C 框架的原始出处, Week 1 免费看</td>
+              <td>2 小时</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td><a href="https://www.deeplearning.ai/courses/generative-ai-for-everyone/" target="_blank">DeepLearning.AI 课程页</a></td>
+              <td>DeepLearning.AI</td>
+              <td>课程大纲 + 学习目标, 快速了解覆盖范围</td>
+              <td>10 分钟</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td><a href="https://www.analyticsvidhya.com/blog/2025/01/ai-product-management/" target="_blank">AI Product Management 解读</a></td>
+              <td>Analytics Vidhya</td>
+              <td>Andrew Ng 的 AI PM 观点深度解读, 含 R/W/C 应用</td>
+              <td>15 分钟</td>
+            </tr>
+            <tr>
+              <td>🛠</td>
+              <td><a href="https://chatgpt.com" target="_blank">ChatGPT</a></td>
+              <td>OpenAI</td>
+              <td>试着把一个功能同时用 R/W/C 三种方式 Prompt</td>
+              <td>10 分钟</td>
+            </tr>
+            <tr>
+              <td>📺</td>
+              <td><a href="https://www.youtube.com/watch?v=sAM_csZ5N5E" target="_blank">Andrew Ng 课程介绍视频</a></td>
+              <td>YouTube</td>
+              <td>3 分钟快速了解 Generative AI for Everyone 讲什么</td>
+              <td>3 分钟</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 三个产品 = 三种任务</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 错觉 vs 真相: R/W/C 三分法</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> Reading: 总结 / 分类 / 提取</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> Writing: 草拟 / 改写 / 扩写</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> Chatting: 问答 / 客服 / 陪伴</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 三个问题判断分类</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 每种类型 PM 操心点不同</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Feature Classifier 动手分类</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 5 状态全景图</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业 + 资源</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">AI 产品功能 = Reading + Writing + Chatting.<br/>拿到需求先分类, 分对了后面全对.</p>
+        <p class="end-summary-sub">这是 Andrew Ng 给 AI PM 的第一个思维工具.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 2): AI 死穴 1 — 精确数学 + 实时数据</div>
+        <p>今天我们学了 AI "能做什么". 但它有三个死穴 — 做不了的事.<br/>
+        第一个: <strong>精确数学</strong>. AI 会自信地告诉你 1847293 × 7392048 = 一个错误的答案.</p>
+        <p>Vitamin 为什么不能让 AI 算 BMI? 下节课揭晓.</p>
+        <a class="walk-arrow" href="../u2-math-realtime/index.html">继续走 → Unit 2</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.2 · Unit 1 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

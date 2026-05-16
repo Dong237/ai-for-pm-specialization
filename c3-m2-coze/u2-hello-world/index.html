@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 2 · 创建第一个 Bot — AI for PM · M3.2</title>
+  <meta name="description" content="5 分钟在 Coze 上创建第一个能聊天的 Bot, 跑通端到端流程." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM &middot; M3.2</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 &middot; 创建第一个 Bot</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航"><ol>
+    <li><a href="#start" data-step="0">&#9654;</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+    <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+    <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+    <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+    <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">&#9632;</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 2<span class="title-dot">&middot;</span><br/>Hello World: 第一个 Bot</h1>
+      <p class="hero-sub">看了地图, 现在动手. 5 分钟, 创建你人生中第一个 AI Bot.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <figcaption>(你 &middot; 准 AI PM)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">上节课说 Coze 有 4 块积木...</p>
+          <p class="cloud-line">但我到现在还没真的动过手!</p>
+          <p class="cloud-line">能不能先做一个最简单的出来?</p>
+          <p class="cloud-line accent">-- 今天就做. 5 分钟.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>在 Coze 上从零创建一个 Bot</li>
+          <li>跑通"创建 -> 对话 -> 预览"的完整流程</li>
+          <li>理解 Bot 编辑页的三栏布局</li>
+          <li>知道这个 Hello World Bot 还缺什么 (为后续单元铺路)</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">程序员的第一课叫 Hello World</h2>
+      <p class="step-lede">每个程序员入门的第一件事, 就是让电脑输出 "Hello World". 不是因为这句话有什么意义 -- 是因为<mark class="hl">跑通第一个端到端流程</mark>比什么都重要.</p>
+
+      <div class="callout callout-blue">
+        <p>对 PM 来说, Hello World 就是:</p>
+        <ol>
+          <li>打开 Coze</li>
+          <li>填表创建一个 Bot</li>
+          <li>跟它说一句话</li>
+          <li>看到它回复</li>
+        </ol>
+        <p class="muted">就这 4 步. 完成后, 你已经超过了 90% "只看不动手" 的 PM 学员.</p>
+      </div>
+      <div class="step-foot">先看整个流程长什么样 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">5 步走完全流程</h2>
+
+      <div class="flow-steps">
+        <div class="flow-step">1. 注册登录</div>
+        <span class="flow-arrow">&rarr;</span>
+        <div class="flow-step">2. 点"创建 Bot"</div>
+        <span class="flow-arrow">&rarr;</span>
+        <div class="flow-step">3. 填名字+描述</div>
+        <span class="flow-arrow">&rarr;</span>
+        <div class="flow-step">4. 进入编辑页</div>
+        <span class="flow-arrow">&rarr;</span>
+        <div class="flow-step">5. 对话测试</div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>第 1 步: 注册登录</strong></p>
+        <ul>
+          <li>国内版: <a href="https://www.coze.cn" target="_blank" rel="noopener">coze.cn</a> (推荐, 模型免费额度多)</li>
+          <li>国际版: <a href="https://www.coze.com" target="_blank" rel="noopener">coze.com</a> (可用 GPT-4o, 需要海外账号)</li>
+          <li>手机号 / 飞书 / 抖音账号都能登录</li>
+        </ul>
+      </div>
+      <div class="step-foot">登录后, 找到"创建 Bot"按钮 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Step 2: 点"创建 Bot"</h2>
+      <p class="step-lede">登录后, 你会看到"工作空间"首页. 点右上角的<mark class="hl">"创建 Bot"</mark>按钮.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>创建时需要填什么?</strong></p>
+        <ul>
+          <li><strong>Bot 名称</strong> -- 起个名, 比如"健康小助手"</li>
+          <li><strong>Bot 简介</strong> -- 一句话描述它干什么</li>
+          <li><strong>图标</strong> -- 可以上传图片, 也可以让 AI 生成</li>
+        </ul>
+        <p class="muted">这三项都可以后改, 不用纠结. 先填了再说.</p>
+      </div>
+      <div class="step-foot">现在用下方模拟器体验一下 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Step 3: 填表 -- 模拟器来了</h2>
+      <p class="step-lede">在下方填写 Bot 信息, 然后点"创建" -- 感受一下整个流程:</p>
+
+      <!-- Interactive: Bot Creator form -->
+      <div class="bot-creator">
+        <h3 class="bot-creator-title">创建新 Bot</h3>
+        <div class="form-group">
+          <label for="bot-name">Bot 名称</label>
+          <input type="text" id="bot-name" placeholder="例如: Vitamin 健康助手" />
+        </div>
+        <div class="form-group">
+          <label for="bot-desc">Bot 简介</label>
+          <textarea id="bot-desc" placeholder="例如: 一个帮你解读身体状态的 AI 助手, 能回答健康问题并给出个性化建议."></textarea>
+        </div>
+        <div class="form-group">
+          <label>模型选择</label>
+          <select>
+            <option>豆包 (默认, 免费额度大)</option>
+            <option>通义千问 Qwen</option>
+            <option>DeepSeek</option>
+            <option>Moonshot Kimi</option>
+          </select>
+        </div>
+        <button id="bot-create-btn" class="btn btn-primary" style="margin-top:8px;">创建 Bot &rarr;</button>
+      </div>
+
+      <!-- Bot preview (appears after creation) -->
+      <div id="bot-preview" class="bot-preview">
+        <div class="bot-preview-header">
+          <div class="bot-avatar">&#129302;</div>
+          <div>
+            <div id="preview-name" class="bot-preview-name">My Bot</div>
+            <div id="preview-desc" class="bot-preview-desc">A helpful assistant</div>
+          </div>
+        </div>
+        <p style="color:var(--green);font-weight:600;font-size:14px;">&#10003; Bot 创建成功! 现在你可以跟它对话了.</p>
+
+        <!-- Chat simulation -->
+        <div id="chat-sim" class="chat-sim">
+          <div class="chat-msg bot">
+            <div class="chat-avatar-mini">&#129302;</div>
+            <div class="chat-bubble">你好! 我是你刚创建的 Bot. 有什么我能帮你的吗?</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <input type="text" id="chat-input" placeholder="输入消息试试..." style="flex:1;padding:10px 14px;border:2px solid var(--border-strong);border-radius:8px;background:var(--bg-elev);color:var(--ink);font-family:inherit;font-size:14px;" />
+          <button id="chat-send-btn" class="btn btn-primary" style="padding:10px 16px;">发送</button>
+        </div>
+      </div>
+
+      <div class="step-foot">创建完了, 来看编辑页的三栏布局 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Step 4: 编辑页三栏布局</h2>
+      <p class="step-lede">点进 Bot 编辑页, 你会看到三栏界面:</p>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1">
+          <div class="wonder-tag">左栏</div>
+          <h3>编排 (Orchestration)</h3>
+          <div class="wonder-note">
+            运行模式选择 (单 Agent / 多 Agent)<br/>
+            人设与回复逻辑 (Persona & Prompt)<br/>
+            <strong>这是你写 Prompt 的地方</strong>
+          </div>
+        </article>
+        <article class="wonder wonder-2">
+          <div class="wonder-tag">中栏</div>
+          <h3>工具 (Tools)</h3>
+          <div class="wonder-note">
+            选择大模型 (豆包/Qwen/...)<br/>
+            添加插件 / 知识库 / 工作流<br/>
+            <strong>这是给 Bot 加技能的地方</strong>
+          </div>
+        </article>
+        <article class="wonder wonder-3">
+          <div class="wonder-tag">右栏</div>
+          <h3>调试 (Preview & Debug)</h3>
+          <div class="wonder-note">
+            对话框实时测试<br/>
+            查看每步输入输出<br/>
+            <strong>这是验证效果的地方</strong>
+          </div>
+        </article>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>PM 关键认知:</strong> 左栏定义"是谁", 中栏定义"能干什么", 右栏验证"干得怎么样". 这三栏的逻辑 = M3.1 的 Prompt 设计 + M3.2 的平台配置 + 测试验证.</p>
+      </div>
+      <div class="step-foot">Hello World Bot 创建完了 -- 但它现在是个"白纸" ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">你的 Bot 现在是一张白纸</h2>
+      <p class="step-lede">刚创建的 Bot 能聊天, 但它只是在<strong>调用通用大模型</strong>回答问题. 它不知道 Vitamin 是什么, 也不会查任何数据.</p>
+
+      <div class="can-cant">
+        <article class="can-list">
+          <h3 class="can-head">&#10003; Hello World Bot 能做的</h3>
+          <ul>
+            <li>通用闲聊 (聊天气、讲笑话)</li>
+            <li>简单问答 (百科知识)</li>
+            <li>文本生成 (写文案、翻译)</li>
+          </ul>
+        </article>
+        <article class="cant-list">
+          <h3 class="cant-head">&#10007; 它还做不到的</h3>
+          <ul>
+            <li>回答 Vitamin 相关的专业问题</li>
+            <li>按你的风格和规则回答 (没配人设)</li>
+            <li>查天气、查数据库 (没接插件)</li>
+            <li>按流程处理复杂任务 (没建工作流)</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-blue">
+        <p>这就是为什么我们需要后面 6 个单元:</p>
+        <p><strong>U3 加人设 &rarr; U4 加知识库 &rarr; U5 加工作流 &rarr; U6 加插件 &rarr; U7 调试发布 &rarr; U8 组装成 Vitamin Bot</strong></p>
+      </div>
+      <div class="step-foot">在加东西之前, 先了解两个重要概念 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">两个重要概念: 运行模式 & 模型选择</h2>
+
+      <div class="callout callout-green">
+        <p><strong>概念 1: 运行模式</strong></p>
+        <ul>
+          <li><span class="pill pill-blue">单 Agent</span> 一个 Bot 处理所有问题 -- 大部分场景够用</li>
+          <li><span class="pill pill-green">多 Agent</span> 多个 Agent 分工协作 -- 复杂场景 (如 Vitamin 终版)</li>
+        </ul>
+        <p class="muted">新手先用单 Agent. 等 U8 搭 Vitamin 时再考虑多 Agent.</p>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>概念 2: 模型选择</strong></p>
+        <ul>
+          <li><strong>豆包</strong> -- 字节自家模型, 免费额度最大, 中文好. <em>首选</em></li>
+          <li><strong>通义千问</strong> -- 阿里模型, 推理能力强</li>
+          <li><strong>DeepSeek</strong> -- 性价比之王, 代码/推理能力好</li>
+          <li><strong>Moonshot</strong> -- 长上下文场景好用</li>
+        </ul>
+        <p class="muted">Vitamin Bot 建议用豆包 -- 成本低、中文好, 和 Coze 平台原生集成最好.</p>
+      </div>
+      <div class="step-foot">来看 3 个常见新手踩坑 ↓</div>
+    </section>
+
+    <!-- (8) -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">新手常见 3 个坑</h2>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1">
+          <div class="wonder-tag">坑 1</div>
+          <h3>Prompt 写在了错误的位置</h3>
+          <div class="wonder-note">
+            System Prompt 应该写在左栏的"人设与回复逻辑"里, <strong>不是</strong>在对话框里跟 Bot 说.<br/>
+            <em>对话框里说的 = User Prompt, 每次对话都会变. 人设 = System Prompt, 是固定的.</em>
+          </div>
+        </article>
+        <article class="wonder wonder-2">
+          <div class="wonder-tag">坑 2</div>
+          <h3>忘了选对话记忆长度</h3>
+          <div class="wonder-note">
+            默认只记住最近几轮对话. 如果你要做多轮问诊, 记得调大"对话轮数"设置.<br/>
+            <em>但也别无限大 -- 上下文越长, Token 消耗越多, 成本越高.</em>
+          </div>
+        </article>
+        <article class="wonder wonder-3">
+          <div class="wonder-tag">坑 3</div>
+          <h3>创建后没在右栏测试</h3>
+          <div class="wonder-note">
+            很多新手填完 Prompt 就去发布了, 结果效果很差.<br/>
+            <em>右栏调试 = 你的第一层质量保证. 每改一次 Prompt, 都要在右栏测几轮.</em>
+          </div>
+        </article>
+      </div>
+      <div class="step-foot">回到 Vitamin -- 这个 Hello World Bot 对你意味着什么 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 视角 -- Hello World 的意义</h2>
+      <p class="step-lede">你刚创建的 Hello World Bot, 本身没什么"产品价值". 但它完成了最重要的一件事:</p>
+
+      <div class="big-insight">
+        <p class="insight-text">你证明了自己<mark class="hl">5 分钟就能做一个 AI Demo</mark>.</p>
+        <p>这就是 PM 和"只看不做的人"的区别.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>后续 6 步, 你会一步步把这个白纸 Bot 变成 Vitamin 身体翻译器:</strong></p>
+        <ol>
+          <li>U3: 给它加上 Vitamin 的人设和 Prompt</li>
+          <li>U4: 喂进去 5 状态的医学科普知识</li>
+          <li>U5: 建一个"意图识别 -> 检索 -> 生成"的工作流</li>
+          <li>U6: 接上天气 API 等插件</li>
+          <li>U7: 调试优化 + 发布上线</li>
+          <li>U8: 组装成完整的 Vitamin Bot + 录屏</li>
+        </ol>
+      </div>
+      <div class="step-foot">作业时间 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">Hello World = 跑通端到端,<br/>证明你 5 分钟就能做 AI Demo.</p>
+        <p class="one-liner-foot muted">别追求完美, 先让它跑起来. 完美是后面 6 个单元的事.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 20 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://www.coze.cn" target="_blank" rel="noopener">coze.cn</a>, <strong>真的创建一个 Bot</strong>. 取名"Vitamin 测试版", 描述写"女性健康 AI 助手".</li>
+          <li>在右栏调试面板, 问它 5 个问题 (比如"经期头疼怎么办"). 记录它回答的质量 -- 哪些好, 哪些不行.</li>
+          <li>试着在左栏"人设与回复逻辑"里写一句简单的 System Prompt (比如"你是一个温柔的女性健康顾问"), 看回答风格有没有变化.</li>
+          <li>截图保存你的第一个 Bot -- 这是你 AI PM 之路的"第一行代码".</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#127918;</td>
+            <td><a href="https://www.coze.cn" target="_blank" rel="noopener">Coze 官网</a></td>
+            <td>coze.cn</td>
+            <td>直接动手创建</td>
+            <td>5 min</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128214;</td>
+            <td><a href="https://cloud.tencent.cn/developer/article/2506465" target="_blank" rel="noopener">3 分钟学会基础部署</a></td>
+            <td>腾讯云</td>
+            <td>最简单的入门教程</td>
+            <td>5 min</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128214;</td>
+            <td><a href="https://www.53ai.com/news/coze/2024080689614.html" target="_blank" rel="noopener">搭建 Bot 智能体详解</a></td>
+            <td>53AI</td>
+            <td>中文详细步骤</td>
+            <td>15 min</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128250;</td>
+            <td><a href="https://www.bzfree.com/doc/coze" target="_blank" rel="noopener">扣子实战教程</a></td>
+            <td>bzfree.com</td>
+            <td>全流程视频讲解</td>
+            <td>30 min</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 4px;">&#128736;</td>
+            <td><a href="https://docs.coze.com" target="_blank" rel="noopener">Coze 官方文档中心</a></td>
+            <td>docs.coze.com</td>
+            <td>最权威的参考</td>
+            <td>按需</td>
+          </tr>
+        </table>
+      </div>
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> Hello World 的意义</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 5 步全流程</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 点"创建 Bot"</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 填表 + 模拟器</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 编辑页三栏布局</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 白纸 Bot 能/不能</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 运行模式 & 模型选择</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 3 个常见坑</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 视角</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">Hello World = 5 分钟跑通端到端, 先做出来再说.</p>
+        <p class="end-summary-sub">你的第一个 Bot 是张白纸, 但它证明了你能做 AI Demo.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 3): Persona + Prompt 配置</div>
+        <p>白纸 Bot 太通用了 -- 下一步给它装上 Vitamin 的"灵魂": 人设 + Prompt.</p>
+        <p><strong>把你在 M3.1 写好的 Prompt 模板, 搬进 Coze.</strong></p>
+        <a class="walk-arrow" href="../u3-persona-config/index.html">继续走 &rarr; Unit 3</a>
+      </div>
+    </section>
+
+  </main>
+  <footer class="footer"><p>AI for PM &middot; Module 3.2 &middot; Unit 2 &middot; 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

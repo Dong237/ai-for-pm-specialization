@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · Coze 平台总览 — AI for PM · M3.2</title>
+  <meta name="description" content="Coze 4 大核心: Bot / 工作流 / 知识库 / 插件, 每个解决什么问题." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM &middot; M3.2</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 &middot; Coze 平台总览</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">&#9654;</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">&#9632;</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 1<span class="title-dot">&middot;</span><br/>Coze 平台, 到底长啥样?</h1>
+      <p class="hero-sub">Prompt 写得再好, 也得有个地方跑起来. 今天带你逛一圈 Coze (扣子) 的四大模块.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 &middot; 准 AI PM)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">上节课写好了 Prompt, 但... 放哪儿跑?</p>
+          <p class="cloud-line">听说 Coze 可以零代码做 Bot?</p>
+          <p class="cloud-line">它跟 Dify / LangChain 有啥区别?</p>
+          <p class="cloud-line accent">-- 10 步, 让你心里有张地图.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>画出 Coze 的 4 大核心模块关系图</li>
+          <li>知道 Bot / 工作流 / 知识库 / 插件各自解决什么问题</li>
+          <li>判断 Vitamin 的哪些需求用哪个模块实现</li>
+          <li>对比 Coze 与其他 Agent 平台的优劣</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">一个让你目瞪口呆的事实</h2>
+      <p class="step-lede">2024 年初, Coze (扣子) 正式上线. 到 2026 年初, 它已经服务了<strong>数百万开发者和数万家企业</strong>. 但最让人惊讶的是 --</p>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">事实</div>
+        <p class="truth-line big">用 Coze 搭一个能聊天的 AI Bot,</p>
+        <p class="truth-line giant">全程不写一行代码.</p>
+        <p class="truth-line muted">它是字节跳动出品的零代码 Agent 开发平台 -- 你只需要配置, 不需要编程.</p>
+      </div>
+
+      <div class="callout callout-blue">
+        <p>对 PM 来说, 这意味着: <strong>你可以自己做一个可演示的 Demo</strong>, 不用等研发排期.</p>
+        <p>面试时, 打开手机给面试官看一个真能跑的 Bot -- 这比说 100 句"我了解 AI"都管用.</p>
+      </div>
+      <div class="step-foot">那 Coze 的"零代码"到底是怎么做到的? 它有哪几块积木? ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">错觉: "Coze 就是个聊天界面吧"</h2>
+
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">&cross;</div>
+          <h3>错觉 A: Coze = ChatGPT 套壳</h3>
+          <p>只是换了个界面调大模型, 没啥新东西.</p>
+          <div class="wrong-why"><strong>为啥不对:</strong> ChatGPT 是一个通用对话工具. Coze 是一个<em>开发平台</em> -- 你可以在上面建工作流、挂知识库、接 API, 做出完整的垂直应用.</div>
+        </article>
+        <article class="wrong">
+          <div class="wrong-mark">&cross;</div>
+          <h3>错觉 B: Coze 只能做聊天 Bot</h3>
+          <p>最多做个客服机器人, 干不了复杂的事.</p>
+          <div class="wrong-why"><strong>为啥不对:</strong> Coze 2.0 (2026 年 1 月发布) 已经升级为 Vibe Coding 平台 -- 能做 Agent、工作流、网站、甚至移动 App. 聊天只是它最基础的形态.</div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">Coze 是一个<mark class="hl">4 模块积木系统</mark>:</p>
+        <p class="truth-line giant">Bot + 工作流 + 知识库 + 插件</p>
+        <p class="truth-line muted">这 4 块积木可以自由组合, 从简单聊天到复杂 Agent 都能搭.</p>
+      </div>
+      <div class="step-foot">先来认识第一块积木 -- Bot ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">积木 1: Bot -- 你的 AI 助手</h2>
+      <p class="step-lede">Bot 是 Coze 的核心产物 -- 你搭的每个东西, 最终都以 Bot 的形式交付给用户.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>一句话:</strong> Bot = Persona (人设) + 技能 (工具) + 发布渠道.</p>
+        <ul>
+          <li><strong>Persona</strong>: 你在 M3.1 写好的 System Prompt, 直接粘贴进去</li>
+          <li><strong>技能</strong>: 知识库 / 插件 / 工作流, 挂上就能用</li>
+          <li><strong>发布</strong>: 一键发到飞书、微信、抖音、Web SDK 等渠道</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>两种模式:</strong></p>
+        <ul>
+          <li><span class="pill pill-blue">单 Agent</span> 一个 Bot 干所有事 -- 适合简单场景</li>
+          <li><span class="pill pill-green">多 Agent</span> 多个专长 Bot 协作 -- 适合复杂流程 (如 Vitamin 的"问诊 + 建议 + 记录"三角)</li>
+        </ul>
+      </div>
+      <div class="step-foot">Bot 是"壳", 那"脑子"从哪来? 接知识库 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">积木 2: 知识库 -- 喂给 Bot 私有数据</h2>
+      <p class="step-lede">大模型有通用知识, 但不知道你公司的产品文档. 知识库就是解决这个问题的 -- 本质上就是一个<mark class="hl">内置的 RAG 模块</mark>.</p>
+
+      <div class="callout callout-green">
+        <p><strong>能喂什么进去?</strong></p>
+        <ul>
+          <li>本地文件: PDF / Word / TXT / Markdown</li>
+          <li>在线网页: 直接输入 URL, 自动抓取</li>
+          <li>表格数据: Excel / CSV</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>它在背后做了什么?</strong></p>
+        <ol>
+          <li>把你的文档<strong>切片</strong> (chunk) -- 默认 ~300 字一段</li>
+          <li>把每段话<strong>向量化</strong> (embedding) -- 变成数学空间里的点</li>
+          <li>用户提问时, 用<strong>语义检索</strong>找到最相关的 5 段</li>
+          <li>把这 5 段塞给大模型, 让它"带着资料回答"</li>
+        </ol>
+        <p class="muted">这就是 M3.3 要深入学的 RAG 三步走: Embed -> Retrieve -> Augment.</p>
+      </div>
+      <div class="step-foot">有了知识, 还得会"做事" -- 第三块积木, 插件 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">积木 3: 插件 -- 让 Bot 能"做事"</h2>
+      <p class="step-lede">纯聊天的 Bot 只能"说". 但 PM 需要的 Bot 还得能"做" -- 查天气、查数据库、调 API、生成图片...</p>
+
+      <div class="callout callout-amber">
+        <p><strong>插件 = 一组 API 工具的封装.</strong> 三种来源:</p>
+        <ul>
+          <li><span class="pill pill-blue">官方商店</span> 60+ 预制插件, 直接安装 (搜索 / 天气 / 图片生成 / 计算器...)</li>
+          <li><span class="pill pill-green">自定义</span> 把你自己的 API 封装成插件 (比如 Vitamin 后端接口)</li>
+          <li><span class="pill pill-amber">JSON/YAML 导入</span> 如果你有 OpenAPI 规范文件, 直接导入</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 会用到的插件场景:</strong></p>
+        <ul>
+          <li>接天气 API -- 回答"今天适合户外运动吗"</li>
+          <li>接日历 API -- 记录用户的经期日期</li>
+          <li>接搜索插件 -- 补充最新的健康资讯</li>
+        </ul>
+      </div>
+      <div class="step-foot">四块积木的最后一块 -- 工作流, 把所有东西串起来 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">积木 4: 工作流 -- 把步骤串成链</h2>
+      <p class="step-lede">当任务不只一步 (先识别意图 -> 再查知识库 -> 再生成回复), 你需要工作流.</p>
+
+      <div class="callout callout-green">
+        <p><strong>工作流 = 一个有向无环图 (DAG).</strong> 每个节点做一件事:</p>
+        <ul>
+          <li><span class="pill pill-blue">大模型节点</span> 调 LLM 做文本生成 / 分类</li>
+          <li><span class="pill pill-green">知识库节点</span> 从知识库检索相关内容</li>
+          <li><span class="pill pill-amber">代码节点</span> 写一小段 Python / JS 做数据处理</li>
+          <li><span class="pill pill-blue">条件判断</span> if-else 分支逻辑</li>
+          <li><span class="pill pill-green">循环节点</span> 重复执行某段流程</li>
+          <li><span class="pill pill-amber">插件节点</span> 调用外部 API</li>
+        </ul>
+      </div>
+
+      <div class="eco-flow">
+        <div class="eco-node" style="border-color:var(--green);">开始</div>
+        <span class="eco-arrow">&rarr;</span>
+        <div class="eco-node" style="border-color:var(--blue);">意图识别<br/><small>(LLM)</small></div>
+        <span class="eco-arrow">&rarr;</span>
+        <div class="eco-node" style="border-color:var(--amber);">知识库检索</div>
+        <span class="eco-arrow">&rarr;</span>
+        <div class="eco-node" style="border-color:var(--purple);">回复生成<br/><small>(LLM)</small></div>
+        <span class="eco-arrow">&rarr;</span>
+        <div class="eco-node" style="border-color:var(--red);">结束</div>
+      </div>
+      <p class="muted" style="text-align:center;margin-top:8px;">Vitamin Bot 的典型工作流: 5 个节点, 拖拽搭建, 零代码.</p>
+
+      <div class="step-foot">4 块积木都认识了 -- 现在用互动地图一起看 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">4 大积木全景图 -- 点击探索</h2>
+      <p class="step-lede">点击下方任意一个模块, 看它的详细能力:</p>
+
+      <!-- Interactive: 4-quadrant platform map -->
+      <div class="platform-map">
+        <div class="quad-card" data-quad="bot">
+          <span class="quad-icon">&#129302;</span>
+          <h3 class="quad-name">Bot (智能体)</h3>
+          <p class="quad-desc">最终交付物, 用户直接对话的入口</p>
+        </div>
+        <div class="quad-card" data-quad="workflow">
+          <span class="quad-icon">&#9881;&#65039;</span>
+          <h3 class="quad-name">工作流 (Workflow)</h3>
+          <p class="quad-desc">多步骤任务的流程编排</p>
+        </div>
+        <div class="quad-card" data-quad="knowledge">
+          <span class="quad-icon">&#128218;</span>
+          <h3 class="quad-name">知识库 (Knowledge)</h3>
+          <p class="quad-desc">私有数据的 RAG 检索模块</p>
+        </div>
+        <div class="quad-card" data-quad="plugin">
+          <span class="quad-icon">&#128268;</span>
+          <h3 class="quad-name">插件 (Plugin)</h3>
+          <p class="quad-desc">外部 API 工具集成</p>
+        </div>
+      </div>
+
+      <div id="quad-detail-panel" class="quad-detail">
+        <h4 class="quad-detail-title">选择一个模块查看详情</h4>
+        <ul><li>点击上方任意卡片</li></ul>
+      </div>
+
+      <div class="step-foot">这 4 块怎么配合? 看关系图 ↓</div>
+    </section>
+
+    <!-- (8) -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">4 模块的组合关系</h2>
+      <p class="step-lede">Bot 是"壳", 其他三个是"内核". 它们的关系用一句话说清:</p>
+
+      <div class="big-insight">
+        <p class="insight-text">Bot = Persona + 工作流 + 知识库 + 插件</p>
+        <p>四块积木<mark class="hl">自由组合</mark>, 复杂度由你决定.</p>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>从简单到复杂的 4 档:</strong></p>
+        <ol>
+          <li><span class="pill pill-blue">纯聊天</span> Bot + Persona 就够了 (Hello World)</li>
+          <li><span class="pill pill-green">带知识</span> Bot + Persona + 知识库 (客服 Bot)</li>
+          <li><span class="pill pill-amber">能做事</span> Bot + Persona + 知识库 + 插件 (助理 Bot)</li>
+          <li><span class="pill pill-blue">复杂流程</span> Bot + Persona + 工作流 (含知识库 + 插件节点) = Vitamin Bot</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>关键认知:</strong> 工作流 <em>包含</em> 知识库和插件 -- 知识库检索和插件调用都是工作流里的一个节点. 所以最终形态是: <strong>Bot 调用工作流, 工作流里编排知识库 + 插件 + LLM 节点</strong>.</p>
+      </div>
+      <div class="step-foot">Coze 跟其他平台比, 怎么样? ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 视角 -- 为什么选 Coze?</h2>
+      <p class="step-lede">做 Vitamin Bot, 你有几个选择. 为什么 Coze 是 PM 的最优解?</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th>维度</th><th>Coze (扣子)</th><th>Dify</th><th>自写代码</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>编程要求</td><td style="color:var(--green);font-weight:600;">零代码</td><td>低代码</td><td>Python 全栈</td></tr>
+          <tr><td>内置模型</td><td>豆包 + 10+ 国产模型</td><td>需自接 API</td><td>需自接 API</td></tr>
+          <tr><td>知识库 RAG</td><td>内置, 一键上传</td><td>内置</td><td>自建</td></tr>
+          <tr><td>插件生态</td><td>60+ 官方插件</td><td>工具有限</td><td>自己写</td></tr>
+          <tr><td>发布渠道</td><td>微信/飞书/抖音/Web</td><td>Web 为主</td><td>自部署</td></tr>
+          <tr><td>中文体验</td><td style="color:var(--green);font-weight:600;">原生中文</td><td>中文良好</td><td>取决于模型</td></tr>
+          <tr><td>上手时间</td><td style="color:var(--green);font-weight:600;">5 分钟</td><td>30 分钟</td><td>3 天起</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-green">
+        <p><strong>Vitamin 选 Coze 的理由:</strong></p>
+        <ol>
+          <li>PM 自己就能搭 Demo, 不用等研发 -- <strong>面试前 1 天就能有可演示成果</strong></li>
+          <li>内置豆包模型, 中文体验好, 成本低</li>
+          <li>发布到微信公众号 -- Vitamin 用户最可能在的渠道</li>
+          <li>知识库 + 工作流 = 完整的 RAG Pipeline, 开箱即用</li>
+        </ol>
+      </div>
+      <div class="step-foot">最后一步 -- 规则 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">Coze = Bot (壳) + 工作流 (脑) + 知识库 (记忆) + 插件 (手脚)</p>
+        <p class="one-liner-foot muted">四块积木自由组合, 从 Hello World 到复杂 Agent 都能搭. PM 自己就能做 Demo.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://www.coze.cn" target="_blank" rel="noopener">coze.cn</a>, 注册账号, 逛一圈首页 -- 找到"创建 Bot"按钮在哪.</li>
+          <li>进入扣子智能体商店, 找 3 个你觉得做得好的 Bot, 记下它们各用了哪些能力 (知识库? 插件? 工作流?).</li>
+          <li>画一张 Vitamin Bot 的 4 模块组合图: 哪些信息放知识库、哪些功能靠插件、工作流长什么样.</li>
+          <li>写 100 字: 如果面试官问"你为什么选 Coze 做 Demo", 你怎么答?</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#127918;</td>
+            <td><a href="https://www.coze.cn" target="_blank" rel="noopener">Coze 官网</a></td>
+            <td>coze.cn</td>
+            <td>直接注册体验</td>
+            <td>5 min</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128214;</td>
+            <td><a href="https://www.coze.cn/open/docs/guides/prompt" target="_blank" rel="noopener">Coze 官方文档</a></td>
+            <td>coze.cn</td>
+            <td>最权威的操作指南</td>
+            <td>20 min</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128214;</td>
+            <td><a href="https://zhuanlan.zhihu.com/p/695645718" target="_blank" rel="noopener">扣子搭建 AI 智能体入门</a></td>
+            <td>知乎</td>
+            <td>中文保姆级教程</td>
+            <td>15 min</td>
+          </tr>
+          <tr style="border-bottom:1px dashed var(--border);">
+            <td style="padding:6px 4px;">&#128250;</td>
+            <td><a href="https://www.bzfree.com/doc/coze" target="_blank" rel="noopener">扣子实战教程</a></td>
+            <td>bzfree.com</td>
+            <td>全网最细节讲解</td>
+            <td>30 min</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 4px;">&#128736;</td>
+            <td><a href="https://github.com/coze-dev/coze-studio" target="_blank" rel="noopener">Coze Studio 开源版</a></td>
+            <td>GitHub</td>
+            <td>想自部署的进阶选择</td>
+            <td>1 hr</td>
+          </tr>
+        </table>
+      </div>
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> Coze 零代码做 Bot</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 不是套壳, 是开发平台</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Bot = 人设 + 技能 + 发布</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 知识库 = 内置 RAG</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 插件 = API 工具集成</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 工作流 = DAG 编排</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 4 模块互动地图</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 4 模块组合关系</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> 为什么 Vitamin 选 Coze</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">Coze = Bot (壳) + 工作流 (脑) + 知识库 (记忆) + 插件 (手脚).</p>
+        <p class="end-summary-sub">四块积木自由组合, PM 自己就能从零到一做一个可演示的 AI 产品.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 2): 创建第一个 Bot</div>
+        <p>认识了地图, 下一步就是动手 -- 5 分钟创建你人生中第一个 AI Bot.</p>
+        <p><strong>从填表到预览, 全流程手把手带你走一遍.</strong></p>
+        <a class="walk-arrow" href="../u2-hello-world/index.html">继续走 &rarr; Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM &middot; Module 3.2 &middot; Unit 1 &middot; 个人定制版</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

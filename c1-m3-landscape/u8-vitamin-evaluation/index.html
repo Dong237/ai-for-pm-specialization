@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 8 · Vitamin 5 模型横评 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 8: 给 Vitamin 选 5 个候选模型, 按 6 维度横评, 产出选型报告." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M1.3</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 8 · Vitamin 5 模型横评</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 8<span class="title-dot">·</span><br/>Vitamin 5 模型横评</h1>
+      <p class="hero-sub">Module 1.3 最终实操 — 给 Vitamin 选出最优模型, 产出一份选型报告.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM · 要交选型报告了)</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">老板说: "你推荐 Vitamin 用哪个模型? 给我一页纸的理由."</p>
+          <p class="cloud-line">面试官问: "你怎么做模型选型的?"</p>
+          <p class="cloud-line accent">—— 今天做完, 你就有答案了.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>认识 5 个 Vitamin 候选模型的核心指标</li>
+          <li>用 6 个维度给每个模型打分</li>
+          <li>学会加权评分 — 不同场景权重不同</li>
+          <li>产出一份可以在面试中使用的模型选型报告</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">"你选这个模型, 理由是什么?"</h2>
+      <p class="step-lede">这是 AI PM 面试必问题. 错误答案 vs 正确答案:</p>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1" data-rough="card">
+          <div class="wonder-tag">差回答</div>
+          <h3>"因为大家都在用 GPT"</h3>
+          <div class="wonder-note">没有数据, 没有分析, 跟风. 面试官会追问 "大家是谁? 你比过别的吗?"</div>
+        </article>
+        <article class="wonder wonder-2" data-rough="card">
+          <div class="wonder-tag">差回答</div>
+          <h3>"因为它排行榜第一"</h3>
+          <div class="wonder-note">哪个排行榜? 什么维度第一? 第一就适合你的场景吗? 价格呢?</div>
+        </article>
+        <article class="wonder wonder-3" data-rough="card">
+          <div class="wonder-tag">好回答</div>
+          <h3>"我比较了 5 个候选,<br/>按 6 个维度打分,<br/>根据 Vitamin 的需求加权"</h3>
+          <div class="wonder-note">有数据, 有框架, 有场景适配. 这就是今天要教你做的.</div>
+        </article>
+      </div>
+
+      <div class="step-foot">先认识 5 个候选 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">选型不是选 "最强" — 是选 "最适合"</h2>
+      <p class="step-lede">先破一个误区:</p>
+
+      <div class="two-wrong">
+        <div class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>"选最强的 — Claude Opus 4.7"</h3>
+          <p>Opus 4.7 确实全球第一, 但输出 $25/M tokens.</p>
+          <div class="wrong-why">Vitamin 每天可能有 1 万用户发消息. 用 Opus 4.7, 月成本轻松超 10 万元. 创业公司用不起.</div>
+        </div>
+        <div class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>"选最便宜的 — 随便找个免费的"</h3>
+          <p>便宜的模型中文可能很差, 健康场景幻觉率高.</p>
+          <div class="wrong-why">Vitamin 涉及健康建议, 模型说错可能有法律风险. 省钱但出事更贵.</div>
+        </div>
+      </div>
+
+      <div class="truth-bubble" data-rough="big">
+        <div class="truth-tag">正确做法</div>
+        <p class="truth-line big">模型选型 = <mark class="hl">6 维度 × 加权 × 你的场景</mark></p>
+        <p class="truth-line giant">没有最好的模型,<br/>只有最适合的模型.</p>
+        <p class="truth-line muted">接下来, 认识 Vitamin 的 5 个候选模型.</p>
+      </div>
+
+      <div class="step-foot">5 个候选, 逐个亮相 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">认识 5 个候选模型 (截至 2026 年 4 月)</h2>
+      <p class="step-lede">根据 Vitamin 的需求 (中文 + 健康 + 便宜 + 快), 从 4 大榜单交叉筛选出这 5 个:</p>
+
+      <div class="candidate-grid">
+        <div class="candidate-card" data-rough="card" style="transform:rotate(-0.5deg);">
+          <div class="candidate-num" style="background:var(--blue-bg);color:var(--blue);border-color:var(--blue);">1</div>
+          <h3>DeepSeek V4 Flash</h3>
+          <div class="candidate-meta">DeepSeek · 开源 (MIT)</div>
+          <div class="candidate-highlight">最便宜: $0.14 / $0.28</div>
+          <p class="candidate-desc">1.6T 参数, 49B active. 在华为 Ascend 上训练. 缓存命中 $0.028 — 折后价惊人. 开源可自部署.</p>
+        </div>
+        <div class="candidate-card" data-rough="card" style="transform:rotate(0.4deg);">
+          <div class="candidate-num" style="background:var(--green-bg);color:var(--green);border-color:var(--green);">2</div>
+          <h3>Qwen3.5-Plus</h3>
+          <div class="candidate-meta">Alibaba · 闭源 API</div>
+          <div class="candidate-highlight">中文最强性价比: ¥0.8 / ¥4.8</div>
+          <p class="candidate-desc">阿里通义千问最新版. 中文理解力强, 速度快. 阿里云百炼直接调用, 国内生态好.</p>
+        </div>
+        <div class="candidate-card" data-rough="card" style="transform:rotate(-0.3deg);">
+          <div class="candidate-num" style="background:var(--amber-bg);color:var(--amber);border-color:var(--amber);">3</div>
+          <h3>Kimi K2.6</h3>
+          <div class="candidate-meta">Moonshot · 开源</div>
+          <div class="candidate-highlight">Coding 最强: SWE-Bench 80.2%</div>
+          <p class="candidate-desc">月之暗面旗舰. 开源可商用. 编程能力顶级 (SWE-Bench 仅次于 Opus 4.7). 价格约 $0.55 / $2.65.</p>
+        </div>
+        <div class="candidate-card" data-rough="card" style="transform:rotate(0.5deg);">
+          <div class="candidate-num" style="background:var(--purple-bg);color:var(--purple);border-color:var(--purple);">4</div>
+          <h3>Claude Haiku 4.5</h3>
+          <div class="candidate-meta">Anthropic · 闭源 API</div>
+          <div class="candidate-highlight">最可靠: $1 / $5</div>
+          <p class="candidate-desc">Anthropic 的轻量快速版. 速度快, 安全性高 (Constitutional AI). 中文支持持续改善. 适合生产环境.</p>
+        </div>
+        <div class="candidate-card" data-rough="card" style="transform:rotate(-0.4deg);">
+          <div class="candidate-num" style="background:var(--red-bg);color:var(--red);border-color:var(--red);">5</div>
+          <h3>Doubao-Seed-2.0</h3>
+          <div class="candidate-meta">ByteDance · 闭源 API</div>
+          <div class="candidate-highlight">国内中文 #1: SuperCLUE 闭源第 4</div>
+          <p class="candidate-desc">字节跳动旗舰. 每天处理 120 万亿 tokens. SuperCLUE 国产闭源第一. 价格 ¥5 / ¥9 (偏贵). 国内合规优势.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">为什么选这 5 个?</p>
+        <ul>
+          <li>覆盖了<strong>价格梯度</strong>: 从 $0.14 到 ¥9</li>
+          <li>覆盖了<strong>开源 + 闭源</strong></li>
+          <li>覆盖了<strong>国内 + 国际</strong></li>
+          <li>都在至少 2 个独立榜单上有排名</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">用 6 个维度来打分 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">维度 1-2: 成本 + 中文质量</h2>
+      <p class="step-lede">这两个对 Vitamin 最重要.</p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p class="callout-head">维度 1: 成本 (Cost per M tokens)</p>
+        <table class="data-table">
+          <thead><tr><th>模型</th><th>输入</th><th>输出</th><th>月估算 (1万 DAU)</th></tr></thead>
+          <tbody>
+            <tr class="row-highlight"><td>DeepSeek V4 Flash</td><td>$0.14</td><td>$0.28</td><td>~¥200</td></tr>
+            <tr><td>Qwen3.5-Plus</td><td>¥0.8</td><td>¥4.8</td><td>~¥600</td></tr>
+            <tr><td>Kimi K2.6</td><td>~$0.55</td><td>~$2.65</td><td>~¥1,800</td></tr>
+            <tr><td>Claude Haiku 4.5</td><td>$1.00</td><td>$5.00</td><td>~¥3,500</td></tr>
+            <tr><td>Doubao-Seed-2.0</td><td>¥5.0</td><td>¥9.0</td><td>~¥4,200</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="margin-top:8px;">月估算假设: 1 万 DAU, 人均 5 次/天, 每次 ~500 input + ~300 output tokens</p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">维度 2: 中文质量</p>
+        <table class="data-table">
+          <thead><tr><th>模型</th><th>SuperCLUE 排名</th><th>中文评价</th></tr></thead>
+          <tbody>
+            <tr><td>DeepSeek V4 Flash</td><td>开源 Top 3</td><td>中文优秀, 但 Flash 版稍弱于 Pro</td></tr>
+            <tr class="row-highlight"><td>Qwen3.5-Plus</td><td>开源 Top 2</td><td>阿里出品, 中文是核心优势</td></tr>
+            <tr><td>Kimi K2.6</td><td>开源 #1 (Thinking 版)</td><td>中文强, 但主要优势在 Coding</td></tr>
+            <tr><td>Claude Haiku 4.5</td><td>闭源系 (Opus #1)</td><td>中文持续改善, 但非母语</td></tr>
+            <tr class="row-highlight"><td>Doubao-Seed-2.0</td><td>国产闭源 #1</td><td>字节系, 120万亿 tokens/天的中文经验</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">再看另外 4 个维度 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">维度 3-4: 上下文长度 + 速度</h2>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p class="callout-head">维度 3: 上下文长度 (Context Window)</p>
+        <table class="data-table">
+          <thead><tr><th>模型</th><th>Context</th><th>对 Vitamin 的意义</th></tr></thead>
+          <tbody>
+            <tr><td>DeepSeek V4 Flash</td><td>128K</td><td>足够多轮对话 + 健康记录</td></tr>
+            <tr><td>Qwen3.5-Plus</td><td>128K+</td><td>足够, Qwen-Long 版本可达 1M</td></tr>
+            <tr><td>Kimi K2.6</td><td>128K</td><td>足够</td></tr>
+            <tr><td>Claude Haiku 4.5</td><td>200K</td><td>最长, 可塞更多用户历史</td></tr>
+            <tr><td>Doubao-Seed-2.0</td><td>256K</td><td>很长, 适合长对话</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="margin-top:8px;">Vitamin 单次对话通常 &lt; 10K tokens, 所有候选都够用. 这个维度权重可以低一些.</p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">维度 4: 速度 (Time to First Token + Output Speed)</p>
+        <table class="data-table">
+          <thead><tr><th>模型</th><th>速度</th><th>用户体验</th></tr></thead>
+          <tbody>
+            <tr class="row-highlight"><td>DeepSeek V4 Flash</td><td>快</td><td>名字就叫 "Flash", 专门优化速度</td></tr>
+            <tr class="row-highlight"><td>Qwen3.5-Plus</td><td>快</td><td>阿里云基础设施, 国内延迟低</td></tr>
+            <tr><td>Kimi K2.6</td><td>中</td><td>Thinking 模式较慢, 普通模式正常</td></tr>
+            <tr><td>Claude Haiku 4.5</td><td>快</td><td>Haiku 系列专为低延迟设计</td></tr>
+            <tr><td>Doubao-Seed-2.0</td><td>快</td><td>字节自有基础设施, 国内快</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="margin-top:8px;">用户等超过 3 秒就会关 app. 健康场景用户耐心更低.</p>
+      </div>
+
+      <div class="step-foot">最后两个维度 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">维度 5-6: 多模态 + 推理深度</h2>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p class="callout-head">维度 5: 多模态 (Multimodal)</p>
+        <table class="data-table">
+          <thead><tr><th>模型</th><th>图片理解</th><th>对 Vitamin 的意义</th></tr></thead>
+          <tbody>
+            <tr><td>DeepSeek V4 Flash</td><td>支持</td><td>用户可以拍食物照片让 AI 分析</td></tr>
+            <tr><td>Qwen3.5-Plus</td><td>支持 (Qwen-VL)</td><td>阿里 VLM 在 SuperCLUE-VLM 榜上强</td></tr>
+            <tr><td>Kimi K2.6</td><td>支持</td><td>视觉能力不是主打</td></tr>
+            <tr><td>Claude Haiku 4.5</td><td>支持</td><td>视觉理解力强, 但价格更高</td></tr>
+            <tr class="row-highlight"><td>Doubao-Seed-2.0</td><td>支持</td><td>SuperCLUE-VLM 中文视觉 #1</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="margin-top:8px;">Vitamin V1 可能不需要多模态. 但如果未来要加 "拍照记录饮食", 这个维度就重要了.</p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">维度 6: 推理深度 (Reasoning)</p>
+        <table class="data-table">
+          <thead><tr><th>模型</th><th>推理能力</th><th>评价</th></tr></thead>
+          <tbody>
+            <tr><td>DeepSeek V4 Flash</td><td>中等</td><td>Flash 版优化速度, 牺牲了部分推理深度</td></tr>
+            <tr><td>Qwen3.5-Plus</td><td>中上</td><td>有 Thinking 模式, 可开启 CoT</td></tr>
+            <tr class="row-highlight"><td>Kimi K2.6</td><td>强</td><td>SWE-Bench 80.2%, 推理能力顶级</td></tr>
+            <tr><td>Claude Haiku 4.5</td><td>中上</td><td>Haiku 版推理不如 Opus, 但够用</td></tr>
+            <tr><td>Doubao-Seed-2.0</td><td>中上</td><td>综合能力强, 但非推理特长</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="margin-top:8px;">Vitamin 不需要写代码, 但需要理解用户模糊的健康描述 — 这需要中等以上的推理能力.</p>
+      </div>
+
+      <div class="step-foot">6 个维度都有了, 怎么加权? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">加权评分 — Vitamin 的维度优先级</h2>
+      <p class="step-lede">不是所有维度都一样重要. <mark class="hl">根据 Vitamin 的场景, 确定权重.</mark></p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p class="callout-head">Vitamin 维度权重 (总和 = 100%):</p>
+        <div class="weight-bars">
+          <div class="weight-row">
+            <span class="weight-label">中文质量</span>
+            <div class="weight-bar-track"><div class="weight-bar-fill" style="width:30%"></div></div>
+            <span class="weight-pct">30%</span>
+          </div>
+          <div class="weight-row">
+            <span class="weight-label">成本</span>
+            <div class="weight-bar-track"><div class="weight-bar-fill" style="width:25%"></div></div>
+            <span class="weight-pct">25%</span>
+          </div>
+          <div class="weight-row">
+            <span class="weight-label">速度</span>
+            <div class="weight-bar-track"><div class="weight-bar-fill" style="width:20%"></div></div>
+            <span class="weight-pct">20%</span>
+          </div>
+          <div class="weight-row">
+            <span class="weight-label">推理深度</span>
+            <div class="weight-bar-track"><div class="weight-bar-fill" style="width:12%"></div></div>
+            <span class="weight-pct">12%</span>
+          </div>
+          <div class="weight-row">
+            <span class="weight-label">多模态</span>
+            <div class="weight-bar-track"><div class="weight-bar-fill" style="width:8%"></div></div>
+            <span class="weight-pct">8%</span>
+          </div>
+          <div class="weight-row">
+            <span class="weight-label">上下文长度</span>
+            <div class="weight-bar-track"><div class="weight-bar-fill" style="width:5%"></div></div>
+            <span class="weight-pct">5%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">为什么这么分?</p>
+        <ul>
+          <li><strong>中文 30%</strong> — 用户说中文, 健康场景不容许理解偏差</li>
+          <li><strong>成本 25%</strong> — 创业公司, 预算有限, 省下来的钱 = 活下来的时间</li>
+          <li><strong>速度 20%</strong> — 用户等 3 秒就走, 健康场景用户更焦虑</li>
+          <li><strong>推理 12%</strong> — 需要理解模糊描述, 但不需要写代码</li>
+          <li><strong>多模态 8%</strong> — V1 不一定需要, 但未来可能加</li>
+          <li><strong>Context 5%</strong> — 所有候选都够用, 差异不大</li>
+        </ul>
+      </div>
+
+      <div class="big-insight" data-rough="big">
+        <p>核心认知:</p>
+        <p class="insight-text">权重 = 你对<mark class="hl">业务需求</mark>的理解.<br/>换一个产品 (比如代码助手), 权重完全不同.</p>
+      </div>
+
+      <div class="step-foot">下面, 用交互打分板给 5 个模型打分 ↓</div>
+    </section>
+
+    <!-- (8) Widget: Model Evaluation Board -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Model Evaluation Board — 你来打分</h2>
+      <p class="step-lede">点击星星给每个模型的每个维度打分 (1-5 星). 系统会自动计算加权总分. 你也可以直接看建议评分.</p>
+
+      <div class="eval-widget" data-rough="card">
+        <div class="eval-controls">
+          <button class="btn btn-primary" id="btn-reveal">显示建议评分</button>
+          <button class="btn btn-ghost" id="btn-reset">重置</button>
+        </div>
+
+        <div class="eval-board" id="eval-board">
+          <!-- Built by JS -->
+        </div>
+
+        <div class="eval-result" id="eval-result">
+          <!-- Winner display built by JS -->
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p class="callout-head">怎么解读结果?</p>
+        <ul>
+          <li>加权总分最高的 = 最适合 Vitamin 的模型 (不是 "最强" 的)</li>
+          <li>如果两个模型分数接近, 建议用真实 Vitamin 场景跑 A/B 测试决胜</li>
+          <li>这个打分是<strong>你的判断</strong> — 不同 PM 可能给出不同评分, 这是正常的</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">把打分结果整理成一份报告 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 模型选型报告模板</h2>
+      <p class="step-lede">面试 / 汇报都能用的一页纸模板:</p>
+
+      <div class="report-template" data-rough="card">
+        <div class="report-header">
+          <h3>Vitamin 模型选型报告</h3>
+          <p class="report-date">截至 2026 年 4 月 · 数据来源: Chatbot Arena / SuperCLUE / Artificial Analysis</p>
+        </div>
+
+        <div class="report-section">
+          <h4>1. 产品需求</h4>
+          <p>Vitamin 是中文女性健康 AI app, 做 5 状态身体追踪. 核心需求: 中文理解准确、成本可控、响应快、不能幻觉健康信息.</p>
+        </div>
+
+        <div class="report-section">
+          <h4>2. 候选模型 (5 个)</h4>
+          <p>DeepSeek V4 Flash / Qwen3.5-Plus / Kimi K2.6 / Claude Haiku 4.5 / Doubao-Seed-2.0</p>
+        </div>
+
+        <div class="report-section">
+          <h4>3. 评估维度 + 权重</h4>
+          <p>中文质量 (30%) > 成本 (25%) > 速度 (20%) > 推理 (12%) > 多模态 (8%) > Context (5%)</p>
+        </div>
+
+        <div class="report-section">
+          <h4>4. 推荐方案</h4>
+          <div class="report-rec">
+            <div class="report-rec-main">
+              <strong>主力模型:</strong> Qwen3.5-Plus
+              <div class="report-rec-reason">中文最强性价比. ¥0.8 输入极便宜. 阿里云生态, 国内合规. 速度快.</div>
+            </div>
+            <div class="report-rec-backup">
+              <strong>备选路由:</strong> DeepSeek V4 Flash (简单问题) + Claude Haiku 4.5 (复杂问题)
+              <div class="report-rec-reason">80% 简单问题走 DeepSeek (最便宜), 20% 复杂/安全问题走 Haiku (最可靠). 预估月成本降 40%.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <h4>5. 下一步</h4>
+          <p>用 100 条真实 Vitamin 用户问题, 对 3 个模型跑 blind A/B test. 重点看: 中文健康建议的准确率 + 幻觉率 + P95 延迟.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"我做模型选型分三步: 第一, 明确产品需求和维度权重; 第二, 从 4 大独立榜单交叉筛选候选; 第三, 用真实用户场景跑 A/B test. 对 Vitamin, 我推荐 Qwen3.5-Plus 做主力, DeepSeek V4 Flash 做轻量路由, Claude Haiku 4.5 做安全兜底."</p>
+        <p class="muted">→ 有框架, 有数据, 有方案, 有细节. 这是 AI PM 该有的水平.</p>
+      </div>
+
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">模型选型 = 6 维度 × 加权 × 你的场景.<br/>没有放之四海皆准的 "最佳模型".</p>
+        <p class="one-liner-foot muted">最强不等于最适合. 最便宜也不等于最适合. 只有加权匹配才是对的.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>回到 Step 8 的打分板, 用<strong>你自己的判断</strong>给 5 个模型打分. 截图保存你的评分结果 — 这是你的 "模型选型报告" 初稿.</li>
+          <li>假设 Vitamin 改成一个<strong>代码助手</strong>产品. 重新设定 6 个维度的权重 (Coding 能力该排第几?), 用新权重重新打分, 看看冠军会变成谁.</li>
+          <li>写一段 200 字的 "Vitamin 模型选型理由" — 用 Step 9 的模板, 填入你自己的打分结果. 这就是你的面试素材.</li>
+          <li>打开 <a href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">artificialanalysis.ai</a>, 看看有没有新模型比你选的更便宜但质量差不多的. 记录下来.</li>
+        </ol>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>🎮</td><td><a href="https://artificialanalysis.ai/models" target="_blank" rel="noopener">Artificial Analysis 模型比较</a></td><td>交互式散点图, 一眼看出性价比</td><td>10 min</td></tr>
+              <tr><td>📖</td><td><a href="https://www.superclueai.com" target="_blank" rel="noopener">SuperCLUE 中文榜</a></td><td>验证你选的模型中文能力排名</td><td>5 min</td></tr>
+              <tr><td>📺</td><td><a href="https://hai.stanford.edu/ai-index/2026-ai-index-report/technical-performance" target="_blank" rel="noopener">Stanford AI Index 2026</a></td><td>最权威的年度 AI 行业全景报告</td><td>30 min</td></tr>
+              <tr><td>📖</td><td><a href="https://www.vellum.ai/llm-leaderboard" target="_blank" rel="noopener">Vellum LLM Leaderboard</a></td><td>多榜单聚合比较, 发现新模型</td><td>10 min</td></tr>
+              <tr><td>🛠</td><td><a href="https://lmarena.ai" target="_blank" rel="noopener">Chatbot Arena</a></td><td>亲自盲测两个模型, 体验 Elo 排名机制</td><td>15 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> "理由是什么?"</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 不选最强, 选最适合</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 5 个候选模型</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 成本 + 中文质量</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Context + 速度</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 多模态 + 推理</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 加权评分</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Evaluation Board</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> 选型报告模板</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 8:</p>
+        <p class="end-summary-big">模型选型 = 6 维度 × 加权 × 你的场景.<br/>Vitamin 推荐: Qwen3.5-Plus 主力 +<br/>DeepSeek V4 Flash 省钱路由.</p>
+        <p class="end-summary-sub">没有最好的模型, 只有最适合你产品的模型. (截至 2026 年 4 月)</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下一个模块: Module 1.4 · AI 用例识别</div>
+        <p>Module 1.3 完成! 你已经能选模型、算成本、产出选型报告了.</p>
+        <p>接下来要回答: <strong>先做哪个 AI 功能? ROI 怎么算? Build vs Buy vs API?</strong></p>
+        <p>用 Augmentation/Automation 框架 + ROI 矩阵, 给 Vitamin 排出功能优先级.</p>
+        <a class="walk-arrow" href="../../c1-m4-usecase/u1-augmentation-automation/index.html">继续走 → Module 1.4</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.3 · Unit 8 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

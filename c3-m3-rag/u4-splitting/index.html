@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · 语义 vs 固定切分 — AI for PM · M3.3</title>
+  <meta name="description" content="语义切分 vs 固定切分: 同一篇文档, 两种方法的检索效果对比" />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.3</span></a><div class="topbar-right"><span class="unit-label">Unit 4 · 语义 vs 固定切分</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>语义 vs 固定切分</h1>
+      <p class="hero-sub">按字数切 vs 按意思切 — 哪种更聪明?</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">上节课学了"按字数切" — 简单但会切断句子...</p>
+          <p class="cloud-line">有没有更聪明的切法, 能自动在"话题切换"的地方断开?</p>
+          <p class="cloud-line accent">—— 今天对比两种切法, 看差距.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解语义切分的原理 — 怎么自动检测话题边界</li>
+          <li>对比固定切分 vs 语义切分的检索效果差异</li>
+          <li>知道什么时候用哪种 — 不是"越高级越好"</li>
+          <li>为 Vitamin 选择最合适的切分策略</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">固定切分的尴尬: 切在了最不该切的地方</h2>
+      <p class="step-lede">还记得上节课的例子吗? 一篇经期饮食文档, 按 120 字一切:</p>
+      <div class="callout callout-red">
+        <p><strong>Chunk 3 (固定切分):</strong></p>
+        <p>"...生姜红糖水，是很多女性经期的首选饮品。第三，要注意补充铁质。经期失血较多，容"</p>
+        <p class="muted">这个 chunk 混了两个话题: "温热食物" 的尾巴 + "补铁" 的开头. 如果用户问"经期喝什么好?", 这个 chunk 可能被检索到, 但里面一半内容是关于铁的 — 噪音!</p>
+      </div>
+      <div class="step-foot">语义切分就是来解决这个问题的 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">语义切分: 找到"话题转折点"</h2>
+      <div class="truth-bubble">
+        <div class="truth-tag">原理</div>
+        <p class="truth-line big">语义切分的核心思路:</p>
+        <p class="truth-line giant">在"意思变了"的地方切</p>
+        <p class="truth-line muted">把每个句子 Embed 成向量, 比较相邻句子的相似度. 相似度突然下降 = 话题变了 = 在这里切.</p>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>具体步骤:</strong></p>
+        <ol>
+          <li>把文档拆成一个个句子</li>
+          <li>每个句子 → Embedding 向量</li>
+          <li>计算相邻句子向量的 Cosine Similarity</li>
+          <li>Similarity 低于阈值 → 在这里切一刀</li>
+          <li>结果: 每个 Chunk 都是一个完整的话题</li>
+        </ol>
+      </div>
+      <div class="step-foot">这个"阈值"怎么选? ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">阈值: 语义切分的调参核心</h2>
+      <p class="step-lede">阈值太高 → chunk 太大 (不够切). 阈值太低 → chunk 太碎 (切太多).</p>
+      <div class="callout callout-amber">
+        <p><strong>三种阈值选择方法:</strong></p>
+        <ul>
+          <li><span class="pill pill-blue">百分位</span> 当相邻句子的相似度差异超过某个百分位 (如 P75) 时切 — 自适应, 推荐</li>
+          <li><span class="pill pill-green">标准差</span> 差异超过均值 + N 个标准差时切 — 适合话题分布均匀的文档</li>
+          <li><span class="pill pill-amber">固定值</span> 直接设一个 cosine similarity 阈值 (如 0.5) — 简单但不灵活</li>
+        </ul>
+        <p class="muted">大部分工具 (LlamaIndex, LangChain) 默认用百分位法, 开箱即用.</p>
+      </div>
+      <div class="step-foot">说了半天原理, 来看看实际效果差多少 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">效果对比: 精确度提升了多少?</h2>
+      <p class="step-lede">Chroma (向量数据库厂商) 2025 年的测试数据:</p>
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--blue)">固定切分</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">Recall@10 = 85~90% (400 tokens, Recursive)</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--green)">语义切分</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">Recall@10 = 91~92% — <strong>提升 2~3%</strong></div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--red)">成本代价</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">语义切分需要对每个句子做 Embedding — <strong>计算量大很多</strong></div>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>PM 视角:</strong> 2~3% 的提升值不值得? 取决于场景.</p>
+        <ul>
+          <li>医疗问答 (错一个可能出事) → 值, 多花钱换准确率</li>
+          <li>客服 FAQ → 不值, 固定切分已经够好</li>
+        </ul>
+      </div>
+      <div class="step-foot">还有一个问题: Springer 的研究说语义切分不一定更好? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">反直觉: 语义切分不一定赢</h2>
+      <p class="step-lede">Springer Nature (学术出版商) 2025 的研究发现:</p>
+      <div class="callout callout-red">
+        <p><strong>LlamaIndex SemanticSplitter 的效果, 居然略低于固定切分的 baseline.</strong></p>
+        <p>原因: 语义切分的阈值很难调. 调得不好, 切出来的 chunk 要么太大, 要么太碎, 反而不如简单的固定切分 + overlap.</p>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>这告诉 PM 什么?</strong></p>
+        <ul>
+          <li>"高级"不等于"更好" — 先用简单方法, 不行再升级</li>
+          <li>Recursive Character Splitting 是经过验证的默认选择</li>
+          <li>语义切分只在你有精力调参、且文档话题跨度大时才值得</li>
+          <li>最终衡量标准是<strong>检索准确率</strong>, 不是切分方法的"高级程度"</li>
+        </ul>
+      </div>
+      <div class="step-foot">实际项目中, 大多数团队怎么做? ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">行业最佳实践: 渐进式升级</h2>
+      <p class="step-lede">成熟的 RAG 团队一般这样做:</p>
+      <div class="two-stage">
+        <article class="stage stage-train">
+          <div class="stage-tag">Phase 1: 先跑通 (1~2 周)</div>
+          <ol class="stage-steps">
+            <li>用 Recursive Character Splitting, 512 tokens, 15% overlap</li>
+            <li>跑一批测试 query, 看检索准确率</li>
+            <li>如果 Recall > 85%, 够用了, 先上线</li>
+          </ol>
+          <div class="stage-output">→ 快速验证, 不纠结切分方法</div>
+        </article>
+        <div class="stage-arrow">↓ 如果效果不够好 ↓</div>
+        <article class="stage stage-infer">
+          <div class="stage-tag">Phase 2: 针对性优化 (持续)</div>
+          <ol class="stage-steps">
+            <li>分析: 哪些 query 检索不准? 是 chunk 太大还是切断了?</li>
+            <li>对问题最多的文档类型试语义切分</li>
+            <li>A/B 测试: 固定 vs 语义, 看指标</li>
+            <li>可能还需要: 混合策略 (不同文档类型用不同方法)</li>
+          </ol>
+          <div class="stage-output">→ 数据驱动, 逐步提升</div>
+        </article>
+      </div>
+      <div class="step-foot">还有一些新兴切分方法值得知道 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">前沿: 2026 年的新切分方法</h2>
+      <p class="step-lede">Chunking 领域还在快速发展. 几个值得关注的新方向:</p>
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">Late Chunking</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">先把整篇文档 Embed, 再切分向量. 保留了全局上下文.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">Hierarchical</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">分层切分: 大 chunk 提供概要, 小 chunk 提供细节. 像书的章 → 节 → 段.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">Adaptive</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">根据文档内容动态调整 chunk size. 密集段落切小, 松散段落切大.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">LLM-based</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">用 LLM 来判断切分点. 效果好但贵 — 适合高价值文档.</div>
+        </div>
+      </div>
+      <div class="callout callout-blue">
+        <p class="muted"><strong>PM 不需要追这些前沿方法.</strong> 先把 Recursive + 语义切分用好. 新方法的收益通常在 1~5%, 但复杂度增加很多.</p>
+      </div>
+      <div class="step-foot">来动手对比一下 ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: 固定 vs 语义切分对比器</h2>
+      <p class="step-lede">同一篇经期饮食文档, 左边固定切分, 右边语义切分. 看看差别.</p>
+
+      <div class="split-widget">
+        <button id="split-run" class="btn btn-primary">运行对比 →</button>
+        <div class="split-columns">
+          <div class="split-col fixed">
+            <h4>固定切分 (120字/chunk)</h4>
+            <div id="split-fixed">点击上面按钮运行...</div>
+          </div>
+          <div class="split-col semantic">
+            <h4>语义切分 (按话题)</h4>
+            <div id="split-semantic">点击上面按钮运行...</div>
+          </div>
+        </div>
+        <div class="split-verdict" id="split-verdict">
+          <span class="muted">对比结果将在这里显示</span>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>注意看:</strong></p>
+        <ul>
+          <li>固定切分: 有些 chunk 在句子中间断开, 混了两个话题</li>
+          <li>语义切分: 每个 chunk 都是一个完整话题 (寒凉食物、温热食物、补铁、运动)</li>
+          <li>当用户问"经期怎么补铁?" — 语义切分的 chunk 更容易被精确检索到</li>
+        </ul>
+      </div>
+      <div class="step-foot">回到 Vitamin ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 切分策略选型</h2>
+      <p class="step-lede">不同文档类型, 适合不同的切分方法.</p>
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">医学指南</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain"><span class="pill pill-green">语义切分</span> 话题丰富, 值得精确切分. 每个话题一个 chunk.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">FAQ</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain"><span class="pill pill-blue">不切</span> 每条 Q&A 天然是一个 chunk.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">中药方剂</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain"><span class="pill pill-blue">固定 + 段落</span> 每个方剂一段, 结构规整, Recursive 够用.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">用户反馈</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain"><span class="pill pill-blue">不切</span> 每条反馈通常 < 200 字, 整条存.</div>
+        </div>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>Vitamin 混合策略:</strong> 默认 Recursive (512 tokens, 15% overlap), 医学长文档加语义切分, FAQ 和短文档不切.</p>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">先 Recursive, 不够再语义切.<br/>方法不重要, 检索准确率才重要.</p>
+        <p class="one-liner-foot muted">"高级"切分只多 2~3% 收益, 但成本和复杂度大增. 先简单跑通.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>找一篇多话题的长文 (如一篇健康科普文), 自己标记出"话题转折点". 这就是语义切分在做的事.</li>
+          <li>对比: 你标记的切分点 vs 按 500 字一切的切分点, 哪些重合? 哪些不同?</li>
+          <li>为 Vitamin 的 5 类文档各选一种切分方法, 写出理由.</li>
+          <li>思考: 如果 Vitamin 上线后发现某类问题检索不准, 你的第一步排查方向是什么?</li>
+        </ol>
+        <div style="margin-top:18px">
+          <strong>资源延伸:</strong>
+          <table style="width:100%; font-size:13px; margin-top:8px; border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📖</td><td>Semantic Chunking 深度解析</td><td><a href="https://medium.com/the-ai-forum/semantic-chunking-for-rag-f4733025d5f5" target="_blank">Medium</a></td><td>语义切分原理和代码实现</td><td>15 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">🛠</td><td>7 种 Chunking 策略</td><td><a href="https://www.f22labs.com/blogs/7-chunking-strategies-in-rag-you-need-to-know/" target="_blank">F22 Labs</a></td><td>全面的策略对比和代码示例</td><td>20 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📄</td><td>Max-Min Semantic Chunking</td><td><a href="https://link.springer.com/article/10.1007/s10791-025-09638-7" target="_blank">Springer</a></td><td>学术研究: 语义切分的改进方向</td><td>30 min</td></tr>
+            <tr><td style="padding:6px 8px">📖</td><td>Chunking 最佳实践</td><td><a href="https://unstructured.io/blog/chunking-for-rag-best-practices" target="_blank">Unstructured</a></td><td>生产环境 Chunking 经验</td><td>15 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 固定切分的尴尬</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 语义切分原理</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 阈值怎么选</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 效果提升 2~3%</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 不一定更好</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 渐进式升级</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 前沿新方法</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 对比器演示</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 选型</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">先 Recursive 简单跑通, 数据驱动再升级语义切分.</p>
+        <p class="end-summary-sub">"高级"不等于"更好". 检索准确率是唯一标准.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 5): Top-K + Reranking</div>
+        <p>文档切好了、向量建好了. 用户一搜, 返回 50 个候选 chunk. 但 LLM 只需要最好的 5 个.</p>
+        <p><strong>怎么从 50 个里精选 5 个? Reranking 登场.</strong></p>
+        <a class="walk-arrow" href="../u5-retrieval/index.html">继续走 → Unit 5</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 3.3 · Unit 4 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

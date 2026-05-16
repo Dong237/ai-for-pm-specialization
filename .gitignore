@@ -1,0 +1,9 @@
+.DS_Store
+*.swp
+*.swo
+*~
+.claude/
+qa-screenshots/
+qa-visual/
+qa-*.js
+node_modules/

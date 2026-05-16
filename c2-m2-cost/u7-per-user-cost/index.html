@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · Per-User 月成本测算 — AI for PM · M2.2</title>
+  <meta name="description" content="1000 DAU, 每人每天 5 次, Vitamin 月成本预估. 拉 slider 就出数字." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.2</span></a><div class="topbar-right"><span class="unit-label">Unit 7 · Per-User 成本</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">&#9654;</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">&#9632;</a></li></ol></nav>
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">&middot;</span><br/>每个用户<br/>每月花你多少钱</h1>
+      <p class="hero-sub">Per-User 成本决定了你的商业模式: 免费能撑多久, 收费收多少, 分层怎么分.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 &middot; 在做商业规划)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">老板问: "每个用户每月花我们多少钱?"</p>
+          <p class="cloud-line">如果 per-user 成本 > 用户付费, 就是亏钱.</p>
+          <p class="cloud-line accent">&mdash;&mdash; 这个数字决定一切.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>算出 Vitamin 的 per-user 月成本</li><li>理解 per-user 成本与商业模式的关系</li><li>知道不同用户层级的成本差异</li><li>用 slider 做实时测算</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1"><div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">Per-User 成本: 最重要的一个数字</h2>
+      <p class="step-lede">总成本不够有用 &mdash; 你需要知道<mark class="hl">每个用户每月的 AI 成本</mark>.</p>
+      <div class="truth-bubble"><div class="truth-tag">公式</div>
+        <p class="truth-line giant">Per-User 月成本 = 总月成本 &divide; DAU</p>
+        <p class="truth-line muted">&rarr; 这个数字直接决定: 你能免费到什么程度? 收费收多少? 什么用户该限制?</p>
+      </div>
+      <div class="step-foot">Vitamin 的 per-user 成本是多少? &darr;</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2"><div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Vitamin 的 Per-User 成本测算</h2>
+      <div class="callout callout-green">
+        <p><strong>基准参数:</strong> 每人每天 5 次, 输入 400 + 输出 200 token, 缓存 70%, 路由 60% 走便宜模型</p>
+        <table style="width:100%; font-size:14px; border-collapse:collapse; margin:12px 0;">
+          <tr style="border-bottom:2px solid var(--border);"><th style="text-align:left; padding:8px;">方案</th><th style="text-align:right; padding:8px;">Per-User/月</th><th style="text-align:right; padding:8px;">1000 DAU 总月费</th></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">全用 DS V4 Flash</td><td style="text-align:right; color:var(--green); font-weight:700;">&#165;0.08</td><td style="text-align:right;">&#165;81</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">路由方案 (60%+40%)</td><td style="text-align:right; color:var(--green); font-weight:700;">&#165;0.95</td><td style="text-align:right;">&#165;950</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:8px;">全用 Claude Sonnet</td><td style="text-align:right; color:var(--amber); font-weight:700;">&#165;23</td><td style="text-align:right;">&#165;23,000</td></tr>
+          <tr><td style="padding:8px;">全用 Claude Opus</td><td style="text-align:right; color:var(--red); font-weight:700;">&#165;59</td><td style="text-align:right;">&#165;59,000</td></tr>
+        </table>
+      </div>
+      <div class="step-foot">不同用户的使用量差异很大 &darr;</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3"><div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">用户分层: 轻度 / 中度 / 重度</h2>
+      <p class="step-lede">不是每个用户都一样. 有人一天聊 1 次, 有人聊 20 次.</p>
+      <div class="tier-table">
+        <table>
+          <thead><tr><th>用户层级</th><th>占比</th><th>日调用</th><th>Per-User/月 (路由方案)</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill pill-green">轻度</span></td><td>50%</td><td>1-2 次</td><td style="text-align:right;">&#165;0.19</td></tr>
+            <tr><td><span class="pill pill-amber">中度</span></td><td>35%</td><td>5-8 次</td><td style="text-align:right;">&#165;0.95</td></tr>
+            <tr><td><span class="pill pill-blue">重度</span></td><td>15%</td><td>15-20 次</td><td style="text-align:right;">&#165;2.85</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-amber"><p><strong>关键洞察:</strong> 15% 的重度用户贡献了 50%+ 的成本. 这就是为什么 AI 产品通常需要<mark class="hl">用量限制或分级收费</mark>.</p></div>
+      <div class="step-foot">Per-user 成本决定商业模式 &darr;</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4"><div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Per-User 成本与商业模式的关系</h2>
+      <div class="biz-grid">
+        <div class="biz-card">
+          <div class="biz-name" style="color:var(--green);">Free (免费)</div>
+          <p style="font-size:13px; margin:4px 0;">per-user &lt; &#165;0.5/月 时可承受. 用最便宜模型 + 限制调用次数.</p>
+          <p class="muted" style="font-size:12px;">Vitamin 用 DS Flash: &#165;0.08/人/月 &mdash; 完全可免费</p>
+        </div>
+        <div class="biz-card">
+          <div class="biz-name" style="color:var(--amber);">Freemium (免费+付费)</div>
+          <p style="font-size:13px; margin:4px 0;">免费版限 5 次/天 (便宜模型), 付费版不限 + 用更好模型.</p>
+          <p class="muted" style="font-size:12px;">付费用户 per-user &#165;3-5, 月费收 &#165;19.9, 有利润</p>
+        </div>
+        <div class="biz-card">
+          <div class="biz-name" style="color:var(--red);">Premium (纯付费)</div>
+          <p style="font-size:13px; margin:4px 0;">per-user &gt; &#165;10 时必须收费. 只有付费用户才能用 AI 功能.</p>
+          <p class="muted" style="font-size:12px;">全用 Sonnet: &#165;23/人/月 &mdash; 必须收费</p>
+        </div>
+      </div>
+      <div class="step-foot">Vitamin 该选哪种? &darr;</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5"><div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Vitamin 的推荐商业模式: Freemium</h2>
+      <div class="callout callout-green">
+        <p><strong>免费版:</strong></p>
+        <ul>
+          <li>每天 5 次 AI 对话 (用 DS V4 Flash)</li>
+          <li>基础健康记录 + 情绪分类</li>
+          <li>Per-user 成本: <strong style="color:var(--green);">&#165;0.08/月</strong> &mdash; 可承受</li>
+        </ul>
+        <p style="margin-top:12px;"><strong>付费版 (&#165;19.9/月):</strong></p>
+        <ul>
+          <li>不限次 AI 对话 (路由方案)</li>
+          <li>深度健康分析 (用 Sonnet/Opus)</li>
+          <li>每周/月 AI 健康报告</li>
+          <li>Per-user 成本: <strong style="color:var(--amber);">&#165;3-5/月</strong> &mdash; 毛利 75%+</li>
+        </ul>
+      </div>
+      <div class="step-foot">怎么限制重度用户? &darr;</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6"><div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">用量限制策略</h2>
+      <div class="callout callout-blue">
+        <p><strong>3 种限制方式:</strong></p>
+        <ol>
+          <li><strong>次数限制:</strong> 免费版每天 5 次 &mdash; 简单粗暴, 用户理解</li>
+          <li><strong>Token 预算:</strong> 每月 10,000 token &mdash; 精细但用户难理解</li>
+          <li><strong>功能限制:</strong> 免费版只有基础对话, 付费版解锁深度分析 &mdash; 最佳体验</li>
+        </ol>
+        <p class="muted">&rarr; 推荐 Vitamin 用 <strong>方式 1 + 3</strong>: 限次数 + 限功能, 用户最容易理解.</p>
+      </div>
+      <div class="step-foot">给老板的单位经济学表 &darr;</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7"><div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">单位经济学: 给老板看的一页纸</h2>
+      <div class="callout callout-amber">
+        <p><strong>Vitamin 单位经济学 (截至 2026 年 5 月):</strong></p>
+        <table style="width:100%; font-size:13px; border-collapse:collapse; margin:8px 0;">
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;">免费版 per-user AI 成本</td><td style="text-align:right;">&#165;0.08/月</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;">付费版 per-user AI 成本</td><td style="text-align:right;">&#165;3-5/月</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;">付费版月费</td><td style="text-align:right;">&#165;19.9/月</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;">AI 成本占收入比</td><td style="text-align:right; color:var(--green); font-weight:700;">15-25%</td></tr>
+          <tr><td style="padding:6px;">AI 功能毛利</td><td style="text-align:right; color:var(--green); font-weight:700;">75-85%</td></tr>
+        </table>
+      </div>
+      <div class="step-foot">来动手算 &darr;</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8"><div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Per-User 成本计算器</h2>
+      <p class="step-lede">拖动 6 个滑块, 实时看每用户月成本和总月成本.</p>
+      <div class="pu-widget">
+        <div class="pu-row"><span class="pu-label" style="color:var(--blue);">DAU</span><input id="pu-dau" type="range" min="100" max="50000" value="1000" step="100" style="flex:1;"/><span id="pu-dau-v" class="pu-val" style="color:var(--blue);">1,000</span></div>
+        <div class="pu-row"><span class="pu-label" style="color:var(--green);">日调用频次</span><input id="pu-freq" type="range" min="1" max="20" value="5" step="1" style="flex:1;"/><span id="pu-freq-v" class="pu-val" style="color:var(--green);">5</span></div>
+        <div class="pu-row"><span class="pu-label" style="color:var(--amber);">输入 Token</span><input id="pu-in" type="range" min="50" max="1500" value="400" step="50" style="flex:1;"/><span id="pu-in-v" class="pu-val" style="color:var(--amber);">400</span></div>
+        <div class="pu-row"><span class="pu-label" style="color:var(--red);">输出 Token</span><input id="pu-out" type="range" min="20" max="800" value="200" step="20" style="flex:1;"/><span id="pu-out-v" class="pu-val" style="color:var(--red);">200</span></div>
+        <div class="pu-row"><span class="pu-label" style="color:var(--purple);">缓存命中率</span><input id="pu-cache" type="range" min="0" max="90" value="70" step="5" style="flex:1;"/><span id="pu-cache-v" class="pu-val" style="color:var(--purple);">70%</span></div>
+        <div class="pu-row"><span class="pu-label" style="color:var(--green);">便宜模型路由%</span><input id="pu-route" type="range" min="0" max="90" value="60" step="5" style="flex:1;"/><span id="pu-route-v" class="pu-val" style="color:var(--green);">60%</span></div>
+        <div id="pu-result" class="pu-results"></div>
+      </div>
+      <div class="step-foot">回到 Vitamin &darr;</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9"><div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: 把 per-user 成本写进 PRD</h2>
+      <div class="callout callout-green"><p><strong>PRD 中应该包含:</strong></p><ol><li>免费版的每用户 AI 成本 + 用量限制</li><li>付费版的每用户 AI 成本 + 定价逻辑</li><li>DAU 增长到 10K / 50K / 100K 时的成本预测</li><li>单位经济学: AI 成本占收入比 &lt; 25%</li></ol></div>
+      <div class="callout callout-amber"><strong>面试金句:</strong><p>"Vitamin 的 AI per-user 成本是<mark class="hl">&#165;0.08/月 (免费版) 和 &#165;3-5/月 (付费版)</mark>. 付费版定价 &#165;19.9, AI 成本占比约 20%, 毛利 80%. 这个单位经济学在 DAU 到 10 万时依然健康."</p></div>
+      <div class="step-foot">一句话总结 + 作业 &darr;</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10"><div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话:</div><p class="one-liner-text">Per-user 成本决定商业模式.<br/>&#165;0.1 能免费, &#165;5 要收费, &#165;20+ 必须限制.</p><p class="one-liner-foot muted">算清这个数, 你就能回答 "为什么我们的 AI 功能要收费" 这个问题.</p></div>
+      <div class="callout callout-green"><strong>课后作业 (今晚 30 分钟):</strong><ol><li>用计算器分别算: Vitamin 免费版 (DS Flash, 5 次/天) 和付费版 (路由方案, 20 次/天) 的 per-user 成本.</li><li>假设 Vitamin 付费版定价 &#165;19.9/月, 算出 AI 成本占收入的百分比. 这个比例健康吗?</li><li>设计 Vitamin 的用户分层方案: 免费 / 基础 / 高级, 每层的功能和限制.</li><li>写 200 字: 向投资人解释 Vitamin 的 AI 成本单位经济学.</li></ol></div>
+      <div class="callout callout-blue" style="transform:rotate(0.2deg);"><strong>资源延伸:</strong><table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;"><tr><td style="padding:6px 4px;">&#127918;</td><td><a href="https://iternal.ai/calculators/llm-pricing-calculator" target="_blank">LLM Pricing Calculator 2026</a></td><td>按模型对比月/年成本</td><td>5 min</td></tr><tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://www.aimagicx.com/blog/llm-pricing-collapse-developer-guide-building-cheap-ai-2026" target="_blank">LLM Pricing Collapse 2026</a></td><td>模型成本崩盘对产品的影响</td><td>15 min</td></tr><tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://www.finout.io/blog/anthropic-api-pricing" target="_blank">Anthropic Pricing Guide</a></td><td>Claude 全线定价及优化方案</td><td>15 min</td></tr><tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://zhuanlan.zhihu.com/p/1912580995359704118" target="_blank">内存高效算法降 API 成本</a></td><td>知乎 &middot; 工程侧优化策略</td><td>20 min</td></tr></table></div>
+      <div class="step-foot">走完了 &mdash; 回顾 &darr;</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> Per-user = 最重要的数字</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Vitamin 测算</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 轻/中/重度用户分层</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 商业模式选择</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Freemium 方案</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 用量限制策略</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 单位经济学一页纸</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Per-User 计算器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> 写进 PRD</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 7:</p><p class="end-summary-big">Per-user AI 成本 = 商业模式的地基. &#165;0.08 能免费, &#165;5 要 Freemium.</p><p class="end-summary-sub">Vitamin 免费版 &#165;0.08/人/月, 付费版 &#165;3-5/人/月, 毛利 80%. 健康!</p></div>
+      <div class="next-card"><div class="next-tag">下节课 (Unit 8): Vitamin 成本优化路径</div><p>前 7 课学的所有工具, 最后一课全部串起来 &mdash;<br/><strong>从 &#165;5000 &rarr; 缓存优化 &#165;3000 &rarr; 路由优化 &#165;1500. 三档瀑布, 动画演示.</strong></p><a class="walk-arrow" href="../u8-vitamin-optimization/index.html">继续走 &rarr; Unit 8</a></div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM &middot; Module 2.2 &middot; Unit 7 &middot; 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

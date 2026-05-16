@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 2 · 模型 IO 描述 — AI for PM · M2.1</title>
+  <meta name="description" content="AI PM 课 · M2.1 Unit 2: Input Schema + Output Schema = 给算法工程师看的合同." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.1</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 · 模型 IO</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">&#9654;</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">&#9632;</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 2<span class="title-dot">&middot;</span><br/>什么进去, 什么出来</h1>
+      <p class="hero-sub">算法工程师拿到你的 PRD, 第一个问题: "Input 是什么? Output 是什么? 什么格式?" 答不上来, 他没法开工.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <figcaption>(你 · 正在和算法对需求)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">算法工程师说: "你先定义好 Input/Output, 我才能开始写模型接口."</p>
+          <p class="cloud-line">Input 不就是用户的问题吗? 还要传什么?</p>
+          <p class="cloud-line">Output 是一段文字? 还是 JSON? 怎么约定?</p>
+          <p class="cloud-line accent">—— 这节课搞定.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道 AI 功能的 Input Schema 包含哪些核心字段</li>
+          <li>会选择合适的 Output 格式 (JSON / Markdown / 纯文本)</li>
+          <li>给每个字段加约束 (类型、必填、长度限制)</li>
+          <li>用 IO Schema 和算法工程师高效对齐需求</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">算法工程师的第一个问题</h2>
+      <p class="step-lede">你写好了一个 AI 功能的 PRD, 交给算法同学. 他看完后说:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-leader">算法工程师:</div>
+        <div class="prompt-text">"这个功能, 我需要调 LLM 的 API. 你告诉我: <mark class="hl">什么数据传进去, 我给你返回什么?</mark>"</div>
+      </div>
+
+      <p class="step-lede">这个问题就是在问 <strong>IO Schema</strong> — Input/Output 的数据结构定义. 就像一份 <mark class="hl">合同</mark>: PM 定义 "我需要什么", 算法承诺 "我给你什么".</p>
+
+      <div class="callout callout-amber">
+        <p>传统功能的 "接口" 通常由后端工程师定义. 但 AI 功能的 IO 涉及模型能力边界, 所以 <strong>PM 必须参与定义</strong>. 你不需要写代码, 但必须说清楚 "业务上需要哪些字段".</p>
+      </div>
+      <div class="step-foot">那 "说用户问题" 不够吗? ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">"输入用户问题, 输出 AI 回答" — 这不够</h2>
+
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">&cross;</div>
+          <h3>模糊版 PRD: "用户输入问题, AI 给出健康建议"</h3>
+          <p>看起来合理, 其实啥都没说.</p>
+          <div class="wrong-why"><strong>算法会问:</strong> "问题" 是纯文本还是选择题? 需要传用户历史数据吗? "建议" 是一段话还是分点? 最长多少字? 需要返回置信度吗?</div>
+        </article>
+        <article class="wrong">
+          <div class="wrong-mark">&cross;</div>
+          <h3>模糊版 PRD: "AI 生成每日总结"</h3>
+          <p>"总结" 包含什么? 多长? 什么格式?</p>
+          <div class="wrong-why"><strong>算法会问:</strong> 总结需要什么输入数据? 只看今天还是看历史? 输出是纯文本还是 JSON (前端好解析)? 包含标签吗? 有风险提示字段吗?</div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">AI 功能的 Input 远不止 "用户问题".</p>
+        <p class="truth-line giant">Input = 用户输入 + 上下文 + 参数 + 约束</p>
+        <p class="truth-line muted">Output 也不只是 "一段文字". 它需要明确的格式、字段、约束.</p>
+      </div>
+      <div class="step-foot">Input Schema 到底包含什么? ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Input Schema 的 5 类核心字段</h2>
+      <p class="step-lede">一个 AI 功能的输入, 通常包含这 5 类信息:</p>
+
+      <div class="io-example" style="border-color:var(--blue);">
+        <div class="io-label input">INPUT SCHEMA</div>
+        <div class="io-code">{
+  <strong>// 1. 用户直接输入</strong>
+  "user_query": "我最近总是觉得很累, 怎么回事?",
+
+  <strong>// 2. 上下文数据 (系统自动拼接)</strong>
+  "user_id": "u_12345",
+  "body_state": "疲惫期",
+  "metrics": [
+    {"type": "sleep", "value": 5.5, "unit": "hours"},
+    {"type": "steps", "value": 2100},
+    {"type": "heart_rate", "value": 82}
+  ],
+
+  <strong>// 3. 历史数据范围</strong>
+  "history_days": 7,
+
+  <strong>// 4. 输出控制参数</strong>
+  "max_tokens": 300,
+  "language": "zh-CN",
+
+  <strong>// 5. 系统指令 (System Prompt)</strong>
+  "system_prompt": "你是 Vitamin 健康助手..."
+}</div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>关键认知:</strong> 用户只输入了一句话 "我最近总是觉得很累", 但传给模型的 Input 是一个包含 8 个字段的 JSON. 其中 7 个是系统自动补充的上下文. 这就是 PM 需要在 PRD 里定义的东西.</p>
+      </div>
+      <div class="step-foot">Output 呢? ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Output Schema: 4 种常用格式</h2>
+      <p class="step-lede">模型的输出, 根据下游消费者不同, 选择不同格式:</p>
+
+      <div class="format-cards">
+        <div class="format-card">
+          <h4>JSON (结构化)</h4>
+          <p>前端需要解析、分块展示时用. 最推荐.<br/><code>{"summary":"...", "tags":[]}</code></p>
+        </div>
+        <div class="format-card">
+          <h4>Markdown</h4>
+          <p>需要富文本渲染 (标题/列表/加粗) 时用.<br/><code>## 总结\n- 睡眠不足...</code></p>
+        </div>
+        <div class="format-card">
+          <h4>纯文本</h4>
+          <p>简单场景, 直接展示一段话.<br/><code>你今天的状态还不错...</code></p>
+        </div>
+        <div class="format-card">
+          <h4>结构化对象</h4>
+          <p>复杂场景, 包含多个子对象.<br/><code>{"analysis":{}, "plan":{}}</code></p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>PM 决策点:</strong> 选格式不是技术决策, 是产品决策. 问自己: "前端怎么用这个输出?" 如果需要分块展示 → JSON. 如果直接显示 → 纯文本. 如果有格式要求 → Markdown.</p>
+      </div>
+      <div class="step-foot">看一个完整例子 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">完整示例: Vitamin 每日总结的 IO</h2>
+      <p class="step-lede">把 Input 和 Output 放在一起看, 这就是写进 PRD 的 IO Schema:</p>
+
+      <div class="io-example" style="border-color:var(--green);">
+        <div class="io-label output">OUTPUT SCHEMA</div>
+        <div class="io-code">{
+  <strong>// 主体内容</strong>
+  "summary_text": "你今天睡了 5.5 小时, 比平时少了 1.5 小时.
+                    心率偏高 (82bpm), 建议今天多休息,
+                    避免高强度运动.",
+
+  <strong>// 置信度 (兜底决策用)</strong>
+  "confidence": 0.91,
+
+  <strong>// 标签 (前端展示用)</strong>
+  "tags": ["睡眠不足", "心率偏高", "建议休息"],
+
+  <strong>// 健康建议 (分条展示)</strong>
+  "suggestions": [
+    "今晚争取 11 点前入睡",
+    "午休 20 分钟可以缓解疲劳",
+    "今天步数偏少, 可以散步 15 分钟"
+  ],
+
+  <strong>// 风险标记 (是否需要医疗提醒)</strong>
+  "risk_flag": false,
+
+  <strong>// 消耗统计 (成本核算用)</strong>
+  "token_count": 487
+}</div>
+      </div>
+
+      <div class="callout callout-green">
+        <p>注意 <code>confidence</code> 和 <code>token_count</code> 这两个字段 — 它们不是给用户看的, 是给 <strong>系统决策</strong> 用的. confidence 决定走不走兜底; token_count 用来追踪成本.</p>
+      </div>
+      <div class="step-foot">好的 Schema 还要加约束 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Schema 约束: 没有约束就是垃圾进垃圾出</h2>
+      <p class="step-lede">光定义字段名不够. 每个字段都需要约束, 否则 "什么都可能发生":</p>
+
+      <table class="constraint-table">
+        <thead>
+          <tr><th>字段</th><th>类型</th><th>必填</th><th>约束</th><th>默认值</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>user_query</code></td><td>string</td><td>&#10004;</td><td>1-500 字符</td><td>—</td></tr>
+          <tr><td><code>metrics[]</code></td><td>array</td><td>&#10004;</td><td>至少 1 项</td><td>—</td></tr>
+          <tr><td><code>history_days</code></td><td>number</td><td>&#10006;</td><td>1-30</td><td>7</td></tr>
+          <tr><td><code>max_tokens</code></td><td>number</td><td>&#10006;</td><td>50-500</td><td>300</td></tr>
+          <tr><td><code>summary_text</code></td><td>string</td><td>&#10004;</td><td>50-300 字</td><td>—</td></tr>
+          <tr><td><code>confidence</code></td><td>number</td><td>&#10004;</td><td>0.0-1.0</td><td>—</td></tr>
+          <tr><td><code>tags[]</code></td><td>array</td><td>&#10006;</td><td>0-5 个标签</td><td>[]</td></tr>
+          <tr><td><code>risk_flag</code></td><td>boolean</td><td>&#10006;</td><td>—</td><td>false</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-red">
+        <p><strong>没有约束的后果:</strong> <code>summary_text</code> 没限制长度 → AI 可能输出 2000 字, 前端排版炸掉. <code>confidence</code> 没返回 → 兜底机制失效, 错误的回答直接展示给用户.</p>
+      </div>
+      <div class="step-foot">Schema 在团队里怎么用? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">IO Schema 是四方的合同</h2>
+      <p class="step-lede">Schema 不是 PM 一个人写的, 它在整个团队中流转:</p>
+
+      <div class="collab-flow">
+        <div class="collab-step"><span class="role" style="color:var(--amber);">PM</span><span class="action">定义业务字段<br/>+ 约束</span></div>
+        <span class="collab-arrow">&rarr;</span>
+        <div class="collab-step"><span class="role" style="color:var(--blue);">算法</span><span class="action">实现模型接口<br/>保证 Schema</span></div>
+        <span class="collab-arrow">&rarr;</span>
+        <div class="collab-step"><span class="role" style="color:var(--green);">前端</span><span class="action">按 Schema 解析<br/>+ 渲染 UI</span></div>
+        <span class="collab-arrow">&rarr;</span>
+        <div class="collab-step"><span class="role" style="color:var(--purple);">QA</span><span class="action">按 Schema 写<br/>测试用例</span></div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>PM 的角色:</strong> 你不需要写 API 文档, 但你需要用 "业务语言" 定义清楚每个字段的含义和约束. 算法同学会把它翻译成技术接口.</p>
+        <p class="muted">好的 IO Schema = 减少 80% 的需求返工. 因为大家从第一天就对齐了 "什么进去、什么出来".</p>
+      </div>
+      <div class="step-foot">动手试试 ↓</div>
+    </section>
+
+    <!-- (8) Interactive -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: 为 Vitamin 构建 IO Schema</h2>
+      <p class="step-lede">点击字段来选择/取消. 带 <span style="color:var(--red);font-weight:700;">*</span> 的是必填字段 (不可取消). 右侧实时生成 JSON Schema:</p>
+
+      <div class="schema-builder">
+        <div class="schema-builder-title">IO Schema Builder — Vitamin 每日总结</div>
+        <div class="schema-sides">
+          <div class="schema-side input-side">
+            <div class="schema-side-title">&#9654; Input 字段 (点击选择)</div>
+            <div class="field-pool" id="input-fields"></div>
+          </div>
+          <div class="schema-side output-side">
+            <div class="schema-side-title">&#9664; Output 字段 (点击选择)</div>
+            <div class="field-pool" id="output-fields"></div>
+          </div>
+        </div>
+        <div class="schema-preview" id="schema-preview"></div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>试试看:</strong> 如果去掉 <code>history_days</code>, 模型只看今天的数据, 总结会缺少趋势分析. 如果加上 <code>body_state</code>, 总结可以针对用户当前状态给出更精准的建议.</p>
+      </div>
+      <div class="step-foot">看看 Vitamin 所有 AI 功能的 IO ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 5 个 AI 功能, 都需要 IO Schema</h2>
+      <p class="step-lede">每个 AI 功能都有不同的 IO 需求. 大致一览:</p>
+
+      <table class="constraint-table">
+        <thead>
+          <tr><th>功能</th><th>Input 核心字段</th><th>Output 格式</th><th>关键约束</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>每日总结</strong></td><td>metrics[], body_state, history</td><td>JSON</td><td>summary &le; 300 字</td></tr>
+          <tr><td><strong>健康问答</strong></td><td>user_query, profile, history</td><td>Markdown</td><td>必须返回 confidence</td></tr>
+          <tr><td><strong>情绪分类</strong></td><td>user_text, body_state</td><td>JSON</td><td>返回 5 状态之一</td></tr>
+          <tr><td><strong>饮食建议</strong></td><td>meal_log[], body_state, goal</td><td>JSON</td><td>suggestions &le; 5 条</td></tr>
+          <tr><td><strong>运动计划</strong></td><td>fitness_level, body_state, time</td><td>JSON</td><td>risk_flag 必须返回</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-red">
+        <strong>面试金句:</strong>
+        <p>"在 AI PRD 里, IO Schema 就像合同: PM 定义业务字段和约束, 算法承诺按 Schema 返回. 这解决了 AI 功能需求对齐的第一个问题 — '什么进去, 什么出来'. 每个字段都要有类型、必填标记和长度限制, 否则就是在给团队挖坑."</p>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 课后作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">IO Schema = AI 功能的合同.<br/>PM 定义 "什么进去, 什么出来, 什么约束".</p>
+        <p class="one-liner-foot muted">没有 Schema 就开工 = 没有合同就签字. 返工概率 100%.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>选 Vitamin 的 "健康问答" 功能, 写出完整的 Input Schema (至少 5 个字段, 包含类型和必填标记).</li>
+          <li>为同一个功能写 Output Schema, 并决定用 JSON 还是 Markdown, 写 50 字说明选择理由.</li>
+          <li>找一个你熟悉的非 AI 产品, 想象给它加一个 AI 功能, 写出这个功能的 IO Schema.</li>
+          <li>问 ChatGPT: "帮我生成一个健康问答 API 的 JSON Schema". 对比它生成的和你写的, 有什么差异?</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-green" style="transform:rotate(0.3deg);">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>内容</th><th>来源</th><th>推荐理由</th><th>时长</th></tr></thead>
+          <tbody>
+            <tr><td>&#128196;</td><td><a href="https://www.productcompass.pm/p/ai-prd-template" target="_blank">AI PRD Template (含 IO 示例)</a></td><td>Product Compass</td><td>OpenAI PM 的 PRD 模板, IO 部分详细</td><td>20 min</td></tr>
+            <tr><td>&#128736;</td><td><a href="https://platform.openai.com/docs/guides/structured-outputs" target="_blank">OpenAI Structured Outputs Guide</a></td><td>OpenAI</td><td>如何让 LLM 输出结构化 JSON</td><td>15 min</td></tr>
+            <tr><td>&#128196;</td><td><a href="https://prachub.com/resources/writing-a-prd-for-ai-products-a-product-manager-s-guide-to-llms-meta-descriptio" target="_blank">Writing PRDs for AI Products</a></td><td>Prachub</td><td>AI PRD 写法指南, 含 IO 章节</td><td>15 min</td></tr>
+            <tr><td>&#128250;</td><td><a href="https://www.youtube.com/watch?v=xZDB1naRUlk" target="_blank">JSON Schema 入门 (中文)</a></td><td>YouTube</td><td>5 分钟了解 JSON Schema 基础</td><td>5 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 算法的第一个问题</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> "输入问题输出回答" 不够</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Input Schema 5 类字段</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Output 4 种格式</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 完整 IO 示例</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Schema 约束</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 四方的合同</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> IO Schema Builder</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 5 功能 IO</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">IO Schema = 给算法工程师的合同.<br/>定义清楚什么进去、什么出来、什么约束.</p>
+        <p class="end-summary-sub">用户只输入一句话, 但传给模型的是一个包含 N 个字段的结构体.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 3): 效果指标定义</div>
+        <p>定义了 "什么进去什么出来", 下一步要回答: <strong>"出来的东西好不好? 多好算合格?"</strong><br/>准确率、接受率、拒答率、延迟 — 每个指标怎么定目标值.</p>
+        <a class="walk-arrow" href="../u3-metrics/index.html">继续走 &rarr; Unit 3</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 2.1 · Unit 2 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

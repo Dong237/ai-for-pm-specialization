@@ -1,0 +1,172 @@
+/* ============================================
+   Unit 3 · Input vs Output 价格不对称 — unit-specific styles
+   ============================================ */
+
+/* IO ratio chart */
+.io-chart {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.io-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 40px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.io-row:last-child { border-bottom: none; }
+.io-model {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.io-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.io-bar {
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.io-bar-in { background: var(--blue); }
+.io-bar-out { background: var(--red); }
+.io-ratio {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Output control techniques */
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+.control-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+}
+.control-card:nth-child(1) { border-color: var(--blue); transform: rotate(-0.4deg); }
+.control-card:nth-child(2) { border-color: var(--green); transform: rotate(0.3deg); }
+.control-card:nth-child(3) { border-color: var(--amber); transform: rotate(-0.2deg); }
+.control-card:nth-child(4) { border-color: var(--purple); transform: rotate(0.5deg); }
+.control-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.control-card:nth-child(1) .control-num { background: var(--blue-bg); color: var(--blue); }
+.control-card:nth-child(2) .control-num { background: var(--green-bg); color: var(--green); }
+.control-card:nth-child(3) .control-num { background: var(--amber-bg); color: var(--amber); }
+.control-card:nth-child(4) .control-num { background: var(--purple-bg); color: var(--purple); }
+
+/* Before/after comparison */
+.before-after {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 18px 0;
+}
+@media (max-width: 600px) { .before-after { grid-template-columns: 1fr; } }
+.ba-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+}
+.ba-card.before { border-color: var(--red); }
+.ba-card.after { border-color: var(--green); }
+.ba-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.ba-card.before .ba-tag { background: var(--red-bg); color: var(--red); }
+.ba-card.after .ba-tag { background: var(--green-bg); color: var(--green); }
+.ba-output {
+  background: var(--bg-elev);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 8px 0;
+}
+.ba-stats {
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+/* IO visualizer widget */
+.io-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.io-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.io-slider-label {
+  min-width: 100px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.io-slider-val {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-width: 60px;
+  text-align: right;
+}
+.io-result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.io-result-card {
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+.io-result-model { font-size: 12px; font-weight: 600; color: var(--ink-muted); }
+.io-result-cost {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  display: block;
+  margin: 4px 0;
+}
+.io-result-breakdown { font-size: 11px; color: var(--ink-muted); }

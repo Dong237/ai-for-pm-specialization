@@ -1,0 +1,169 @@
+/* U2 · Prompt-only 适用场景 */
+
+.prompt-demo {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.prompt-demo-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.scenario-btn {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  padding: 8px 16px;
+  border: 2px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--ink);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.scenario-btn:hover { border-color: var(--blue); background: var(--blue-bg-soft); }
+.scenario-btn.active { border-color: var(--green); background: var(--green-bg); font-weight: 600; }
+
+.prompt-demo-display {
+  background: var(--bg-elev);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 14px;
+  min-height: 120px;
+}
+.prompt-demo-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.prompt-demo-text {
+  font-size: 14px;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+.prompt-demo-result {
+  background: var(--green-bg-soft);
+  border: 1.5px solid var(--green);
+  border-radius: 8px;
+  padding: 14px;
+}
+.prompt-demo-verdict {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.verdict-icon {
+  font-size: 24px;
+}
+.verdict-text {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.prompt-structure {
+  background: var(--bg-card);
+  border: 2px solid var(--blue);
+  border-radius: 12px;
+  padding: 0;
+  margin: 18px 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.prompt-part {
+  padding: 14px 18px;
+  border-bottom: 1px dashed var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.prompt-part:last-child { border-bottom: none; }
+.prompt-part-tag {
+  flex-shrink: 0;
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 4px;
+  min-width: 72px;
+  text-align: center;
+}
+.prompt-part-text {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.ceiling-signals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+.signal-card {
+  background: var(--amber-bg-soft);
+  border: 2px solid var(--amber);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+}
+.signal-num {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--amber);
+  margin-bottom: 6px;
+}
+.signal-title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+.signal-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.cost-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 18px 0;
+}
+@media (max-width: 500px) { .cost-compare { grid-template-columns: 1fr; } }
+.cost-box {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.cost-box-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.cost-box-num {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  display: block;
+  margin: 4px 0;
+}
+.cost-box-detail {
+  font-size: 13px;
+  color: var(--ink-muted);
+}

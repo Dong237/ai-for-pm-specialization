@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Unit 1 · 评测三层架构 — AI for PM</title>
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)"/>
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)"/>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css"/>
+  <link rel="stylesheet" href="../../shared/styles.css"/>
+  <link rel="stylesheet" href="./unit.css"/>
+</head>
+<body data-theme="light">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M4.1</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · 评测三层架构</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step">
+      <span class="step-num">▶</span>
+      <p class="step-lede" style="color:var(--green);">开始</p>
+      <h2 class="step-title">Unit 1 ·<br/>评测三层架构</h2>
+      <p>你的 Vitamin Bot 上线了. 老板问: <mark class="hl">"效果好吗?"</mark> 你说 "用户反馈还行." 老板追问: "什么叫还行? 给我数据." 你愣住了.</p>
+
+      <div style="display:flex;align-items:flex-start;gap:24px;margin:32px 0;">
+        <svg width="64" height="120" viewBox="0 0 64 120" style="flex-shrink:0;">
+          <circle cx="32" cy="18" r="14" fill="none" stroke="var(--ink)" stroke-width="2.5"/>
+          <line x1="32" y1="32" x2="32" y2="72" stroke="var(--ink)" stroke-width="2.5"/>
+          <line x1="32" y1="48" x2="12" y2="64" stroke="var(--ink)" stroke-width="2.5"/>
+          <line x1="32" y1="48" x2="52" y2="64" stroke="var(--ink)" stroke-width="2.5"/>
+          <line x1="32" y1="72" x2="16" y2="100" stroke="var(--ink)" stroke-width="2.5"/>
+          <line x1="32" y1="72" x2="48" y2="100" stroke="var(--ink)" stroke-width="2.5"/>
+          <text x="32" y="116" text-anchor="middle" font-size="11" fill="var(--ink-soft)" font-family="'LXGW WenKai Screen',sans-serif">(你, AI PM)</text>
+        </svg>
+        <div class="callout callout-amber" style="flex:1;">
+          <p>Vitamin Bot 做出来了, 但 "做出来" ≠ "能用"...</p>
+          <p>老板要数据, 我该看哪些数据?</p>
+          <p>只看用户满意度够吗? 还是只看延迟就行?</p>
+          <p style="margin-top:8px;">—— 答案: <strong>三层都要看, 缺一不可.</strong></p>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>10 步学完, 你会:</strong></p>
+        <p>✅ 掌握评测三层架构: 主观 + 客观 + 业务</p>
+        <p>✅ 知道每层该测什么、用什么工具测</p>
+        <p>✅ 理解三层之间的因果关系</p>
+        <p>✅ 给 Vitamin 分配完整的评测指标体系</p>
+      </div>
+      <p style="margin-top:24px;"><a href="#s1" style="color:var(--green);font-family:'Excalifont','LXGW WenKai Screen',system-ui;font-size:20px;text-decoration:none;">走起 →</a></p>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step">
+      <div class="step-num"><span>①</span></div>
+      <h2 class="step-title">"效果好" 是最危险的一句话</h2>
+      <p class="step-lede">AI 产品最常见的死法不是 "做不出来", 而是 "做出来了但没人能证明它好用".</p>
+
+      <div class="failure-grid">
+        <div class="failure-card" style="transform:rotate(-0.5deg);">
+          <strong>翻车 1: CNET AI 写文章</strong>
+          <p>AI 自动写理财文章, 看着没问题. 上线后被发现数据全是编的. 没人在发布前做过事实性评测.</p>
+        </div>
+        <div class="failure-card" style="transform:rotate(0.4deg);">
+          <strong>翻车 2: Apple AI 新闻摘要</strong>
+          <p>2025 年 Apple 暂停 AI 新闻摘要功能 — 它会把新闻标题改得面目全非. 只测了流畅度, 没测准确性.</p>
+        </div>
+        <div class="failure-card" style="transform:rotate(-0.3deg);">
+          <strong>翻车 3: Air Canada 聊天机器人</strong>
+          <p>客服 Bot 承诺了不存在的退款政策, 公司被判赔偿. 没测过 "AI 会不会瞎编承诺".</p>
+        </div>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>共同点:</strong> 这三个产品都 "能跑", 都 "回答流畅", 都 "用户初始反馈不错".</p>
+        <p>但<mark class="hl">没有系统评测, 就是裸奔</mark>.</p>
+      </div>
+
+      <div class="step-foot">那系统评测长什么样? 先看两个常见的错误认知 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step">
+      <div class="step-num"><span>②</span></div>
+      <h2 class="step-title">两个错觉 — 都不够</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错觉 A: 用户没投诉 = 效果好</h3>
+          <p>用户不投诉可能是因为: 不知道答案是错的, 已经放弃了, 或者根本没用.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            Air Canada 案例里, 用户拿着 "错误承诺" 去退款时才发现问题. 投诉是滞后信号.
+          </div>
+        </article>
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错觉 B: 跑个 Benchmark = 完事</h3>
+          <p>模型在 MMLU 上 90 分, 在你的场景可能只有 60 分.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            Benchmark 测的是通用能力. 你的产品需要测的是<em>你的用户、你的场景、你的约束</em>.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">AI 产品评测必须<mark class="hl">三层同时看</mark>:</p>
+        <p class="truth-line giant">主观 + 客观 + 业务</p>
+        <p class="truth-line muted">→ 主观评质量, 客观评性能, 业务评结果. 缺一层, 就有盲区.</p>
+      </div>
+
+      <div class="step-foot">接下来逐层拆解. 先看第一层 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step">
+      <div class="step-num"><span>③</span></div>
+      <h2 class="step-title">第一层: 主观评分</h2>
+      <p class="step-lede">评的是: <mark class="hl">"AI 输出的质量好不好?"</mark></p>
+
+      <div class="layer-card layer-1-card">
+        <span class="layer-card-tag">Layer 1 · 主观评分</span>
+        <h3>谁来评? 评什么?</h3>
+        <p>两种评委: <strong>人类标注员</strong> 或 <strong>LLM Judge</strong> (用另一个 AI 当评委).</p>
+        <table>
+          <tr><th>评分方式</th><th>优点</th><th>缺点</th></tr>
+          <tr><td>人类打分 (1-5)</td><td>最准确, 能捕捉微妙问题</td><td>慢, 贵, 评分不一致</td></tr>
+          <tr><td>LLM Judge</td><td>快, 便宜, 可重复</td><td>有偏见, 需要校准</td></tr>
+          <tr><td>人 + LLM 结合</td><td>LLM 初筛 + 人抽检</td><td>需要设计抽检流程</td></tr>
+        </table>
+        <p style="margin-top:12px;font-size:14px;color:var(--ink-muted);">常见评分维度: 准确性 / 安全性 / 有用性 / 流畅度 / 符合人设</p>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>PM 要记住:</strong> 主观评分是 "质量的温度计". 温度计本身不治病, 但没有它你连发不发烧都不知道.</p>
+      </div>
+
+      <div class="step-foot">光看质量不够, 还要看系统撑不撑得住 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step">
+      <div class="step-num"><span>④</span></div>
+      <h2 class="step-title">第二层: 客观指标</h2>
+      <p class="step-lede">评的是: <mark class="hl">"系统表现稳不稳?"</mark></p>
+
+      <div class="layer-card layer-2-card">
+        <span class="layer-card-tag">Layer 2 · 客观指标</span>
+        <h3>可精确测量的硬指标</h3>
+        <p>这些不需要人判断, 直接从系统日志里算.</p>
+        <table>
+          <tr><th>指标</th><th>含义</th><th>为什么重要</th></tr>
+          <tr><td>P50 / P95 延迟</td><td>一半 / 95% 用户等多久</td><td>超过 5 秒用户就走了</td></tr>
+          <tr><td>单次调用成本</td><td>每次 API 调用花多少钱</td><td>成本失控会杀死产品</td></tr>
+          <tr><td>格式合规率</td><td>输出格式是否符合要求</td><td>JSON 格式错了下游全崩</td></tr>
+          <tr><td>错误率 / 超时率</td><td>API 调用失败的比例</td><td>可用性的底线</td></tr>
+          <tr><td>Token 消耗</td><td>平均每次消耗多少 token</td><td>直接关联成本</td></tr>
+        </table>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>类比:</strong> 如果主观评分是 "菜好不好吃", 客观指标就是 "上菜快不快" + "食材成本多少". 菜好吃但上菜要 1 小时, 餐厅照样倒闭.</p>
+      </div>
+
+      <div class="step-foot">系统稳了, 但用户买不买账? ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step">
+      <div class="step-num"><span>⑤</span></div>
+      <h2 class="step-title">第三层: 业务指标</h2>
+      <p class="step-lede">评的是: <mark class="hl">"产品目标达不达?"</mark></p>
+
+      <div class="layer-card layer-3-card">
+        <span class="layer-card-tag">Layer 3 · 业务指标</span>
+        <h3>这些数字决定产品生死</h3>
+        <p>最终衡量 AI 有没有帮产品赢.</p>
+        <table>
+          <tr><th>指标</th><th>含义</th><th>Vitamin 目标值</th></tr>
+          <tr><td>建议接受率</td><td>用户不修改直接采纳 AI 建议</td><td>> 40%</td></tr>
+          <tr><td>重新生成率</td><td>用户点 "换一个" 的频率</td><td>< 20%</td></tr>
+          <tr><td>7 日留存</td><td>用了 AI 功能后 7 天还在用</td><td>> 30%</td></tr>
+          <tr><td>转人工率</td><td>AI 解决不了转给人</td><td>< 15%</td></tr>
+          <tr><td>任务完成率</td><td>用户的问题最终被解决了</td><td>> 70%</td></tr>
+        </table>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>面试金句:</strong> "AI 质量分 4.5 但留存只有 10%, 说明用户觉得回答好但不值得回来用 — 这是产品设计问题, 不是模型问题."</p>
+      </div>
+
+      <div class="step-foot">三层都认识了, 那为什么缺一不可? ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step">
+      <div class="step-num"><span>⑥</span></div>
+      <h2 class="step-title">三层为什么缺一不可</h2>
+      <p class="step-lede">每缺一层, 就有一个致命盲区.</p>
+
+      <div class="failure-grid">
+        <div class="failure-card" style="border-color:var(--amber);background:var(--amber-bg-soft);">
+          <strong>缺第一层 (主观)</strong>
+          <p>留存很好, 成本很低 — 但 AI 输出有毒. 用户还没发现, 等出事就晚了.</p>
+          <p style="font-size:12px;color:var(--ink-muted);">→ CNET 案例</p>
+        </div>
+        <div class="failure-card" style="border-color:var(--blue);background:var(--blue-bg-soft);">
+          <strong>缺第二层 (客观)</strong>
+          <p>质量高, 用户爱用 — 但每次调用花 ¥1, P95 延迟 15 秒. 烧不起, 也等不起.</p>
+          <p style="font-size:12px;color:var(--ink-muted);">→ 成本杀手</p>
+        </div>
+        <div class="failure-card" style="border-color:var(--green);background:var(--green-bg-soft);">
+          <strong>缺第三层 (业务)</strong>
+          <p>质量好, 速度快 — 但用户不用. 接受率 5%, 留存归零. AI 成了 "做给自己看的功能".</p>
+          <p style="font-size:12px;color:var(--ink-muted);">→ 产品价值缺失</p>
+        </div>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>一句话:</strong> 主观保底线 (别出事), 客观控成本 (别破产), 业务验价值 (别白做).</p>
+      </div>
+
+      <div class="step-foot">三层之间还有因果关系 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step">
+      <div class="step-num"><span>⑦</span></div>
+      <h2 class="step-title">三层的因果链</h2>
+      <p class="step-lede">它们不是平行的三个列表 — 它们是<mark class="hl">因果链</mark>.</p>
+
+      <div class="causal-chain">
+        <div class="chain-node chain-node-1">
+          <div style="font-size:12px;color:var(--ink-muted);">因</div>
+          第一层<br/>主观质量
+        </div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-node chain-node-2">
+          <div style="font-size:12px;color:var(--ink-muted);">约束</div>
+          第二层<br/>客观性能
+        </div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-node chain-node-3">
+          <div style="font-size:12px;color:var(--ink-muted);">果</div>
+          第三层<br/>业务结果
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>因果关系解读:</strong></p>
+        <p>1. <strong>主观质量是因</strong> — 输出质量好, 用户才会接受. 质量差, 其他都白搭.</p>
+        <p>2. <strong>客观性能是约束</strong> — 即使质量好, 如果太慢或太贵, 也无法大规模提供. 它是天花板.</p>
+        <p>3. <strong>业务结果是果</strong> — 留存、接受率是前两层的结果. 如果业务指标差, 要往前两层找原因.</p>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>调试思路:</strong> 业务指标差 → 先查主观质量 (输出好不好) → 再查客观性能 (够不够快/稳) → 逐层排查, 不要瞎猜.</p>
+      </div>
+
+      <div class="step-foot">理论说完, 来动手试试 ↓</div>
+    </section>
+
+    <!-- (8) WIDGET -->
+    <section id="s8" class="step">
+      <div class="step-num"><span>⑧</span></div>
+      <h2 class="step-title">动手: 评测金字塔</h2>
+      <p class="step-lede">点击金字塔每层查看详情, 然后把下方的 Vitamin 指标拖到正确的层.</p>
+
+      <div class="pyramid-widget">
+        <!-- Pyramid -->
+        <div class="pyramid-container">
+          <div class="pyramid-layer pyramid-layer-1" data-layer="1">
+            Layer 1 · 主观评分
+            <div class="drop-target" data-layer="1"></div>
+          </div>
+          <div class="pyramid-layer pyramid-layer-2" data-layer="2">
+            Layer 2 · 客观指标
+            <div class="drop-target" data-layer="2"></div>
+          </div>
+          <div class="pyramid-layer pyramid-layer-3" data-layer="3">
+            Layer 3 · 业务指标
+            <div class="drop-target" data-layer="3"></div>
+          </div>
+        </div>
+
+        <!-- Expandable details -->
+        <div id="detail-1" class="pyramid-detail">
+          <h4>Layer 1 · 主观评分</h4>
+          <p>由人类或 LLM Judge 打分, 评估输出内容的质量.</p>
+          <ul>
+            <li>准确性: 信息是否正确</li>
+            <li>安全性: 是否有害 / 违规</li>
+            <li>有用性: 是否解决了用户问题</li>
+            <li>流畅度: 语言是否自然</li>
+          </ul>
+        </div>
+        <div id="detail-2" class="pyramid-detail">
+          <h4>Layer 2 · 客观指标</h4>
+          <p>从系统日志直接计算, 不需要人判断.</p>
+          <ul>
+            <li>延迟 (P50 / P95)</li>
+            <li>成本 (单次调用 / 月度)</li>
+            <li>可用性 (错误率 / 超时率)</li>
+            <li>格式合规率</li>
+          </ul>
+        </div>
+        <div id="detail-3" class="pyramid-detail">
+          <h4>Layer 3 · 业务指标</h4>
+          <p>衡量 AI 对产品目标的贡献.</p>
+          <ul>
+            <li>用户接受率 / 重新生成率</li>
+            <li>留存率 (7 日 / 30 日)</li>
+            <li>任务完成率</li>
+            <li>转人工率</li>
+          </ul>
+        </div>
+
+        <!-- Drag items -->
+        <div class="drag-zone" id="drag-zone">
+          <h4>把这 9 个 Vitamin 指标拖到正确的层:</h4>
+          <div class="drag-items">
+            <span class="drag-item" data-metric="LLM Judge 评分">LLM Judge 评分</span>
+            <span class="drag-item" data-metric="P95 延迟">P95 延迟</span>
+            <span class="drag-item" data-metric="建议接受率">建议接受率</span>
+            <span class="drag-item" data-metric="人工抽检打分">人工抽检打分</span>
+            <span class="drag-item" data-metric="单次调用成本">单次调用成本</span>
+            <span class="drag-item" data-metric="7 日留存率">7 日留存率</span>
+            <span class="drag-item" data-metric="内容安全审核分">内容安全审核分</span>
+            <span class="drag-item" data-metric="格式合规率">格式合规率</span>
+            <span class="drag-item" data-metric="转人工率">转人工率</span>
+          </div>
+        </div>
+
+        <div class="drag-score">
+          正确: <span class="score-num" id="drag-score-num">0 / 9</span>
+          <p id="drag-complete-msg" style="display:none;font-size:14px;margin-top:8px;"></p>
+        </div>
+        <div style="text-align:center;margin-top:12px;">
+          <button id="pyramid-reset" class="btn btn-ghost">重新来 ↺</button>
+        </div>
+      </div>
+
+      <div class="step-foot">理论 + 动手都有了, 看看 Vitamin 具体怎么配 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step">
+      <div class="step-num"><span>⑨</span></div>
+      <h2 class="step-title">Vitamin 的三层评测配置</h2>
+      <p class="step-lede">把三层架构对照到 Vitamin 的实际场景.</p>
+
+      <div class="layer-card layer-1-card">
+        <span class="layer-card-tag">Vitamin Layer 1</span>
+        <h3>主观评分 — 健康建议质量</h3>
+        <table>
+          <tr><th>维度</th><th>评委</th><th>标准</th></tr>
+          <tr><td>医学准确性</td><td>Claude Judge + 人抽检</td><td>不编造、不夸大、有依据</td></tr>
+          <tr><td>安全合规</td><td>LLM Judge</td><td>不给诊断、不推荐处方药</td></tr>
+          <tr><td>用户友好度</td><td>LLM Judge</td><td>大白话、温柔、不说教</td></tr>
+        </table>
+      </div>
+
+      <div class="layer-card layer-2-card">
+        <span class="layer-card-tag">Vitamin Layer 2</span>
+        <h3>客观指标 — 系统性能</h3>
+        <table>
+          <tr><th>指标</th><th>目标</th><th>报警线</th></tr>
+          <tr><td>P95 延迟</td><td>< 3 秒</td><td>> 5 秒触发报警</td></tr>
+          <tr><td>单次成本</td><td>< ¥0.02</td><td>> ¥0.05 触发优化</td></tr>
+          <tr><td>错误率</td><td>< 1%</td><td>> 3% 暂停服务</td></tr>
+        </table>
+      </div>
+
+      <div class="layer-card layer-3-card">
+        <span class="layer-card-tag">Vitamin Layer 3</span>
+        <h3>业务指标 — 产品价值</h3>
+        <table>
+          <tr><th>指标</th><th>目标</th><th>含义</th></tr>
+          <tr><td>建议接受率</td><td>> 40%</td><td>用户愿意照做 = 有用</td></tr>
+          <tr><td>7 日留存</td><td>> 30%</td><td>用户会回来 = 有价值</td></tr>
+          <tr><td>转人工率</td><td>< 15%</td><td>AI 能独立解决 = 靠谱</td></tr>
+        </table>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>面试怎么讲:</strong> "我给 Vitamin 设计了三层评测: 用 Claude 做 Judge 评内容质量, 监控 P95 延迟和成本控制系统性能, 用接受率和留存验证业务价值. 三层联动, 任何一层报警都要排查."</p>
+      </div>
+
+      <div class="step-foot">最后一步: 规则 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step">
+      <div class="step-num"><span>⑩</span></div>
+      <h2 class="step-title">一句话规则 + 今日作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">AI 效果好不好, 永远用三层数据回答, 别用嘴回答.</p>
+        <p class="one-liner-foot muted">主观保底线, 客观控成本, 业务验价值.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <h3>今日作业 (4 tasks, ~30 min)</h3>
+        <p>1. 打开你常用的一个 AI 产品 (豆包/Kimi/ChatGPT), 列出它可能在用的三层指标各 2-3 个.</p>
+        <p>2. 给 Vitamin 的 "经期饮食建议" 功能设计三层评测指标, 每层至少 2 个.</p>
+        <p>3. 假设 Vitamin 的建议接受率从 45% 掉到 20%, 按因果链分析: 最可能是哪一层出了问题? 写出你的排查步骤.</p>
+        <p>4. 用 200 字解释 "三层评测架构" 给一个非技术同事听, 用餐厅类比.</p>
+      </div>
+
+      <div class="callout callout-blue">
+        <h3>资源延伸</h3>
+        <table class="resource-table">
+          <tr><th>类型</th><th>资源</th><th>来源</th><th>价值</th><th>时间</th></tr>
+          <tr>
+            <td>📖</td>
+            <td><a href="https://www.confident-ai.com/blog/why-llm-as-a-judge-is-the-best-llm-evaluation-method" target="_blank">LLM-as-a-Judge Complete Guide</a></td>
+            <td>Confident AI</td>
+            <td>最全面的 LLM 评测入门</td>
+            <td>20 min</td>
+          </tr>
+          <tr>
+            <td>📖</td>
+            <td><a href="https://zhuanlan.zhihu.com/p/644373658" target="_blank">LLM Evaluation 如何评估大模型</a></td>
+            <td>知乎</td>
+            <td>中文视角的评测概览</td>
+            <td>15 min</td>
+          </tr>
+          <tr>
+            <td>🛠</td>
+            <td><a href="https://github.com/confident-ai/deepeval" target="_blank">DeepEval — LLM 评测框架</a></td>
+            <td>GitHub</td>
+            <td>开源评测工具, 50+ 指标</td>
+            <td>30 min</td>
+          </tr>
+          <tr>
+            <td>📺</td>
+            <td><a href="https://developer.nvidia.com/blog/mastering-llm-techniques-evaluation/" target="_blank">Mastering LLM Evaluation</a></td>
+            <td>NVIDIA</td>
+            <td>工程视角的评测最佳实践</td>
+            <td>25 min</td>
+          </tr>
+          <tr>
+            <td>📖</td>
+            <td><a href="https://www.cnblogs.com/qiniushanghai/p/19664074" target="_blank">2026 大模型测评完全指南</a></td>
+            <td>博客园</td>
+            <td>中文, 最新榜单解读与选型</td>
+            <td>20 min</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step">
+      <span class="step-num">■</span>
+      <p class="step-lede" style="color:var(--green);">终点</p>
+      <h2 class="step-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">①</span> "效果好" 是最危险的话</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">②</span> 两个错觉, 都不够</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">③</span> 第一层: 主观评分</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">④</span> 第二层: 客观指标</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">⑤</span> 第三层: 业务指标</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">⑥</span> 三层缺一不可</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">⑦</span> 三层因果链</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">⑧</span> 评测金字塔 (互动)</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">⑨</span> Vitamin 三层配置</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">⑩</span> 规则 + 作业</a>
+      </div>
+
+      <div class="one-liner">
+        <p class="one-tag">一句话记住 Unit 1:</p>
+        <p class="one-text" style="font-family:'Excalifont','LXGW WenKai Screen',system-ui;font-size:clamp(18px,3.5vw,24px);font-weight:600;margin:0;">AI 评测 = 主观保底线 + 客观控成本 + 业务验价值. 三层缺一不可.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下一站: Unit 2 · Golden Set 构建</div>
+        <p>三层架构搭好了 — 但拿什么来测? 你需要一套 "标准答案库": 50-100 条精心挑选的测试用例, 涵盖真实问题、边缘 Case 和攻击样本.</p>
+        <p><strong>这套 Golden Set 的质量, 决定了整个评测体系的上限.</strong></p>
+        <a class="walk-arrow" href="../u2-golden-set/index.html">继续走 → Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer"><p>AI for PM · Course 4 · Module 1 · Unit 1 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

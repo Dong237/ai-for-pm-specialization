@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>U2 · 算法术语速通 10 个 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M4.3 U2: 10 个算法核心术语速通, 面试必考." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M4.3</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 · 算法术语速通</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 2<span class="title-dot">·</span><br/>算法术语速通 10 个</h1>
+      <p class="hero-sub">面试官问: "你能解释一下 Precision 和 Recall 的区别吗?" 你该怎么答?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="准备面试的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · AI PM 面试备战中)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">Precision? Recall? F1? AUC?</p>
+          <p class="cloud-line">每个都见过, 但串不起来...</p>
+          <p class="cloud-line">Embedding 是啥? RLHF 是啥?</p>
+          <p class="cloud-line accent">—— 10 个术语, 一次搞定.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>用大白话解释 10 个算法核心术语</li>
+          <li>面试时能举 Vitamin 的例子说明每个术语</li>
+          <li>和算法工程师聊天时不再一脸懵</li>
+          <li>通过翻转卡 + 测验模式巩固记忆</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">为什么 PM 必须懂这些术语?</h2>
+      <p class="step-lede">不是让你去写算法, 而是让你<mark class="hl">听懂算法在说什么</mark>. 这 10 个词在三个场景必须会:</p>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1">
+          <div class="wonder-tag">场景 1</div>
+          <h3>面试</h3>
+          <div class="wonder-note">"你怎么评估模型效果?" — 面试官等你说出 Precision / Recall / F1. 说不出来直接扣分.</div>
+        </article>
+        <article class="wonder wonder-2">
+          <div class="wonder-tag">场景 2</div>
+          <h3>日常协作</h3>
+          <div class="wonder-note">算法说"Recall 不够", 你要能判断: 这对用户体验意味着什么? 是该优先提 Recall 还是 Precision?</div>
+        </article>
+        <article class="wonder wonder-3">
+          <div class="wonder-tag">场景 3</div>
+          <h3>PRD 撰写</h3>
+          <div class="wonder-note">写 PRD 时说"AI 要准", 不如写"情绪分类 F1 ≥ 0.8". 后者算法能直接执行.</div>
+        </article>
+      </div>
+      <div class="step-foot">先搞清楚一个基本认知 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">不需要会推公式, 但必须知道"它衡量什么"</h2>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">核心认知</div>
+        <p class="truth-line big">PM 对算法术语的掌握要求:</p>
+        <p class="truth-line giant">知道它<mark class="hl">衡量什么</mark>, 能用<mark class="hl">Vitamin 举例</mark></p>
+        <p class="truth-line muted">不需要会推导公式, 不需要会写代码. 但要能在对话中自然使用这些词.</p>
+      </div>
+
+      <div class="callout callout-blue">
+        <p>接下来 5 步, 每步讲 2 个术语. 每个术语给你 3 样东西:</p>
+        <ol>
+          <li><strong>一句话定义</strong> — 记住这句就够了</li>
+          <li><strong>生活类比</strong> — 帮你理解</li>
+          <li><strong>Vitamin 例子</strong> — 面试时直接用</li>
+        </ol>
+      </div>
+      <div class="step-foot">第一对: Precision & Recall ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Precision & Recall — 最核心的一对</h2>
+
+      <div class="term-explain">
+        <div class="term-name">Precision (精确率)</div>
+        <div class="term-zh">模型说"是"的里面, 真的有多少是"是"</div>
+        <p>Precision 高 = 误报少. 模型很谨慎, 说"是"的基本都对.</p>
+        <div class="term-analogy">
+          <strong>类比:</strong> 网购退货审核. Precision 高 = 批准退货的基本都是合理请求, 很少批错. 但可能有些合理退货没批到.
+        </div>
+      </div>
+
+      <div class="term-explain">
+        <div class="term-name">Recall (召回率)</div>
+        <div class="term-zh">所有真的"是"里面, 模型找到了多少</div>
+        <p>Recall 高 = 漏报少. 模型很积极, 尽量不遗漏.</p>
+        <div class="term-analogy">
+          <strong>类比:</strong> 安检. Recall 高 = 危险物品几乎都能检出, 但可能会误报一些无害物品.
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <strong>PM 关键判断: Precision 优先还是 Recall 优先?</strong>
+        <ul style="margin:8px 0 0;">
+          <li><span class="pill pill-blue">Precision 优先</span> 推送通知 (误报 = 骚扰用户)</li>
+          <li><span class="pill pill-green">Recall 优先</span> 异常检测 (漏报 = 错过危险)</li>
+          <li>Vitamin: 情绪分类用 Precision 优先 (别把开心判成焦虑), 异常检测用 Recall 优先 (别漏掉异常)</li>
+        </ul>
+      </div>
+      <div class="step-foot">Precision + Recall 怎么平衡? ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">F1 Score & AUC — 综合评估</h2>
+
+      <div class="term-explain">
+        <div class="term-name">F1 Score</div>
+        <div class="term-zh">Precision 和 Recall 的调和平均值</div>
+        <p>当 Precision 和 Recall 无法两全时, F1 给你一个综合分. 范围 0-1, 越高越好.</p>
+        <div class="term-analogy">
+          <strong>类比:</strong> 高考总分. 语文和数学不能只看一科, F1 = 两科的综合表现.
+        </div>
+      </div>
+
+      <div class="term-explain">
+        <div class="term-name">AUC (Area Under Curve)</div>
+        <div class="term-zh">ROC 曲线下的面积, 衡量模型区分正负样本的综合能力</div>
+        <p>AUC = 0.5 意味着模型跟随机猜一样烂. AUC = 1.0 意味着完美区分. 一般 0.8+ 算不错.</p>
+        <div class="term-analogy">
+          <strong>类比:</strong> 品酒师区分红酒好坏的综合能力. AUC 0.9 = 这个品酒师 90% 的情况能判断对.
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>PM 使用场景:</strong>
+        <p>写 PRD 时: "情绪分类模型要求 F1 ≥ 0.8, AUC ≥ 0.85". 这样算法工程师就知道你要什么了.</p>
+      </div>
+      <div class="step-foot">下一对: Embedding & Token ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Embedding & Token — 模型怎么"看"文字</h2>
+
+      <div class="term-explain">
+        <div class="term-name">Embedding (向量嵌入)</div>
+        <div class="term-zh">把任何东西变成一组数字, 相似的东西距离近</div>
+        <p>文字、图片、用户行为, 都可以变成向量. 向量之间的距离 = 相似度.</p>
+        <div class="term-analogy">
+          <strong>类比:</strong> 把城市标在地图上. 北京和天津离得近(相似), 北京和纽约离得远(不相似). Embedding = 把概念标在"意义地图"上.
+        </div>
+      </div>
+
+      <div class="term-explain">
+        <div class="term-name">Token (词元)</div>
+        <div class="term-zh">LLM 处理文本的最小单位</div>
+        <p>不是字, 不是词, 是模型自己切的"块". 中文通常 1 字 ≈ 1-2 个 token.</p>
+        <div class="term-analogy">
+          <strong>类比:</strong> 乐高积木. 整篇文章 = 一个乐高城堡, token = 一块块积木. 不同模型用不同大小的积木.
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <strong>PM 实操:</strong> Token 数 = 成本. Vitamin 每次对话消耗 ~500 token, API 按 token 计费. 你要算: 月活 × 每日对话次数 × 500 token = 月成本.
+      </div>
+      <div class="step-foot">Context Window & Fine-tuning ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Context Window & Fine-tuning — 记忆与定制</h2>
+
+      <div class="term-explain">
+        <div class="term-name">Context Window (上下文窗口)</div>
+        <div class="term-zh">模型一次能"看到"的最大 token 数</div>
+        <p>超出窗口 = 模型忘记前面的内容. GPT-4o 是 128K, Claude 是 200K.</p>
+        <div class="term-analogy">
+          <strong>类比:</strong> 办公桌面积. 桌子越大, 能同时摊开的文件越多. Context Window = 模型的"桌子大小".
+        </div>
+      </div>
+
+      <div class="term-explain">
+        <div class="term-name">Fine-tuning (微调)</div>
+        <div class="term-zh">在预训练模型上, 用你的数据再训练一轮</div>
+        <p>让通用模型变成你的专属模型. 需要标注数据 + 训练资源.</p>
+        <div class="term-analogy">
+          <strong>类比:</strong> 请一个通用翻译, 让他专门学你们行业的术语. Fine-tuning = "岗前培训".
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>PM 决策点:</strong> 什么时候需要 Fine-tuning?
+        <ul style="margin:8px 0 0;">
+          <li>通用模型 + Prompt 工程搞不定你的场景</li>
+          <li>你有足够的标注数据 (通常 1000+ 条)</li>
+          <li>需要稳定的、可复现的输出风格</li>
+        </ul>
+      </div>
+      <div class="step-foot">最后两个: RLHF & Emergence ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">RLHF & Emergence — 模型是怎么变"聪明"的</h2>
+
+      <div class="term-explain">
+        <div class="term-name">RLHF (人类反馈强化学习)</div>
+        <div class="term-zh">让人类给模型的回答打分, 模型学会"什么回答更好"</div>
+        <p>ChatGPT 为什么比原始 GPT-3 好用这么多? 核心就是 RLHF — 人类标注员训练它"懂事".</p>
+        <div class="term-analogy">
+          <strong>类比:</strong> 新员工入职. 导师看他的工作成果, 给反馈"这样做更好". 几百轮之后, 他就变成老手了.
+        </div>
+      </div>
+
+      <div class="term-explain">
+        <div class="term-name">Emergence (涌现)</div>
+        <div class="term-zh">模型规模大到一定程度, 突然出现没专门训练过的能力</div>
+        <p>没人教 GPT-3 做数学, 但 1750 亿参数突然就能做简单加法了. 这种"突然会了"就是涌现.</p>
+        <div class="term-analogy">
+          <strong>类比:</strong> 蚂蚁群体. 单只蚂蚁很蠢, 但上万只蚂蚁形成群体后, 突然展现出复杂的建筑和协作能力.
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <strong>PM 认知:</strong> 涌现意味着你<mark class="hl">不能精确预测大模型能做什么</mark>. 新版本发布时, 先测试再承诺. 别看了 demo 就写进 PRD.
+      </div>
+      <div class="step-foot">10 个术语讲完了, 来练练 ↓</div>
+    </section>
+
+    <!-- (8) Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">术语翻转卡 + 测验</h2>
+      <p class="step-lede">两种模式: <strong>学习模式</strong>翻卡记忆, <strong>测验模式</strong>看定义猜术语.</p>
+
+      <div class="mode-toggle">
+        <button id="mode-study" class="btn btn-primary">学习模式</button>
+        <button id="mode-quiz" class="btn btn-ghost">测验模式</button>
+      </div>
+
+      <div id="flashcard-deck">
+        <!-- Study mode -->
+        <div id="study-area">
+          <div class="flashcard-container">
+            <div class="flashcard" id="flashcard">
+              <div class="flashcard-front"></div>
+              <div class="flashcard-back"></div>
+            </div>
+          </div>
+          <div class="flashcard-nav">
+            <button id="card-prev" class="btn btn-ghost">← 上一个</button>
+            <span class="flashcard-counter" id="card-counter">1 / 10</span>
+            <button id="card-next" class="btn btn-ghost">下一个 →</button>
+          </div>
+        </div>
+
+        <!-- Quiz mode -->
+        <div id="quiz-area" class="quiz-area">
+          <div class="quiz-score-bar">
+            <span>得分: </span>
+            <span class="quiz-score-num" id="quiz-score">0</span>
+            <span> / 10</span>
+            <span style="margin-left:16px;color:var(--ink-muted);" id="quiz-counter">1 / 10</span>
+          </div>
+          <div class="quiz-prompt">
+            <p class="quiz-def-text" id="quiz-def">定义将出现在这里</p>
+            <div class="quiz-input-row">
+              <input type="text" class="quiz-input" id="quiz-input" placeholder="输入英文术语..." />
+              <button id="quiz-submit" class="btn btn-primary">提交</button>
+            </div>
+            <div class="quiz-result" id="quiz-result"></div>
+            <button id="quiz-next" class="btn btn-ghost" style="display:none;margin-top:10px;">下一题 →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-foot">这些术语在 Vitamin 里怎么用 ↓</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 10 个术语实战</h2>
+      <p class="step-lede">每个术语在 Vitamin 里都有具体落地场景. 面试时直接举例.</p>
+
+      <div class="callout callout-blue">
+        <ul style="margin:0;padding-left:18px;">
+          <li><strong>Precision:</strong> 情绪分类 — 判定"焦虑"的准确率, 误报会吓到用户</li>
+          <li><strong>Recall:</strong> 异常检测 — 不能漏掉经期异常, 漏报有健康风险</li>
+          <li><strong>F1:</strong> 营养建议分类 — Precision/Recall 需要平衡</li>
+          <li><strong>AUC:</strong> 用户流失预测 — 模型区分"会流失"和"不会流失"的能力</li>
+          <li><strong>Embedding:</strong> 食物相似度 — "苹果"和"梨"的向量距离近</li>
+          <li><strong>Token:</strong> 成本控制 — 每次对话 500 token × API 单价 = 月成本</li>
+          <li><strong>Context Window:</strong> 对话记忆 — 用户一周聊天不超过 5K token, 够用</li>
+          <li><strong>Fine-tuning:</strong> 个性化 — 用 Vitamin 对话数据微调, 让回复更懂女性用户</li>
+          <li><strong>RLHF:</strong> 语气优化 — 用用户评分训练模型, 让回复更温柔</li>
+          <li><strong>Emergence:</strong> 新能力发现 — 更新模型版本后, 测试是否有新能力可用</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-red">
+        <strong>面试金句:</strong>
+        <p>"我在 Vitamin 项目中, 情绪分类模块我选择优先优化 Precision — 因为误判用户情绪的代价远大于漏判. 而异常检测模块我优先 Recall — 宁可多提醒, 也不能漏掉潜在健康风险."</p>
+      </div>
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">AI PM 不需要会推公式,<br/>但必须能用大白话 + 产品例子<br/>解释这 10 个术语.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>用测验模式做到满分 10/10, 截图保存.</li>
+          <li>写一个"Vitamin 指标速查表": 10 个术语 × 在 Vitamin 里的含义 × 该优先哪个.</li>
+          <li>模拟面试: 用语音回答"请解释 Precision 和 Recall 的区别, 并举一个产品案例".</li>
+          <li>找一篇你之前读过的 AI 文章, 圈出里面用到的这 10 个术语, 看看你是否能理解.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+          <tbody>
+            <tr><td>📺</td><td><a href="https://www.youtube.com/watch?v=4jRBRDbJemM" target="_blank">3Blue1Brown: Neural Networks</a></td><td>最直观的神经网络可视化讲解</td><td>20 min</td></tr>
+            <tr><td>🎮</td><td><a href="https://bbycroft.net/llm" target="_blank">bbycroft.net 3D LLM Visualizer</a></td><td>交互式 3D 看 LLM 内部结构</td><td>10 min</td></tr>
+            <tr><td>📖</td><td><a href="https://zhuanlan.zhihu.com/p/1913981975624135141" target="_blank">520道AI PM面试题</a></td><td>这些术语在面试中怎么被问到</td><td>30 min</td></tr>
+            <tr><td>📖</td><td><a href="https://www.promptingguide.ai/techniques/react" target="_blank">Prompt Engineering Guide</a></td><td>Prompt 工程技术全面指南</td><td>15 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="step-foot">完成 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 为什么必须懂术语</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 知道"衡量什么"就够了</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Precision & Recall</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> F1 & AUC</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Embedding & Token</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Context & Fine-tuning</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> RLHF & Emergence</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 翻转卡 + 测验</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 实战映射</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">10 个算法术语 = AI PM 的基础词汇表.<br/>不会推公式没关系, 但要能用产品案例解释每一个.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 3): 模糊需求 → 工程语言</div>
+        <p>会了术语还不够. 当用户说"AI 不准", 你要能翻译成"召回率 70% 但精确率只有 50%".</p>
+        <p><strong>这是 AI PM 最核心的能力: 双向翻译.</strong></p>
+        <a class="walk-arrow" href="../u3-translation/index.html">继续走 → Unit 3</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 4 · Module 3 · Unit 2 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

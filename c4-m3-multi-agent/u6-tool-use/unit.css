@@ -1,0 +1,148 @@
+/* U6: Tool Use — unit-specific styles */
+
+.tool-visualizer {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.tool-scenario-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.tool-tab {
+  padding: 6px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--ink);
+  transition: all 0.2s;
+}
+
+.tool-tab:hover { border-color: var(--blue); }
+.tool-tab.active { background: var(--blue-bg); border-color: var(--blue); font-weight: 600; }
+
+.tool-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 80px;
+}
+
+.tool-flow-step {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  animation: slideIn 0.4s ease;
+  border-left: 4px solid;
+}
+
+.tool-flow-step.user-msg {
+  background: var(--bg-elev);
+  border-color: var(--ink-faint);
+}
+
+.tool-flow-step.llm-think {
+  background: var(--amber-bg-soft);
+  border-color: var(--amber);
+}
+
+.tool-flow-step.fn-call {
+  background: var(--blue-bg-soft);
+  border-color: var(--blue);
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.tool-flow-step.fn-result {
+  background: var(--green-bg-soft);
+  border-color: var(--green);
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.tool-flow-step.llm-answer {
+  background: var(--purple-bg);
+  border-color: var(--purple);
+}
+
+.tool-flow-label {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 8px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: white;
+}
+
+.user-msg .tool-flow-label { background: var(--ink-muted); }
+.llm-think .tool-flow-label { background: var(--amber); }
+.fn-call .tool-flow-label { background: var(--blue); }
+.fn-result .tool-flow-label { background: var(--green); }
+.llm-answer .tool-flow-label { background: var(--purple); }
+
+.tool-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.tool-counter {
+  margin-left: auto;
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+
+/* JSON highlight */
+.json-key { color: var(--blue); }
+.json-string { color: var(--green); }
+.json-number { color: var(--amber); }
+
+/* Architecture diagram */
+.arch-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.arch-box {
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  border: 2px solid;
+  min-width: 120px;
+}
+
+.arch-box.user-box { background: var(--bg-elev); border-color: var(--ink-faint); }
+.arch-box.llm-box { background: var(--amber-bg); border-color: var(--amber); }
+.arch-box.tool-box { background: var(--blue-bg); border-color: var(--blue); }
+.arch-box.data-box { background: var(--green-bg); border-color: var(--green); }
+
+.arch-arrow { font-size: 24px; color: var(--ink-faint); }
+
+.resource-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; }
+.resource-table th { text-align: left; padding: 8px; border-bottom: 2px solid var(--border-strong); font-size: 13px; color: var(--ink-muted); }
+.resource-table td { padding: 8px; border-bottom: 1px dashed var(--border); vertical-align: top; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

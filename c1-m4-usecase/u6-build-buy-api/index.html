@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 6 · Build vs Buy vs API — AI for PM · M1.4</title>
+  <meta name="description" content="AI PM 课 · M1.4 Unit 6: 自训模型 vs 平台搭建 vs 调 API — 5 个问题定路线, Vitamin 该走哪条路." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.4</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 6 · Build vs Buy vs API</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <!-- Step nav -->
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 6<span class="title-dot">·</span><br/>Build vs Buy vs API</h1>
+      <p class="hero-sub">三条路通向同一个目标. 选错了, 浪费几个月.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个好奇的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · ROI 算完了, 该选路了)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">上一课用 ROI 选出了 Vitamin 最值得做的功能.</p>
+          <p class="cloud-line">现在问题是: 怎么做?</p>
+          <p class="cloud-line">自己训模型? 用 Coze 搭一个? 还是让开发调 API?</p>
+          <p class="cloud-line accent">—— 5 个问题, 帮你选路.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道 Build / Buy / API 三条路的成本、速度、控制权差异</li>
+          <li>用 5 个问题快速定位"你该走哪条路"</li>
+          <li>了解 2026 年的主流平台: Coze, Dify, 各大 API</li>
+          <li>给 Vitamin 的每个功能选定实施路径</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (1) 同一个功能, 三种做法                              -->
+    <!-- ================================================== -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">同一个功能, 三个团队做法完全不同</h2>
+      <p class="step-lede">假设三个健康 App 都想做"每日身体总结" 功能:</p>
+
+      <div class="road-cards">
+        <article class="road-card">
+          <span class="road-icon">🏗️</span>
+          <span class="road-label road-label-build">Build</span>
+          <h3>A 团队: 自训模型</h3>
+          <p class="road-detail">招了 3 个 ML 工程师, 收集了 10 万条健康记录, Fine-tune 了一个专属模型, 私有化部署.</p>
+          <dl class="road-stat">
+            <dt>花了</dt><dd>¥50 万 + 6 个月</dd>
+            <dt>效果</dt><dd>极度定制, 数据隐私最强</dd>
+          </dl>
+        </article>
+
+        <article class="road-card">
+          <span class="road-icon">🛒</span>
+          <span class="road-label road-label-buy">Buy</span>
+          <h3>B 团队: 用 Coze 搭</h3>
+          <p class="road-detail">PM 自己在 Coze 上搭了一个 Bot, 接了知识库, 写了 Prompt, 发布到微信小程序.</p>
+          <dl class="road-stat">
+            <dt>花了</dt><dd>¥0 + 3 天</dd>
+            <dt>效果</dt><dd>能用, 但定制有限</dd>
+          </dl>
+        </article>
+
+        <article class="road-card">
+          <span class="road-icon">🔌</span>
+          <span class="road-label road-label-api">API</span>
+          <h3>C 团队: 调 API</h3>
+          <p class="road-detail">1 个后端开发, 调 DeepSeek API, 写 Prompt + 接用户数据, 嵌入 App 原生功能.</p>
+          <dl class="road-stat">
+            <dt>花了</dt><dd>¥4 万 + 3 周</dd>
+            <dt>效果</dt><dd>产品级体验, 可定制</dd>
+          </dl>
+        </article>
+      </div>
+
+      <p class="step-lede">三个团队都做出了"每日身体总结". 但成本从 <strong>¥0 到 ¥50 万</strong>, 时间从 <strong>3 天到 6 个月</strong>. 选错路, 就是浪费.</p>
+
+      <div class="step-foot">很多人有一个错误假设 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (2) 错误直觉 vs 真相                                 -->
+    <!-- ================================================== -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两个错误假设, 都会让你踩坑</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>"自己训模型 = 最专业"</h3>
+          <p>"我们要有自己的模型, 这才显得技术实力强."</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            2026 年, 42% 的企业 AI 项目被砍掉, 原因不是技术差, 而是<strong>选了太重的路</strong>. 大多数产品功能, 调 API 就够了. 自训模型应该是最后的选择, 不是第一选择.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>"用平台 = 不专业 / 玩具"</h3>
+          <p>"Coze 搭的东西不算真产品, 上不了台面."</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            Coze 2025 年开源了核心组件, Dify 已经有 5 万+ GitHub Stars. 平台做 MVP 验证是最高效的选择. <strong>先验证 idea, 再升级技术栈</strong> — 这才是专业做法.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">没有"最好的路", 只有<mark class="hl">最匹配你当前阶段的路</mark>.</p>
+        <p class="truth-line giant">先 Buy 验证 → 再 API 上线 → 最后考虑 Build</p>
+        <p class="truth-line muted">→ 这个顺序让你用最低成本验证想法, 用最合理的投入做出产品级功能.</p>
+      </div>
+
+      <div class="step-foot">先看第一条路: Build ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (3) Build — 自训/自研                                 -->
+    <!-- ================================================== -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">路 1: Build (自训/自研)</h2>
+      <p class="step-lede">自己训练或微调一个模型, 部署在自己的服务器上. 控制权最大, 但门槛也最高.</p>
+
+      <div class="road-section road-section-build" data-rough="card">
+        <h4>🏗️ Build 路线详解</h4>
+
+        <div class="road-pros-cons">
+          <div class="road-pros">
+            <h5>优势</h5>
+            <ul>
+              <li>数据完全掌控, 不经过第三方</li>
+              <li>模型完全定制, 可以针对特定场景优化</li>
+              <li>长期来看, 边际成本最低</li>
+              <li>竞争壁垒最强 (别人抄不了你的模型)</li>
+            </ul>
+          </div>
+          <div class="road-cons">
+            <h5>风险</h5>
+            <ul>
+              <li>初始投入 ¥10 万+ (算力 + 人力)</li>
+              <li>需要 ML 工程师 (年薪 40-80 万)</li>
+              <li>周期 3-6 个月, 不确定性大</li>
+              <li>维护成本 = 初始成本的 5 倍 (长期)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="road-when">
+          <strong>什么时候走 Build 路:</strong>
+          <ul style="margin:6px 0 0;padding-left:18px;font-size:13px;">
+            <li>AI 是你产品的<strong>核心竞争力</strong> (不是辅助功能)</li>
+            <li>你有<strong>独家数据</strong>可以训出别人训不出的模型</li>
+            <li>涉及<strong>极度敏感的数据</strong>, 不能走第三方 API</li>
+            <li>预算 > ¥10 万, 时间 > 3 个月, 团队有 ML 人才</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>Vitamin 适合 Build 吗?</strong>
+        <p>目前不适合. Vitamin 的 AI 功能 (总结、Q&A、建议) 用通用大模型 + Prompt 就能做到 80% 的效果. 不需要自训模型.</p>
+        <p class="muted">→ 除非: 将来 Vitamin 积累了百万级用户的经期数据, 想训一个"最准的经期预测模型" — 那时候可以考虑.</p>
+      </div>
+
+      <div class="step-foot">下一条路: Buy ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (4) Buy — SaaS/平台                                  -->
+    <!-- ================================================== -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">路 2: Buy (SaaS/平台)</h2>
+      <p class="step-lede">用 Coze、Dify 这样的无代码/低代码平台搭建 AI 功能. PM 自己就能做, 不需要开发.</p>
+
+      <div class="road-section road-section-buy" data-rough="card">
+        <h4>🛒 Buy 路线详解</h4>
+
+        <div class="road-pros-cons">
+          <div class="road-pros">
+            <h5>优势</h5>
+            <ul>
+              <li>零代码, PM 自己就能搭</li>
+              <li>几天就能上线 MVP</li>
+              <li>成本极低 (免费 / ¥0-5K/月)</li>
+              <li>内置知识库、对话流、多平台发布</li>
+            </ul>
+          </div>
+          <div class="road-cons">
+            <h5>风险</h5>
+            <ul>
+              <li>定制能力有限 (平台给什么你用什么)</li>
+              <li>用户体验受平台限制, 难以嵌入自有 App</li>
+              <li>数据在第三方 (合规风险)</li>
+              <li>依赖平台, 如果平台停服你就停服</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="road-when">
+          <strong>什么时候走 Buy 路:</strong>
+          <ul style="margin:6px 0 0;padding-left:18px;font-size:13px;">
+            <li>你想<strong>快速验证一个 AI 功能 idea</strong>, 看用户是否真的需要</li>
+            <li>团队<strong>没有开发者</strong>, PM 要自己搞定</li>
+            <li>预算 < ¥1 万, 时间 < 2 周</li>
+            <li>功能可以独立存在 (比如一个微信 Bot), 不需要嵌入 App</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>2026 年主流平台:</strong>
+        <div class="platform-grid">
+          <div class="platform-card">
+            <h5>Coze (扣子)</h5>
+            <p>字节跳动出品. 最低门槛, 模板丰富, 支持发布到微信/飞书/抖音.</p>
+            <span class="platform-tag platform-tag-free">免费额度</span>
+            <span class="platform-tag platform-tag-oss">已开源</span>
+          </div>
+          <div class="platform-card">
+            <h5>Dify</h5>
+            <p>开源 LLM 应用平台. RAG 支持强, 多模型切换, 适合稍有技术基础的团队.</p>
+            <span class="platform-tag platform-tag-oss">开源 5 万+ Stars</span>
+          </div>
+          <div class="platform-card">
+            <h5>FastGPT</h5>
+            <p>国产开源, 知识库问答为主. 适合做企业内部知识库 Bot.</p>
+            <span class="platform-tag platform-tag-oss">开源</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-foot">第三条路: API ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (5) API — 调 API                                     -->
+    <!-- ================================================== -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">路 3: API (调 API)</h2>
+      <p class="step-lede">让开发者直接调用大模型的 API, 在你自己的产品里实现 AI 功能. 这是大多数产品级 AI 功能的选择.</p>
+
+      <div class="road-section road-section-api" data-rough="card">
+        <h4>🔌 API 路线详解</h4>
+
+        <div class="road-pros-cons">
+          <div class="road-pros">
+            <h5>优势</h5>
+            <ul>
+              <li>完全嵌入自有产品, 用户体验最好</li>
+              <li>Prompt 和流程可深度定制</li>
+              <li>可切换模型 (今天用 DeepSeek, 明天换 GPT)</li>
+              <li>按量付费, 成本可控 (¥150-3K/月)</li>
+            </ul>
+          </div>
+          <div class="road-cons">
+            <h5>风险</h5>
+            <ul>
+              <li>需要至少 1 个后端开发</li>
+              <li>2-4 周开发周期</li>
+              <li>API 供应商可能涨价 / 改接口</li>
+              <li>需要自己做异常处理和监控</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="road-when">
+          <strong>什么时候走 API 路:</strong>
+          <ul style="margin:6px 0 0;padding-left:18px;font-size:13px;">
+            <li>你要把 AI 功能<strong>嵌入自己的 App</strong>, 不是独立 Bot</li>
+            <li>团队<strong>有 1 个以上开发者</strong></li>
+            <li>预算 ¥1-10 万, 时间 2-8 周</li>
+            <li>需要<strong>定制对话流程和 UI</strong>, 但不需要训自己的模型</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>主流 API 供应商 (2026):</strong>
+        <div class="platform-grid">
+          <div class="platform-card">
+            <h5>DeepSeek API</h5>
+            <p>性价比最高. 中文能力强, 价格是 GPT-4 的 1/10.</p>
+            <span class="platform-tag platform-tag-paid">按量付费</span>
+          </div>
+          <div class="platform-card">
+            <h5>OpenAI / GPT API</h5>
+            <p>综合能力最强. 全球生态最完善, 但价格较高.</p>
+            <span class="platform-tag platform-tag-paid">按量付费</span>
+          </div>
+          <div class="platform-card">
+            <h5>豆包 / 通义 API</h5>
+            <p>国产主力. 合规无忧, 中文优化好, 价格适中.</p>
+            <span class="platform-tag platform-tag-paid">按量付费</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-foot">三条路都清楚了, 来做个全面对比 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (6) 三条路大对比                                     -->
+    <!-- ================================================== -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">一张表看清三条路的差异</h2>
+
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>维度</th>
+              <th class="col-build">Build 自研</th>
+              <th class="col-buy">Buy 平台</th>
+              <th class="col-api">API 调用</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>成本</td>
+              <td>¥10-50 万+</td>
+              <td>¥0-5K/月</td>
+              <td>¥1-10 万 + ¥150-3K/月</td>
+            </tr>
+            <tr>
+              <td>速度</td>
+              <td>3-6 个月</td>
+              <td>1-2 周</td>
+              <td>2-4 周</td>
+            </tr>
+            <tr>
+              <td>控制权</td>
+              <td style="color:var(--green);font-weight:600;">最高</td>
+              <td style="color:var(--red);font-weight:600;">最低</td>
+              <td style="color:var(--amber);font-weight:600;">中等</td>
+            </tr>
+            <tr>
+              <td>团队要求</td>
+              <td>ML 工程师 + 后端</td>
+              <td>PM 自己</td>
+              <td>1 个后端开发</td>
+            </tr>
+            <tr>
+              <td>定制深度</td>
+              <td>无限 (你拥有模型)</td>
+              <td>有限 (平台约束)</td>
+              <td>良好 (Prompt + 流程)</td>
+            </tr>
+            <tr>
+              <td>数据安全</td>
+              <td style="color:var(--green);font-weight:600;">最强 (私有部署)</td>
+              <td style="color:var(--red);">数据在平台方</td>
+              <td style="color:var(--amber);">API 传输, 需加密</td>
+            </tr>
+            <tr>
+              <td>适合阶段</td>
+              <td>成熟期 / AI 是核心</td>
+              <td>验证期 / MVP</td>
+              <td>增长期 / 产品功能</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>最佳实践路径:</strong>
+        <p><mark class="hl">Buy (验证) → API (上线) → Build (壁垒)</mark></p>
+        <p>第一步用 Coze 花 3 天搭个 MVP, 看用户反馈. 反馈好 → 用 API 做产品级功能. 数据量够大、想建壁垒 → 再考虑 Build.</p>
+      </div>
+
+      <div class="step-foot">怎么快速判断该走哪条路? 5 个问题 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (7) 5 个决策问题                                     -->
+    <!-- ================================================== -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">5 个问题, 定你的路线</h2>
+      <p class="step-lede">不用纠结, 回答这 5 个问题, 答案自动浮现:</p>
+
+      <div class="callout callout-blue" data-rough="card" style="transform:rotate(0deg);">
+        <ol style="padding-left:18px;margin:0;">
+          <li style="padding:8px 0;"><strong>预算多少?</strong><br/>
+            <span class="muted">< ¥1 万 → Buy &nbsp;|&nbsp; ¥1-10 万 → API &nbsp;|&nbsp; > ¥10 万 → 可以考虑 Build</span></li>
+          <li style="padding:8px 0;"><strong>多久要上线?</strong><br/>
+            <span class="muted">< 2 周 → Buy &nbsp;|&nbsp; 2-8 周 → API &nbsp;|&nbsp; > 2 个月 → Build 可接受</span></li>
+          <li style="padding:8px 0;"><strong>团队有开发者吗?</strong><br/>
+            <span class="muted">没有 → Buy (PM 自己来) &nbsp;|&nbsp; 有 → API 或 Build</span></li>
+          <li style="padding:8px 0;"><strong>需要深度定制吗?</strong><br/>
+            <span class="muted">通用能力够 → Buy/API &nbsp;|&nbsp; 需要定制模型 → Build</span></li>
+          <li style="padding:8px 0;"><strong>涉及敏感数据吗?</strong><br/>
+            <span class="muted">是 → Build (私有部署) 或 API + 加密 &nbsp;|&nbsp; 否 → Buy/API 都行</span></li>
+        </ol>
+      </div>
+
+      <p class="step-lede">规律: 大多数答案指向 <strong>Buy</strong> (验证期) 或 <strong>API</strong> (上线期). Build 只在特殊条件下才值得.</p>
+
+      <div class="step-foot">光看不够, 亲自答一遍 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (8) Widget: Path Chooser                            -->
+    <!-- ================================================== -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Path Chooser</h2>
+      <p class="step-lede">回答 5 个问题, 工具会告诉你推荐路线. 试试不同组合, 看结果怎么变.</p>
+
+      <div class="path-chooser">
+        <div class="path-chooser-header">
+          <h3>Path Chooser</h3>
+          <p>回答 5 个问题, 获得你的实施路线推荐</p>
+        </div>
+
+        <div class="path-progress">
+          <div class="path-dot current"></div>
+          <div class="path-dot"></div>
+          <div class="path-dot"></div>
+          <div class="path-dot"></div>
+          <div class="path-dot"></div>
+        </div>
+
+        <div class="path-question-area" id="path-questions">
+          <!-- JS renders questions here -->
+        </div>
+
+        <div class="path-result" id="path-result">
+          <!-- JS renders result here -->
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>试试这些组合:</strong>
+        <ul style="margin:8px 0 0;padding-left:18px;">
+          <li>预算 < ¥1 万 + 2 周内 + 没有开发者 → 大概率推荐 <strong>Buy</strong></li>
+          <li>预算 ¥1-10 万 + 有开发者 + 不需要深度定制 → 大概率推荐 <strong>API</strong></li>
+          <li>预算 > ¥10 万 + 敏感数据 + 需要定制 → 大概率推荐 <strong>Build</strong></li>
+          <li>Vitamin 的真实情况: 预算中等 + 有 1 个开发 + 不涉及极敏感数据 → ?</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">回到 Vitamin, 给每个功能选路 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (9) Vitamin 路径选择                                  -->
+    <!-- ================================================== -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 每个功能的最佳路径</h2>
+      <p class="step-lede">结合 ROI (U5) + 路径选择 (本课), 给 Vitamin 的功能做完整规划:</p>
+
+      <div class="vitamin-path-grid">
+        <div class="vitamin-path-card vp-buy">
+          <h5>健康知识 Q&A</h5>
+          <p>先用 <strong>Coze</strong> 搭 MVP, 测试用户接受度. 2-3 天上线.</p>
+          <span class="pill pill-green" style="margin-top:8px;">Buy → MVP</span>
+        </div>
+        <div class="vitamin-path-card vp-api">
+          <h5>每日身体总结</h5>
+          <p>需要读取用户数据, 必须嵌入 App. 调 <strong>DeepSeek API</strong>, 2 周上线.</p>
+          <span class="pill pill-blue" style="margin-top:8px;">API → 产品级</span>
+        </div>
+        <div class="vitamin-path-card vp-api">
+          <h5>经期预测优化</h5>
+          <p>调 API 分析用户历史数据, 辅助传统算法. <strong>API + 规则引擎</strong>.</p>
+          <span class="pill pill-blue" style="margin-top:8px;">API → 混合方案</span>
+        </div>
+        <div class="vitamin-path-card vp-buy">
+          <h5>饮食建议</h5>
+          <p>先 <strong>Coze</strong> 做个独立 Bot 测试, 用户喜欢再嵌入 App.</p>
+          <span class="pill pill-green" style="margin-top:8px;">Buy → 验证</span>
+        </div>
+        <div class="vitamin-path-card vp-api">
+          <h5>症状排查助手</h5>
+          <p>需要嵌入 App + 接用户数据 + 决策树. <strong>API + 自定义流程</strong>.</p>
+          <span class="pill pill-blue" style="margin-top:8px;">API → 需医学审核</span>
+        </div>
+        <div class="vitamin-path-card vp-build">
+          <h5>情绪陪伴 (远期)</h5>
+          <p>如果做, 需要长期记忆 + 人设 + 风控. 远期考虑 <strong>Build</strong>, 用私有模型保护隐私.</p>
+          <span class="pill pill-amber" style="margin-top:8px;">Build → 远期目标</span>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"我给 Vitamin 的 AI 功能设计了三阶段路径: 第一阶段用 Coze 搭 Q&A 和饮食建议的 MVP, 3 天验证用户需求; 第二阶段调 DeepSeek API 做身体总结和经期预测, 嵌入 App 原生体验; 远期如果用户量到百万级, 再考虑自训经期预测模型建壁垒."</p>
+      </div>
+
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (10) 一句话规则 + 作业                                -->
+    <!-- ================================================== -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">先 Buy 验证, 再 API 上线,<br/>最后考虑 Build.</p>
+        <p class="one-liner-foot muted">不要一上来就训模型. 用最低成本验证想法, 用最合理的投入做产品.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://www.coze.cn" target="_blank" style="color:var(--blue);">Coze (coze.cn)</a>, 花 15 分钟搭一个简单的"健康知识 Q&A" Bot. 上传一份健康 FAQ 作为知识库, 测试 3 个问题. 截图保存.</li>
+          <li>用 Path Chooser 回答 5 个问题, 模拟你现在的产品 (或 Vitamin) 的情况. 结果是什么? 你同意吗? 写 100 字说明.</li>
+          <li>调研一个你熟悉的 AI 产品 (比如 Notion AI / 豆包 / Copilot), 猜测它用的是 Build / Buy / API 哪条路, 写出你的判断理由.</li>
+          <li>给 Vitamin 画一个"三阶段路径图": Phase 1 (Buy 验证) → Phase 2 (API 上线) → Phase 3 (Build 壁垒), 每阶段标注时间、成本、交付物.</li>
+        </ol>
+
+        <div style="margin-top:16px;">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead>
+              <tr><th>类型</th><th>内容</th><th>来源</th><th>推荐理由</th><th>时间</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>📖</td>
+                <td>Build vs Buy AI: Decision Framework 2026</td>
+                <td><a href="https://inkeep.com/blog/build-vs-buy-ai-support-decision-framework-for-2026" target="_blank">Inkeep</a></td>
+                <td>2026 最新决策框架, 含 5 个维度分析</td>
+                <td>15 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td>Build vs Buy: Product School Guide</td>
+                <td><a href="https://productschool.com/blog/leadership/build-vs-buy" target="_blank">Product School</a></td>
+                <td>产品经理视角的 Build vs Buy, 含真实案例</td>
+                <td>15 min</td>
+              </tr>
+              <tr>
+                <td>🛠</td>
+                <td>Coze vs Dify 平台对比</td>
+                <td><a href="https://slashdot.org/software/comparison/Coze-vs-Dify/" target="_blank">Slashdot</a></td>
+                <td>2026 年两大平台的详细功能对比</td>
+                <td>10 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td>AI Agent 工具对比 (Dify/Coze/Claude Code)</td>
+                <td><a href="https://penchan.co/en/ai/agent/ai-agent-tools-comparison/" target="_blank">Penchan</a></td>
+                <td>覆盖主流 AI 开发工具, 适合选型参考</td>
+                <td>15 min</td>
+              </tr>
+              <tr>
+                <td>🎮</td>
+                <td>Coze (扣子) 官网</td>
+                <td><a href="https://www.coze.cn" target="_blank">coze.cn</a></td>
+                <td>直接上手试, 搭一个 Bot 体验 Buy 路径</td>
+                <td>15 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- ■ END                                                -->
+    <!-- ================================================== -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 同一功能, 三种做法</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> "自训 = 最好" 是误区</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> Build: 最强但最重</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> Buy: 零代码快速上线</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> API: 产品级最佳平衡</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 三条路一表对比</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 5 个问题定路线</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Path Chooser 互动体验</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 三阶段路径</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 6:</p>
+        <p class="end-summary-big">先 Buy 验证 → 再 API 上线 → 最后考虑 Build.</p>
+        <p class="end-summary-sub">用最低成本证明想法, 用最合理投入做出产品. 不要一上来就训模型.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 7): Time-to-value 估算</div>
+        <p>你选好了路. 下一个问题: <strong>用户多久才能用上?</strong></p>
+        <p>Coze 搭一个 Bot = 3 天. API 嵌入 App = 3 周. 自训模型 = 6 个月.</p>
+        <p><strong>估算准了, 才能给老板和团队一个靠谱的时间表.</strong></p>
+        <a class="walk-arrow" href="../u7-time-to-value/index.html">继续走 → Unit 7: Time-to-value 估算</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.4 · Unit 6 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

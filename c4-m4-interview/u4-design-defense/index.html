@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · "为什么这么设计" 答辩 — AI for PM</title>
+  <meta name="description" content="选模型、选架构、选指标、选 Prompt 策略, 每个设计决策都要准备 1 分钟解释." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M4.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 4 · 设计答辩</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>"为什么这么设计"</h1>
+      <p class="hero-sub">面试官追问每一个设计决策 — 你的每个选择都要有理由.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="被追问的你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" /><circle cx="42" cy="28" r="2" fill="currentColor" /><circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M44 38 Q50 34 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 被 "为什么" 连环追问)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">"为什么选 GPT-4o-mini?" "为什么用 RAG?"</p>
+          <p class="cloud-line">"为什么用 F1 不用 Accuracy?"</p>
+          <p class="cloud-line">每个决策都能被追问 "为什么"...</p>
+          <p class="cloud-line accent">—— 一个公式搞定: 备选方案→评估标准→决策理由.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>掌握 "为什么" 万能答辩公式</li>
+          <li>准备好 4 个核心设计决策的 1 分钟答案</li>
+          <li>用 Vitamin 实例支撑每个决策</li>
+          <li>在被追问时保持冷静和结构化</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">面试官为什么追问 "为什么"?</h2>
+      <p class="step-lede">他不是在刁难你 — 他在测试你的<mark class="hl">决策质量</mark>.</p>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>面试官想看到:</strong></p>
+        <ul>
+          <li>你做决策前<strong>考虑了多少备选方案</strong> (不是拍脑袋)</li>
+          <li>你的<strong>评估标准是什么</strong> (不是感觉好)</li>
+          <li>你能<strong>解释为什么选 A 不选 B</strong> (有 trade-off 思维)</li>
+        </ul>
+        <p>一个 PM 的水平, 不在于做了什么决策, 而在于<strong>怎么做的决策</strong>.</p>
+      </div>
+      <div class="step-foot">万能答辩公式 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">万能答辩公式: 3 步 "Why" Framework</h2>
+      <div class="why-flow">
+        <div class="why-flow-node">1. 备选方案</div>
+        <div class="why-flow-arrow">→</div>
+        <div class="why-flow-node">2. 评估标准</div>
+        <div class="why-flow-arrow">→</div>
+        <div class="why-flow-node">3. 决策理由</div>
+      </div>
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">公式</div>
+        <p class="truth-line big">任何 "为什么" 的回答, 都用这 3 步:</p>
+        <p class="truth-line"><strong>Step 1:</strong> "我考虑了 A、B、C 三个方案"</p>
+        <p class="truth-line"><strong>Step 2:</strong> "我的评估标准是 X、Y、Z"</p>
+        <p class="truth-line"><strong>Step 3:</strong> "最终选了 A, 因为它在 X 和 Y 上最优"</p>
+        <p class="truth-line muted">这个公式适用于所有设计决策. 背下来.</p>
+      </div>
+      <div class="step-foot">用这个公式拆解 4 个核心决策 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">决策 1: 选模型 — 为什么是 GPT-4o-mini?</h2>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>Step 1 备选:</strong> GPT-4o ($2.5/1M), GPT-4o-mini ($0.15/1M), DeepSeek-V3 (开源自部署).</p>
+        <p><strong>Step 2 标准:</strong> 准确率 F1 > 0.85, 延迟 < 2s, 月成本 < $200.</p>
+        <p><strong>Step 3 决策:</strong> GPT-4o-mini: F1 = 0.87, 延迟 0.8s, 月成本 $108. 满足全部标准, 且比 GPT-4o 便宜 15 倍.</p>
+      </div>
+      <p class="muted">如果面试官追问 "为什么不用开源模型自部署?" — 回答: "团队只有 2 个后端, 没有 infra 维护能力. API 调用的运维成本更低."</p>
+      <div class="step-foot">决策 2: 选架构 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">决策 2: 选架构 — 为什么是 RAG?</h2>
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>Step 1 备选:</strong> 纯 Prompt、RAG (检索增强)、Fine-tune (微调).</p>
+        <p><strong>Step 2 标准:</strong> 知识可更新性、数据量要求、部署复杂度.</p>
+        <p><strong>Step 3 决策:</strong> 健康知识每月有新指南, Fine-tune 每次要重训. 我们标注数据 200 条, 不够 Fine-tune. RAG 可以实时更新文档, 最适合.</p>
+      </div>
+      <p class="muted">追问预案: "未来会考虑 Fine-tune 吗?" — "会. 当标注数据到 1000+ 且需要统一输出风格时, 可以在 RAG 基础上加 Fine-tune."</p>
+      <div class="step-foot">决策 3: 选指标 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">决策 3: 选指标 — 为什么是 F1?</h2>
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>Step 1 备选:</strong> Accuracy、Precision、Recall、F1.</p>
+        <p><strong>Step 2 标准:</strong> 数据分布是否均衡? 漏报 vs 误报哪个风险更大?</p>
+        <p><strong>Step 3 决策:</strong> 5 个状态分布不均 (经期只占 15%). Accuracy 会被多数类拉高, 看起来好但实际漏了少数类. F1 兼顾 Precision 和 Recall, 更公平.</p>
+      </div>
+      <p class="muted">追问预案: "如果漏报更危险呢?" — "那我会更看重 Recall. 比如健康异常检测, 宁可误报 (用户多看一条通知) 也不能漏报 (用户错过危险信号)."</p>
+      <div class="step-foot">决策 4: 选 Prompt 策略 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">决策 4: 选 Prompt 策略 — 为什么是 Few-shot?</h2>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>Step 1 备选:</strong> Zero-shot (不给例子)、Few-shot (给 3-5 个例子)、Chain-of-Thought (让模型逐步推理).</p>
+        <p><strong>Step 2 标准:</strong> 准确率、Token 消耗、维护成本.</p>
+        <p><strong>Step 3 决策:</strong> Few-shot: 加 3 个例子, F1 从 0.72 提到 0.87 (+15%). Token 每次多 200, 月成本只多 $18. 性价比最高.</p>
+      </div>
+      <p class="muted">追问预案: "Prompt 怎么管理?" — "像代码一样版本管理. 当前 v12, 每次修改跑 100 条回归测试, 效果下降就回滚."</p>
+      <div class="step-foot">应对追问的心态 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">被追问时的 3 个心态</h2>
+      <div class="three-cards">
+        <article class="wonder" data-rough="card" style="border-color:var(--green);">
+          <div class="wonder-tag">心态 1</div>
+          <h3>"追问 = 面试官感兴趣"</h3>
+          <div class="wonder-note">他追问说明你引起了他的兴趣. 不追问才是危险信号.</div>
+        </article>
+        <article class="wonder" data-rough="card" style="border-color:var(--blue);">
+          <div class="wonder-tag">心态 2</div>
+          <h3>"不知道就说不知道"</h3>
+          <div class="wonder-note">被问到不会的, 说 "这个我还没深入研究, 但我的思路是..." 比瞎编好 100 倍.</div>
+        </article>
+        <article class="wonder" data-rough="card" style="border-color:var(--amber);">
+          <div class="wonder-tag">心态 3</div>
+          <h3>"永远回到 3 步公式"</h3>
+          <div class="wonder-note">任何新的 "为什么", 都用: 备选方案 → 评估标准 → 决策理由. 有结构就不慌.</div>
+        </article>
+      </div>
+      <div class="step-foot">互动练习 ↓</div>
+    </section>
+
+    <!-- (8) Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">答辩练习 — 点击卡片, 自己先答, 再看答案</h2>
+      <p class="step-lede">4 张决策卡片, 点击展开答案. 试着先在脑子里用 3 步公式组织答案, 再对照.</p>
+      <div id="defense-grid" class="defense-grid"></div>
+
+      <div id="practice-mode" class="practice-mode">
+        <h3 style="margin:0 0 10px;font-family:'Excalifont','LXGW WenKai Screen',system-ui,sans-serif;">随机练习模式</h3>
+        <div id="practice-question" class="practice-question"></div>
+        <div id="practice-answer" class="practice-answer-area"></div>
+        <div class="practice-controls">
+          <button id="practice-reveal" class="btn btn-primary">看答案</button>
+          <button id="practice-next" class="btn btn-ghost">下一题 →</button>
+        </div>
+      </div>
+      <div class="step-foot">Vitamin 完整答辩准备 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 答辩清单 — 4 个决策全覆盖</h2>
+      <p class="step-lede">面试前, 确保以下 4 个 "为什么" 你都能流畅回答.</p>
+
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>选模型:</strong> GPT-4o-mini. 因为: F1=0.87 够用, 比 GPT-4o 便宜 15 倍, 团队 2 人无法自运维开源模型.</p>
+        <p><strong>选架构:</strong> RAG. 因为: 健康知识月更新, 标注数据 200 条不够 Fine-tune, RAG 可实时替换文档.</p>
+        <p><strong>选指标:</strong> F1. 因为: 5 状态分布不均, Accuracy 虚高; F1 兼顾 Precision 和 Recall.</p>
+        <p><strong>选 Prompt:</strong> Few-shot. 因为: 加 3 例子 F1 +15%, Token 月成本只多 $18, 性价比最高.</p>
+      </div>
+      <p class="muted">把这 4 条写在面试前的备忘纸上. 被追问到任何一个, 都用 "备选→标准→理由" 三步展开.</p>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">"为什么" 万能公式: 备选方案 → 评估标准 → 决策理由.<br/>有结构就不慌.</p>
+      </div>
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>闭上眼, 用 3 步公式回答 "为什么选 RAG". 录音, 看是否流畅.</li>
+          <li>想一个 Vitamin 之外的设计决策 (比如之前销售工作的某个决策), 用 3 步公式组织答案.</li>
+          <li>上面 4 个决策, 每个都想一个 "追问预案". 面试官可能会追问什么? 你怎么答?</li>
+          <li>跟朋友练: 让他随机问 "为什么选 X", 你用 30 秒回答.</li>
+        </ol>
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📖</td>
+              <td><a href="https://www.lockedinai.com/blog/ai-product-manager-interview-questions" target="_blank" style="color:var(--blue);">56 AI PM Interview Questions</a></td>
+              <td style="color:var(--ink-muted);">LockedIn AI</td>
+              <td style="color:var(--ink-muted);">含设计决策类题目</td>
+              <td style="color:var(--ink-muted);">30 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📖</td>
+              <td><a href="https://igotanoffer.com/en/advice/ai-product-manager-interview" target="_blank" style="color:var(--blue);">AI PM Interview Prep</a></td>
+              <td style="color:var(--ink-muted);">IGotAnOffer</td>
+              <td style="color:var(--ink-muted);">系统面试准备指南</td>
+              <td style="color:var(--ink-muted);">25 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">📺</td>
+              <td><a href="https://www.tryexponent.com/questions?role=pm&type=artificial-intelligence" target="_blank" style="color:var(--blue);">Exponent AI PM Practice</a></td>
+              <td style="color:var(--ink-muted);">Exponent</td>
+              <td style="color:var(--ink-muted);">视频模拟追问</td>
+              <td style="color:var(--ink-muted);">45 min</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 为什么被追问</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 3 步 Why 公式</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 选模型</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 选架构</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 选指标</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 选 Prompt</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 追问心态</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 答辩练习</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 清单</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">"为什么" = 备选方案 → 评估标准 → 决策理由. 有结构就不慌.</p>
+        <p class="end-summary-sub">每个设计决策, 你都应该能 30 秒讲清楚 "为什么".</p>
+      </div>
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 5): 反向提问 4 类问题</div>
+        <p>面试快结束时, 面试官会问:<br/><strong>"你有什么想问我们的吗?"</strong></p>
+        <p>这不是客气话 — 这是你最后的加分机会. 4 类问题, 每类准备 2 个.</p>
+        <a class="walk-arrow" href="../u5-reverse-questions/index.html">继续走 → Unit 5</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 4 · Module 4 · Unit 4 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

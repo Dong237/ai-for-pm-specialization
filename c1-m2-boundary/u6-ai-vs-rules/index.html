@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 6 · AI vs 规则的决策准则 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 6: 6 条判断标准决定一个功能该用 AI 还是传统规则. 决策树一目了然." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.2</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 6 · AI vs 规则</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <!-- Step nav -->
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ================================================== -->
+    <!-- ▶ START                                             -->
+    <!-- ================================================== -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 6<span class="title-dot">·</span><br/>AI 还是 if-else?</h1>
+      <p class="hero-sub">6 条判断标准 + 一棵决策树, 3 分钟给出答案.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个在白板前的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 面对技术选型)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">"情绪分类" 功能要用 AI 吗?</p>
+          <p class="cloud-line">还是写几条 if-else 规则就够了?</p>
+          <p class="cloud-line">用 AI 更贵, 但规则可能不够灵活...</p>
+          <p class="cloud-line accent">—— 有没有一个判断标准, 一问一答就知道?</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>掌握 6 条 "AI or 规则" 的判断标准</li>
+          <li>把 6 条标准画成一棵决策树, 快速给出答案</li>
+          <li>理解 "AI + 规则" 组合方案的适用场景</li>
+          <li>给 Vitamin 每个核心功能做一次 AI vs 规则判定</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (1) PM 的日常问题                                   -->
+    <!-- ================================================== -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">PM 每天都在问的问题</h2>
+      <p class="step-lede">每设计一个新功能, 你都要做一个选择:</p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>场景:</strong> Vitamin 要做一个"情绪分类"功能 — 用户输入一段话, 系统判断是"开心 / 焦虑 / 疲倦 / 烦躁 / 平静"之一.</p>
+        <p>两个方案:</p>
+        <ul>
+          <li><strong>方案 A (规则):</strong> 写关键词匹配. "累" → 疲倦, "开心" → 开心, "烦" → 烦躁. 几十条 if-else, 半天写完.</li>
+          <li><strong>方案 B (AI):</strong> 调 LLM API, prompt: "请判断以下文字的情绪类别: ...". 更灵活, 但更贵, 偶尔会判错.</li>
+        </ul>
+        <p class="muted">你选哪个? 凭直觉? 还是有系统方法?</p>
+      </div>
+
+      <p class="step-lede">这节课教你一个<mark class="hl">6 步决策法</mark> — 6 个是/否问题答完, 答案就出来了.</p>
+
+      <div class="step-foot">先看两个常见的错误心态 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (2) 错猜测 + 真相                                   -->
+    <!-- ================================================== -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两种极端心态 — 都有问题</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>心态 A: "AI 更高级, 能用 AI 就用 AI"</h3>
+          <p>用 AI 显得产品更先进, 简历上也好看.</p>
+          <div class="wrong-why">
+            <strong>为啥有问题:</strong>
+            BMI 计算用 AI 做 = 用大炮打蚊子. 更贵、更慢、还可能算错. 规则一行代码就搞定.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>心态 B: "规则更稳定, 尽量别碰 AI"</h3>
+          <p>AI 不可控, 规则才是正道.</p>
+          <div class="wrong-why">
+            <strong>为啥有问题:</strong>
+            "用户说'今天好无聊啊, 什么都不想做'" — 你写 100 条规则也覆盖不了所有表达. AI 天然擅长理解自然语言.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">AI 和规则各有擅长的场景.</p>
+        <p class="truth-line giant">Rules for what you know.<br/>AI for what you don't.</p>
+        <p class="truth-line muted">→ 规则处理你能穷举的逻辑. AI 处理你穷举不了的模式. 很多功能, 最优解是两者组合.</p>
+      </div>
+
+      <div class="step-foot">那怎么判断? 6 条标准, 前两条最关键 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (3) 标准 1-2                                        -->
+    <!-- ================================================== -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">标准 1-2: 输入 + 解释性</h2>
+
+      <div class="criteria-grid">
+        <div class="criterion-card" data-rough="card">
+          <div class="criterion-num">1</div>
+          <div class="criterion-q">输入是否结构化?</div>
+          <div class="criterion-answer">
+            <p><span class="yes-tag">是</span> 固定格式 (数字/选项/表单) → <strong>倾向规则</strong>. 比如: 身高 165cm, 体重 55kg → 算 BMI.</p>
+            <p><span class="no-tag">否</span> 自由文本 / 图片 / 语音 → <strong>倾向 AI</strong>. 比如: "今天好累, 什么都不想做" → 判断情绪.</p>
+          </div>
+        </div>
+
+        <div class="criterion-card" data-rough="card">
+          <div class="criterion-num">2</div>
+          <div class="criterion-q">输出需要可解释吗?</div>
+          <div class="criterion-answer">
+            <p><span class="yes-tag">是</span> 用户/监管需要知道"为什么" → <strong>倾向规则</strong>. 比如: "为什么给我推荐这个药?" → 必须说清楚.</p>
+            <p><span class="no-tag">否</span> 给个结果就行 → <strong>AI 可以</strong>. 比如: 聊天回复 / 摘要 / 分类标签.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>记忆口诀:</strong> 输入结构化 → 规则. 需要解释 → 规则. 这两条最容易记, 也最常用.</p>
+      </div>
+
+      <div class="step-foot">再看标准 3-4: 容错性 + 创造性 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (4) 标准 3-4                                        -->
+    <!-- ================================================== -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">标准 3-4: 容错 + 创造</h2>
+
+      <div class="criteria-grid">
+        <div class="criterion-card" data-rough="card">
+          <div class="criterion-num">3</div>
+          <div class="criterion-q">用户能容忍偶尔出错吗?</div>
+          <div class="criterion-answer">
+            <p><span class="yes-tag">是</span> 错了没大事 → <strong>AI 可以</strong>. 比如: 聊天回复有时不够好 → 用户重新问就行.</p>
+            <p><span class="no-tag">否</span> 错了后果严重 → <strong>倾向规则</strong>. 比如: 用药提醒发错了 → 健康风险.</p>
+          </div>
+        </div>
+
+        <div class="criterion-card" data-rough="card">
+          <div class="criterion-num">4</div>
+          <div class="criterion-q">需要创造性/个性化吗?</div>
+          <div class="criterion-answer">
+            <p><span class="yes-tag">是</span> 千人千面、语言风格、生成内容 → <strong>倾向 AI</strong>. 比如: 根据用户状态生成个性化安抚话语.</p>
+            <p><span class="no-tag">否</span> 固定逻辑、一视同仁 → <strong>倾向规则</strong>. 比如: 经期第几天就提醒吃哪种维生素.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>注意:</strong> 标准 3 是最关键的一条. 因为它直接关系到<em>用户安全</em>. U4 讲的"稳定性问题" 本质上就是标准 3 的延伸.</p>
+      </div>
+
+      <div class="step-foot">最后两条: 数据 + 变化 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (5) 标准 5-6                                        -->
+    <!-- ================================================== -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">标准 5-6: 数据 + 变化</h2>
+
+      <div class="criteria-grid">
+        <div class="criterion-card" data-rough="card">
+          <div class="criterion-num">5</div>
+          <div class="criterion-q">数据量是否足够?</div>
+          <div class="criterion-answer">
+            <p><span class="yes-tag">是</span> 有大量历史数据 → <strong>AI 可发挥</strong>. 比如: 10 万条用户日记 → 训练情绪分类模型.</p>
+            <p><span class="no-tag">否</span> 只有几条规则就能覆盖 → <strong>规则更实际</strong>. 比如: 5 种身体状态的判断逻辑很清晰, 不需要数据驱动.</p>
+          </div>
+        </div>
+
+        <div class="criterion-card" data-rough="card">
+          <div class="criterion-num">6</div>
+          <div class="criterion-q">需要适应新模式吗?</div>
+          <div class="criterion-answer">
+            <p><span class="yes-tag">是</span> 模式不断变化 → <strong>AI 更适合</strong>. 比如: 用户表达方式总在变, 规则跟不上.</p>
+            <p><span class="no-tag">否</span> 逻辑固定 → <strong>规则就够</strong>. 比如: BMI 公式永远是 体重/(身高²), 不需要学习新模式.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>6 条标准总结:</strong>
+        <table class="scoring-table" style="font-size:13px;">
+          <thead><tr><th>#</th><th>问题</th><th>"是" →</th><th>"否" →</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>输入结构化?</td><td>规则</td><td>AI</td></tr>
+            <tr><td>2</td><td>需要可解释?</td><td>规则</td><td>AI</td></tr>
+            <tr><td>3</td><td>容忍出错?</td><td>AI</td><td>规则</td></tr>
+            <tr><td>4</td><td>需要创造性?</td><td>AI</td><td>规则</td></tr>
+            <tr><td>5</td><td>数据够?</td><td>AI</td><td>规则</td></tr>
+            <tr><td>6</td><td>需要适应变化?</td><td>AI</td><td>规则</td></tr>
+          </tbody>
+        </table>
+        <p class="muted">→ 数一数: 6 条里有几条指向 AI, 几条指向规则. 多的那边就是答案. 势均力敌? 用组合.</p>
+      </div>
+
+      <div class="step-foot">6 条标准画成一张流程图 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (6) 决策树流程图                                    -->
+    <!-- ================================================== -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">决策树: 一张图看完</h2>
+      <p class="step-lede">把 6 条标准串成一棵决策树. 大多数功能走到第 3-4 步就有结论了:</p>
+
+      <div class="flowchart" data-rough="card">
+        <div class="flow-row">
+          <div class="flow-node flow-question">Q1: 输入结构化?</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-answer-yes">是 → 倾向规则</div>
+          <span class="flow-arrow">/</span>
+          <div class="flow-answer-no">否 → 倾向 AI</div>
+        </div>
+        <div class="flow-row"><span class="flow-arrow" style="font-size:24px;">↓</span></div>
+        <div class="flow-row">
+          <div class="flow-node flow-question">Q3: 能容忍出错?</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-answer-no">否 (高风险)</div>
+          <span class="flow-arrow">/</span>
+          <div class="flow-answer-yes">是 (低风险)</div>
+        </div>
+        <div class="flow-row">
+          <div class="flow-verdict rules">📐 用规则</div>
+          <span style="width:40px;"></span>
+          <div class="flow-node flow-question" style="font-size:12px;">Q4: 需要创造性?</div>
+        </div>
+        <div class="flow-row">
+          <span style="width:180px;"></span>
+          <div class="flow-answer-yes">是</div>
+          <span class="flow-arrow">/</span>
+          <div class="flow-answer-no">否</div>
+        </div>
+        <div class="flow-row">
+          <span style="width:140px;"></span>
+          <div class="flow-verdict ai">🤖 用 AI</div>
+          <span style="width:20px;"></span>
+          <div class="flow-verdict both">🔀 AI + 规则</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>简化版口诀:</strong> 结构化输入 + 不能出错 → 用规则. 自由文本 + 需要创造性 → 用 AI. 其他情况 → 组合.</p>
+        <p class="muted">→ 实际中大多数功能落在"组合"区域. 这也是为什么下一步要讲"怎么组合".</p>
+      </div>
+
+      <div class="step-foot">"AI + 规则" 组合到底怎么用? ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (7) 灰色地带: "两者都用"                             -->
+    <!-- ================================================== -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">"AI + 规则" 组合 — 最常见的最优解</h2>
+      <p class="step-lede">现实中, 大多数功能不是非 A 即 B, 而是<mark class="hl">AI 做理解, 规则做执行</mark>.</p>
+
+      <div class="hybrid-box">
+        <h4>经典组合模式: AI 理解 → 规则保障</h4>
+
+        <div class="hybrid-flow">
+          <div class="hybrid-node ai-node">AI: 理解意图</div>
+          <div class="hybrid-arrow">→</div>
+          <div class="hybrid-node ai-node">AI: 分类/生成</div>
+          <div class="hybrid-arrow">→</div>
+          <div class="hybrid-node rule-node">规则: 校验约束</div>
+          <div class="hybrid-arrow">→</div>
+          <div class="hybrid-node rule-node">规则: 格式化输出</div>
+        </div>
+
+        <p style="font-size:14px;margin-top:14px;">
+          <strong>举例 (Vitamin 情绪安抚):</strong><br/>
+          1. <span style="color:var(--green);">AI 理解</span>: 用户说"今天好无聊" → AI 判断情绪 = 疲倦<br/>
+          2. <span style="color:var(--green);">AI 生成</span>: 生成个性化安抚话语<br/>
+          3. <span style="color:var(--blue);">规则校验</span>: 检查输出是否包含医疗建议 → 如有, 替换为"建议咨询医生"<br/>
+          4. <span style="color:var(--blue);">规则格式</span>: 确保回复长度 < 200 字, 末尾加 disclaimer
+        </p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>其他常见组合:</strong>
+        <ul>
+          <li><strong>搜索/推荐:</strong> AI 做语义理解 + 排序 → 规则做过滤 (去掉违规内容) + 业务约束 (库存/地域)</li>
+          <li><strong>客服:</strong> AI 做意图识别 → 规则做路由 (转人工 / 返回模板答案 / 走 AI 生成)</li>
+          <li><strong>内容审核:</strong> AI 做初筛 → 规则做黑名单/白名单 → 边界 case 转人工</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试考点:</strong>
+        <p>"AI + 规则" 的组合不是妥协, 是工程最佳实践. AI 擅长"理解自然语言" 和"发现模式", 规则擅长"保证一致性" 和"兜底安全". 两者互补, 缺一不可.</p>
+      </div>
+
+      <div class="step-foot">下面用互动工具走一遍这 6 个问题 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (8) WIDGET: Decision Tree Wizard                    -->
+    <!-- ================================================== -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Decision Tree Wizard</h2>
+      <p class="step-lede">想一个你要做的功能, 然后回答 6 个问题. 工具会告诉你: 用 AI、用规则、还是组合.</p>
+
+      <div class="wizard-widget" data-rough="card">
+        <div class="wizard-header">🌳 AI vs 规则 决策器</div>
+
+        <div class="wizard-progress">
+          <div class="wizard-dot"></div>
+          <div class="wizard-dot"></div>
+          <div class="wizard-dot"></div>
+          <div class="wizard-dot"></div>
+          <div class="wizard-dot"></div>
+          <div class="wizard-dot"></div>
+        </div>
+
+        <div class="wizard-question-area" id="wizard-q-area">
+          <div class="wizard-q-num" id="wizard-q-num">问题 1 / 6</div>
+          <div class="wizard-q-text" id="wizard-q-text">输入是否结构化?</div>
+          <div class="wizard-q-hint" id="wizard-q-hint">结构化 = 固定格式的数字/选项. 非结构化 = 自由文本/图片/语音.</div>
+        </div>
+
+        <div class="wizard-buttons" id="wizard-btn-container">
+          <button class="wizard-btn yes-btn" id="wizard-yes">是</button>
+          <button class="wizard-btn no-btn" id="wizard-no">否</button>
+        </div>
+
+        <div class="wizard-history" id="wizard-history">
+          <!-- JS populates answer history -->
+        </div>
+
+        <div class="wizard-verdict" id="wizard-verdict">
+          <div class="wizard-verdict-icon" id="wizard-v-icon">🤖</div>
+          <div class="wizard-verdict-text" id="wizard-v-text">用 AI</div>
+          <div class="wizard-verdict-explain" id="wizard-v-explain">解释文字</div>
+        </div>
+
+        <div class="wizard-controls">
+          <button id="wizard-reset" class="btn btn-ghost">重来一次 (换个功能试)</button>
+          <button id="wizard-try-again" class="btn btn-primary" style="display:none;">再试一个 →</button>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>试试这些场景:</strong>
+        <ul>
+          <li><strong>BMI 计算</strong> — 结构化输入 + 不能出错 + 不需要创造性 → 结果应该是"规则"</li>
+          <li><strong>情绪安抚</strong> — 非结构化 + 可以出错 + 需要创造性 → 结果应该是"AI"</li>
+          <li><strong>用药提醒</strong> — 结构化 + 不能出错 + 不需要创造性 → 但需要个性化时间 → "组合"</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">把 Vitamin 的功能全部过一遍 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (9) Vitamin 案例                                    -->
+    <!-- ================================================== -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 每个功能过一遍决策树</h2>
+      <p class="step-lede">Vitamin 的核心功能, 按 6 条标准判定:</p>
+
+      <table class="vitamin-decision-table">
+        <thead>
+          <tr><th>功能</th><th>输入</th><th>容错</th><th>创造性</th><th>判定</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>BMI 计算</strong></td>
+            <td>结构化 (数字)</td>
+            <td>不能错</td>
+            <td>不需要</td>
+            <td><span class="verdict-pill v-rules">规则</span></td>
+          </tr>
+          <tr>
+            <td><strong>经期天数提醒</strong></td>
+            <td>结构化 (日期)</td>
+            <td>不能错</td>
+            <td>不需要</td>
+            <td><span class="verdict-pill v-rules">规则</span></td>
+          </tr>
+          <tr>
+            <td><strong>情绪分类</strong></td>
+            <td>非结构化 (文字)</td>
+            <td>可以</td>
+            <td>需要</td>
+            <td><span class="verdict-pill v-ai">AI</span></td>
+          </tr>
+          <tr>
+            <td><strong>情绪安抚对话</strong></td>
+            <td>非结构化</td>
+            <td>可以</td>
+            <td>需要</td>
+            <td><span class="verdict-pill v-ai">AI</span></td>
+          </tr>
+          <tr>
+            <td><strong>饮食记录总结</strong></td>
+            <td>混合 (文字+数字)</td>
+            <td>可以</td>
+            <td>部分需要</td>
+            <td><span class="verdict-pill v-both">AI + 规则</span></td>
+          </tr>
+          <tr>
+            <td><strong>健康问答</strong></td>
+            <td>非结构化</td>
+            <td>不能错</td>
+            <td>部分</td>
+            <td><span class="verdict-pill v-both">AI + 规则</span></td>
+          </tr>
+          <tr>
+            <td><strong>营养素计算</strong></td>
+            <td>结构化 (食物数据)</td>
+            <td>不能错</td>
+            <td>不需要</td>
+            <td><span class="verdict-pill v-rules">规则</span></td>
+          </tr>
+          <tr>
+            <td><strong>周报生成</strong></td>
+            <td>结构化 (历史数据)</td>
+            <td>可以</td>
+            <td>需要</td>
+            <td><span class="verdict-pill v-ai">AI</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"我在 Vitamin 做技术选型时, 会用 6 条标准来判断每个功能用 AI 还是规则: 输入是否结构化、是否需要可解释、用户容错度、是否需要创造性、数据量、是否需要适应变化. 比如 BMI 计算 — 结构化输入 + 零容错 + 不需要创造性 → 用规则. 情绪安抚 — 自由文本 + 可容错 + 需要个性化 → 用 AI. 健康问答 — AI 做理解 + 规则做校验, 组合使用."</p>
+      </div>
+
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (10) 一句话规则 + 作业                              -->
+    <!-- ================================================== -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Rules for what you know.<br/>AI for what you don't.<br/>最优解往往是: AI 做理解, 规则做执行.</p>
+        <p class="one-liner-foot muted">6 条标准过一遍, 答案自然出来. 不要凭直觉选技术方案.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>用上面的 Decision Tree Wizard, 把 Vitamin 的 5 个身体状态相关的功能都过一遍 (经期提醒、排卵期预测、黄体期建议等). 截图保存结果.</li>
+          <li>挑一个你判断为 "AI + 规则" 的功能, 画出具体的组合流程: AI 负责哪一步? 规则负责哪一步? (参考第 7 步的模板)</li>
+          <li>想一个你生活中常用的 App (外卖/社交/阅读), 列出它的 3 个功能, 分别判断是用了 AI 还是规则 (或组合). 写下理由.</li>
+          <li>200 字: 如果面试官问你"Vitamin 的情绪安抚功能为什么不能全用规则做?", 你怎么回答?</li>
+        </ol>
+
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead>
+              <tr><th>Type</th><th>What</th><th>Source</th><th>Why</th><th>Time</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://www.techtarget.com/searchenterpriseai/feature/How-to-choose-between-a-rules-based-vs-machine-learning-system" target="_blank">Rules-based vs ML System</a></td>
+                <td>TechTarget</td>
+                <td>最权威的规则 vs ML 决策指南</td>
+                <td>12 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://wearebrain.com/blog/rule-based-ai-vs-machine-learning-whats-the-difference/" target="_blank">Rule-based AI vs ML</a></td>
+                <td>WeAreBrain</td>
+                <td>有实际客户案例的选型分析</td>
+                <td>10 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://www.unit21.ai/blog/rules-vs-machine-learning-finding-the-best-of-both-worlds" target="_blank">Finding the Best of Both</a></td>
+                <td>Unit21</td>
+                <td>深入讲"组合方案"怎么做, 金融领域案例</td>
+                <td>15 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://www.geeksforgeeks.org/machine-learning/rule-based-system-vs-machine-learning-system/" target="_blank">Rule Based vs ML System</a></td>
+                <td>GeeksforGeeks</td>
+                <td>技术视角的对比, 有代码示例</td>
+                <td>10 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://volnet.hashnode.dev/product-design-llm-inside" target="_blank">从 Copilot 学 LLM 产品设计</a></td>
+                <td>Hashnode</td>
+                <td>中文好文: 微软如何设计 AI+规则 的产品框架</td>
+                <td>20 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- ■ END                                               -->
+    <!-- ================================================== -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> PM 的日常选择题</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> "AI 更高级" 是误区</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> 标准 1-2: 输入 + 解释</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> 标准 3-4: 容错 + 创造</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 标准 5-6: 数据 + 变化</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 决策树流程图</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> "AI + 规则" 组合方案</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Decision Tree Wizard</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 功能判定表</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 6:</p>
+        <p class="end-summary-big">Rules for what you know, AI for what you don't. 大多数功能的最优解: AI 理解 + 规则保障.</p>
+        <p class="end-summary-sub">6 条标准过一遍, 答案自然出来. 不要凭感觉选技术方案.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 7): "70% 准确率" 上线门槛</div>
+        <p>决定了用 AI, 但 AI 不像传统软件追求 100% 准确. 那到底多准才能上线?<br/>
+        下一节学: 什么场景 70% 就够上线、什么场景 99% 才行. 准确率门槛怎么定.</p>
+        <p><strong>这个判断力, 直接决定了 Vitamin 的 AI 功能什么时候能上线.</strong></p>
+        <a class="walk-arrow" href="../u7-accuracy-threshold/index.html">继续走 → Unit 7</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.2 · Unit 6 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

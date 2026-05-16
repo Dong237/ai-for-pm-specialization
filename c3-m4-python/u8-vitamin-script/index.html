@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 8 · Vitamin 100 条用例脚本 — AI for PM · M3.4</title>
+  <meta name="description" content="AI PM 课 · M3.4 Unit 8: 把前 7 个单元全串起来, 完成 Vitamin 自动化脚本." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 8 · Vitamin 完整脚本</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="Step navigation"><ol>
+    <li><a href="#start" data-step="0">&#9654;</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+    <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+    <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+    <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+    <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">&#9632;</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 8<span class="title-dot">·</span><br/>Vitamin 100 条用例脚本</h1>
+      <p class="hero-sub">最后一课! 把前 7 个单元全串起来, 写出完整的 Vitamin 自动化脚本.</p>
+
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">终于到最后一课了! 前面学了这么多, 怎么合在一起?</p>
+          <p class="cloud-line">我要一个完整的、能放在 GitHub 上的脚本!</p>
+          <p class="cloud-line accent">-- 今天写完它, Course 3 就毕业了.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步走完, 你会:</div>
+        <ul class="check-list">
+          <li>串联前 7 个单元的所有知识</li>
+          <li>写出一个完整的 100 条用例自动化脚本</li>
+          <li>输出带成本统计的 CSV 报告</li>
+          <li>有一份能放在 GitHub 上的作品</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">回顾: 你已经学会了什么</h2>
+      <p class="step-lede">前 7 个单元, 你已经掌握了完整脚本需要的所有零件:</p>
+
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--amber);">U1</div>
+          <div class="recall-arrow">&rarr;</div>
+          <div class="recall-explain">Python + venv + pip install</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--red);">U2</div>
+          <div class="recall-arrow">&rarr;</div>
+          <div class="recall-explain">.env + .gitignore 安全管理 Key</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--green);">U3</div>
+          <div class="recall-arrow">&rarr;</div>
+          <div class="recall-explain">client.chat.completions.create()</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--blue);">U4</div>
+          <div class="recall-arrow">&rarr;</div>
+          <div class="recall-explain">try/except 错误处理 + 重试</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--purple);">U5</div>
+          <div class="recall-arrow">&rarr;</div>
+          <div class="recall-explain">for 循环 + time.sleep() 批量调用</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--amber);">U6</div>
+          <div class="recall-arrow">&rarr;</div>
+          <div class="recall-explain">csv.DictReader / DictWriter 读写</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--green);">U7</div>
+          <div class="recall-arrow">&rarr;</div>
+          <div class="recall-explain">response.usage + CostTracker</div>
+        </div>
+      </div>
+      <div class="step-foot">现在, 把它们合成一个文件 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">完整脚本架构 -- 5 个模块</h2>
+      <p class="step-lede">一个 Python 文件, 5 个清晰的部分:</p>
+
+      <div class="code-block"><span class="cmt"># vitamin_qa.py — 完整脚本架构</span>
+
+<span class="cmt"># ① 导入 + 配置</span>
+<span class="cmt"># ② 定义 ask_ai() (带错误处理 + 成本追踪)</span>
+<span class="cmt"># ③ 定义 process_csv() (读 CSV → 调 API → 写 CSV)</span>
+<span class="cmt"># ④ 定义 generate_report() (汇总统计)</span>
+<span class="cmt"># ⑤ main() 入口</span></div>
+      <div class="step-foot">来看每个部分的代码 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Part 1: 导入 + 配置</h2>
+
+      <div class="code-block"><span class="cmt"># ① 导入 + 配置</span>
+<span class="kw">import</span> csv, time, json
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+<span class="kw">from</span> openai <span class="kw">import</span> (
+    OpenAI, AuthenticationError, RateLimitError,
+    APIConnectionError, BadRequestError, InternalServerError
+)
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv
+
+load_dotenv()
+client = OpenAI()
+
+<span class="cmt"># 配置</span>
+MODEL = <span class="str">"gpt-4o-mini"</span>
+SYSTEM_PROMPT = <span class="str">"""你是 Vitamin, 一个女性健康 AI 助手.
+用温暖亲切的语气, 回复控制在 200 字以内.
+涉及医疗诊断时提醒咨询医生."""</span>
+DELAY = <span class="op">1.0</span>  <span class="cmt"># 每次调用间隔 (秒)</span>
+MAX_RETRIES = <span class="op">3</span>
+INPUT_PRICE = <span class="op">0.15</span> / 1_000_000
+OUTPUT_PRICE = <span class="op">0.60</span> / 1_000_000</div>
+      <div class="step-foot">Part 2: ask_ai() 函数 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Part 2: ask_ai() -- 带全套防护</h2>
+
+      <div class="code-block"><span class="cmt"># ② 带错误处理 + 成本追踪的 ask_ai()</span>
+<span class="kw">def</span> <span class="fn">ask_ai</span>(question):
+    <span class="kw">for</span> attempt <span class="kw">in</span> range(MAX_RETRIES):
+        <span class="kw">try</span>:
+            resp = client.chat.completions.create(
+                model=MODEL,
+                messages=[
+                    {<span class="str">"role"</span>: <span class="str">"system"</span>, <span class="str">"content"</span>: SYSTEM_PROMPT},
+                    {<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: question}
+                ],
+                temperature=<span class="op">0.3</span>,
+                max_tokens=<span class="op">300</span>
+            )
+            usage = resp.usage
+            cost = usage.prompt_tokens * INPUT_PRICE + \
+                   usage.completion_tokens * OUTPUT_PRICE
+            <span class="kw">return</span> {
+                <span class="str">"answer"</span>: resp.choices[0].message.content,
+                <span class="str">"prompt_tokens"</span>: usage.prompt_tokens,
+                <span class="str">"completion_tokens"</span>: usage.completion_tokens,
+                <span class="str">"cost"</span>: cost,
+                <span class="str">"status"</span>: <span class="str">"ok"</span>
+            }
+        <span class="kw">except</span> AuthenticationError:
+            <span class="kw">return</span> {<span class="str">"answer"</span>: <span class="str">"[AUTH ERROR]"</span>, <span class="str">"status"</span>: <span class="str">"auth_error"</span>,
+                    <span class="str">"prompt_tokens"</span>: 0, <span class="str">"completion_tokens"</span>: 0, <span class="str">"cost"</span>: 0}
+        <span class="kw">except</span> RateLimitError:
+            time.sleep(2 ** attempt)
+        <span class="kw">except</span> (APIConnectionError, InternalServerError):
+            time.sleep(5)
+        <span class="kw">except</span> BadRequestError <span class="kw">as</span> e:
+            <span class="kw">return</span> {<span class="str">"answer"</span>: <span class="str">f"[BAD REQUEST] </span>{e}<span class="str">"</span>, <span class="str">"status"</span>: <span class="str">"bad_request"</span>,
+                    <span class="str">"prompt_tokens"</span>: 0, <span class="str">"completion_tokens"</span>: 0, <span class="str">"cost"</span>: 0}
+    <span class="kw">return</span> {<span class="str">"answer"</span>: <span class="str">"[RETRY FAILED]"</span>, <span class="str">"status"</span>: <span class="str">"retry_failed"</span>,
+            <span class="str">"prompt_tokens"</span>: 0, <span class="str">"completion_tokens"</span>: 0, <span class="str">"cost"</span>: 0}</div>
+      <div class="step-foot">Part 3: process_csv() ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Part 3: process_csv() -- 核心管道</h2>
+
+      <div class="code-block"><span class="cmt"># ③ 读 CSV → 调 API → 写 CSV</span>
+<span class="kw">def</span> <span class="fn">process_csv</span>(input_file, output_file):
+    <span class="cmt"># 读取输入</span>
+    <span class="kw">with</span> open(input_file, <span class="str">"r"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+        rows = list(csv.DictReader(f))
+    print(<span class="str">f"读取 </span>{len(rows)}<span class="str"> 条数据"</span>)
+
+    <span class="cmt"># 逐行处理</span>
+    results = []
+    <span class="kw">for</span> i, row <span class="kw">in</span> enumerate(rows):
+        result = ask_ai(row[<span class="str">"question"</span>])
+        results.append({
+            **row,
+            <span class="str">"ai_response"</span>: result[<span class="str">"answer"</span>],
+            <span class="str">"status"</span>: result[<span class="str">"status"</span>],
+            <span class="str">"tokens"</span>: result[<span class="str">"prompt_tokens"</span>] + result[<span class="str">"completion_tokens"</span>],
+            <span class="str">"cost_usd"</span>: <span class="str">f"$</span>{result[<span class="str">'cost'</span>]:.6f}<span class="str">"</span>
+        })
+        status = <span class="str">"OK"</span> <span class="kw">if</span> result[<span class="str">"status"</span>] == <span class="str">"ok"</span> <span class="kw">else</span> <span class="str">"FAIL"</span>
+        print(<span class="str">f"[</span>{i+1}<span class="str">/</span>{len(rows)}<span class="str">] </span>{status}<span class="str"> </span>{row[<span class="str">'question'</span>][:25]}<span class="str">..."</span>)
+        <span class="kw">if</span> i < len(rows) - 1:
+            time.sleep(DELAY)
+
+    <span class="cmt"># 写入输出</span>
+    fieldnames = list(results[0].keys())
+    <span class="kw">with</span> open(output_file, <span class="str">"w"</span>, encoding=<span class="str">"utf-8-sig"</span>, newline=<span class="str">""</span>) <span class="kw">as</span> f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(results)
+
+    <span class="kw">return</span> results</div>
+      <div class="step-foot">Part 4: 生成报告 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Part 4: 生成报告</h2>
+
+      <div class="code-block"><span class="cmt"># ④ 汇总统计报告</span>
+<span class="kw">def</span> <span class="fn">generate_report</span>(results):
+    total = len(results)
+    ok = sum(1 <span class="kw">for</span> r <span class="kw">in</span> results <span class="kw">if</span> r[<span class="str">"status"</span>] == <span class="str">"ok"</span>)
+    total_tokens = sum(int(r[<span class="str">"tokens"</span>]) <span class="kw">for</span> r <span class="kw">in</span> results)
+    total_cost = sum(float(r[<span class="str">"cost_usd"</span>].replace(<span class="str">"$"</span>,<span class="str">""</span>)) <span class="kw">for</span> r <span class="kw">in</span> results)
+
+    report = <span class="str">f"""
+=== VITAMIN QA REPORT ===
+Date:        </span>{datetime.now().strftime(<span class="str">'%Y-%m-%d %H:%M'</span>)}<span class="str">
+Model:       </span>{MODEL}<span class="str">
+Total:       </span>{total}<span class="str"> cases
+Success:     </span>{ok}<span class="str"> (</span>{ok/total*100:.0f}<span class="str">%)
+Failed:      </span>{total-ok}<span class="str">
+Tokens:      </span>{total_tokens:,}<span class="str">
+Total Cost:  $</span>{total_cost:.5f}<span class="str">
+Avg/Call:    $</span>{total_cost/total:.6f}<span class="str">
+========================"""</span>
+    print(report)
+    <span class="kw">return</span> report</div>
+      <div class="step-foot">Part 5: main() 入口 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Part 5: main() 入口 -- 一键运行</h2>
+
+      <div class="code-block"><span class="cmt"># ⑤ main 入口</span>
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    print(<span class="str">"=== Vitamin QA Script ==="</span>)
+    print(<span class="str">f"Model: </span>{MODEL}<span class="str">"</span>)
+    print(<span class="str">f"Delay: </span>{DELAY}<span class="str">s"</span>)
+    print()
+
+    start_time = time.time()
+    results = process_csv(<span class="str">"input.csv"</span>, <span class="str">"output.csv"</span>)
+    elapsed = time.time() - start_time
+
+    report = generate_report(results)
+    print(<span class="str">f"Time: </span>{elapsed:.1f}<span class="str">s"</span>)
+    print(<span class="str">"Results saved to output.csv"</span>)
+
+<span class="cmt"># 运行: python3 vitamin_qa.py</span></div>
+
+      <div class="callout callout-green">
+        <p><strong>就这样!</strong> 一个 Python 文件, 100 行左右, 把所有知识串在了一起. 这就是你作为 PM 写的第一个完整自动化脚本.</p>
+      </div>
+      <div class="step-foot">来用 Script Builder 看完整执行过程 ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Script Builder -- 逐步执行完整脚本</h2>
+      <p class="step-lede">点 "Next Step" 逐步执行脚本的 5 个阶段, 看完整的运行日志:</p>
+
+      <div class="script-builder" id="script-builder">
+        <div class="sb-title">vitamin_qa.py Execution</div>
+
+        <div class="sb-steps">
+          <div class="sb-step-dot">1</div>
+          <div class="sb-step-dot">2</div>
+          <div class="sb-step-dot">3</div>
+          <div class="sb-step-dot">4</div>
+          <div class="sb-step-dot">5</div>
+        </div>
+
+        <div class="sb-display">
+          <span class="log-info">Click "Next Step" to start the Vitamin script...</span>
+        </div>
+
+        <div class="sb-controls">
+          <button class="sb-btn">Next Step &rarr;</button>
+          <button class="sb-btn reset">Reset</button>
+        </div>
+
+        <div class="sb-report">
+          <h4>Final Report</h4>
+          <div class="sb-report-grid">
+            <div class="sb-report-item"><span class="sb-report-num" style="color:var(--green);">10/10</span><span class="sb-report-label">Success</span></div>
+            <div class="sb-report-item"><span class="sb-report-num" style="color:var(--blue);">1,409</span><span class="sb-report-label">Tokens</span></div>
+            <div class="sb-report-item"><span class="sb-report-num" style="color:var(--amber);">$0.00065</span><span class="sb-report-label">Total Cost</span></div>
+            <div class="sb-report-item"><span class="sb-report-num" style="color:var(--purple);">12.3s</span><span class="sb-report-label">Time</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-foot">来看这个脚本怎么放到 GitHub ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 案例 -- 放上 GitHub</h2>
+      <p class="step-lede">你的 GitHub 仓库应该长这样:</p>
+
+      <div class="code-block">vitamin-api/
+├── README.md           <span class="cmt"># 项目说明</span>
+├── .env.example        <span class="cmt"># Key 模板 (不含真实 Key)</span>
+├── .gitignore          <span class="cmt"># 忽略 .env, .venv, __pycache__</span>
+├── requirements.txt    <span class="cmt"># openai, python-dotenv, tiktoken</span>
+├── input.csv           <span class="cmt"># 100 条测试用例</span>
+├── vitamin_qa.py       <span class="cmt"># 主脚本 (你今天写的)</span>
+└── output.csv          <span class="cmt"># 结果 (可选提交)</span></div>
+
+      <div class="callout callout-amber">
+        <p><strong>.env.example 是什么?</strong> 它长这样:</p>
+        <div class="code-block" style="margin:8px 0;">OPENAI_API_KEY=your-key-here</div>
+        <p>给别人看格式, 但不包含真实 Key. 这是开源项目的惯例.</p>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>面试时怎么展示:</strong></p>
+        <ul>
+          <li>"这是我写的 Vitamin 自动化 QA 脚本"</li>
+          <li>"100 条用例, 2 分钟跑完, 自动输出 CSV 报告"</li>
+          <li>"包含错误处理、rate limiting、成本追踪"</li>
+          <li>"总费用不到 1 分钱 -- 我算过"</li>
+        </ul>
+      </div>
+      <div class="step-foot">作业 + 毕业总结 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 课后作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">一个 Python 文件, 100 行代码,<br/>= Setup + Security + API + Errors + Batch + CSV + Cost.</p>
+        <p class="one-liner-foot muted">你不是工程师, 你是一个会写自动化脚本的 PM. 这就够了.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (1 小时):</strong>
+        <ol>
+          <li>把 Step 3-7 的代码合成一个 <code>vitamin_qa.py</code>, 真实跑一遍你的 10 条测试用例.</li>
+          <li>创建 GitHub 仓库, 按 Step 9 的结构组织文件, push 上去.</li>
+          <li>在 README.md 里写: 项目是什么、怎么运行、结果截图.</li>
+          <li>把 GitHub 链接放到你的简历里, 作为 "AI PM 技术作品".</li>
+        </ol>
+
+        <div style="margin-top:16px;">
+          <strong>资源延伸:</strong>
+          <table class="compare-table" style="margin-top:8px;">
+            <thead><tr><th>类型</th><th>资源</th><th>说明</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>🛠</td><td><a href="https://github.com" target="_blank">GitHub</a></td><td>创建你的代码仓库</td><td>10 min</td></tr>
+              <tr><td>📖</td><td><a href="https://platform.openai.com/docs/quickstart" target="_blank">OpenAI API 文档</a></td><td>官方 API 完整参考</td><td>15 min</td></tr>
+              <tr><td>📖</td><td><a href="https://developers.openai.com/cookbook/examples/how_to_count_tokens_with_tiktoken" target="_blank">tiktoken Cookbook</a></td><td>进阶 token 计数技巧</td><td>10 min</td></tr>
+              <tr><td>📺</td><td><a href="https://www.youtube.com/results?search_query=python+openai+api+automation+project" target="_blank">YouTube: API 自动化项目</a></td><td>类似项目的完整视频教程</td><td>30 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 -- 毕业 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 回顾 7 个单元</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 脚本 5 部分架构</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 导入 + 配置</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> ask_ai() 全套防护</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> process_csv() 管道</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 生成报告</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> main() 一键运行</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Script Builder 演示</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> GitHub 作品集</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 毕业作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 8:</p>
+        <p class="end-summary-big">100 行 Python = Setup + Security + API + Errors + Batch + CSV + Cost.</p>
+        <p class="end-summary-sub">你的第一个完整 AI 自动化脚本, 放上 GitHub, 面试带走.</p>
+      </div>
+
+      <!-- Course 3 Celebration -->
+      <div class="celebration">
+        <h2>Course 3: Build 完成!</h2>
+        <p style="font-size:18px;margin:12px 0;">恭喜你完成了 Course 3 的全部内容!</p>
+        <p>你现在有:</p>
+        <div style="margin:16px 0;">
+          <span class="achievement">Vitamin Bot</span>
+          <span class="achievement">知识库</span>
+          <span class="achievement">Python 自动化脚本</span>
+          <span class="achievement">GitHub 链接</span>
+        </div>
+        <p style="margin-top:16px;color:var(--ink-soft);">这些就是你面试时的作品集. 每一个都是你亲手做出来的.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下一门课: Course 4 · Ship -- 上线与拿 offer</div>
+        <p>你已经<strong>学会了 (Course 1)</strong>, <strong>设计了 (Course 2)</strong>, <strong>做出来了 (Course 3)</strong>.</p>
+        <p>下一步: <strong>把作品打磨上线, 准备面试, 拿到 AI PM 的 offer</strong>.</p>
+        <a class="walk-arrow" href="../../c4-m1-evaluation/u1-three-layers/index.html">进入 Course 4 &rarr;</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer"><p>AI for PM · Module 3.4 · Unit 8 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

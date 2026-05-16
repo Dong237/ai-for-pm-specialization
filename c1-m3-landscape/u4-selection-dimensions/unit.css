@@ -1,0 +1,285 @@
+/* =============================================
+   Unit 4 · 模型选型 6 维度
+   Unit-specific styles only
+   ============================================= */
+
+/* Dimension overview grid */
+.dimension-overview {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+.dim-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.dim-item:last-child { border-bottom: none; }
+.dim-icon { font-size: 28px; flex-shrink: 0; width: 40px; text-align: center; }
+.dim-info { flex: 1; }
+.dim-info strong {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 17px;
+  display: block;
+  margin-bottom: 2px;
+}
+.dim-desc { font-size: 14px; color: var(--ink-soft); }
+
+/* Cost comparison bars */
+.cost-compare {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.cost-row {
+  display: grid;
+  grid-template-columns: 160px 110px 1fr;
+  align-items: center;
+  padding: 8px 0;
+  gap: 10px;
+  border-bottom: 1px dashed var(--border);
+}
+.cost-row:last-of-type { border-bottom: none; }
+@media (max-width: 600px) {
+  .cost-row { grid-template-columns: 120px 90px 1fr; }
+}
+.cost-model {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+.cost-price { font-size: 13px; color: var(--ink-soft); }
+.cost-bar {
+  height: 22px;
+  background: var(--bg-elev);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.cost-cheap .cost-model { color: var(--green); }
+.cost-cheap .bar { background: var(--green); }
+.cost-expensive .cost-model { color: var(--red); }
+.cost-expensive .bar { background: var(--red); }
+.cost-note { font-size: 12px; margin-top: 10px; }
+
+/* Context scale */
+.context-scale {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 16px 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.ctx-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 15px;
+}
+.ctx-row:last-child { border-bottom: none; }
+.ctx-model { color: var(--ink-soft); font-size: 14px; }
+.ctx-len {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+}
+.ctx-big .ctx-len { color: var(--blue); font-size: 22px; }
+.ctx-huge .ctx-len { color: var(--purple); font-size: 24px; }
+
+/* Reasoning benchmark table */
+.reasoning-bench {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.bench-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 180px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 14px;
+  gap: 8px;
+}
+.bench-row:last-child { border-bottom: none; }
+.bench-header {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink-muted);
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border-strong);
+}
+.bench-name {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-weight: 600;
+  color: var(--blue);
+}
+@media (max-width: 600px) {
+  .bench-row { grid-template-columns: 1fr; gap: 4px; }
+  .bench-header { display: none; }
+}
+
+/* ===== Radar Chart Widget ===== */
+.radar-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+.radar-controls {
+  margin-bottom: 20px;
+}
+.radar-select-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.radar-select-group label {
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.radar-select {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 6px 10px;
+  border: 2px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--ink);
+  cursor: pointer;
+}
+.radar-chart-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+#radar-canvas {
+  max-width: 100%;
+  height: auto;
+}
+.radar-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.radar-scores {
+  font-size: 13px;
+  color: var(--ink-soft);
+  background: var(--bg-elev);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+.score-row {
+  display: grid;
+  grid-template-columns: 140px repeat(6, 1fr);
+  gap: 6px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.score-row:last-child { border-bottom: none; }
+.score-row.score-header {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--ink-muted);
+  border-bottom: 2px solid var(--border-strong);
+}
+@media (max-width: 600px) {
+  .score-row { grid-template-columns: 100px repeat(6, 1fr); font-size: 11px; }
+  .score-row.score-header { font-size: 10px; }
+}
+
+/* Vitamin weights */
+.vitamin-weights {
+  background: var(--bg-card);
+  border: 2px solid var(--green);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+  transform: rotate(-0.3deg);
+}
+.weight-row {
+  display: grid;
+  grid-template-columns: 80px 160px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 14px;
+}
+.weight-row:last-child { border-bottom: none; }
+.weight-rank {
+  color: var(--amber);
+  font-size: 13px;
+  letter-spacing: -1px;
+}
+.weight-dim {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+}
+.weight-why { color: var(--ink-soft); font-size: 13px; }
+@media (max-width: 600px) {
+  .weight-row { grid-template-columns: 60px 1fr; }
+  .weight-why { grid-column: 1 / -1; }
+}
+
+/* Resource table */
+.resource-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+  margin: 16px 0;
+}
+.resource-table th {
+  background: var(--bg-elev);
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ink-muted);
+  border-bottom: 2px solid var(--border-strong);
+}
+.resource-table td {
+  padding: 8px 10px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.resource-table tr:last-child td { border-bottom: none; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

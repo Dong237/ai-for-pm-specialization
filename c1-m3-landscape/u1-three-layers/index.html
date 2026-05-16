@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · AI 公司 3 层堆栈 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M1.3 Unit 1: AI 行业分三层 — 基础设施、模型、应用. 你的 Vitamin 在哪层?" />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.3</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · AI 公司 3 层堆栈</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <!-- Step nav -->
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 1<span class="title-dot">·</span><br/>AI 公司 3 层堆栈</h1>
+      <p class="hero-sub">你每天用的 AI 产品, 背后到底是谁在干活?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个好奇的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 要搞懂 AI 行业)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">我每天用豆包、ChatGPT, 这些都是"AI 公司"做的.</p>
+          <p class="cloud-line">但 NVIDIA 也是"AI 公司", 它又不做 chatbot...</p>
+          <p class="cloud-line">OpenAI、华为、Vitamin, 大家到底在做 AI 的哪个部分?</p>
+          <p class="cloud-line accent">—— 10 步, 画一张 AI 行业地图.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>画出 AI 行业的 3 层堆栈: 基础设施 → 模型 → 应用</li>
+          <li>知道 NVIDIA、OpenAI、Vitamin 各在哪一层</li>
+          <li>理解"为什么模型公司在烧钱, 芯片公司在赚钱"</li>
+          <li>判断你作为 PM 应该关心堆栈里的哪些事</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">打开豆包, 往下挖三层</h2>
+      <p class="step-lede">你打开豆包 App, 输入一句话, 2 秒后它回复了. 简单? 但这 2 秒里, 至少 3 类公司在干活:</p>
+
+      <div class="three-cards">
+        <article class="wonder wonder-1" data-rough="card">
+          <div class="wonder-tag">表面</div>
+          <h3>你看到的: 豆包 App</h3>
+          <div class="wonder-note">字节跳动做的产品. 你点开、输入、看回复. 这是<strong>应用层</strong>.</div>
+        </article>
+        <article class="wonder wonder-2" data-rough="card">
+          <div class="wonder-tag">中间</div>
+          <h3>你没看到的: Doubao-Seed 模型</h3>
+          <div class="wonder-note">豆包背后是字节的 Seed 大模型在"猜下一个字". 这是<strong>模型层</strong>.</div>
+        </article>
+        <article class="wonder wonder-3" data-rough="card">
+          <div class="wonder-tag">底层</div>
+          <h3>更看不到的: GPU 集群</h3>
+          <div class="wonder-note">模型跑在成千上万块 NVIDIA / 华为昇腾芯片上. 这是<strong>基础设施层</strong>.</div>
+        </article>
+      </div>
+
+      <div class="step-foot">3 层, 3 类公司, 缺一不可. 但大多数人只看到第 1 层 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">错误认知 vs 真相</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错误 A: "做 AI 的公司都差不多"</h3>
+          <p>NVIDIA 和 ChatGPT 都是 "AI 公司", 应该在做类似的事.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            NVIDIA 做芯片 (基础设施), OpenAI 做模型, ChatGPT 是应用. 三个完全不同的生意.
+          </div>
+        </article>
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错误 B: "做应用的最容易"</h3>
+          <p>模型已经有了, 我套个壳不就完了?</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            应用层的核心竞争力不是"调 API", 而是<strong>场景理解 + 数据飞轮 + 用户体验</strong>. 模型谁都能调, 但产品不是谁都能做好.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">AI 行业是一个<mark class="hl">3 层堆栈</mark>:</p>
+        <p class="truth-line giant">基础设施 → 模型 → 应用</p>
+        <p class="truth-line">每一层做的事不一样, 赚的钱不一样, 需要的能力也不一样.</p>
+        <p class="truth-line muted">→ 就像互联网 = 光纤 + 云服务 + App. AI 也一样分层.</p>
+      </div>
+
+      <div class="step-foot">下面逐层拆解, 先从最底层开始 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">第 1 层: 基础设施 — 算力是一切的地基</h2>
+      <p class="step-lede">没有这一层, 任何模型都训不出来, 任何 AI 产品都跑不动.</p>
+
+      <div class="layer-card layer-infra" data-rough="card">
+        <div class="layer-tag">Layer 1 · 基础设施层</div>
+        <div class="layer-subtitle">关键词: 芯片、GPU、数据中心、云计算</div>
+
+        <div class="company-grid">
+          <div class="company-chip">
+            <div class="company-logo">NVIDIA</div>
+            <div class="company-desc">GPU 霸主. 市值超 3 万亿美元. H100/H200/Blackwell 系列是训练大模型的标配.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">华为昇腾</div>
+            <div class="company-desc">中国最强替代. Atlas 950 系列单卡算力达 H20 的 2.87 倍. DeepSeek V4 已在昇腾上训练.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">TSMC (台积电)</div>
+            <div class="company-desc">芯片代工. 全球 90%+ 的 AI 芯片都由台积电制造. 最底层的底层.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">云厂商</div>
+            <div class="company-desc">AWS / Azure / 阿里云 / 火山引擎: 把 GPU 变成可租用的云服务, 按小时收费.</div>
+          </div>
+        </div>
+
+        <div class="layer-insight">
+          <strong>这层的生意逻辑:</strong> 卖"铲子"给淘金者. AI 越火, 芯片越稀缺, 越赚钱.
+          <span class="data-tag">截至 2026 年 4 月</span>
+        </div>
+      </div>
+
+      <div class="step-foot">有了算力, 谁来训模型? ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">第 2 层: 模型 — 大模型提供商</h2>
+      <p class="step-lede">这些公司做一件事: 用海量数据 + 海量算力, 训练出大模型, 然后卖 API.</p>
+
+      <div class="layer-card layer-model" data-rough="card">
+        <div class="layer-tag">Layer 2 · 模型层</div>
+        <div class="layer-subtitle">关键词: LLM、训练、API、开源 vs 闭源</div>
+
+        <div class="company-grid">
+          <div class="company-chip">
+            <div class="company-logo">OpenAI</div>
+            <div class="company-desc">GPT-5.5. 行业标杆. 闭源, API 付费.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">Anthropic</div>
+            <div class="company-desc">Claude Opus 4.7. Coding 排行榜 Top 5 全包. 闭源.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">DeepSeek</div>
+            <div class="company-desc">V4 Pro. 1.6T 参数, MIT 开源. 在华为昇腾上训练. 性价比之王.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">智谱 AI</div>
+            <div class="company-desc">GLM-5. 744B 参数, MIT 开源. 清华系, 国产芯片全兼容.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">阿里 Qwen</div>
+            <div class="company-desc">Qwen3.6. 编程能力拔尖. 开源生态最完善之一.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">字节 Seed</div>
+            <div class="company-desc">Doubao-Seed-2.0. 闭源. 日处理 120 万亿 tokens.</div>
+          </div>
+        </div>
+
+        <div class="layer-insight">
+          <strong>这层的生意逻辑:</strong> 烧钱训练, 卖 API 回血. 目前大多数还没盈利.
+          <span class="data-tag">截至 2026 年 4 月</span>
+        </div>
+      </div>
+
+      <div class="step-foot">有了模型, 谁来做产品? ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">第 3 层: 应用 — 你做的产品在这层</h2>
+      <p class="step-lede">直接面向用户, 解决具体场景的问题. 这是离用户最近的一层.</p>
+
+      <div class="layer-card layer-app" data-rough="card">
+        <div class="layer-tag">Layer 3 · 应用层</div>
+        <div class="layer-subtitle">关键词: 产品、用户体验、场景、PMF</div>
+
+        <div class="company-grid">
+          <div class="company-chip app-vitamin">
+            <div class="company-logo">Vitamin</div>
+            <div class="company-desc">你的产品! 女性健康 AI App, 5 状态身体追踪. 调大模型 API 实现对话 + 分析.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">豆包 / ChatGPT</div>
+            <div class="company-desc">通用 AI 助手. 对话、写作、搜索、图片生成.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">Cursor / TRAE</div>
+            <div class="company-desc">AI 编程工具. 调模型 API 帮开发者写代码.</div>
+          </div>
+          <div class="company-chip">
+            <div class="company-logo">Notion AI / 飞书智能助手</div>
+            <div class="company-desc">办公场景. 把 AI 嵌入文档、表格、会议.</div>
+          </div>
+        </div>
+
+        <div class="layer-insight">
+          <strong>这层的生意逻辑:</strong> 不需要自己训模型. 核心是场景理解 + 产品设计 + 数据飞轮.
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 注意:</strong> 你就在这一层. 你不需要懂怎么训模型, 但你需要懂怎么<em>选</em>模型、<em>用</em>模型、<em>控</em>成本.
+        <br/>这也是这个模块后面几节课要教你的核心技能.
+      </div>
+
+      <div class="step-foot">三层看完了, 它们怎么连在一起? ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">三层之间的依赖: 一层吃一层</h2>
+      <p class="step-lede">每一层都依赖下面那层. 下层出问题, 上层全完蛋.</p>
+
+      <div class="dependency-chain" data-rough="card">
+        <div class="dep-item dep-app">
+          <div class="dep-label">应用层</div>
+          <div class="dep-example">Vitamin 调 DeepSeek API</div>
+        </div>
+        <div class="dep-arrow">↓ 依赖</div>
+        <div class="dep-item dep-model">
+          <div class="dep-label">模型层</div>
+          <div class="dep-example">DeepSeek 用 1.6T 参数模型处理请求</div>
+        </div>
+        <div class="dep-arrow">↓ 依赖</div>
+        <div class="dep-item dep-infra">
+          <div class="dep-label">基础设施层</div>
+          <div class="dep-example">模型跑在 NVIDIA / 华为昇腾 GPU 集群上</div>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>断供风险是真实的:</strong>
+        <p>2022 年美国限制 NVIDIA 向中国出口高端 GPU → 中国 AI 公司被迫转向华为昇腾 → DeepSeek V4 已全面适配昇腾芯片. 基础设施层的变化, 直接影响模型层和应用层.</p>
+        <p class="muted">→ 作为 PM, 你选的模型跑在什么芯片上, 比你想象的更重要.</p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>类比帮助理解:</strong>
+        <table class="analogy-table">
+          <tr><th>AI 堆栈</th><th>互联网类比</th><th>盖楼类比</th></tr>
+          <tr><td>基础设施层</td><td>光纤 + 服务器</td><td>地基 + 钢筋</td></tr>
+          <tr><td>模型层</td><td>云服务 (AWS)</td><td>框架 + 管道</td></tr>
+          <tr><td>应用层</td><td>App (微信)</td><td>室内装修 + 住户</td></tr>
+        </table>
+      </div>
+
+      <div class="step-foot">那这三层, 谁赚钱最多? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">价值链: 目前谁赚钱, 谁烧钱</h2>
+      <p class="step-lede">2026 年 4 月的行业现实 — 不同层的经济状况天差地别.</p>
+
+      <div class="value-chain" data-rough="card">
+        <div class="vc-row vc-profit">
+          <div class="vc-layer">基础设施层</div>
+          <div class="vc-status">大赚</div>
+          <div class="vc-detail">NVIDIA 年收入超 $1300 亿. 卖 GPU 就像淘金热里卖铲子. 华为昇腾国内份额升至 ~50%.</div>
+        </div>
+        <div class="vc-row vc-burn">
+          <div class="vc-layer">模型层</div>
+          <div class="vc-status">烧钱</div>
+          <div class="vc-detail">OpenAI 估计年亏 $50 亿+. 训一个前沿模型要 $1 亿+. API 收入还不够覆盖训练成本.</div>
+        </div>
+        <div class="vc-row vc-mixed">
+          <div class="vc-layer">应用层</div>
+          <div class="vc-status">分化</div>
+          <div class="vc-detail">少数找到 PMF 的应用盈利 (Cursor 估值 $90 亿); 多数还在寻找商业模式.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>趋势在变:</strong>
+        <p>2026 年的投资热点已经从"模型层"转向"基础设施层"和"应用层". 一周内 $30 亿投资, 没有一分钱给纯模型公司 — 全部给了 AI 基础设施和垂直应用.</p>
+        <p class="muted">→ 模型变成"水电煤", 竞争力在上移 (应用) 和下沉 (基础设施).</p>
+        <span class="data-tag">截至 2026 年 4 月</span>
+      </div>
+
+      <div class="step-foot">理解了全景, 来动手玩 ↓</div>
+    </section>
+
+    <!-- (8) -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Stack Explorer — 点击探索 3 层堆栈</h2>
+      <p class="step-lede">点击每一层, 展开看看里面有谁、在做什么、怎么赚钱.</p>
+
+      <!-- Interactive Widget -->
+      <div class="stack-explorer" id="stack-explorer">
+        <div class="stack-layer" id="layer-app" data-layer="app">
+          <div class="stack-header">
+            <div class="stack-icon">3</div>
+            <div class="stack-name">应用层 · Application</div>
+            <div class="stack-toggle">点击展开 ▾</div>
+          </div>
+          <div class="stack-body">
+            <div class="stack-companies">
+              <span class="sc-tag sc-vitamin">Vitamin</span>
+              <span class="sc-tag">豆包</span>
+              <span class="sc-tag">ChatGPT</span>
+              <span class="sc-tag">Cursor</span>
+              <span class="sc-tag">Notion AI</span>
+              <span class="sc-tag">飞书智能助手</span>
+              <span class="sc-tag">TRAE</span>
+              <span class="sc-tag">Midjourney</span>
+            </div>
+            <div class="stack-info">
+              <p><strong>做什么:</strong> 把 AI 能力包装成产品, 直接服务终端用户.</p>
+              <p><strong>赚钱方式:</strong> 订阅制 / 按量付费 / 广告 / SaaS</p>
+              <p><strong>核心能力:</strong> 场景理解、用户体验、数据飞轮、分发渠道</p>
+              <p class="muted"><strong>你在这里.</strong> 你做的 Vitamin 就是应用层产品.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack-arrow">▲ 调用 API ▲</div>
+
+        <div class="stack-layer" id="layer-model" data-layer="model">
+          <div class="stack-header">
+            <div class="stack-icon">2</div>
+            <div class="stack-name">模型层 · Model</div>
+            <div class="stack-toggle">点击展开 ▾</div>
+          </div>
+          <div class="stack-body">
+            <div class="stack-companies">
+              <span class="sc-tag">OpenAI</span>
+              <span class="sc-tag">Anthropic</span>
+              <span class="sc-tag">Google</span>
+              <span class="sc-tag">DeepSeek</span>
+              <span class="sc-tag">智谱 AI</span>
+              <span class="sc-tag">阿里 Qwen</span>
+              <span class="sc-tag">字节 Seed</span>
+              <span class="sc-tag">Moonshot</span>
+              <span class="sc-tag">Meta Llama</span>
+              <span class="sc-tag">Mistral</span>
+            </div>
+            <div class="stack-info">
+              <p><strong>做什么:</strong> 训练大模型, 通过 API 或开源提供能力.</p>
+              <p><strong>赚钱方式:</strong> API 按 token 收费 / 企业私有化部署 / 开源引流</p>
+              <p><strong>核心能力:</strong> 算法研究、训练工程、数据质量、算力调度</p>
+              <p class="muted">训练一个前沿模型要 $1 亿+, 门槛极高.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack-arrow">▲ 需要算力 ▲</div>
+
+        <div class="stack-layer" id="layer-infra" data-layer="infra">
+          <div class="stack-header">
+            <div class="stack-icon">1</div>
+            <div class="stack-name">基础设施层 · Infrastructure</div>
+            <div class="stack-toggle">点击展开 ▾</div>
+          </div>
+          <div class="stack-body">
+            <div class="stack-companies">
+              <span class="sc-tag">NVIDIA</span>
+              <span class="sc-tag">华为昇腾</span>
+              <span class="sc-tag">TSMC</span>
+              <span class="sc-tag">AWS</span>
+              <span class="sc-tag">Azure</span>
+              <span class="sc-tag">阿里云</span>
+              <span class="sc-tag">火山引擎</span>
+              <span class="sc-tag">Google TPU</span>
+            </div>
+            <div class="stack-info">
+              <p><strong>做什么:</strong> 提供 AI 训练和推理所需的芯片、服务器、数据中心.</p>
+              <p><strong>赚钱方式:</strong> 卖芯片 / 云计算按时收费 / 硬件租赁</p>
+              <p><strong>核心能力:</strong> 芯片设计、制造工艺、规模化部署、供应链</p>
+              <p class="muted">NVIDIA 2025 年收入超 $1300 亿. 卖铲子的最赚.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>试试看:</strong> 点击每一层展开/收起. 注意层与层之间的依赖箭头 — 应用层调用模型层的 API, 模型层需要基础设施层的算力.
+      </div>
+
+      <div class="step-foot">把这个框架套到 Vitamin 上 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 在堆栈里的位置</h2>
+      <p class="step-lede">你的 Vitamin 是应用层产品. 但你做的每个决策, 都会牵扯到另外两层.</p>
+
+      <div class="vitamin-stack" data-rough="card">
+        <div class="vs-row">
+          <div class="vs-layer vs-l3">应用层</div>
+          <div class="vs-content">
+            <strong>Vitamin App</strong>
+            <p>用户输入身体状态 → AI 给出健康建议 → 5 状态追踪</p>
+          </div>
+        </div>
+        <div class="vs-arrow">↕ 你要选 API</div>
+        <div class="vs-row">
+          <div class="vs-layer vs-l2">模型层</div>
+          <div class="vs-content">
+            <strong>选哪个模型 API?</strong>
+            <p>DeepSeek V4 Flash (便宜, ¥0.14/M) vs GPT-5.5 (贵, $5/M) vs 豆包 Seed 2.0 (中文最强)?</p>
+          </div>
+        </div>
+        <div class="vs-arrow">↕ 你不直接碰, 但要关心</div>
+        <div class="vs-row">
+          <div class="vs-layer vs-l1">基础设施层</div>
+          <div class="vs-content">
+            <strong>模型跑在谁的芯片上?</strong>
+            <p>如果选 GPT-5.5 → 跑在 NVIDIA 上 → 服务器在美国. 如果选 DeepSeek → 跑在华为昇腾上 → 服务器在国内. 数据合规差别大.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="can-cant">
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">✓ PM 在应用层应该关心的</h3>
+          <ul>
+            <li>选哪个模型 API (性能 vs 成本 vs 合规)</li>
+            <li>模型切换的成本 (万一 API 涨价, 能换吗?)</li>
+            <li>数据存在哪里 (国内 vs 海外, 健康数据敏感)</li>
+            <li>模型更新频率 (API 版本升级会不会影响产品)</li>
+          </ul>
+        </article>
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">✗ PM 不需要深究的</h3>
+          <ul>
+            <li>GPU 的具体架构 (那是硬件工程师的事)</li>
+            <li>模型训练的超参数 (那是算法工程师的事)</li>
+            <li>CUDA 编程 (写代码不是你的活儿)</li>
+            <li>芯片供应链细节 (除非影响到你的 API 供应)</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="step-foot">最后总结 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">AI 行业 = 基础设施 (芯片) → 模型 (LLM) → 应用 (产品).<br/>
+        你在应用层, 但你要看得见下面两层.</p>
+        <p class="one-liner-foot muted">面试时说 "我理解 AI 的 3 层价值链", 比说 "我用过 ChatGPT" 高三个段位.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>画一张 Vitamin 的 3 层堆栈图: 基础设施层写上你可能用的芯片/云, 模型层写上候选的模型 API, 应用层写上 Vitamin 的核心功能.</li>
+          <li>打开 <a href="https://artificialanalysis.ai" target="_blank" rel="noopener">artificialanalysis.ai</a>, 找到 DeepSeek V4 Flash 和 GPT-5.5 的价格对比, 算一下 Vitamin 每月 100 万次对话的成本差.</li>
+          <li>列出 3 个"如果基础设施层出问题, 会影响 Vitamin"的场景 (比如: API 断供、芯片涨价、数据中心所在地法规变化).</li>
+          <li>用 200 字给非技术同事解释: 为什么 NVIDIA 和 ChatGPT 虽然都是"AI 公司", 但做的事完全不同.</li>
+        </ol>
+      </div>
+
+      <!-- Resource table -->
+      <div class="callout callout-blue" data-rough="card">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead>
+            <tr><th>类型</th><th>标题</th><th>来源</th><th>为什么值得看</th><th>时间</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🎮</td>
+              <td>AI Landscape Map 2026</td>
+              <td><a href="https://fourweekmba.com/the-map-of-ai-march-2026-interactive-landscape/" target="_blank" rel="noopener">FourWeekMBA</a></td>
+              <td>交互式 AI 行业全景图, 一张图看清各层玩家</td>
+              <td>10 min</td>
+            </tr>
+            <tr>
+              <td>📺</td>
+              <td>NVIDIA GTC 2026: 五层 AI 基础设施模型</td>
+              <td><a href="https://blogs.nvidia.com/blog/gtc-2026-news/" target="_blank" rel="noopener">NVIDIA Blog</a></td>
+              <td>黄仁勋亲自讲解 AI 堆栈, 从芯片到应用</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>2026 AI 行业格局: 四车道图</td>
+              <td><a href="https://medium.com/@albatrosary/2026-ai-landscape-the-four-lane-map-e1e25f26a7bc" target="_blank" rel="noopener">Medium</a></td>
+              <td>清晰的行业分层分析, 适合 PM 快速建立全局观</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>AI Infra: 华为和英伟达的夹缝中如何生存</td>
+              <td><a href="https://www.luweiqing.com/resources/How-to-survive-between-Huawei-and-NVIDIA-in-2026.html" target="_blank" rel="noopener">中文博客</a></td>
+              <td>中文深度分析芯片层竞争, 了解供应链风险</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>🛠</td>
+              <td>Artificial Analysis — AI 模型比价</td>
+              <td><a href="https://artificialanalysis.ai" target="_blank" rel="noopener">artificialanalysis.ai</a></td>
+              <td>实时对比各模型 API 价格和性能, PM 必备工具</td>
+              <td>5 min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 打开豆包, 挖三层</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 错误认知 vs 3 层真相</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> 基础设施层: NVIDIA + 华为</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> 模型层: OpenAI / DeepSeek / 智谱</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 应用层: Vitamin 在这里</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 三层依赖: 一层吃一层</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 价值链: 谁赚谁烧</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Stack Explorer 交互</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 的 3 层位置</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">AI 行业 = 芯片 → 模型 → 产品. 三层堆栈, 层层依赖.</p>
+        <p class="end-summary-sub">你在应用层做产品, 但你要理解模型层的选择, 也要留意基础设施层的风险.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 2): 闭源模型 vs 开源模型</div>
+        <p>模型层里有两大阵营 — 闭源 (GPT-5.5, Claude) 和开源 (DeepSeek, Llama, Qwen).</p>
+        <p>选闭源还是开源, 直接决定 Vitamin 的<strong>成本、控制权和供应链安全</strong>.</p>
+        <a class="walk-arrow" href="../u2-open-vs-closed/index.html">继续走 → Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.3 · Unit 1 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

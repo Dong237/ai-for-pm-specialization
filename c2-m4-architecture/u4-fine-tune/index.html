@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · Fine-tune 适用场景 — AI for PM · M2.4</title>
+  <meta name="description" content="风格特殊、术语密度大、Prompt 写不下了 — Fine-tune 的适用场景和决策方法." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.4</span></a><div class="topbar-right"><span class="unit-label">Unit 4 · Fine-tune</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>Fine-tune 适用场景</h1>
+      <p class="hero-sub">"Prompt 怎么调都不像我们品牌的语气" — 该 Fine-tune 了吗?</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">RAG 解决了知识问题, 但语气还是不对.</p>
+          <p class="cloud-line">Vitamin 要的是 "闺蜜式关怀", 不是 "百科全书式".</p>
+          <p class="cloud-line accent">—— Fine-tune 什么时候该用, 什么时候不该用?</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>区分 Fine-tune 和 RAG 各解决什么问题</li>
+          <li>用 4 个检查项判断是否需要 Fine-tune</li>
+          <li>知道 Fine-tune 的真实成本 (比你想的低)</li>
+          <li>给 Vitamin 规划 Fine-tune 的时机和方案</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">Fine-tune 的本质: 改 "说话习惯"</h2>
+      <p class="step-lede">一个类比:</p>
+      <div class="big-insight">
+        <p>RAG = 给实习生一本参考书 (改输入)</p>
+        <p class="insight-text">Fine-tune = 把实习生送去培训 3 个月 (改模型)</p>
+        <p>培训完, 他不用再翻书, 因为 "习惯" 已经内化了.</p>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>Fine-tune 改的是模型的行为模式:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>说话风格 (正式/口语/闺蜜式/学术式)</li>
+          <li>术语使用习惯 (医学术语/金融术语/特定行业黑话)</li>
+          <li>判断倾向 (保守/激进/特定领域的决策逻辑)</li>
+          <li>输出格式偏好 (JSON/表格/特定模板)</li>
+        </ul>
+      </div>
+      <div class="step-foot">最常见的误解来了 &darr;</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">最大误解: Fine-tune ≠ 教新知识</h2>
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>"我们的产品信息, 模型不知道, 所以要 Fine-tune"</h3>
+          <p>错! 这是 RAG 的活.</p>
+          <div class="wrong-why"><strong>Fine-tune 教的是 "怎么说", 不是 "知道什么".</strong> 用 Fine-tune 教新知识 = 用锤子拧螺丝.</div>
+        </article>
+        <article class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>"Fine-tune 了就不会幻觉了"</h3>
+          <p>错! Fine-tune 可能让幻觉更自信.</p>
+          <div class="wrong-why"><strong>Fine-tune 让模型更 "像" 你要的风格, 但不保证内容正确.</strong> 降幻觉靠 RAG + 规则, 不靠 Fine-tune.</div>
+        </article>
+      </div>
+      <div class="truth-bubble">
+        <div class="truth-tag">记住</div>
+        <p class="truth-line giant">知识变了 → RAG<br/>风格变了 → Fine-tune</p>
+        <p class="truth-line muted">行业共识: "把变化的知识放检索, 把稳定的行为放权重, 别搞反了."</p>
+      </div>
+      <div class="step-foot">什么时候真的需要 Fine-tune? &darr;</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">4 个 "需要 Fine-tune" 的检查项</h2>
+      <div class="three-cards">
+        <article class="wonder" style="border-color:var(--amber);">
+          <div class="wonder-tag" style="border-color:var(--amber);">✓ 检查 1</div>
+          <h3>Prompt-only 先试过了?</h3>
+          <div class="wonder-note">如果连 Prompt-only 都没试, 别谈 Fine-tune. 很多人以为需要微调, 其实 Few-shot 就够了.</div>
+        </article>
+        <article class="wonder" style="border-color:var(--amber);">
+          <div class="wonder-tag" style="border-color:var(--amber);">✓ 检查 2</div>
+          <h3>问题是 "风格/语调" 而非 "知识"?</h3>
+          <div class="wonder-note">如果模型答的内容对但语气不对 → Fine-tune. 如果内容就错了 → RAG.</div>
+        </article>
+        <article class="wonder" style="border-color:var(--amber);">
+          <div class="wonder-tag" style="border-color:var(--amber);">✓ 检查 3</div>
+          <h3>有 500+ 条标注数据?</h3>
+          <div class="wonder-note">Fine-tune 需要高质量的 input→output 对. 数据不够, 效果不好甚至变差.</div>
+        </article>
+        <article class="wonder" style="border-color:var(--amber);">
+          <div class="wonder-tag" style="border-color:var(--amber);">✓ 检查 4</div>
+          <h3>产品已经 PMF?</h3>
+          <div class="wonder-note">PMF 前需求会变, 训了白训. PMF 后风格确定了, Fine-tune 才有长期价值.</div>
+        </article>
+      </div>
+      <div class="callout callout-green"><p><strong>4 个都是 Yes → Fine-tune. 任何一个 No → 先不要.</strong></p></div>
+      <div class="step-foot">Fine-tune 的流程是什么? &darr;</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Fine-tune 的 4 步流程</h2>
+      <div class="ft-flow">
+        <div class="ft-flow-step">1. 数据准备<br/><span style="font-size:12px;color:var(--ink-muted);">500-5000 条</span></div>
+        <span class="ft-flow-arrow">&rarr;</span>
+        <div class="ft-flow-step">2. 模型训练<br/><span style="font-size:12px;color:var(--ink-muted);">几小时-几天</span></div>
+        <span class="ft-flow-arrow">&rarr;</span>
+        <div class="ft-flow-step">3. 效果评估<br/><span style="font-size:12px;color:var(--ink-muted);">对比基线</span></div>
+        <span class="ft-flow-arrow">&rarr;</span>
+        <div class="ft-flow-step">4. 部署上线<br/><span style="font-size:12px;color:var(--ink-muted);">替换/AB 测试</span></div>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>数据准备是最花时间的.</strong></p>
+        <p style="font-size:14px;margin-top:6px;">每条数据 = 一个 "input → 理想 output" 对. 比如: "用户说 '好累' → 理想回复: '今天辛苦了~ 要不要喝杯热水, 休息一下? 🫶'". 质量比数量重要.</p>
+      </div>
+      <div class="step-foot">成本到底多少? &darr;</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Fine-tune 成本拆解</h2>
+      <div class="cost-breakdown">
+        <div class="cost-item" style="border-color:var(--blue);">
+          <div class="cost-item-icon">📊</div>
+          <div class="cost-item-name">数据标注</div>
+          <div class="cost-item-range">¥5K-50K</div>
+          <div class="cost-item-note">500-5000 条, 人工标注或 AI 辅助</div>
+        </div>
+        <div class="cost-item" style="border-color:var(--amber);">
+          <div class="cost-item-icon">🔥</div>
+          <div class="cost-item-name">训练费用</div>
+          <div class="cost-item-range">¥500-5K</div>
+          <div class="cost-item-note">LoRA 微调已经很便宜</div>
+        </div>
+        <div class="cost-item" style="border-color:var(--red);">
+          <div class="cost-item-icon">💰</div>
+          <div class="cost-item-name">推理成本</div>
+          <div class="cost-item-range">+20-50%</div>
+          <div class="cost-item-note">微调后的模型推理略贵</div>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>2026 年好消息:</strong> LoRA (Low-Rank Adaptation) 技术让微调成本下降了 10 倍. 你不需要训练整个模型 — 只调少量参数, 效果差不多.</p>
+        <p class="muted">GPT-4 的完整训练据估计花了 1 亿美元. 但 LoRA 微调一个 7B 模型, 可能只要 500 块人民币.</p>
+      </div>
+      <div class="step-foot">LoRA 是什么? &darr;</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">LoRA: 微调不用倾家荡产</h2>
+      <p class="step-lede">传统 Fine-tune 要改模型全部参数 (几十亿个). LoRA 只改 0.1%-1% 的参数.</p>
+      <div class="big-insight">
+        <p>类比:</p>
+        <p class="insight-text">传统微调 = 把整栋楼拆了重建<br/>LoRA = 只重新装修一间屋子</p>
+        <p>效果差不多, 但成本低 10 倍, 时间快 5 倍.</p>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>PM 需要知道的:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>LoRA 让微调从 "天文数字" 变成 "几千块" — 初创公司也能用</li>
+          <li>QLoRA 更进一步: 用量化技术, 一张消费级 GPU 就能跑</li>
+          <li>这意味着 "要不要 Fine-tune" 的门槛降低了, 但 "该不该 Fine-tune" 的判断标准没变</li>
+        </ul>
+      </div>
+      <div class="step-foot">什么时候不要 Fine-tune? &darr;</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">4 个 "不要 Fine-tune" 的反指标</h2>
+      <div class="can-cant">
+        <article class="cant-list">
+          <h3 class="cant-head">✗ 这些情况别 Fine-tune</h3>
+          <ul>
+            <li>"模型不知道我们的产品" → 这是 RAG 的活</li>
+            <li>"数据只有 50 条" → 太少, 效果不好</li>
+            <li>"产品还在 MVP 阶段" → 需求会变, 训了白训</li>
+            <li>"想让模型完全不犯错" → Fine-tune 不能消灭幻觉</li>
+          </ul>
+        </article>
+        <article class="can-list">
+          <h3 class="can-head">✓ 这些情况考虑 Fine-tune</h3>
+          <ul>
+            <li>品牌语调是核心竞争力</li>
+            <li>术语密度大, Few-shot 不够</li>
+            <li>Prompt 已经超过 4000 字还不够</li>
+            <li>推理成本需要优化 (小模型 + Fine-tune)</li>
+          </ul>
+        </article>
+      </div>
+      <div class="step-foot">动手试试: 你需要 Fine-tune 吗? &darr;</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试试 — Fine-tune 决策检查器</h2>
+      <p class="step-lede">回答 4 个问题, 自动判断你是否需要 Fine-tune.</p>
+      <div class="ft-checker">
+        <div class="ft-progress">
+          <span class="ft-dot"></span><span class="ft-dot"></span><span class="ft-dot"></span><span class="ft-dot"></span>
+        </div>
+        <div class="ft-question">
+          <div class="ft-question-num" id="ft-q-num">问题 1 / 4</div>
+          <div class="ft-question-text" id="ft-q-text"></div>
+        </div>
+        <div class="ft-buttons" id="ft-btn-container">
+          <button class="ft-btn-yes" id="ft-yes">Yes</button>
+          <button class="ft-btn-no" id="ft-no">No</button>
+        </div>
+        <div class="ft-result" id="ft-result">
+          <div class="ft-result-icon" id="ft-result-icon"></div>
+          <div class="ft-result-text" id="ft-result-text"></div>
+          <div class="ft-result-reason" id="ft-result-reason"></div>
+        </div>
+        <div class="ft-reset"><button class="btn btn-ghost" id="ft-reset-btn">重新测试</button></div>
+      </div>
+      <div class="step-foot">回到 Vitamin &darr;</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 Fine-tune 规划</h2>
+      <p class="step-lede">Vitamin 现在 (MVP 阶段) 不需要 Fine-tune. 但 PMF 后, <mark class="hl">品牌语调</mark> 是 Fine-tune 的候选.</p>
+      <div class="callout callout-blue">
+        <p><strong>Vitamin Fine-tune 时间表:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li><span class="pill pill-green">现在</span> 用 Prompt-only + Few-shot 控制语气</li>
+          <li><span class="pill pill-amber">PMF 后</span> 积累 1000+ 条 "理想回复" 数据, 开始标注</li>
+          <li><span class="pill pill-amber">规模化后</span> 用 LoRA 微调一个小模型, 专门处理 Vitamin 风格的对话</li>
+        </ul>
+      </div>
+      <div class="callout callout-red">
+        <p><strong>面试金句:</strong></p>
+        <p>"Fine-tune 我放在 PMF 后. 原因: 一, 现阶段 Prompt + Few-shot 已经能控制语气到 80 分; 二, 需求还在变, 训了可能白训; 三, 等积累够数据再做, 效果更好成本更低."</p>
+      </div>
+      <div class="step-foot">规则 + 作业 &darr;</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Fine-tune 改 "怎么说", 不改 "知道什么".<br/>PMF 前别碰, PMF 后再考虑.</p>
+        <p class="one-liner-foot muted">把变化的知识放 RAG, 把稳定的风格放 Fine-tune.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>用 Fine-tune Decision Checker 测试 Vitamin 的 3 个功能, 截图结果.</li>
+          <li>写 10 条 Vitamin 的 "理想回复" 数据 (格式: 用户输入 → 理想回复). 这就是 Fine-tune 训练数据的雏形.</li>
+          <li>搜索 "LoRA fine-tuning tutorial 2026", 读一篇, 用一句话总结 LoRA 的核心思路.</li>
+          <li>写 200 字: 为什么 Vitamin 现在不 Fine-tune? 什么条件满足后才考虑?</li>
+        </ol>
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://www.53ai.com/news/qianyanjishu/701.html" target="_blank" style="color:var(--blue);">RAG + Fine-Tune 混合策略</a></td><td style="padding:6px 8px;">53AI</td><td style="padding:6px 8px;">中文, 两者如何配合</td><td style="padding:6px 8px;">15 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://www.gauraw.com/fine-tuning-llm-lora-dpo-guide-2026/" target="_blank" style="color:var(--blue);">Fine-tuning Guide 2026</a></td><td style="padding:6px 8px;">gauraw.com</td><td style="padding:6px 8px;">LoRA/DPO 全攻略</td><td style="padding:6px 8px;">20 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://zhuanlan.zhihu.com/p/1934260437093974029" target="_blank" style="color:var(--blue);">RAG 与微调的区别及选择</a></td><td style="padding:6px 8px;">知乎</td><td style="padding:6px 8px;">中文, 企业选型视角</td><td style="padding:6px 8px;">10 min</td></tr>
+            <tr><td style="padding:6px 8px;">📺</td><td style="padding:6px 8px;"><a href="https://www.youtube.com/results?search_query=LoRA+fine+tuning+explained+2025" target="_blank" style="color:var(--blue);">LoRA Explained (YouTube)</a></td><td style="padding:6px 8px;">YouTube</td><td style="padding:6px 8px;">视频讲解 LoRA 原理</td><td style="padding:6px 8px;">15 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 &darr;</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 改 "说话习惯"</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> ≠ 教新知识</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 4 个检查项</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 4 步流程</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 成本拆解</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> LoRA 降成本</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 4 个反指标</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 决策检查器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 规划</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">Fine-tune 改 "怎么说", RAG 改 "知道什么". 别搞反了.</p>
+        <p class="end-summary-sub">PMF 前别碰, PMF 后品牌语调是第一个 Fine-tune 候选.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 5): Multi-Agent 适用场景</div>
+        <p>Prompt-only → RAG → Fine-tune 都看了. 最后一种架构: <strong>Multi-Agent</strong>.<br/>当一个 Agent 搞不定复杂任务时, 怎么组建 "AI 团队"?</p>
+        <a class="walk-arrow" href="../u5-multi-agent/index.html">继续走 &rarr; Unit 5</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.4 · Unit 4 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

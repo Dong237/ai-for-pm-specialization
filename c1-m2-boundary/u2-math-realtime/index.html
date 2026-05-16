@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 2 · AI 死穴 1: 精确数学 + 实时数据 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M1.2 Unit 2: 为什么 AI 算不对大数乘法, Vitamin 不能让 AI 算 BMI." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.2</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 · 精确数学 + 实时数据</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 2<span class="title-dot">·</span><br/>AI 死穴 1</h1>
+      <p class="hero-sub">精确数学 + 实时数据 — AI 自信满满地算错</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个震惊的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="26" r="2.5" fill="currentColor" />
+            <circle cx="58" cy="26" r="2.5" fill="currentColor" />
+            <ellipse cx="50" cy="40" rx="5" ry="4" stroke="currentColor" stroke-width="2" fill="none" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="30" y2="60" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="70" y2="60" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 发现 AI 算错了)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">我问 AI: "184729 × 73921 等于多少?"</p>
+          <p class="cloud-line">它秒回一个数字, 自信得不行...</p>
+          <p class="cloud-line">我拿计算器一验, <strong>差了 75 万</strong>??!</p>
+          <p class="cloud-line accent">—— AI 最大的死穴之一, 今天拆开看.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解为什么 AI 算不对大数乘法 (hint: 它不是在"算")</li>
+          <li>知道 AI 对实时数据完全无能为力的原因</li>
+          <li>掌握"AI 做语言, 代码做数字" 的设计原则</li>
+          <li>给 Vitamin 画出 "用 AI vs 用规则" 的边界线</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">简单数学 vs 复杂数学 — AI 的表现天差地别</h2>
+
+      <div class="math-compare">
+        <div class="math-card easy">
+          <div class="math-label">简单题</div>
+          <div class="math-question">17 × 24 = ?</div>
+          <div class="math-answer">
+            <span class="ai-tag">🤖 AI 回答:</span>
+            <span class="answer-val correct">408 ✓</span>
+          </div>
+          <div class="math-verdict">对了. 训练数据中见过太多"17×24=408", 它记住了这个模式.</div>
+        </div>
+
+        <div class="math-card hard">
+          <div class="math-label">复杂题</div>
+          <div class="math-question">184,729 × 73,921 = ?</div>
+          <div class="math-answer">
+            <span class="ai-tag">🤖 AI 回答:</span>
+            <span class="answer-val wrong">13,657,843,209 ✗</span>
+          </div>
+          <div class="math-verdict">错了. 正确答案是 13,658,597,409. 差了 754,200 — 但 AI 不会告诉你它不确定.</div>
+        </div>
+      </div>
+
+      <p class="step-lede">注意一个可怕的事实: 两次回答, AI 的<strong>语气完全一样自信</strong>. 它不会说"我不确定, 你最好验一下".</p>
+
+      <div class="step-foot">为什么会这样? 回到 Unit 1 的核心概念 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">两个危险的误解</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>误解 A: "AI 那么聪明, 当然能算数"</h3>
+          <p>它能写诗、改代码, 数学这么简单的事还搞不定?</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            AI 不是在"算". 它是在做 next-token prediction — 猜"这串数字后面最可能跟什么数字". 数学需要精确, 但猜测本质上是近似的.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>误解 B: "给更多训练数据就能算对"</h3>
+          <p>是不是练习题做多了, AI 就会算了?</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            这是架构层面的限制. LLM 把数字拆成 token (文本片段), 不理解位值关系. 就像让一个只会拼字母的人做微积分 — 方法论不对.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">AI 在数学上的工作方式:</p>
+        <p class="truth-line giant">它不"算", 它<mark class="hl">"猜一个看起来对的数字"</mark></p>
+        <p class="truth-line">简单题 (17×24) 它见过答案, 猜得对. 复杂题它没见过, 就猜一个"看起来差不多"的数.</p>
+        <p class="truth-line muted">→ 数学要的是 100% 精确. "看起来差不多" 在数学里叫"错了".</p>
+      </div>
+
+      <div class="step-foot">具体哪里出了问题? 看 tokenization ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">根本原因: 数字被切成了 token 碎片</h2>
+      <p class="step-lede">还记得 Module 1.1 学的 Token 吗? AI 不看"数字", 看的是 token 碎片:</p>
+
+      <div class="token-viz" data-rough="card">
+        <div class="token-viz-label">你输入的数字:</div>
+        <div class="token-row">
+          <span class="token-block">1</span>
+          <span class="token-block">8</span>
+          <span class="token-block">4</span>
+          <span class="token-block">7</span>
+          <span class="token-block">2</span>
+          <span class="token-block">9</span>
+          <span class="token-block">3</span>
+        </div>
+
+        <div class="token-viz-label">AI 眼中的 token:</div>
+        <div class="token-row">
+          <span class="token-block">184</span>
+          <span class="token-block sep">切开</span>
+          <span class="token-block">72</span>
+          <span class="token-block sep">切开</span>
+          <span class="token-block">93</span>
+        </div>
+
+        <p class="token-explain">
+          AI 不知道 "1" 在十万位、"8" 在万位. 它只看到三个文本片段: "184", "72", "93".<br/>
+          没有位值概念, 就没法做进位、借位 — 这是小学生都知道的基本功, 但 AI 根本没有这个能力.
+        </p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>类比:</strong> 想象一个只会背菜谱的人 — 他背了 10 万个菜谱, 你问"番茄炒蛋怎么做"他对答如流. 但你问"番茄炒蛋要几克盐", 他会<em>猜</em>一个听起来合理的数. 因为他没有味觉, 不会尝.</p>
+        <p>AI 就是这个"没有计算能力的背菜谱高手".</p>
+      </div>
+
+      <div class="step-foot">除了数学, 还有一个更大的盲区 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">实时数据: AI 不知道"现在"</h2>
+      <p class="step-lede">AI 的知识有个截止日期 (Knowledge Cutoff). 截止日之后的事, 它<strong>完全不知道</strong>, 但会假装知道:</p>
+
+      <div class="realtime-examples">
+        <article class="realtime-card">
+          <div class="realtime-q">"今天深圳最高气温几度?"</div>
+          <div class="realtime-a">→ AI 会编一个"26°C" — 看起来合理, 但不是今天的真实数据.</div>
+        </article>
+        <article class="realtime-card">
+          <div class="realtime-q">"现在美元兑人民币汇率是多少?"</div>
+          <div class="realtime-a">→ AI 会给出训练数据里的旧汇率, 不是实时的.</div>
+        </article>
+        <article class="realtime-card">
+          <div class="realtime-q">"特斯拉今天股价多少?"</div>
+          <div class="realtime-a">→ AI 会编一个看起来合理的数字 — 可能离真实值差几十美元.</div>
+        </article>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <p><strong>关键:</strong> AI 对实时数据的回答不是"猜得不太准" — 是<mark class="hl">完全瞎编</mark>. 它没有联网能力(除非产品层显式接了搜索 API), 但它不会告诉你"我不知道", 而是编一个听起来像真的答案.</p>
+      </div>
+
+      <div class="step-foot">最可怕的不是"答错", 而是答错了还很自信 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">信心陷阱: AI 永远不说"我算不来"</h2>
+
+      <div class="confidence-demo" data-rough="card">
+        <div class="conf-bubble user-bubble">
+          <div class="conf-avatar">用户</div>
+          请帮我算一下: 我身高 168cm, 体重 63kg, BMI 是多少?
+        </div>
+        <div class="conf-bubble">
+          <div class="conf-avatar">AI</div>
+          <div class="conf-wrong">⚠ 错误</div>
+          你的 BMI 是 <strong>22.6</strong>. 属于正常范围 (18.5-24.9).<br/>
+          <em style="color: var(--ink-muted); font-size: 13px;">注: 正确答案是 22.32. AI 给出 22.6, 四舍五入都不对.</em>
+        </div>
+
+        <div class="conf-bubble user-bubble">
+          <div class="conf-avatar">用户</div>
+          那如果我要减到 BMI 21, 应该减多少斤?
+        </div>
+        <div class="conf-bubble">
+          <div class="conf-avatar">AI</div>
+          <div class="conf-wrong">⚠ 连环错误</div>
+          要达到 BMI 21, 你需要减到约 <strong>59.2kg</strong>, 大约减 <strong>3.8kg (7.6 斤)</strong>.<br/>
+          <em style="color: var(--ink-muted); font-size: 13px;">注: 基于错误的 BMI 继续算, 错上加错. 正确答案: 目标体重 59.27kg, 减 3.73kg.</em>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>连环错误 (Error Cascading):</strong> 第一步算错 → 第二步基于错误结果继续算 → 越错越离谱. 这在 LLM 中叫<mark class="hl"> autoregressive compounding</mark> — 每一步的输出是下一步的输入, 错误会滚雪球.</p>
+      </div>
+
+      <div class="step-foot">那什么任务该给 AI, 什么该给代码? ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">任务路由: 什么给 AI, 什么给代码/API</h2>
+      <p class="step-lede">PM 的核心判断力: 知道什么交给 LLM, 什么交给确定性工具.</p>
+
+      <table class="route-table">
+        <thead>
+          <tr>
+            <th>任务</th>
+            <th>用什么</th>
+            <th>原因</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>计算 BMI</td>
+            <td class="route-tool">公式 / 代码</td>
+            <td>精确计算, 不允许误差</td>
+          </tr>
+          <tr>
+            <td>解释 BMI 含义</td>
+            <td class="route-ai">LLM</td>
+            <td>语言生成, 把数字翻译成建议</td>
+          </tr>
+          <tr>
+            <td>算经期下次日期</td>
+            <td class="route-tool">规则 / 代码</td>
+            <td>日期计算, 需要确定性</td>
+          </tr>
+          <tr>
+            <td>解释经期不规律的原因</td>
+            <td class="route-ai">LLM</td>
+            <td>知识问答, 语言类任务</td>
+          </tr>
+          <tr>
+            <td>查今天天气</td>
+            <td class="route-tool">天气 API</td>
+            <td>实时数据, AI 不知道</td>
+          </tr>
+          <tr>
+            <td>根据天气推荐穿搭</td>
+            <td class="route-ai">LLM</td>
+            <td>创意生成, 语言类任务</td>
+          </tr>
+          <tr>
+            <td>计算每月 API 成本</td>
+            <td class="route-tool">Excel / 代码</td>
+            <td>财务数字, 精确到分</td>
+          </tr>
+          <tr>
+            <td>撰写成本分析报告</td>
+            <td class="route-ai">LLM</td>
+            <td>文字组织, 语言类任务</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>一个简单判断:</strong> 如果结果必须<mark class="hl">精确到每一位数字</mark>, 就不要用 AI. 如果结果是<mark class="hl">一段话 / 一个分类 / 一种风格</mark>, AI 很擅长.</p>
+      </div>
+
+      <div class="step-foot">最佳实践: 混合架构 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">混合架构: AI 管语言, 代码管数字</h2>
+      <p class="step-lede">最好的 AI 产品不会让 LLM 单打独斗 — 它们把任务拆开:</p>
+
+      <div class="hybrid-arch">
+        <div class="arch-box ai-box">
+          <h4>🤖 LLM 负责</h4>
+          <ul>
+            <li>理解用户意图</li>
+            <li>生成自然语言回复</li>
+            <li>分类、总结、改写</li>
+            <li>决定"需要调用什么工具"</li>
+          </ul>
+        </div>
+        <div class="arch-arrow">⇄</div>
+        <div class="arch-box tool-box">
+          <h4>🧮 代码/API 负责</h4>
+          <ul>
+            <li>精确计算 (BMI / 日期)</li>
+            <li>数据库查询 (药物交互)</li>
+            <li>实时数据 (天气 / 汇率)</li>
+            <li>规则校验 (输入合法性)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>这就是 Tool Use / Function Calling:</strong></p>
+        <p>LLM 说: "用户想知道 BMI, 我来调计算器."<br/>
+        → 计算器返回 22.32<br/>
+        → LLM 说: "你的 BMI 是 22.32, 属于正常范围. 建议继续保持均衡饮食."</p>
+        <p class="muted">AI 管"说什么", 代码管"算什么". 各司其职.</p>
+      </div>
+
+      <div class="step-foot">来动手感受一下差距 ↓</div>
+    </section>
+
+    <!-- (8) WIDGET -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手对比 — AI vs 计算器</h2>
+      <p class="step-lede">6 道数学题. 点击"揭晓"看 AI 的回答和计算器的回答, 猜猜哪些 AI 会答错:</p>
+
+      <div class="calc-widget" data-rough="card">
+        <div id="calc-problems"></div>
+        <div class="calc-controls">
+          <button id="calc-reveal-all" class="btn btn-primary">全部揭晓</button>
+          <button id="calc-reset" class="btn btn-ghost">重来</button>
+          <span id="calc-score" class="calc-score">已揭晓 0 / 6</span>
+        </div>
+      </div>
+
+      <p class="step-lede" style="margin-top: 24px;">再试试 BMI — 输入身高体重, 对比 AI 和公式的结果:</p>
+
+      <div class="bmi-compare" data-rough="card">
+        <h4>BMI 对比: AI 猜 vs 公式算</h4>
+        <div class="bmi-inputs">
+          <label>身高 <input id="bmi-height" type="number" placeholder="165" value="165" min="100" max="250" /> cm</label>
+          <label>体重 <input id="bmi-weight" type="number" placeholder="58" value="58" min="20" max="200" /> kg</label>
+          <button id="bmi-calc-btn" class="btn btn-primary">计算</button>
+        </div>
+        <div class="bmi-results">
+          <div class="bmi-result ai">
+            <div class="bmi-result-label">🤖 AI 的回答 (模拟)</div>
+            <div class="bmi-result-val" id="bmi-ai-val">?</div>
+          </div>
+          <div class="bmi-result formula">
+            <div class="bmi-result-label">🧮 公式: 体重 / 身高²</div>
+            <div class="bmi-result-val" id="bmi-formula-val">?</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-foot">把这些认知应用到 Vitamin ↓</div>
+    </section>
+
+    <!-- (9) Vitamin case study -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: 哪些必须用代码, 哪些可以用 AI</h2>
+      <p class="step-lede">Vitamin 是健康类产品, 数字错误的后果<mark class="hl">可能影响用户健康决策</mark>. 必须严格区分:</p>
+
+      <div class="can-cant">
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">🧮 必须用代码/规则</h3>
+          <ul>
+            <li>BMI 计算 (体重 ÷ 身高²)</li>
+            <li>经期预测 (下次日期 = 上次 + 周期天数)</li>
+            <li>排卵日推算 (周期 - 14 天)</li>
+            <li>孕周计算 (末次月经到今天)</li>
+            <li>药物交互检查 (查数据库, 不能猜)</li>
+            <li>今日天气 / 空气质量 (调天气 API)</li>
+            <li>营养成分计算 (查食物数据库)</li>
+          </ul>
+        </article>
+
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">🤖 可以用 AI</h3>
+          <ul>
+            <li>"你的 BMI 是 21.3" → 解释含义、给建议</li>
+            <li>"你处于黄体期" → 用大白话解释身体变化</li>
+            <li>用户问 "经期能跑步吗" → 知识问答</li>
+            <li>情绪日记分析 → 情绪分类</li>
+            <li>生成个性化健康小贴士</li>
+            <li>把一周健康数据总结成一段话</li>
+            <li>情绪陪伴对话</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"Vitamin 的 BMI 计算我用的是确定性公式, 不是 AI 生成. 因为健康数字必须 100% 精确 — AI 的本质是概率预测, 不是计算器. 但 BMI 算完之后的'健康建议'部分, 是 AI 生成的, 因为那是语言任务."</p>
+        <p class="muted">→ 这个"算数用代码, 解读用 AI"的分工, 是 AI PM 的基本判断力.</p>
+      </div>
+
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">AI 擅长语言, 不擅长数字.<br/>数字的事, 交给代码.</p>
+        <p class="one-liner-foot muted">用 AI 理解意图、生成文字; 用代码/API 做计算、查实时数据. 各司其职.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>打开 ChatGPT / 豆包, 连续问 5 道复杂乘法题 (6 位数 × 6 位数). 记录 AI 答对了几道. 再问 5 道简单的 (两位数 × 两位数), 对比正确率.</li>
+          <li>问 AI"今天深圳天气怎么样" — 看它是会说"我不知道"还是会编一个答案. 截图记录.</li>
+          <li>打开 Vitamin 功能列表, 找出所有涉及<strong>精确数字</strong>的功能 (日期计算、BMI、营养成分等), 标注为"必须用代码". 找出所有<strong>语言类</strong>功能, 标注为"可以用 AI".</li>
+          <li>写 200 字: 用"AI 是猜字机, 不是计算器"这个认知, 解释给非技术朋友听.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead>
+            <tr><th>类型</th><th>资源</th><th>来源</th><th>为什么值得看</th><th>时间</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>📖</td>
+              <td><a href="https://dev.to/maximsaplin/llms-are-bad-at-math-5h4d" target="_blank">LLMs are Bad at Math</a></td>
+              <td>DEV Community</td>
+              <td>用实际测试数据展示 LLM 的数学弱点</td>
+              <td>10 分钟</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td><a href="https://primo.mobi/en/blogs/primo-blog/why-ai-fails-math-en" target="_blank">Why Can't AI Do Math?</a></td>
+              <td>Primo</td>
+              <td>从 tokenization 角度解释 AI 为什么算不对数学</td>
+              <td>10 分钟</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td><a href="https://www.arsturn.com/blog/why-your-llm-is-bad-at-math-and-how-to-fix-it-with-a-clip-on-symbolic-brain" target="_blank">Why Your LLM Is Bad at Math</a></td>
+              <td>Arsturn</td>
+              <td>讲 Neuro-Symbolic AI 怎么补 LLM 的数学短板</td>
+              <td>10 分钟</td>
+            </tr>
+            <tr>
+              <td>📺</td>
+              <td><a href="https://www.coursera.org/learn/generative-ai-for-everyone" target="_blank">Generative AI for Everyone</a></td>
+              <td>Coursera / Andrew Ng</td>
+              <td>Week 1 讲 AI 的能力边界, 包括数学限制</td>
+              <td>2 小时</td>
+            </tr>
+            <tr>
+              <td>🛠</td>
+              <td><a href="https://chatgpt.com" target="_blank">ChatGPT</a></td>
+              <td>OpenAI</td>
+              <td>亲自试: 问几道大数乘法, 体验 AI 的"自信错误"</td>
+              <td>5 分钟</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 简单数学 vs 复杂数学</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> AI 不算, AI 猜数字</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> Token 碎片 = 没有位值</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> 实时数据: AI 不知道"现在"</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 信心陷阱: 永不说"不知道"</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 任务路由: AI vs 代码</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 混合架构各司其职</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> AI vs 计算器对决</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 数字 vs 语言</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业 + 资源</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">AI 是猜字机, 不是计算器.<br/>数字用代码, 语言用 AI.</p>
+        <p class="end-summary-sub">健康产品尤其如此 — 算错一个 BMI, 可能给出错误的健康建议.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 3): AI 死穴 2 — 长上下文"大海捞针"</div>
+        <p>你以为 128K Context Window 就能记住所有对话?<br/>
+        Stanford 和 Google 的研究发现: AI 对<strong>中间位置</strong>的信息记忆特别模糊.</p>
+        <p>"我记得你之前说过..." — AI 经常是在<strong>瞎编</strong>.</p>
+        <a class="walk-arrow" href="../u3-lost-in-middle/index.html">继续走 → Unit 3</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.2 · Unit 2 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

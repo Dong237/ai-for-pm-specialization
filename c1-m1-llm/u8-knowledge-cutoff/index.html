@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 8 · 知识截止 (Knowledge Cutoff) — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 8: 为什么 AI 不知道最近的事? 知识截止日 + RAG/Web Search 解法." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M1</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 8 · 知识截止 (Knowledge Cutoff)</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 8<span class="title-dot">·</span><br/>知识截止<br/><span style="font-size:0.6em;color:var(--ink-muted);">Knowledge Cutoff</span></h1>
+      <p class="hero-sub">为什么 AI 不知道最近的事, 以及怎么 "补救".</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM · 准备了解 AI 的 "保质期")</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">我问 ChatGPT: "谁拿了 2026 奥斯卡最佳影片?"</p>
+          <p class="cloud-line">它要么说 "我不知道", 要么... <strong>编一个</strong>.</p>
+          <p class="cloud-line accent">—— 为什么? 怎么解决?</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解知识截止日 (Knowledge Cutoff) 是什么</li>
+          <li>知道不同模型的截止日各不相同</li>
+          <li>掌握两大解法: RAG 和 Web 搜索</li>
+          <li>给 Vitamin 设计一套 "知识保鲜" 方案</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) 亲身体验 -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">试一试: "谁拿了 2026 奥斯卡?"</h2>
+      <p class="step-lede">打开任何一个 AI 聊天工具, 问这个问题:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-leader">你的 prompt →</div>
+        <div class="prompt-text">"谁拿了 2026 年奥斯卡最佳影片?"</div>
+      </div>
+
+      <div class="two-wrong">
+        <div class="wrong">
+          <div class="wrong-mark">A</div>
+          <h3>老实型回答</h3>
+          <p>"抱歉, 我的知识截止到 2024 年 4 月, 无法回答这个问题."</p>
+          <div class="wrong-why">至少它承认了 — 但用户体验不好.</div>
+        </div>
+        <div class="wrong">
+          <div class="wrong-mark">B</div>
+          <h3>幻觉型回答</h3>
+          <p>"2026 年奥斯卡最佳影片是《xxx》, 由导演 yyy 执导..."</p>
+          <div class="wrong-why">自信满满, 但完全是编的. 上节课学的 Hallucination.</div>
+        </div>
+      </div>
+
+      <p>两种回答都不理想. 但问题的根源是同一个: <mark class="hl">模型的训练数据有一个截止日期</mark>.</p>
+
+      <div class="step-foot">什么是训练数据的截止日? ↓</div>
+    </section>
+
+    <!-- (2) 训练数据的日期边界 -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">训练数据有一条日期边界</h2>
+      <p class="step-lede">LLM 的知识来自训练数据 — 而训练数据的收集 <mark class="hl">有一个截止日期</mark>.</p>
+
+      <div class="truth-bubble" data-rough="big">
+        <div class="truth-tag">核心概念</div>
+        <p class="truth-line big"><strong>Knowledge Cutoff (知识截止日)</strong></p>
+        <p class="truth-line giant">模型最后一次 "看" 到新数据的日期.</p>
+        <p class="truth-line">截止日之前的事 → 模型可能知道 (因为训练数据里有).</p>
+        <p class="truth-line">截止日之后的事 → 模型<strong>完全不知道</strong> (因为训练数据里没有).</p>
+        <p class="truth-line muted">就像一本百科全书, 印刷之后就不会自动更新了.</p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>类比:</strong>
+        <p>LLM 就像一个<strong>在某个日期定格的超级读者</strong>. 它在截止日之前疯狂阅读了互联网上几乎所有的文字. 但截止日之后, 它就 "闭关" 了, 外面发生的事一概不知.</p>
+      </div>
+
+      <div class="step-foot">不同模型的截止日一样吗? ↓</div>
+    </section>
+
+    <!-- (3) 不同模型, 不同截止日 -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">不同模型, 不同截止日</h2>
+      <p class="step-lede">每个模型训练时间不同, 所以截止日也不同:</p>
+
+      <div class="callout callout-green" data-rough="card">
+        <table class="cutoff-table">
+          <thead><tr><th>模型</th><th>知识截止日</th><th>意味着...</th></tr></thead>
+          <tbody>
+            <tr><td><strong>GPT-4o</strong></td><td class="cutoff-date">2024 年 4 月</td><td>不知道 2024 年 5 月之后的事</td></tr>
+            <tr><td><strong>Claude 3.5 Sonnet</strong></td><td class="cutoff-date">2025 年 4 月</td><td>不知道 2025 年 5 月之后的事</td></tr>
+            <tr><td><strong>DeepSeek V3</strong></td><td class="cutoff-date">2025 年 3 月</td><td>不知道 2025 年 4 月之后的事</td></tr>
+            <tr><td><strong>Gemini 1.5 Pro</strong></td><td class="cutoff-date">2024 年 11 月</td><td>不知道 2024 年 12 月之后的事</td></tr>
+            <tr><td><strong>Llama 3</strong></td><td class="cutoff-date">2023 年 12 月</td><td>不知道 2024 年之后的事</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 必须知道的:</strong>
+        <ul>
+          <li>截止日越新 → 模型知道的越多 (但也意味着训练成本更高)</li>
+          <li><strong>同一家公司不同版本</strong>的模型, 截止日也不同 (GPT-3.5 vs GPT-4 vs GPT-4o)</li>
+          <li>截止日 ≠ 发布日 — 模型可能在 2024 年发布, 但训练数据只到 2023 年</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">"不知道" 到底意味着什么? ↓</div>
+    </section>
+
+    <!-- (4) "不知道" ≠ "笨" -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">"不知道" ≠ "笨" — 是 "从未见过"</h2>
+      <p class="step-lede">这个区分很重要. 模型不知道 2026 奥斯卡, <mark class="hl">不是因为它理解能力不行</mark>.</p>
+
+      <div class="can-cant">
+        <div class="can-list">
+          <h3 class="can-head">模型能做到 (不受截止影响)</h3>
+          <ul>
+            <li>推理、分析、总结 (能力不过期)</li>
+            <li>写代码、翻译、改写文风</li>
+            <li>回答截止日之前的事实问题</li>
+            <li>基于你提供的新信息进行分析</li>
+          </ul>
+        </div>
+        <div class="cant-list">
+          <h3 class="cant-head">模型做不到 (截止后的盲区)</h3>
+          <ul>
+            <li>知道截止日之后的新闻</li>
+            <li>知道新发布的产品/论文/政策</li>
+            <li>知道最新的股价、天气、赛事结果</li>
+            <li>知道自己不知道 (可能会编造)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="big-insight" data-rough="big">
+        <p>记住:</p>
+        <p class="insight-text">Knowledge Cutoff 影响的是 <mark class="hl">"知识"</mark>,<br/>不影响 <mark class="hl">"能力"</mark>.<br/>模型的推理能力不会过期.</p>
+      </div>
+
+      <div class="step-foot">对做产品有什么具体影响? ↓</div>
+    </section>
+
+    <!-- (5) 影响: 医学指南/新药/新研究 -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">对产品的影响: 过期的知识是危险的</h2>
+      <p class="step-lede">对于像 Vitamin 这样的 <mark class="hl">健康产品, 过期的知识可能造成伤害</mark>:</p>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>危险场景:</strong>
+        <ul>
+          <li><strong>医学指南更新:</strong> 2025 年某个药物被发现有新的副作用, 但模型的数据只到 2024 → 它还会推荐这个药</li>
+          <li><strong>新药上市:</strong> 2025 年 FDA 批准了一种新的女性健康药物, 但模型完全不知道它的存在</li>
+          <li><strong>研究反转:</strong> 2024 年的研究说 "A 有效", 2025 年的研究说 "A 无效" → 模型只知道 "A 有效"</li>
+          <li><strong>法规变化:</strong> 新的隐私法规要求不同的健康数据处理方式, 但模型不知道</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 决策:</strong>
+        <p>如果你的产品涉及<strong>时效性强的领域</strong> (医疗、法律、金融、新闻), 你不能直接依赖模型的内置知识. 你需要<strong>外挂知识更新机制</strong>.</p>
+        <p>这就是接下来要讲的 RAG 和 Web Search.</p>
+      </div>
+
+      <div class="step-foot">第一个解法: RAG ↓</div>
+    </section>
+
+    <!-- (6) 解法 1: RAG -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">解法 1: RAG — 把新鲜文档塞进去</h2>
+      <p class="step-lede"><strong>RAG (Retrieval-Augmented Generation)</strong> = 检索增强生成. 核心思想很简单:</p>
+
+      <div class="truth-bubble" data-rough="big">
+        <div class="truth-tag">RAG 原理</div>
+        <p class="truth-line giant">先搜, 再答.</p>
+        <p class="truth-line">用户问问题 → 先从你的知识库里搜出相关文档 → 把文档塞进 prompt → 让模型基于这些文档回答.</p>
+        <p class="truth-line muted">模型不需要 "知道" 答案, 只需要 "读懂" 你给的材料.</p>
+      </div>
+
+      <div class="rag-flow">
+        <div class="rag-step">用户提问</div>
+        <span class="rag-arrow">→</span>
+        <div class="rag-step">检索知识库<br/>(向量搜索)</div>
+        <span class="rag-arrow">→</span>
+        <div class="rag-step">相关文档<br/>塞进 Prompt</div>
+        <span class="rag-arrow">→</span>
+        <div class="rag-step">模型基于<br/>文档回答</div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>RAG 的优势:</strong>
+        <ul>
+          <li><strong>知识可控:</strong> 你决定知识库里放什么内容</li>
+          <li><strong>实时更新:</strong> 往知识库加新文档就行, 不用重新训练模型</li>
+          <li><strong>可溯源:</strong> 能告诉用户 "这个回答基于哪篇文档"</li>
+          <li><strong>成本低:</strong> 比重新训练模型便宜几个数量级</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>RAG 的局限:</strong>
+        <ul>
+          <li>知识库需要<strong>人工维护</strong> — 谁来添加新文档? 多久更新一次?</li>
+          <li>检索不到 → 还是回答不了</li>
+          <li>知识库太大 → 检索慢, 召回率下降</li>
+          <li>只覆盖<strong>你准备好的领域</strong>, 不覆盖全网信息</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">另一个解法: Web 搜索 ↓</div>
+    </section>
+
+    <!-- (7) 解法 2: Web 搜索 -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">解法 2: Web 搜索 — 让模型上网</h2>
+      <p class="step-lede">另一个思路: <mark class="hl">让模型在回答之前先搜一下互联网</mark>.</p>
+
+      <div class="web-flow">
+        <div class="web-step">用户提问</div>
+        <span class="web-arrow">→</span>
+        <div class="web-step">模型调用<br/>搜索引擎</div>
+        <span class="web-arrow">→</span>
+        <div class="web-step">获取最新<br/>网页结果</div>
+        <span class="web-arrow">→</span>
+        <div class="web-step">综合搜索结果<br/>生成回答</div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>Web 搜索 vs RAG 对比:</strong>
+        <table class="cutoff-table">
+          <thead><tr><th>维度</th><th>RAG</th><th>Web 搜索</th></tr></thead>
+          <tbody>
+            <tr><td>信息来源</td><td>你的私有知识库</td><td>公开互联网</td></tr>
+            <tr><td>新鲜度</td><td>取决于你更新频率</td><td>实时</td></tr>
+            <tr><td>可控性</td><td>高 (你决定放什么)</td><td>低 (搜到什么用什么)</td></tr>
+            <tr><td>准确性</td><td>高 (来源可控)</td><td>不确定 (网上信息良莠不齐)</td></tr>
+            <tr><td>适用场景</td><td>专业领域 (医疗/法律)</td><td>通用信息 (新闻/热点)</td></tr>
+            <tr><td>实现复杂度</td><td>中等 (需要搭知识库)</td><td>低 (调用搜索 API)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>最佳实践: RAG + Web 搜索 = 双保险</strong>
+        <p>很多产品两个都用: <strong>专业知识用 RAG</strong> (自建知识库, 确保准确), <strong>通用信息用 Web 搜索</strong> (保证新鲜).</p>
+        <p>例如: Vitamin 用 RAG 存储经过审核的医学指南, 用 Web 搜索补充最新的健康新闻.</p>
+      </div>
+
+      <div class="step-foot">来动手看看时间线 ↓</div>
+    </section>
+
+    <!-- (8) 互动 Widget: Knowledge Timeline -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: Knowledge Timeline</h2>
+      <p class="step-lede">选一个模型, 看看哪些问题它能答、哪些不能. 然后试试 RAG 和 Web 搜索的补救效果:</p>
+
+      <div class="timeline-widget" data-rough="card">
+        <div class="timeline-controls">
+          <label for="model-select">选择模型:</label>
+          <select id="model-select">
+            <option value="gpt4">GPT-4o (截止 Apr 2024)</option>
+            <option value="claude35">Claude 3.5 Sonnet (截止 Apr 2025)</option>
+            <option value="deepseek">DeepSeek V3 (截止 Mar 2025)</option>
+          </select>
+          <div class="patch-toggles">
+            <button class="patch-btn patch-btn-rag" id="patch-rag">RAG 补丁</button>
+            <button class="patch-btn patch-btn-web" id="patch-web">Web 搜索</button>
+          </div>
+        </div>
+
+        <div id="timeline-questions" class="timeline-questions">
+          <!-- Generated by JS -->
+        </div>
+
+        <div id="timeline-track" class="timeline-track">
+          <!-- Generated by JS -->
+        </div>
+
+        <div id="timeline-legend" class="timeline-legend">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>试试:</strong>
+        <ol>
+          <li>选 GPT-4o → 看到 2024 年 4 月之后的问题全红了</li>
+          <li>换成 Claude 3.5 Sonnet → 红的变少了 (截止日更近)</li>
+          <li>点 "RAG 补丁" → 有些红的变绿了 (RAG 可以补救有准备的领域)</li>
+          <li>点 "Web 搜索" → 更多红的变绿了 (Web 搜索覆盖面更广)</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">回到 Vitamin ↓</div>
+    </section>
+
+    <!-- (9) Vitamin: 医学知识新鲜度 -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 医学知识保鲜方案</h2>
+      <p class="step-lede">Vitamin 是女性健康 AI 应用, 做 5 州身体状态追踪. <mark class="hl">医学知识的时效性是生死攸关的</mark>.</p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>Vitamin 的知识截止问题:</strong>
+        <table class="cutoff-table">
+          <thead><tr><th>功能</th><th>知识时效要求</th><th>解决方案</th></tr></thead>
+          <tbody>
+            <tr><td><strong>经期健康建议</strong></td><td>需要最新的医学指南</td><td>RAG: 每月更新医学文献库</td></tr>
+            <tr><td><strong>用药查询</strong></td><td>需要最新的 FDA 批准信息</td><td>RAG: 每周同步 FDA 数据</td></tr>
+            <tr><td><strong>健康新闻</strong></td><td>需要实时信息</td><td>Web 搜索: 检索最新报道</td></tr>
+            <tr><td><strong>身体状态分析</strong></td><td>基于用户数据, 不依赖外部知识</td><td>不需要补救 (能力不过期)</td></tr>
+            <tr><td><strong>日常关怀对话</strong></td><td>不涉及时效性</td><td>不需要补救 (通用能力)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"Vitamin 涉及女性健康, 知识过期可能造成伤害. 我会用 RAG 搭建经过医学团队审核的知识库, 每月更新医学指南; 同时接入 Web 搜索补充通用健康资讯. 两套方案互补: RAG 保证<strong>准确性</strong>, Web 搜索保证<strong>新鲜度</strong>."</p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>RAG 知识库设计要点:</strong>
+        <ul>
+          <li><strong>来源审核:</strong> 只收录经过医学团队审核的内容 (不是随便网上抓)</li>
+          <li><strong>更新频率:</strong> 核心医学指南每月更新, FDA 数据每周同步</li>
+          <li><strong>版本管理:</strong> 旧版文档不删除, 标记为 "已过期", 方便追溯</li>
+          <li><strong>回答溯源:</strong> 每条回答标注来源文档和更新日期, 让用户知道信息有多 "新"</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) 规则 + 作业 -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">模型的知识有 "保质期".<br/>RAG 补专业知识, Web 搜索补通用信息.</p>
+        <p class="one-liner-foot muted">知识截止不是 bug — 是架构特性. PM 的工作是设计补救方案.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 ChatGPT, 问它 3 个 "它的截止日之后" 的事实问题, 记录它的回答方式 (承认不知道? 编造? 用了搜索?)</li>
+          <li>给 Vitamin 设计一个 RAG 知识库方案: 包含哪些数据源, 更新频率, 审核流程.</li>
+          <li>对比 ChatGPT (有 Web 搜索) 和原始 GPT-4 API (无搜索) 回答同一个时事问题的差异, 写 150 字分析.</li>
+          <li>写 100 字: 向你的 CEO 解释 "为什么我们不能直接用模型的内置知识给用户做健康建议, 必须加 RAG".</li>
+        </ol>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>📄</td><td><a href="https://platform.openai.com/docs/models" target="_blank" rel="noopener">OpenAI Models 文档</a></td><td>查看各模型的 knowledge cutoff 日期</td><td>10 min</td></tr>
+              <tr><td>📖</td><td><a href="https://zhuanlan.zhihu.com/p/668781459" target="_blank" rel="noopener">知乎: RAG 技术全解析</a></td><td>中文深度讲解 RAG 原理和实践</td><td>20 min</td></tr>
+              <tr><td>🎬</td><td><a href="https://www.youtube.com/watch?v=T-D1OfcDW1M" target="_blank" rel="noopener">IBM: What is RAG?</a></td><td>5 分钟视频讲清楚 RAG 是什么</td><td>5 min</td></tr>
+              <tr><td>📖</td><td><a href="https://docs.anthropic.com/en/docs/about-claude/models" target="_blank" rel="noopener">Anthropic Models 文档</a></td><td>查看 Claude 各版本的截止日</td><td>5 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 亲身体验: AI 不知道</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 训练数据的日期边界</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 不同模型不同截止日</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> "不知道" ≠ "笨"</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 过期知识的危险</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> RAG 检索增强生成</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Web 搜索补充</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Knowledge Timeline</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 知识保鲜</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 8:</p>
+        <p class="end-summary-big">知识截止 = 模型的 "保质期".<br/>RAG 补专业, Web 搜索补通用.<br/>PM 的职责是设计补救方案, 不是换模型.</p>
+        <p class="end-summary-sub">知识会过期, 但推理能力不会过期.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 9): 多模态 (Multimodal)</div>
+        <p>到目前为止, 我们讨论的 AI 都只处理文字. 但是 ——<br/>
+          <strong>最新的模型可以 "看" 图片, "听" 语音, 甚至 "画" 图.</strong></p>
+        <p>这叫 Multimodal (多模态). 它会彻底改变 Vitamin 的产品形态.</p>
+        <a class="walk-arrow" href="../u9-multimodal/index.html">继续走 → Unit 9</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1 · Unit 8 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

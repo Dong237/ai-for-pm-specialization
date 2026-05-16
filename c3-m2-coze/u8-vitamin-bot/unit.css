@@ -1,0 +1,163 @@
+/* Unit 8 · Vitamin Bot Assembler — unit-specific styles */
+
+.assembler {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 0;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.assembler-header {
+  background: var(--bg-elev);
+  padding: 14px 18px;
+  border-bottom: 2px solid var(--border);
+}
+.assembler-header h3 {
+  margin: 0;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+}
+.assembler-body { padding: 18px; }
+
+.assembly-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.assembly-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  background: var(--bg-elev);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.assembly-item:hover { border-color: var(--blue); }
+.assembly-item.checked {
+  border-color: var(--green);
+  background: var(--green-bg-soft);
+}
+.assembly-check {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-strong);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s;
+}
+.assembly-item.checked .assembly-check {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+.assembly-label { font-size: 14px; flex: 1; }
+.assembly-source {
+  font-size: 11px;
+  color: var(--ink-muted);
+  padding: 2px 8px;
+  background: var(--bg-card);
+  border-radius: 4px;
+}
+
+/* Bot preview phone frame */
+.phone-frame {
+  max-width: 340px;
+  margin: 24px auto;
+  background: var(--bg-card);
+  border: 3px solid var(--ink);
+  border-radius: 28px;
+  padding: 16px;
+  box-shadow: var(--shadow-elev);
+  position: relative;
+}
+.phone-notch {
+  width: 80px;
+  height: 6px;
+  background: var(--ink);
+  border-radius: 3px;
+  margin: 0 auto 12px;
+}
+.phone-screen {
+  background: var(--bg-elev);
+  border-radius: 12px;
+  padding: 14px;
+  min-height: 280px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.phone-msg {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  animation: phoneMsgIn 0.4s ease;
+}
+@keyframes phoneMsgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.phone-msg.bot-msg {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  margin-right: 20%;
+}
+.phone-msg.user-msg {
+  background: var(--blue-bg);
+  border: 1px solid var(--blue);
+  margin-left: 20%;
+  text-align: right;
+}
+.phone-input-bar {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+.phone-input-bar input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 16px;
+  background: var(--bg-card);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13px;
+}
+.phone-input-bar button {
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+}
+
+/* Assembly progress bar */
+.assembly-progress {
+  background: var(--bg-elev);
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 16px 0 8px;
+}
+.assembly-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  width: 0%;
+  transition: width 0.4s ease;
+  border-radius: 4px;
+}
+.assembly-progress-text {
+  font-size: 13px;
+  color: var(--ink-muted);
+  text-align: right;
+}

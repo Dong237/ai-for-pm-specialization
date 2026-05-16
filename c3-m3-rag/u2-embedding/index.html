@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 2 · Embedding 是什么 — AI for PM · M3.3</title>
+  <meta name="description" content="Embedding: 文字怎么变成向量? 向量空间里的语义距离" />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.3</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 · Embedding 是什么</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 2<span class="title-dot">·</span><br/>Embedding 是什么</h1>
+      <p class="hero-sub">文字怎么变成数字? 为什么"苹果"和"橘子"离得近?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <figcaption>(你 · PM)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">上节课说 RAG 第一步是"把文字变成向量"...</p>
+          <p class="cloud-line">向量到底是什么? 就是一堆数字?</p>
+          <p class="cloud-line">为什么相似的词, 向量会"靠近"?</p>
+          <p class="cloud-line accent">—— 今天搞清楚 Embedding.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>解释"向量"是什么, 不用任何数学公式</li>
+          <li>理解为什么 Embedding 能捕捉语义</li>
+          <li>知道 RAG 检索依赖的是向量之间的距离</li>
+          <li>选择适合 Vitamin 的 Embedding 模型</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">电脑不认字, 只认数字</h2>
+      <p class="step-lede">你写"苹果"两个字, 电脑看到的是一串编码 (比如 Unicode). 但编码只是<strong>ID</strong>, 不包含任何"意思".</p>
+
+      <div class="callout callout-blue">
+        <p><strong>"苹" = U+82F9, "果" = U+679C</strong></p>
+        <p>这些数字告诉电脑怎么<em>显示</em>这个字, 但不告诉它这是一种<em>水果</em>.</p>
+        <p>所以"苹果" 和 "橘子" 在 Unicode 里的距离, 跟"苹果" 和 "卡车" 的距离一样远. 电脑完全不知道苹果和橘子更相似.</p>
+      </div>
+
+      <div class="big-question">怎么让电脑理解"意思"?</div>
+      <div class="step-foot">答案就是 Embedding — 一种把"意思"编码进数字的方法 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Embedding: 把"意思"变成坐标</h2>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">核心概念</div>
+        <p class="truth-line big">Embedding 就是:</p>
+        <p class="truth-line giant">给每个词/句子一个"坐标"</p>
+        <p class="truth-line">意思相近的词, 坐标靠近. 意思不同的词, 坐标远离.</p>
+        <p class="truth-line muted">就像地图上, 北京和天津离得近, 北京和纽约离得远. Embedding 是"语义地图"上的坐标.</p>
+      </div>
+
+      <p class="step-lede">一个简单的例子. 如果我们只用 2 个数字来表示一个词:</p>
+      <div class="vec-display">
+        <div class="vec-box" style="border-color:var(--green)">
+          <h4 style="color:var(--green)">苹果</h4>
+          <div class="vec-nums">[0.82, 0.15]</div>
+          <div class="muted" style="font-size:12px">第一个数 = "水果程度", 第二个数 = "交通工具程度"</div>
+        </div>
+        <div class="vec-box" style="border-color:var(--green)">
+          <h4 style="color:var(--green)">橘子</h4>
+          <div class="vec-nums">[0.85, 0.12]</div>
+        </div>
+        <div class="vec-box" style="border-color:var(--blue)">
+          <h4 style="color:var(--blue)">卡车</h4>
+          <div class="vec-nums">[0.05, 0.91]</div>
+        </div>
+      </div>
+      <p class="step-lede">看到了吗? 苹果和橘子的数字<strong>很接近</strong>, 而苹果和卡车的数字<strong>差很远</strong>.</p>
+      <div class="step-foot">实际的 Embedding 不止 2 个数字 — 通常是 768 个甚至更多 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">768 维的"意思坐标"</h2>
+      <p class="step-lede">实际的 Embedding 模型 (比如 OpenAI 的 text-embedding-3-small) 给每段文本一个 <strong>768 维</strong> 的向量. 就是 768 个数字.</p>
+
+      <div class="callout callout-amber">
+        <p><strong>为什么要这么多维?</strong></p>
+        <p>2 维只能区分"是不是水果" 和 "是不是交通工具". 但语言的意思比这复杂得多 — 你还需要区分"颜色", "情绪", "时间", "健康", "动作" 等无数维度.</p>
+        <p>768 维 = 768 个"意思维度", 足以捕捉人类语言中大部分的语义关系.</p>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>类比:</strong> GPS 坐标用 2 个数字 (经度, 纬度) 定位地球上的位置. Embedding 用 768 个数字定位"语义空间"里的位置.</p>
+        <ul>
+          <li>GPS: 2 维物理空间 → 定位地理位置</li>
+          <li>Embedding: 768 维语义空间 → 定位"意思"</li>
+        </ul>
+      </div>
+      <div class="step-foot">那这些向量是怎么"学"出来的? ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">向量怎么"学"出来的 — 训练直觉</h2>
+      <p class="step-lede">Embedding 不是人手写的, 是模型<strong>从大量文本中自动学出来的</strong>.</p>
+
+      <div class="two-stage">
+        <article class="stage stage-train">
+          <div class="stage-tag">训练原理 (简化版)</div>
+          <ol class="stage-steps">
+            <li>读大量句子: "我吃了一个<strong>苹果</strong>" "她买了三斤<strong>橘子</strong>"</li>
+            <li>发现: "苹果" 和 "橘子" 经常出现在<strong>类似的上下文</strong>中 (吃、买、水果店...)</li>
+            <li>所以: 模型给它们分配了<strong>相近的向量</strong></li>
+            <li>"苹果" 和 "卡车" 很少出现在同一种上下文 → 向量远离</li>
+          </ol>
+          <div class="stage-output">→ 上下文越相似的词, 向量越接近</div>
+        </article>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>一句话:</strong> Embedding 模型通过<mark class="hl">"看哪些词经常出现在一起"</mark> 来学习语义. 这就是为什么它能捕捉"意思" — 不是因为它"理解", 而是因为它见过太多例子.</p>
+      </div>
+      <div class="step-foot">向量有了, 怎么量"距离"? ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">向量距离 = 语义相似度</h2>
+      <p class="step-lede">RAG 检索的核心就是: 算问题向量和每个文档 Chunk 向量之间的<strong>距离</strong>. 距离越近, 越相关.</p>
+
+      <div class="sim-meter">
+        <div class="sim-row">
+          <span class="sim-pair">苹果 ↔ 橘子</span>
+          <div class="sim-bar-track"><div class="sim-bar-fill high" style="width:92%">0.92</div></div>
+        </div>
+        <div class="sim-row">
+          <span class="sim-pair">经期 ↔ 排卵</span>
+          <div class="sim-bar-track"><div class="sim-bar-fill high" style="width:88%">0.88</div></div>
+        </div>
+        <div class="sim-row">
+          <span class="sim-pair">苹果 ↔ 手机</span>
+          <div class="sim-bar-track"><div class="sim-bar-fill mid" style="width:45%">0.45</div></div>
+        </div>
+        <div class="sim-row">
+          <span class="sim-pair">苹果 ↔ 卡车</span>
+          <div class="sim-bar-track"><div class="sim-bar-fill low" style="width:12%">0.12</div></div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>Cosine Similarity (余弦相似度)</strong> 是最常用的距离度量:</p>
+        <ul>
+          <li><strong>1.0</strong> = 完全相同方向 (意思一样)</li>
+          <li><strong>0.0</strong> = 完全无关</li>
+          <li>RAG 检索时, 取 cosine similarity 最高的 top-K 个 chunk</li>
+        </ul>
+        <p class="muted">你不需要记公式 — 只需要知道: 越接近 1, 越相关.</p>
+      </div>
+      <div class="step-foot">市面上有哪些 Embedding 模型? PM 怎么选? ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Embedding 模型选型 — PM 需要知道的</h2>
+      <p class="step-lede">不同的 Embedding 模型, 向量质量不一样, 价格也不一样.</p>
+
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--green)">OpenAI</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain"><strong>text-embedding-3-small:</strong> 1536 维, $0.02/百万 token. 性价比高, 适合大多数场景.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--blue)">Cohere</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain"><strong>embed-multilingual-v3:</strong> 1024 维, 多语言支持好. 适合中英混合知识库.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--purple)">开源</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain"><strong>bge-large-zh / m3e-base:</strong> 中文专优, 可以本地部署, 无 API 费用.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="color:var(--amber)">阿里</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain"><strong>通义千问 Embedding:</strong> 百炼平台直接用, 中文效果好, 国内合规.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>PM 选型原则:</strong></p>
+        <ol>
+          <li>中文为主 → 选中文优化模型 (bge / m3e / 通义)</li>
+          <li>需要多语言 → Cohere 或 OpenAI</li>
+          <li>数据敏感 → 选开源模型本地部署</li>
+          <li>预算有限 → 开源免费, API 按量付费</li>
+        </ol>
+      </div>
+      <div class="step-foot">Embedding 和 RAG 的关系到底是什么? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Embedding 在 RAG 中的角色</h2>
+      <p class="step-lede">Embedding 是 RAG 的<strong>"搜索引擎"</strong>. 没有 Embedding, RAG 就没法搜.</p>
+
+      <div class="arch-diagram">
+        <div class="arch-row">
+          <span class="arch-label embed">离线阶段</span>
+          <span class="arch-desc">每个文档 Chunk → Embedding 模型 → 768 维向量 → 存入 Vector DB</span>
+        </div>
+        <div class="arch-row">
+          <span class="arch-label retrieve">在线阶段</span>
+          <span class="arch-desc">用户问题 → 同一个 Embedding 模型 → 768 维向量 → 和 Vector DB 里的向量比距离 → Top-K</span>
+        </div>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>关键陷阱: 离线和在线必须用同一个 Embedding 模型!</strong></p>
+        <p>如果建库时用 OpenAI 模型, 查询时用 Cohere 模型 → 向量空间不同 → 距离算出来没意义 → 检索全乱.</p>
+        <p class="muted">就像你用北京坐标系定位了所有餐馆, 却用东京坐标系去搜 — 当然搜不到.</p>
+      </div>
+      <div class="step-foot">到了最有趣的部分 — 亲手玩一下向量空间 ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: Embedding 空间探索器</h2>
+      <p class="step-lede">下面是一个 2D 的"语义空间". 每个圆点是一个词. 点击查看最近邻居, 拖动改变位置.</p>
+
+      <div class="embed-widget">
+        <div class="embed-canvas-wrap" id="embed-canvas"></div>
+        <div class="embed-legend" id="embed-legend"></div>
+        <div class="embed-info" id="embed-info">点击任意词语圆点, 查看它的最近邻居. 拖动圆点可以移动位置.</div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>观察:</strong></p>
+        <ul>
+          <li>同类的词 (水果、交通工具、健康) 天然聚在一起</li>
+          <li>试试把"苹果"拖到"卡车"旁边 — 最近邻居变了!</li>
+          <li>这就是 Embedding 的魔法: <mark class="hl">语义相近 = 空间靠近</mark></li>
+        </ul>
+        <p class="muted">真实的 Embedding 是 768 维, 这里简化到 2 维来可视化.</p>
+      </div>
+      <div class="step-foot">回到 Vitamin ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 Embedding 选择</h2>
+      <p class="step-lede">Vitamin 的知识库是中文医学内容为主. Embedding 模型的选择直接影响检索质量.</p>
+
+      <div class="can-cant">
+        <article class="can-list">
+          <h3 class="can-head">推荐方案</h3>
+          <ul>
+            <li><strong>首选:</strong> bge-large-zh-v1.5 — 中文 MTEB 榜单第一梯队, 免费开源</li>
+            <li><strong>备选:</strong> 通义千问 Embedding — 阿里云生态, 中文效果好</li>
+            <li>向量维度: 1024 维, 足以覆盖医学术语的语义细节</li>
+            <li>医学术语覆盖: "经期"、"排卵"、"黄体期" 都能正确编码</li>
+          </ul>
+        </article>
+        <article class="cant-list">
+          <h3 class="cant-head">需要注意</h3>
+          <ul>
+            <li>英文模型 (如 OpenAI) 对中文医学术语效果偏弱</li>
+            <li>换模型 = 重新向量化整个知识库 (几小时成本)</li>
+            <li>模型版本更新也可能需要重建索引</li>
+            <li>测试: 用真实用户问题测检索准确率, 再定模型</li>
+          </ul>
+        </article>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">Embedding = 把文字变成"语义坐标"<br/>意思相近的文本, 坐标靠近.</p>
+        <p class="one-liner-foot muted">RAG 靠 Embedding 来搜 — 向量质量 = 检索质量.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://projector.tensorflow.org/" target="_blank">TensorFlow Embedding Projector</a>, 搜索几个英文词 (apple, orange, car), 看它们在空间里的位置关系.</li>
+          <li>列出 Vitamin 知识库里最核心的 10 个关键词 (如"经期"、"排卵"、"备孕"...), 想想哪些应该在向量空间里"靠近".</li>
+          <li>用 200 字解释给一个非技术朋友: "Embedding 就像给文字画地图, 意思像的词挨在一起".</li>
+          <li>思考: 如果 Embedding 模型没学过"黄体期"这个词, 检索会出什么问题? 怎么解决?</li>
+        </ol>
+
+        <div style="margin-top:18px">
+          <strong>资源延伸:</strong>
+          <table style="width:100%; font-size:13px; margin-top:8px; border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border)">
+              <td style="padding:6px 8px">🎮</td>
+              <td>Embedding Projector</td>
+              <td><a href="https://projector.tensorflow.org/" target="_blank">TensorFlow</a></td>
+              <td>3D 交互体验向量空间</td>
+              <td>10 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border)">
+              <td style="padding:6px 8px">📺</td>
+              <td>Word2Vec 讲解</td>
+              <td><a href="https://www.tensorflow.org/text/tutorials/word2vec" target="_blank">TensorFlow</a></td>
+              <td>经典 Embedding 算法教程</td>
+              <td>20 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border)">
+              <td style="padding:6px 8px">📖</td>
+              <td>一文读懂 Embedding</td>
+              <td><a href="https://zhuanlan.zhihu.com/p/675509396" target="_blank">知乎</a></td>
+              <td>中文深度解析向量表示</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px">📄</td>
+              <td>Embedding Projector 论文</td>
+              <td><a href="https://arxiv.org/abs/1611.05469" target="_blank">arXiv</a></td>
+              <td>高维可视化的学术源头</td>
+              <td>30 min</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 电脑不认字只认数字</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Embedding = 语义坐标</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 768 维的意思空间</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 向量怎么学出来的</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 向量距离 = 相似度</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 模型选型</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Embedding 在 RAG 中</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 空间探索器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 选型</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">Embedding 把文字变成坐标 — 意思近的, 坐标近.</p>
+        <p class="end-summary-sub">RAG 的搜索靠的就是向量距离. 模型选错, 全盘搜偏.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 3): Chunk 大小与重叠</div>
+        <p>知识库里一篇 5000 字的医学文档, 不能整篇塞进 Embedding — 太长了. 要切成小段 (Chunk).</p>
+        <p><strong>切多大? 段与段之间要不要重叠? 这直接影响检索精度.</strong></p>
+        <a class="walk-arrow" href="../u3-chunking/index.html">继续走 → Unit 3</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 3.3 · Unit 2 · 个人定制版</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

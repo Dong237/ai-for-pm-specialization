@@ -1,0 +1,190 @@
+/* ============================================
+   Unit 4 · Prompt Caching — unit-specific styles
+   ============================================ */
+
+/* Cache simulator */
+.cache-sim {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.cache-prompt-area {
+  margin-bottom: 16px;
+}
+.cache-section {
+  margin-bottom: 12px;
+}
+.cache-label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cache-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.cache-badge.cached { background: var(--green-bg); color: var(--green); }
+.cache-badge.variable { background: var(--amber-bg); color: var(--amber); }
+.cache-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--bg-elev);
+  resize: vertical;
+  min-height: 60px;
+}
+.cache-textarea:focus { outline: none; border-color: var(--blue); }
+.cache-textarea.system-area { border-color: var(--green); min-height: 80px; }
+.cache-textarea.user-area { border-color: var(--amber); min-height: 40px; }
+
+/* Cache results */
+.cache-results {
+  background: var(--bg-elev);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 14px;
+}
+.cache-meter {
+  margin-bottom: 12px;
+}
+.cache-meter-label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.cache-meter-bar {
+  height: 28px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+}
+.meter-cached {
+  background: var(--green);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  transition: width 0.5s ease;
+}
+.meter-miss {
+  background: var(--red);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  transition: width 0.5s ease;
+}
+.cache-savings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+@media (max-width: 600px) {
+  .cache-savings-grid { grid-template-columns: 1fr; }
+}
+.cache-saving-card {
+  text-align: center;
+  padding: 10px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+.cache-saving-label { font-size: 12px; color: var(--ink-muted); }
+.cache-saving-val {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  display: block;
+  margin: 2px 0;
+}
+
+/* Prompt structure diagram */
+.prompt-structure {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin: 18px 0;
+}
+.ps-block {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin: 6px 0;
+  font-size: 14px;
+  border-left: 4px solid;
+}
+.ps-block.stable {
+  background: var(--green-bg-soft);
+  border-color: var(--green);
+}
+.ps-block.semi {
+  background: var(--amber-bg-soft);
+  border-color: var(--amber);
+}
+.ps-block.dynamic {
+  background: var(--red-bg-soft);
+  border-color: var(--red);
+}
+.ps-label {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.ps-block.stable .ps-label { color: var(--green); }
+.ps-block.semi .ps-label { color: var(--amber); }
+.ps-block.dynamic .ps-label { color: var(--red); }
+
+/* Discount comparison */
+.discount-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+.discount-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.discount-pct {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  display: block;
+  margin: 4px 0;
+}
+.discount-provider {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.discount-detail {
+  font-size: 12px;
+  color: var(--ink-muted);
+}

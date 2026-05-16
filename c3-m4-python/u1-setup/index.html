@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · Python 环境搭建 — AI for PM · M3.4</title>
+  <meta name="description" content="AI PM 课 · M3.4 Unit 1: 从零搭建 Python 环境, 安装 openai SDK, 准备好写脚本." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M3.4</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · Python 环境搭建</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="Step navigation">
+    <ol>
+      <li><a href="#start" data-step="0">&#9654;</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">&#9632;</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 1<span class="title-dot">·</span><br/>Python 环境搭建</h1>
+      <p class="hero-sub">不会写代码也没关系 -- 你只需要跟着 checklist 复制粘贴 5 条命令.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head"/>
+            <circle cx="42" cy="28" r="2" fill="currentColor"/>
+            <circle cx="58" cy="28" r="2" fill="currentColor"/>
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">都说 PM 要会 Python, 可我一行代码都没写过...</p>
+          <p class="cloud-line">光安装就劝退了 -- python3? pip? venv? 是啥?</p>
+          <p class="cloud-line accent">-- 今天跟着 checklist, 10 分钟装好.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步走完, 你会:</div>
+        <ul class="check-list">
+          <li>装好 Python 3.11+ 并确认版本</li>
+          <li>知道什么是虚拟环境 (venv) 以及为什么要用</li>
+          <li>pip install openai 成功, 准备好调 API</li>
+          <li>在终端跑出你的第一个 Python 文件</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">为什么 PM 要碰 Python?</h2>
+      <p class="step-lede">你不是要转行当工程师. 你只需要 Python 做<strong>一件事</strong>: 写个脚本, 自动批量调 LLM API.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>没有 Python 的 PM:</strong> 打开 ChatGPT 网页, 一条一条复制粘贴, 100 条用例测 2 小时.</p>
+        <p><strong>有 Python 的 PM:</strong> 跑一个脚本, 100 条用例 3 分钟跑完, 自动输出 CSV 报告.</p>
+        <p class="muted">-- 这不是"会编程", 这是"会自动化". 跟你用 Excel 公式批量算数据一个道理.</p>
+      </div>
+
+      <div class="step-foot">那第一步, 先把 Python 装上 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">你的电脑上可能已经有 Python 了</h2>
+      <p class="step-lede">先别急着下载, 打开终端 (Terminal) 试一下:</p>
+
+      <div class="code-block"><span class="cmt"># Mac: 打开 "终端" 应用</span>
+<span class="cmt"># Windows: 打开 "命令提示符" 或 "PowerShell"</span>
+
+python3 --version
+<span class="cmt"># 如果输出 Python 3.11.x 或 3.12.x, 恭喜, 已经装好了</span>
+<span class="cmt"># 如果报错 "command not found", 往下看怎么装</span></div>
+
+      <div class="two-wrong">
+        <article class="wrong" style="border-color: var(--green); background: var(--green-bg-soft);">
+          <div class="wrong-mark" style="color: var(--green);">&#10003;</div>
+          <h3>Mac 用户 (最常见)</h3>
+          <p>装 Homebrew, 然后 brew install python. 或者直接去 python.org 下载 .pkg 安装包.</p>
+        </article>
+        <article class="wrong" style="border-color: var(--blue); background: var(--blue-bg-soft);">
+          <div class="wrong-mark" style="color: var(--blue);">&#10003;</div>
+          <h3>Windows 用户</h3>
+          <p>去 python.org 下载安装包, <strong>安装时勾选 "Add Python to PATH"</strong> (很重要!).</p>
+        </article>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>版本要求:</strong> Python 3.9 以上就行, 推荐 3.11 或 3.12. 不要装 Python 2.x, 那是上古版本.</p>
+      </div>
+
+      <div class="step-foot">装好了, 下一步理解一个重要概念: 虚拟环境 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">虚拟环境 (venv) -- 你需要知道的唯一概念</h2>
+      <p class="step-lede">一句话: <mark class="hl">虚拟环境 = 给每个项目一个独立的 "安装包文件夹"</mark>.</p>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">类比</div>
+        <p class="truth-line big">想象你有两个客户, 一个要求你用蓝色主题, 一个要红色主题.</p>
+        <p class="truth-line">如果你只有一个 PPT 模板, 每次切换就得全改. 虚拟环境就是给每个客户建一个<strong>独立的模板文件夹</strong>, 互不干扰.</p>
+      </div>
+
+      <div class="code-block"><span class="cmt"># 创建虚拟环境 (只需要做一次)</span>
+python3 -m venv .venv
+
+<span class="cmt"># 激活虚拟环境</span>
+<span class="cmt"># Mac / Linux:</span>
+source .venv/bin/activate
+
+<span class="cmt"># Windows:</span>
+.venv\Scripts\activate
+
+<span class="cmt"># 激活后, 终端前面会出现 (.venv) 标记</span>
+<span class="cmt"># (.venv) $ _   <-- 看到这个就对了</span></div>
+
+      <div class="callout callout-blue">
+        <p><strong>.venv</strong> 这个名字是约定俗成. <code>.</code> 开头表示隐藏文件夹, 不会碍眼. 你也可以叫 <code>env</code>, 但 <code>.venv</code> 是社区标准.</p>
+      </div>
+
+      <div class="step-foot">环境有了, 下一步装我们需要的包 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">pip install -- 安装你需要的包</h2>
+      <p class="step-lede">pip 就是 Python 的 "应用商店". 我们这个模块一共需要 3 个包:</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th>包名</th><th>干什么用</th><th>安装命令</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>openai</strong></td><td>调 OpenAI / 兼容 API</td><td>pip install openai</td></tr>
+          <tr><td><strong>python-dotenv</strong></td><td>安全读取 .env 文件里的 API Key</td><td>pip install python-dotenv</td></tr>
+          <tr><td><strong>tiktoken</strong></td><td>计算 token 数量, 估算成本</td><td>pip install tiktoken</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="cmt"># 一条命令装完</span>
+pip install openai python-dotenv tiktoken
+
+<span class="cmt"># 验证安装成功</span>
+python3 -c "import openai; print(openai.__version__)"
+<span class="cmt"># 输出类似: 1.x.x  就是成功了</span></div>
+
+      <div class="step-foot">三个包装好了, 接下来创建项目文件夹 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">项目文件夹结构 -- 5 个文件就够</h2>
+      <p class="step-lede">一个 PM 自动化脚本, 不需要复杂的工程结构. 这就是你最终要建的:</p>
+
+      <div class="code-block">vitamin-api/
+├── .env              <span class="cmt"># API Key (绝对不能提交到 Git!)</span>
+├── .gitignore        <span class="cmt"># 告诉 Git 忽略 .env 和 .venv</span>
+├── .venv/            <span class="cmt"># 虚拟环境 (自动生成)</span>
+├── input.csv         <span class="cmt"># 输入数据 (用例列表)</span>
+├── main.py           <span class="cmt"># 你的脚本</span>
+└── requirements.txt  <span class="cmt"># 记录安装了哪些包</span></div>
+
+      <div class="code-block"><span class="cmt"># 生成 requirements.txt (记录当前环境的包)</span>
+pip freeze > requirements.txt
+
+<span class="cmt"># 以后别人拿到你的项目, 一条命令恢复环境</span>
+pip install -r requirements.txt</div>
+
+      <div class="callout callout-amber">
+        <p><strong>PM 生存技巧:</strong> <code>requirements.txt</code> 就像菜单, 记录了这个项目 "点了哪些菜". 别人拿到菜单, 就能复现一模一样的环境.</p>
+      </div>
+
+      <div class="step-foot">结构清楚了, 来写你人生中第一个 Python 文件 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">hello.py -- 你的第一个 Python 文件</h2>
+      <p class="step-lede">打开任意文本编辑器 (推荐 VS Code), 新建一个文件叫 <code>hello.py</code>:</p>
+
+      <div class="code-block"><span class="cmt"># hello.py — 你的第一个 Python 文件</span>
+
+name = <span class="str">"Vitamin PM"</span>
+print(<span class="str">f"Hello, </span>{name}<span class="str">! 你的 Python 环境搭好了."</span>)
+
+<span class="cmt"># 小计算</span>
+users = <span class="op">100</span>
+cost_per_call = <span class="op">0.002</span>
+total = users * cost_per_call
+print(<span class="str">f"100 个用户, 每次 API 调用 $</span>{cost_per_call}<span class="str">, 总成本: $</span>{total}<span class="str">"</span>)</div>
+
+      <div class="code-block"><span class="cmt"># 在终端运行</span>
+python3 hello.py
+
+<span class="cmt"># 输出:</span>
+<span class="cmt"># Hello, Vitamin PM! 你的 Python 环境搭好了.</span>
+<span class="cmt"># 100 个用户, 每次 API 调用 $0.002, 总成本: $0.2</span></div>
+
+      <div class="callout callout-green">
+        <p><strong>恭喜!</strong> 如果你看到了输出, 说明 Python 环境 100% 没问题. 从现在开始, 你就是一个 "会跑 Python 脚本的 PM".</p>
+      </div>
+
+      <div class="step-foot">环境搞定, 来看 PM 为什么选 VS Code ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">编辑器选择 -- VS Code 就够了</h2>
+      <p class="step-lede">不需要 PyCharm, 不需要 Jupyter. 对 PM 来说, VS Code 是最佳平衡点:</p>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th>工具</th><th>优点</th><th>缺点</th><th>PM 推荐度</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>VS Code</td><td>免费, 轻量, 插件多, AI 补全</td><td>需要简单配置</td><td><span class="pill pill-green">首选</span></td></tr>
+          <tr><td>PyCharm</td><td>功能强大, 自动补全好</td><td>太重, PM 用不上 80% 功能</td><td><span class="pill pill-amber">不必要</span></td></tr>
+          <tr><td>Jupyter</td><td>交互式, 看数据好</td><td>不适合写脚本</td><td><span class="pill pill-amber">数据分析时用</span></td></tr>
+          <tr><td>Cursor</td><td>AI 原生编辑器</td><td>基于 VS Code, 可替代</td><td><span class="pill pill-blue">进阶选择</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-blue">
+        <p><strong>VS Code 必装插件:</strong></p>
+        <ul>
+          <li><strong>Python</strong> (Microsoft 官方) -- 语法高亮 + 运行按钮</li>
+          <li><strong>GitHub Copilot</strong> -- AI 帮你补全代码, PM 写脚本效率翻倍</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">工具链就绪, 来一个完整的 setup checklist ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Setup Checklist -- 点一步, 做一步</h2>
+      <p class="step-lede">跟着下面的 checklist, 展开每一步看具体命令, 做完点 &#9711; 打勾. 全绿 = 环境就绪.</p>
+
+      <div class="setup-checklist" id="setup-checklist">
+        <div class="setup-checklist-title">Python 环境搭建 Checklist</div>
+        <div class="setup-progress-label" id="setup-progress-label">0 / 6 完成 (0%)</div>
+        <div class="setup-progress"><div class="setup-progress-fill" id="setup-progress-fill"></div></div>
+
+        <div class="setup-step">
+          <div class="setup-step-header">
+            <div class="setup-step-check"></div>
+            <div class="setup-step-label">1. 确认 Python 版本</div>
+            <div class="setup-step-toggle">&#9660;</div>
+          </div>
+          <div class="setup-step-body">
+            <p>打开终端, 输入:</p>
+            <code>python3 --version</code>
+            <p>看到 3.9+ 就行. 没有的话, 去 <a href="https://python.org" target="_blank">python.org</a> 下载安装.</p>
+          </div>
+        </div>
+
+        <div class="setup-step">
+          <div class="setup-step-header">
+            <div class="setup-step-check"></div>
+            <div class="setup-step-label">2. 创建项目文件夹</div>
+            <div class="setup-step-toggle">&#9660;</div>
+          </div>
+          <div class="setup-step-body">
+            <code>mkdir vitamin-api && cd vitamin-api</code>
+            <p>给你的项目起个名, 所有文件都放这里.</p>
+          </div>
+        </div>
+
+        <div class="setup-step">
+          <div class="setup-step-header">
+            <div class="setup-step-check"></div>
+            <div class="setup-step-label">3. 创建虚拟环境</div>
+            <div class="setup-step-toggle">&#9660;</div>
+          </div>
+          <div class="setup-step-body">
+            <code>python3 -m venv .venv</code>
+            <p>这会在当前文件夹下生成 .venv 目录.</p>
+          </div>
+        </div>
+
+        <div class="setup-step">
+          <div class="setup-step-header">
+            <div class="setup-step-check"></div>
+            <div class="setup-step-label">4. 激活虚拟环境</div>
+            <div class="setup-step-toggle">&#9660;</div>
+          </div>
+          <div class="setup-step-body">
+            <code># Mac / Linux:
+source .venv/bin/activate
+
+# Windows:
+.venv\Scripts\activate</code>
+            <p>终端出现 <strong>(.venv)</strong> 前缀就对了.</p>
+          </div>
+        </div>
+
+        <div class="setup-step">
+          <div class="setup-step-header">
+            <div class="setup-step-check"></div>
+            <div class="setup-step-label">5. 安装所需包</div>
+            <div class="setup-step-toggle">&#9660;</div>
+          </div>
+          <div class="setup-step-body">
+            <code>pip install openai python-dotenv tiktoken</code>
+            <p>等安装完成, 没有红色报错就是成功.</p>
+          </div>
+        </div>
+
+        <div class="setup-step">
+          <div class="setup-step-header">
+            <div class="setup-step-check"></div>
+            <div class="setup-step-label">6. 验证安装</div>
+            <div class="setup-step-toggle">&#9660;</div>
+          </div>
+          <div class="setup-step-body">
+            <code>python3 -c "import openai; print('OK:', openai.__version__)"</code>
+            <p>看到 "OK: 1.x.x" 就说明全部就绪!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-foot">Checklist 全绿了? 来看 Vitamin 项目怎么用 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 案例 -- 你要搭的 Python 项目</h2>
+      <p class="step-lede">这个模块结束时, 你会有一个完整的 Python 脚本, 做这件事:</p>
+
+      <div class="big-insight">
+        <p>Vitamin 自动化测试脚本:</p>
+        <p class="insight-text">读 100 条用户输入 (CSV)<br/>&rarr; 逐条调 LLM API<br/>&rarr; 记录回复 + token 数 + 成本<br/>&rarr; 输出结果到新 CSV</p>
+      </div>
+
+      <div class="can-cant">
+        <article class="can-list">
+          <h3 class="can-head">&#10003; 你会学到</h3>
+          <ul>
+            <li>环境搭建 (今天做的)</li>
+            <li>API Key 安全管理</li>
+            <li>第一次 API 调用</li>
+            <li>错误处理 (网络断 / 限频)</li>
+            <li>批量调用 + Rate Limiting</li>
+            <li>CSV 读写</li>
+            <li>Token 计数 + 成本日志</li>
+          </ul>
+        </article>
+        <article class="cant-list">
+          <h3 class="cant-head">&#10007; 不需要你会</h3>
+          <ul>
+            <li>算法和数据结构</li>
+            <li>前端 / 后端开发</li>
+            <li>机器学习训练</li>
+            <li>Docker / 部署</li>
+            <li>写单元测试</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="step-foot">作业 + 一句话总结 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">Python 对 PM 的价值 = 自动化.<br/>装好环境 = 拿到了自动化的钥匙.</p>
+        <p class="one-liner-foot muted">不需要精通 Python, 只需要会 "复制粘贴 + 跑脚本 + 看输出".</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>跟着 Step 8 的 checklist, 在你的电脑上完成 6 步, 截图证明 <code>(.venv)</code> 已激活.</li>
+          <li>新建 <code>hello.py</code>, 写入 Step 6 的代码, 跑一遍, 截图输出.</li>
+          <li>修改 <code>hello.py</code>: 把 users 改成 1000, cost_per_call 改成 0.001, 重新跑, 观察输出变化.</li>
+          <li>写 100 字: 如果 Vitamin 有 100 条用户反馈需要用 AI 分类, 手动做 vs 用 Python 脚本做, 分别要多久?</li>
+        </ol>
+
+        <div style="margin-top:16px;">
+          <strong>资源延伸:</strong>
+          <table class="compare-table" style="margin-top:8px;">
+            <thead><tr><th>类型</th><th>资源</th><th>说明</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>🛠</td><td><a href="https://code.visualstudio.com/" target="_blank">VS Code 下载</a></td><td>最适合 PM 的代码编辑器</td><td>5 min</td></tr>
+              <tr><td>📖</td><td><a href="https://docs.python.org/3/tutorial/venv.html" target="_blank">Python venv 官方教程</a></td><td>虚拟环境的权威说明</td><td>10 min</td></tr>
+              <tr><td>📺</td><td><a href="https://www.youtube.com/results?search_query=python+setup+beginner+2025" target="_blank">YouTube: Python 环境搭建</a></td><td>视频手把手跟着做</td><td>15 min</td></tr>
+              <tr><td>📖</td><td><a href="https://realpython.com/python-virtual-environments-a-primer/" target="_blank">Real Python: venv 入门</a></td><td>最清晰的 venv 教程</td><td>15 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 为什么 PM 要碰 Python</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 检查 Python 版本</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 虚拟环境 venv</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> pip install 装包</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 项目文件夹结构</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 第一个 hello.py</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> VS Code 编辑器</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Setup Checklist 小工具</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 项目预览</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">Python + venv + pip install openai = PM 自动化的起跑线.</p>
+        <p class="end-summary-sub">5 条命令, 10 分钟, 环境就绪.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 2): API Key 安全管理</div>
+        <p>环境搭好了, 但 API Key 怎么存? 写在代码里是<strong>最危险的做法</strong>.</p>
+        <p>下一节学 .env 文件 + .gitignore, 让你的 Key 永远不会泄露.</p>
+        <a class="walk-arrow" href="../u2-api-security/index.html">继续走 &rarr; Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 3.4 · Unit 1 · 个人定制版</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

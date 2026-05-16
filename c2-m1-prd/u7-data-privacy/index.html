@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · 数据来源 + 隐私要求 — AI for PM · M2.1</title>
+  <meta name="description" content="AI PM 课 · M2.1 Unit 7: 训练/检索/日志数据从哪来、保留多久、谁能看." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.1</span></a><div class="topbar-right"><span class="unit-label">Unit 7 · 数据隐私</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">&#9654;</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">&#9632;</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">&middot;</span><br/>数据从哪来? 谁能看?</h1>
+      <p class="hero-sub">你把用户的健康数据传给了 OpenAI 的 API. 这些数据会被存储吗? 会被用来训练模型吗? 用户知道吗?</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="你"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · 审视数据流向)</figcaption></figure>
+        <div class="cloud cloud-blue"><p class="cloud-line">法务找我: "用户的健康数据有没有传给第三方?"</p><p class="cloud-line">我: "呃... 是通过 API 发给 OpenAI 的..."</p><p class="cloud-line">法务: "用户隐私协议里写了吗? 数据保留多久?"</p><p class="cloud-line accent">—— 这些必须写进 PRD.</p></div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>知道 AI 产品涉及的 3 类数据 (训练/检索/日志)</li><li>了解数据流向: 用户 → App → API → 模型提供商</li><li>会在 PRD 里写数据来源 + 隐私要求栏</li><li>用 checklist 自检数据合规性</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1"><div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">AI 产品的数据, 比传统产品复杂得多</h2>
+      <p class="step-lede">传统 App: 用户数据存在自己的数据库. 你完全控制. AI 产品: 用户数据可能经过 3 个地方:</p>
+      <div class="data-flow">
+        <div class="df-node" style="border-color:var(--green);">用户设备 (App)</div>
+        <div class="df-arrow">&darr;</div><div class="df-label">用户健康数据</div>
+        <div class="df-node" style="border-color:var(--blue);">你的服务器</div>
+        <div class="df-arrow">&darr;</div><div class="df-label">API 请求 (含用户数据)</div>
+        <div class="df-node" style="border-color:var(--amber);">模型提供商 (OpenAI / 等)</div>
+        <div class="df-arrow">&darr;</div><div class="df-label">生成回答 (可能被日志记录)</div>
+        <div class="df-node" style="border-color:var(--red);">是否用于模型训练?</div>
+      </div>
+      <div class="callout callout-red"><p><strong>核心问题:</strong> 用户的健康数据 (体重/经期/心率) 经过了第三方 (模型提供商). 这涉及: 数据出境、第三方共享、隐私合规.</p></div>
+      <div class="step-foot">3 类数据, 逐个看 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2"><div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">AI 产品涉及的 3 类数据</h2>
+      <div class="callout callout-blue"><p><strong>1. 训练数据:</strong> 模型是用什么数据训练的? 如果你 fine-tune 了一个模型, 训练数据的来源和授权是什么?</p></div>
+      <div class="callout callout-green"><p><strong>2. 检索数据 (RAG):</strong> 如果你用了 RAG (检索增强生成), 检索的知识库里有什么? 是公开数据还是用户数据?</p></div>
+      <div class="callout callout-amber"><p><strong>3. 日志数据:</strong> 每次 API 调用的输入/输出是否被记录? 记录多久? 谁能访问? 这些日志里包含用户的原始问题和 AI 的回答.</p></div>
+      <p class="step-lede">对于 Vitamin 这样的健康 App, 健康数据是 <mark class="hl">敏感个人信息</mark>. 处理标准比一般数据更严格.</p>
+      <div class="step-foot">PRD 里怎么写? ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3"><div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">PRD 数据栏要回答的 6 个问题</h2>
+      <div class="callout callout-amber">
+        <p><strong>Q1. 数据来源:</strong> AI 功能需要哪些数据? 从哪获取? (用户输入 / 数据库 / 第三方)</p>
+        <p><strong>Q2. 数据传输:</strong> 数据是否传给第三方 API? 传输是否加密?</p>
+        <p><strong>Q3. 数据存储:</strong> 日志保留多久? 存在哪里? (自有服务器 / 云)</p>
+        <p><strong>Q4. 数据访问:</strong> 谁能看到这些数据? (开发 / PM / 算法 / 客服)</p>
+        <p><strong>Q5. 用户控制:</strong> 用户能否查看/删除自己的数据?</p>
+        <p><strong>Q6. 合规要求:</strong> 需要符合哪些法规? (个人信息保护法 / GDPR / 行业规范)</p>
+      </div>
+      <div class="step-foot">逐个展开 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4"><div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">数据传输: API 调用时传了什么?</h2>
+      <p class="step-lede">关键决策: <mark class="hl">传给模型 API 的数据, 是否包含可识别的个人信息?</mark></p>
+      <div class="can-cant">
+        <article class="can-list"><h3 class="can-head">&#10003; 推荐做法</h3><ul>
+          <li>脱敏后再传 (去掉姓名/手机号/位置)</li>
+          <li>只传聚合指标 (平均心率), 不传原始数据</li>
+          <li>使用匿名用户 ID, 不传真实 user_id</li>
+          <li>API 传输全程 HTTPS 加密</li>
+          <li>确认 API 提供商不使用数据训练模型</li>
+        </ul></article>
+        <article class="cant-list"><h3 class="cant-head">&#10007; 禁止做法</h3><ul>
+          <li>把用户姓名/手机号写进 Prompt</li>
+          <li>传原始医疗报告给 API</li>
+          <li>使用默认 API 设置 (可能允许数据训练)</li>
+          <li>不加密传输健康数据</li>
+          <li>不告知用户数据流向</li>
+        </ul></article>
+      </div>
+      <div class="step-foot">数据保留策略 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5"><div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">数据保留: 留多久, 谁能看</h2>
+      <table class="price-table" style="margin:18px 0;font-size:13px;"><thead><tr><th>数据类型</th><th>保留时长</th><th>访问权限</th><th>到期处理</th></tr></thead><tbody>
+        <tr><td>API 调用日志</td><td>30 天</td><td>算法 + 后端 (仅脱敏)</td><td>自动删除</td></tr>
+        <tr><td>用户反馈数据</td><td>90 天</td><td>PM + 算法</td><td>归档 → 180 天后删除</td></tr>
+        <tr><td>评测用例</td><td>长期</td><td>算法 (需脱敏)</td><td>年度审计清理</td></tr>
+        <tr><td>用户健康数据</td><td>用户删除即删</td><td>仅用户本人</td><td>用户主动操作</td></tr>
+      </tbody></table>
+      <div class="callout callout-blue"><p><strong>原则:</strong> 数据最小化 — 不需要的数据不收集, 收集了的数据到期就删. 这不只是合规要求, 也是用户信任的基础.</p></div>
+      <div class="step-foot">用户权利 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6"><div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">用户的数据权利: 查看、删除、拒绝</h2>
+      <p class="step-lede">个人信息保护法和 GDPR 赋予用户的基本权利:</p>
+      <div class="callout callout-green">
+        <p><strong>查看权:</strong> 用户可以查看 AI 功能存了哪些关于自己的数据.</p>
+        <p><strong>删除权:</strong> 用户可以要求删除所有个人数据. 删除后, AI 功能可能需要重新 "认识" 用户.</p>
+        <p><strong>拒绝权:</strong> 用户可以拒绝 AI 功能使用自己的数据. 此时需要提供非 AI 的替代体验.</p>
+        <p><strong>知情权:</strong> 用户必须知道数据被发送到了第三方 API.</p>
+      </div>
+      <div class="callout callout-amber"><p><strong>写进 PRD:</strong> "设置页增加 '我的数据' 入口, 用户可查看 AI 功能使用的数据列表, 一键删除, 删除操作 72 小时内生效."</p></div>
+      <div class="step-foot">合规法规 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7"><div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">关键法规: PM 需要知道的底线</h2>
+      <table class="price-table" style="margin:18px 0;font-size:13px;"><thead><tr><th>法规</th><th>适用范围</th><th>对 AI 产品的要求</th></tr></thead><tbody>
+        <tr><td><strong>个人信息保护法</strong></td><td>中国</td><td>收集个人信息需告知 + 同意; 敏感信息需单独同意; 跨境传输需评估</td></tr>
+        <tr><td><strong>GDPR</strong></td><td>欧盟</td><td>数据最小化; Privacy by Design; 用户有权删除; 需做 DPIA</td></tr>
+        <tr><td><strong>EU AI Act</strong></td><td>欧盟</td><td>高风险 AI 需要额外文档 + 人工监督; 健康场景可能被归类为高风险</td></tr>
+      </tbody></table>
+      <div class="callout callout-red"><p><strong>PM 注意:</strong> 你不需要成为法务专家, 但必须知道: (1) 健康数据是敏感数据, 标准更高; (2) 传给第三方 API 需要用户知情同意; (3) PRD 里写清楚数据处理规则, 法务才能审核.</p></div>
+      <div class="step-foot">用 checklist 自检 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8"><div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: 数据隐私合规 Checklist</h2>
+      <p class="step-lede">逐项勾选, 检查 Vitamin 的 AI 功能是否满足数据隐私要求:</p>
+      <div class="privacy-checklist">
+        <div class="pc-title">Vitamin AI 功能 — 数据隐私 Checklist</div>
+        <div class="pc-categories">
+          <div class="pc-category">
+            <div class="pc-cat-title" style="color:var(--blue);">&#128274; 数据收集</div>
+            <ul class="pc-items">
+              <li class="pc-item"><input type="checkbox" /><span>明确列出 AI 功能需要的所有数据字段</span></li>
+              <li class="pc-item"><input type="checkbox" /><span>只收集必要的数据 (数据最小化)</span></li>
+              <li class="pc-item"><input type="checkbox" /><span>健康数据获得用户单独同意</span></li>
+            </ul>
+          </div>
+          <div class="pc-category">
+            <div class="pc-cat-title" style="color:var(--green);">&#128274; 数据传输</div>
+            <ul class="pc-items">
+              <li class="pc-item"><input type="checkbox" /><span>API 传输全程 HTTPS 加密</span></li>
+              <li class="pc-item"><input type="checkbox" /><span>传给模型的数据已脱敏 (无姓名/手机号)</span></li>
+              <li class="pc-item"><input type="checkbox" /><span>确认 API 提供商不使用数据训练模型</span></li>
+              <li class="pc-item"><input type="checkbox" /><span>隐私协议中披露了第三方 API 的数据流向</span></li>
+            </ul>
+          </div>
+          <div class="pc-category">
+            <div class="pc-cat-title" style="color:var(--amber);">&#128274; 数据存储</div>
+            <ul class="pc-items">
+              <li class="pc-item"><input type="checkbox" /><span>定义了各类数据的保留时长</span></li>
+              <li class="pc-item"><input type="checkbox" /><span>到期数据自动删除机制已实现</span></li>
+              <li class="pc-item"><input type="checkbox" /><span>数据访问权限按角色控制</span></li>
+            </ul>
+          </div>
+          <div class="pc-category">
+            <div class="pc-cat-title" style="color:var(--purple);">&#128274; 用户权利</div>
+            <ul class="pc-items">
+              <li class="pc-item"><input type="checkbox" /><span>用户可以查看 AI 使用了哪些数据</span></li>
+              <li class="pc-item"><input type="checkbox" /><span>用户可以一键删除个人数据</span></li>
+              <li class="pc-item"><input type="checkbox" /><span>用户可以关闭 AI 功能 (拒绝权)</span></li>
+              <li class="pc-item"><input type="checkbox" /><span>数据删除后 72 小时内生效</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="pc-progress">
+          <div class="pc-progress-bar"><div class="pc-progress-fill" id="pc-fill" style="width:0%;"></div></div>
+          <div class="pc-progress-text" id="pc-text">0/14 项已确认 (0%)</div>
+        </div>
+      </div>
+      <div class="step-foot">Vitamin 的隐私栏 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9"><div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin PRD 的数据隐私栏</h2>
+      <div class="callout callout-amber">
+        <p><strong>数据来源:</strong> 用户主动记录的健康指标 (体重/心率/睡眠/经期/饮食), 存储在自有数据库.</p>
+        <p><strong>数据传输:</strong> 调用 LLM API 时, 传脱敏后的聚合指标, 不传原始数据. HTTPS 加密. API 提供商承诺不用于训练.</p>
+        <p><strong>数据存储:</strong> API 日志保留 30 天; 用户反馈保留 90 天; 评测数据长期保留但脱敏. 到期自动删除.</p>
+        <p><strong>用户权利:</strong> 设置页 "我的数据" 入口, 可查看/删除. 可关闭 AI 功能.</p>
+        <p><strong>合规声明:</strong> 符合个人信息保护法; 健康数据获用户单独同意; 无跨境传输 (使用境内 API 节点).</p>
+      </div>
+      <div class="callout callout-red"><strong>面试金句:</strong><p>"AI 产品的数据隐私不是事后打补丁, 是 PRD 里的必写模块. 我会在 PRD 里回答 6 个问题: 数据从哪来、传给谁、存多久、谁能看、用户能不能删、需要什么合规. 特别是健康数据属于敏感个人信息, 需要用户单独同意, 传给 API 前必须脱敏."</p></div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10"><div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 课后作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话:</div><p class="one-liner-text">AI PRD 的数据栏回答:<br/>"数据从哪来、传给谁、存多久、谁能看、能不能删."</p><p class="one-liner-foot muted">合规不是法务的事 — PM 在 PRD 里定义规则, 法务审核, 开发执行.</p></div>
+      <div class="callout callout-green"><strong>课后作业 (30 分钟):</strong><ol>
+        <li>用上面的 Checklist, 检查 Vitamin 的 AI 功能在数据隐私方面还缺什么. 列出 3 个待解决项.</li>
+        <li>写出 Vitamin 的 "数据来源 + 隐私要求" PRD 栏 (参考 step 9 的格式, 自己写一遍).</li>
+        <li>查看 OpenAI 和 Anthropic 的 API 数据政策, 确认它们是否默认不使用 API 数据训练模型.</li>
+        <li>讨论: 如果用户要求删除所有数据, AI 功能的 "个性化总结" 会受什么影响? 怎么处理?</li>
+      </ol></div>
+      <div class="callout callout-green" style="transform:rotate(0.3deg);"><strong>资源延伸:</strong>
+        <table class="resource-table"><thead><tr><th>类型</th><th>内容</th><th>来源</th><th>推荐理由</th><th>时长</th></tr></thead><tbody>
+          <tr><td>&#128196;</td><td><a href="https://secureprivacy.ai/blog/ai-personal-data-protection-gdpr-ccpa-compliance" target="_blank">AI and Personal Data Protection</a></td><td>SecurePrivacy</td><td>AI 产品隐私合规全面指南</td><td>15 min</td></tr>
+          <tr><td>&#128196;</td><td><a href="https://techgdpr.com/blog/ai-and-the-gdpr-understanding-the-foundations-of-compliance/" target="_blank">AI and GDPR Foundations</a></td><td>TechGDPR</td><td>GDPR 对 AI 的合规基础</td><td>20 min</td></tr>
+          <tr><td>&#128196;</td><td><a href="https://platform.openai.com/docs/models" target="_blank">OpenAI API Data Policy</a></td><td>OpenAI</td><td>了解 API 数据如何被处理</td><td>10 min</td></tr>
+          <tr><td>&#128196;</td><td><a href="https://www.cnil.fr/en/ai-system-development-cnils-recommendations-to-comply-gdpr" target="_blank">CNIL AI Recommendations</a></td><td>CNIL (法国数据保护局)</td><td>官方 AI 合规建议</td><td>15 min</td></tr>
+        </tbody></table>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid"><a href="#s1" class="recap-cell"><span class="rc-num">1</span> AI 数据流向复杂</a><a href="#s2" class="recap-cell"><span class="rc-num">2</span> 3 类数据</a><a href="#s3" class="recap-cell"><span class="rc-num">3</span> 6 个必答问题</a><a href="#s4" class="recap-cell"><span class="rc-num">4</span> 数据传输脱敏</a><a href="#s5" class="recap-cell"><span class="rc-num">5</span> 数据保留策略</a><a href="#s6" class="recap-cell"><span class="rc-num">6</span> 用户权利</a><a href="#s7" class="recap-cell"><span class="rc-num">7</span> 关键法规</a><a href="#s8" class="recap-cell"><span class="rc-num">8</span> 隐私 Checklist</a><a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 隐私栏</a><a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a></div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 7:</p><p class="end-summary-big">AI PRD 的数据栏: 从哪来、传给谁、<br/>存多久、谁能看、用户能不能删.</p><p class="end-summary-sub">健康数据是敏感信息, 传给 API 前必须脱敏, 用户必须知情同意.</p></div>
+      <div class="next-card"><div class="next-tag">下节课 (Unit 8): Vitamin PRD v2 实操</div><p>前 7 个单元学了所有模块. 最后一步: <strong>把它们全部组装起来</strong>, 从头到尾写一份完整的 Vitamin AI PRD v2.</p><a class="walk-arrow" href="../u8-vitamin-prd-v2/index.html">继续走 &rarr; Unit 8</a></div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.1 · Unit 7 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

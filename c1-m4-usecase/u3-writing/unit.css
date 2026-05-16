@@ -1,0 +1,656 @@
+/* ============================================
+   Unit 3 · Writing 类用例
+   Unit-specific styles
+   ============================================ */
+
+/* ===== Step (1) — Data card ===== */
+.data-card {
+  background: var(--bg-card);
+  border: 2px solid var(--purple);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+  transform: rotate(-0.3deg);
+}
+.data-card-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--purple);
+  margin-bottom: 10px;
+}
+.data-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.data-fields.compact { gap: 8px; }
+.data-field {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+}
+.df-key {
+  color: var(--ink-muted);
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+/* ===== Three writing cards ===== */
+.three-writings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.writing-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+}
+.w-draft { border-color: var(--blue); transform: rotate(-0.5deg); }
+.w-paraphrase { border-color: var(--green); transform: rotate(0.4deg); }
+.w-expand { border-color: var(--amber); transform: rotate(-0.3deg); }
+
+.w-tag {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.w-tag-blue { background: var(--blue-bg); color: var(--blue); }
+.w-tag-green { background: var(--green-bg); color: var(--green); }
+.w-tag-amber { background: var(--amber-bg); color: var(--amber); }
+
+.w-input-ref {
+  font-size: 12px;
+  color: var(--ink-muted);
+  padding: 8px 12px;
+  background: var(--bg-elev);
+  border-radius: 6px;
+  margin-bottom: 10px;
+  border-left: 3px solid var(--ink-faint);
+}
+.w-output {
+  padding: 12px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  min-height: 60px;
+  margin-bottom: 8px;
+}
+.w-output p { margin: 0; font-size: 14px; color: var(--ink-soft); line-height: 1.7; }
+.w-nature {
+  font-size: 12px;
+  color: var(--ink-muted);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ===== Step (2) — Mirror diagram ===== */
+.mirror-diagram {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+  margin: 24px 0;
+}
+@media (max-width: 600px) {
+  .mirror-diagram {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .mirror-arrows { display: none; }
+}
+.mirror-side {
+  display: grid;
+  gap: 8px;
+}
+.mirror-title {
+  text-align: center;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 10px;
+  margin-bottom: 4px;
+}
+.mirror-title small {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+.mirror-reading .mirror-title { color: var(--blue); }
+.mirror-writing .mirror-title { color: var(--green); }
+
+.mirror-item {
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+}
+.mirror-item small {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+.mi-blue { border-color: var(--blue); background: var(--blue-bg-soft); }
+.mi-green { border-color: var(--green); background: var(--green-bg-soft); }
+.mi-amber { border-color: var(--amber); background: var(--amber-bg-soft); }
+
+.mirror-arrows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 40px;
+}
+.mirror-arrow {
+  font-size: 24px;
+  color: var(--ink-faint);
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* ===== Step (3) — Draft demo ===== */
+.draft-demo {
+  background: var(--bg-card);
+  border: 2px solid var(--blue);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+  transform: rotate(-0.2deg);
+}
+.draft-input, .draft-output {
+  padding: 14px;
+  border-radius: 8px;
+}
+.draft-input {
+  background: var(--purple-bg);
+  border: 1.5px solid var(--purple);
+  margin-bottom: 0;
+}
+.draft-output {
+  background: var(--green-bg-soft);
+  border: 1.5px solid var(--green);
+}
+.draft-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.draft-arrow {
+  text-align: center;
+  font-size: 18px;
+  color: var(--blue);
+  font-weight: 600;
+  padding: 10px 0;
+}
+.draft-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ===== Step (4) — Paraphrase demo ===== */
+.paraphrase-demo {
+  background: var(--bg-card);
+  border: 2px solid var(--green);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+  transform: rotate(0.2deg);
+}
+.pp-before, .pp-after {
+  padding: 14px;
+  border-radius: 8px;
+}
+.pp-before {
+  background: var(--blue-bg-soft);
+  border: 1.5px solid var(--blue);
+}
+.pp-after {
+  background: var(--green-bg-soft);
+  border: 1.5px solid var(--green);
+}
+.pp-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.pp-arrow {
+  text-align: center;
+  font-size: 18px;
+  color: var(--green);
+  font-weight: 600;
+  padding: 10px 0;
+}
+.pp-text-formal {
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin: 0;
+  font-style: italic;
+}
+.pp-text-casual {
+  font-size: 16px;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.7;
+}
+
+.pp-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 20px 0;
+}
+@media (max-width: 600px) {
+  .pp-comparison { grid-template-columns: 1fr; }
+}
+.pp-col {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+.pp-col-header {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--border);
+}
+.pp-col ul { padding-left: 18px; margin: 0; }
+.pp-col li { padding: 3px 0; font-size: 14px; color: var(--ink-soft); }
+
+/* ===== Step (5) — Expand demo ===== */
+.expand-demo {
+  background: var(--bg-card);
+  border: 2px solid var(--amber);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+  transform: rotate(-0.3deg);
+}
+.exp-before, .exp-after {
+  padding: 14px;
+  border-radius: 8px;
+}
+.exp-before {
+  background: var(--amber-bg-soft);
+  border: 1.5px solid var(--amber);
+}
+.exp-after {
+  background: var(--green-bg-soft);
+  border: 1.5px solid var(--green);
+}
+.exp-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.exp-arrow {
+  text-align: center;
+  font-size: 18px;
+  color: var(--amber);
+  font-weight: 600;
+  padding: 10px 0;
+}
+.exp-text-short {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+.exp-text-long {
+  font-size: 16px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ===== Step (6) — Risk ladder ===== */
+.risk-ladder {
+  margin: 20px 0;
+}
+.rl-step {
+  padding: 18px 22px;
+  border-radius: 12px;
+  margin: 6px 0;
+  border: 2px solid;
+  box-shadow: var(--shadow-card);
+}
+.rl-high {
+  background: var(--red-bg-soft);
+  border-color: var(--red);
+  transform: rotate(-0.3deg);
+}
+.rl-mid {
+  background: var(--amber-bg-soft);
+  border-color: var(--amber);
+  transform: rotate(0.2deg);
+}
+.rl-low {
+  background: var(--green-bg-soft);
+  border-color: var(--green);
+  transform: rotate(-0.2deg);
+}
+.rl-level {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.rl-mode {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.rl-why {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+.rl-rule {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+.rl-connector {
+  text-align: center;
+  font-size: 20px;
+  color: var(--ink-faint);
+  padding: 2px 0;
+}
+
+/* ===== Step (7) — Temperature comparison ===== */
+.temp-comparison {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-elev);
+}
+.tc-input {
+  margin-bottom: 18px;
+}
+.tc-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+.tc-prompt {
+  font-size: 15px;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin: 0;
+  padding: 10px 14px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  border-left: 3px solid var(--purple);
+}
+
+.tc-outputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.tc-card {
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 16px;
+  background: var(--bg-elev);
+}
+.tc-pro { border-color: var(--blue); transform: rotate(-0.3deg); }
+.tc-warm { border-color: var(--green); transform: rotate(0.2deg); }
+.tc-lively { border-color: var(--amber); transform: rotate(-0.2deg); }
+
+.tc-temp-tag { margin-bottom: 10px; }
+.tc-text {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+.tc-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tc-trait {
+  font-size: 11px;
+  padding: 3px 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--ink-muted);
+}
+
+.tc-verdict {
+  padding: 14px 18px;
+  background: var(--amber-bg-soft);
+  border: 1.5px solid var(--amber);
+  border-radius: 8px;
+}
+.tc-verdict p { margin: 6px 0; font-size: 14px; }
+
+/* ===== Step (8) — Writing Studio widget ===== */
+.writing-studio {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: var(--shadow-elev);
+}
+.ws-tabs {
+  display: flex;
+  background: var(--bg-elev);
+  border-bottom: 2px solid var(--border);
+}
+.ws-tab {
+  flex: 1;
+  padding: 12px 10px;
+  background: transparent;
+  border: none;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--ink-muted);
+  transition: background 0.2s, color 0.2s;
+  border-bottom: 3px solid transparent;
+}
+.ws-tab:hover { background: var(--bg-card); color: var(--ink); }
+.ws-tab.active {
+  color: var(--green);
+  background: var(--bg-card);
+  border-bottom-color: var(--green);
+}
+
+.ws-panel {
+  display: none;
+  padding: 22px;
+}
+.ws-panel.active { display: block; animation: fadeSlide 0.3s ease; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ws-input-section { margin-bottom: 14px; }
+.ws-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.ws-textarea {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--ink);
+  font-family: "LXGW WenKai Screen", "LXGW WenKai", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.ws-textarea:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+.ws-seed {
+  padding: 12px;
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+}
+.ws-seed-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ws-select {
+  padding: 6px 12px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--ink);
+  font-family: "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+.ws-select:focus { outline: none; border-color: var(--green); }
+
+.ws-generate {
+  margin-bottom: 16px;
+}
+.ws-output {
+  animation: fadeSlide 0.4s ease;
+}
+
+.ws-result-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.ws-result-card {
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 14px;
+  background: var(--bg-elev);
+}
+.ws-result-card.ws-pro { border-color: var(--blue); }
+.ws-result-card.ws-warm { border-color: var(--green); }
+.ws-result-card.ws-lively { border-color: var(--amber); }
+
+.ws-result-tag {
+  margin-bottom: 8px;
+}
+.ws-result-text {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.ws-vitamin-verdict {
+  padding: 12px 16px;
+  background: var(--green-bg-soft);
+  border: 1.5px solid var(--green);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.ws-vitamin-verdict strong { color: var(--green); }
+
+/* ===== Step (9) — State Writing Map ===== */
+.state-writing-map {
+  margin: 20px 0;
+}
+.swm-row {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: start;
+}
+.swm-row:last-child { border-bottom: none; }
+@media (max-width: 600px) {
+  .swm-row { grid-template-columns: 1fr; }
+}
+.swm-state {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+.swm-jq { background: var(--red-bg); color: var(--red); }
+.swm-by { background: var(--amber-bg); color: var(--amber); }
+.swm-yq { background: var(--purple-bg); color: var(--purple); }
+.swm-ch { background: var(--green-bg); color: var(--green); }
+.swm-gnq { background: var(--blue-bg); color: var(--blue); }
+
+.swm-strategy {
+  font-size: 14px;
+}
+.swm-strategy p { margin: 4px 0; color: var(--ink-soft); font-size: 13px; }
+.swm-mode-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+/* ===== Resource table ===== */
+.resource-table-callout { transform: rotate(0deg); }
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 12px;
+}
+.resource-table th {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+.resource-table td {
+  padding: 8px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.resource-table tr:last-child td { border-bottom: none; }

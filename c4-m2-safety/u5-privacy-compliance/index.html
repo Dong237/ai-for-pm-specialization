@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 5 · 用户隐私 + 数据合规 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M4.2 Unit 5: 《暂行办法》核心条款, 日志保留, 数据合规." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M4.2</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 5 · 隐私 + 合规</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 5<span class="title-dot">·</span><br/>用户隐私 + 数据合规</h1>
+      <p class="hero-sub">用户的经期数据、健康记录, 谁能看? 存多久? 法律怎么说?</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M44 38 Q50 44 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM · 学合规)</figcaption></figure>
+        <div class="cloud cloud-blue"><p class="cloud-line">用户把健康数据给我, 我有什么法律义务?</p><p class="cloud-line">《暂行办法》到底说了啥?</p><p class="cloud-line">对话日志能存多久?</p><p class="cloud-line accent">—— 今天逐条过法规.</p></div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>理解《生成式AI服务管理暂行办法》核心要求</li><li>掌握个人信息保护法对健康数据的规定</li><li>用 Compliance Checklist 审计 Vitamin 合规状态</li><li>制定数据保留和访问权限策略</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">一个真实的"翻车": 经期数据泄露</h2>
+      <p class="step-lede">2023 年, 某经期追踪 App 被曝将用户数据卖给第三方广告商. 用户的经期周期、性生活频率、备孕状态... 全部泄露.</p>
+      <div class="callout callout-red"><p><strong>后果:</strong> 罚款 + 集体诉讼 + 品牌信誉崩塌. 在中国, 经期数据属于<mark class="hl">敏感个人信息</mark> — 违规处理最高可罚 5000 万元或上一年度营业额 5%.</p><p>Vitamin 存的数据比这还多: 经期 + 5 种身体状态 + 对话记录 + AI 推理日志.</p></div>
+      <div class="step-foot">那法律到底怎么规定? ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">三部核心法规, PM 必须知道</h2>
+      <div class="reg-card" style="border-color:var(--red);transform:rotate(-0.3deg);">
+        <div class="reg-card-title">1. 《个人信息保护法》(PIPL)</div>
+        <div class="reg-clause">健康数据 = 敏感个人信息 → 需要<strong>单独同意</strong> + <strong>最小化收集</strong> + <strong>加密存储</strong></div>
+      </div>
+      <div class="reg-card" style="border-color:var(--blue);transform:rotate(0.3deg);">
+        <div class="reg-card-title">2. 《生成式人工智能服务管理暂行办法》</div>
+        <div class="reg-clause">2023年8月15日施行. 核心: 内容安全 + 训练数据合规 + 算法备案 + 用户保护</div>
+      </div>
+      <div class="reg-card" style="border-color:var(--green);transform:rotate(-0.2deg);">
+        <div class="reg-card-title">3. 《网络安全法》(修订版)</div>
+        <div class="reg-clause">2025年修订, 新增AI合规条款 — 强调AI技术发展与安全并重, 风险监测评估</div>
+      </div>
+      <div class="step-foot">《暂行办法》的核心条款逐条看 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">《暂行办法》核心条款: 你必须做到的</h2>
+      <div class="callout callout-blue">
+        <ol style="margin:0;padding-left:20px;font-size:14px;">
+          <li style="padding:6px 0;"><strong>第4条 内容安全:</strong> 不得生成违法内容, 防止歧视 (包括性别、健康歧视)</li>
+          <li style="padding:6px 0;"><strong>第7条 训练数据:</strong> 采取有效措施增强数据真实性、准确性、多样性</li>
+          <li style="padding:6px 0;"><strong>第9条 用户告知:</strong> 用户应知道自己在与AI交互</li>
+          <li style="padding:6px 0;"><strong>第11条 标签标注:</strong> AI生成内容应有标识</li>
+          <li style="padding:6px 0;"><strong>第17条 算法备案:</strong> 面向公众的生成式AI服务需完成备案</li>
+        </ol>
+      </div>
+      <div class="step-foot">数据怎么存? 存多久? ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">数据保留: 存多久? 谁能看?</h2>
+      <div class="callout callout-amber">
+        <strong>Vitamin 数据保留策略建议:</strong>
+        <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+          <tr style="border-bottom:2px solid var(--border-strong);"><th style="padding:6px;text-align:left;">数据类型</th><th style="padding:6px;">保留期限</th><th style="padding:6px;">访问权限</th></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;">对话日志</td><td style="padding:6px;">90 天</td><td style="padding:6px;">仅用户本人 + 安全审计</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;">健康数据 (经期等)</td><td style="padding:6px;">用户自行设置</td><td style="padding:6px;">仅用户本人, 加密存储</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px;">AI 推理日志</td><td style="padding:6px;">30 天</td><td style="padding:6px;">技术团队 (脱敏后)</td></tr>
+          <tr><td style="padding:6px;">用户账号信息</td><td style="padding:6px;">注销后 30 天删除</td><td style="padding:6px;">后台管理 (最小权限)</td></tr>
+        </table>
+      </div>
+      <div class="step-foot">用户有哪些数据权利? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">用户的 4 项数据权利</h2>
+      <div class="callout callout-green">
+        <ol style="margin:0;padding-left:20px;">
+          <li style="padding:6px 0;"><strong>知情权</strong> — 知道数据被怎么用 (隐私政策必须清晰可读)</li>
+          <li style="padding:6px 0;"><strong>删除权</strong> — 随时删除自己的数据 (产品里要有"删除"按钮)</li>
+          <li style="padding:6px 0;"><strong>更正权</strong> — 修改不准确的个人信息</li>
+          <li style="padding:6px 0;"><strong>携带权</strong> — 导出自己的数据 (提供数据导出功能)</li>
+        </ol>
+      </div>
+      <p class="step-lede"><strong>PM 必做:</strong> 在 Vitamin 设置页面里提供"查看我的数据"、"导出数据"、"删除所有数据"三个入口.</p>
+      <div class="step-foot">AI 生成的内容也要标注 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">AI 内容标识: 用户要知道 "这是 AI 说的"</h2>
+      <p class="step-lede">《暂行办法》要求: AI 生成的内容需要有标识. 用户必须知道自己在跟 AI 对话, 不是真人.</p>
+      <div class="two-wrong">
+        <article class="wrong" style="border-color:var(--red);background:var(--red-bg-soft);"><div class="wrong-mark">✗</div><h3>差: 隐藏 AI 身份</h3><p>让 AI 伪装成"健康顾问小美", 用户以为在跟真人聊天.</p></article>
+        <article class="wrong" style="border-color:var(--green);background:var(--green-bg-soft);"><div class="wrong-mark" style="color:var(--green);">✓</div><h3>好: 明确标注</h3><p>对话界面标注 "AI 助手" 标签, 首次使用弹窗告知 "你正在与 AI 交互".</p></article>
+      </div>
+      <div class="step-foot">算法备案怎么做? ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">算法备案: Vitamin 需要备案吗?</h2>
+      <div class="truth-bubble">
+        <div class="truth-tag">答案</div>
+        <p class="truth-line big"><mark class="hl">大概率需要</mark>. 如果 Vitamin 面向公众提供生成式 AI 服务, 就需要在国家网信办完成算法备案.</p>
+        <p class="truth-line">截至 2025 年底, 已有 748 款生成式AI服务完成备案. 这不是可选项, 是法律要求.</p>
+        <p class="truth-line muted">如果只是在后端调用已备案的大模型 API (如通义千问), 则可能只需做应用级登记, 而非独立备案.</p>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>PM 行动项:</strong></p>
+        <ol><li>确认 Vitamin 调用的大模型是否已完成备案</li><li>咨询法务: Vitamin 是否需要独立备案还是应用登记</li><li>准备安全评估材料 (算法说明 + 安全措施 + 应急预案)</li></ol>
+      </div>
+      <div class="step-foot">来做一次合规审计 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Compliance Checklist</h2>
+      <p class="step-lede">10 项合规要求, 点击展开看 Vitamin 的达标状态. ✅ = 达标, ⚠️ = 部分达标, ❌ = 待补.</p>
+
+      <div class="compliance-checklist" id="compliance-checklist">
+        <div class="compliance-progress">
+          <div class="progress-label"><span>Vitamin 合规进度</span><span class="progress-pct" id="progress-pct">0%</span></div>
+          <div class="progress-track"><div class="progress-bar-fill" id="progress-fill-bar" style="width:0%"></div></div>
+        </div>
+        <div class="clause-list" id="clause-list"></div>
+      </div>
+
+      <div class="callout callout-blue"><p><strong>观察:</strong> Vitamin 目前合规度约 45%. 3 项完全缺失 (用户知情同意、数据保留策略、投诉机制). 这些是上线前<em>必须</em>补齐的.</p></div>
+      <div class="step-foot">Vitamin 的合规行动计划 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 合规行动计划</h2>
+      <div class="callout callout-green">
+        <strong>Vitamin 合规 TODO (优先级排序):</strong>
+        <ol style="font-size:14px;">
+          <li><strong>P0 (必须在上线前完成):</strong> 用户知情同意弹窗 + 隐私政策页 + AI 身份标注</li>
+          <li><strong>P0:</strong> 数据保留策略 + 用户数据删除功能</li>
+          <li><strong>P1 (上线后 30 天内):</strong> 投诉举报入口 + 数据导出功能</li>
+          <li><strong>P1:</strong> 算法备案/应用登记</li>
+          <li><strong>P2 (持续):</strong> 训练数据审计 + 输出反歧视审查</li>
+        </ol>
+      </div>
+      <div class="callout callout-red"><p><strong>面试金句:</strong></p><p>"做AI PM, 合规不是法务的事 — 是产品第一天就要设计的. 对于健康AI产品, 我会确保: 1) 敏感数据加密+最小化收集 2) 用户知情同意 3) AI身份标注 4) 数据删除权. 这些是底线, 不是加分项."</p></div>
+      <div class="step-foot">一句话总结 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话</div><p class="one-liner-text">健康数据 = 敏感个人信息.<br/>《暂行办法》+ PIPL 双重约束, 合规是底线.</p><p class="one-liner-foot muted">PM 要在产品里嵌入合规: 知情同意 + 数据删除 + AI 标注 + 算法备案.</p></div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol><li>下载 3 个竞品健康App (如 Flo / 美柚 / 大姨妈), 看它们的隐私政策怎么写, AI 怎么标注.</li><li>为 Vitamin 写一段用户知情同意弹窗文案 (≤50字, 清晰说明AI+数据用途).</li><li>设计 Vitamin 设置页面的"数据管理"模块: 画线框图, 包含查看/导出/删除三个功能.</li><li>查一下"生成式AI备案"流程, 准备材料清单.</li></ol>
+        <div style="margin-top:18px;padding-top:14px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 4px;">📖</td><td>《暂行办法》全文</td><td><a href="https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm" target="_blank" style="color:var(--blue);">cac.gov.cn</a></td><td>官方原文</td><td>30 min</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 4px;">📖</td><td>暂行办法解读 (汉坤)</td><td><a href="https://www.hankunlaw.com/portal/article/index/cid/8/id/13374" target="_blank" style="color:var(--blue);">hankunlaw.com</a></td><td>律所专业解读</td><td>20 min</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 4px;">📖</td><td>AI 备案流程指南</td><td><a href="https://zhuanlan.zhihu.com/p/16792939911" target="_blank" style="color:var(--blue);">知乎</a></td><td>2025 实操指南</td><td>15 min</td></tr>
+            <tr><td style="padding:6px 4px;">📖</td><td>2025 AI 治理进展</td><td><a href="https://www.lexology.com/library/detail.aspx?g=d791e8ce-f82b-41cb-b6c6-ceb65ea119d1" target="_blank" style="color:var(--blue);">Lexology</a></td><td>年度法规回顾</td><td>20 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 经期数据泄露事件</a><a href="#s2" class="recap-cell"><span class="rc-num">2</span> 三部核心法规</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 暂行办法核心条款</a><a href="#s4" class="recap-cell"><span class="rc-num">4</span> 数据保留策略</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 用户 4 项数据权利</a><a href="#s6" class="recap-cell"><span class="rc-num">6</span> AI 内容标识</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 算法备案</a><a href="#s8" class="recap-cell"><span class="rc-num">8</span> Compliance Checklist</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 合规计划</a><a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 5:</p><p class="end-summary-big">健康数据 = 敏感信息.<br/>合规是底线, 不是 nice-to-have.</p><p class="end-summary-sub">《暂行办法》+ PIPL + 备案 = PM 的合规三件套.</p></div>
+      <div class="next-card"><div class="next-tag">下节课 (Unit 6): 医疗 AI NMPA 注册</div><p>合规搞定了, 但 Vitamin 还有个更大的问题: 它算不算"医疗器械"? 需不需要 NMPA 注册?</p><p><strong>这个问题, 决定了 Vitamin 能不能上线.</strong></p><a class="walk-arrow" href="../u6-nmpa/index.html">继续走 → Unit 6</a></div>
+    </section>
+  </main>
+
+  <footer class="footer"><p>AI for PM · Course 4 · Module 2 · Unit 5 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

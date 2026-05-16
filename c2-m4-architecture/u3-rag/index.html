@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · RAG 适用场景 — AI for PM · M2.4</title>
+  <meta name="description" content="知识动态更新 + 需要溯源 = RAG. Vitamin 医学知识库一定要 RAG." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 · RAG</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+  <nav class="step-rail" aria-label="步骤导航"><ol>
+    <li><a href="#start" data-step="0">▶</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+    <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+    <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+    <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+    <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">■</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 3<span class="title-dot">·</span><br/>RAG 适用场景</h1>
+      <p class="hero-sub">当模型 "不知道" 的时候, 给它配个图书馆.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">用户问: "经期能吃布洛芬吗?"</p>
+          <p class="cloud-line">模型瞎编了一个答案, 还特别自信!</p>
+          <p class="cloud-line">如果是医疗产品, 这要出事的...</p>
+          <p class="cloud-line accent">—— RAG 就是解决这个问题的.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>画出 RAG 的 4 步 pipeline</li>
+          <li>知道为什么医疗/法律场景必须用 RAG</li>
+          <li>用动画看清楚 Embed → Retrieve → Augment → Generate</li>
+          <li>给 Vitamin 设计 RAG 的知识库方案</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">人类也是 "先查再答"</h2>
+      <p class="step-lede">你去看病, 医生不是凭记忆给你开药 — 她会翻医学指南、查药物手册、看你的检查报告. <strong>先检索, 再判断.</strong></p>
+      <div class="callout callout-blue">
+        <p>RAG 的灵感就是这个:</p>
+        <p style="font-size:17px;font-weight:600;margin-top:8px;">让 LLM 在回答之前, 先去 "图书馆" 查一下相关资料.</p>
+        <p class="muted">RAG = Retrieval-Augmented Generation = 检索增强生成</p>
+      </div>
+      <div class="big-insight">
+        <p>对比:</p>
+        <p class="insight-text">Prompt-only = 纯靠记忆答题<br/>RAG = 开卷考试</p>
+        <p>开卷考试的准确率, 当然比纯记忆高得多.</p>
+      </div>
+      <div class="step-foot">RAG 的 4 步 pipeline 是怎么工作的? &darr;</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">RAG 的 4 步 Pipeline</h2>
+      <p class="step-lede">整个 RAG 系统就 4 步. 记住这 4 个词: <mark class="hl">Embed → Retrieve → Augment → Generate</mark>.</p>
+      <div class="level-diagram" style="background:var(--bg-card);border:2px solid var(--blue);border-radius:12px;padding:20px;margin:18px 0;box-shadow:var(--shadow-card);font-size:15px;">
+        <strong style="color:var(--blue);">准备阶段 (一次性):</strong><br/>
+        文档 → 切块 → Embedding → 存入向量数据库<br/><br/>
+        <strong style="color:var(--green);">使用阶段 (每次查询):</strong><br/>
+        用户提问 → 问题 Embedding → 检索相似文档 → 塞进 Prompt → LLM 生成
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>PM 认知:</strong> RAG 系统有两个独立的 pipeline — "准备" 和 "使用". 准备阶段可以定期跑 (比如每天凌晨更新知识库), 使用阶段是实时的.</p>
+      </div>
+      <div class="step-foot">一步步拆开看 &darr;</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Step 1: 文档切块 + Embedding</h2>
+      <div class="pipeline-step" data-p="1">
+        <div class="pipeline-step-tag">Step 1: Embed</div>
+        <p style="margin:10px 0;"><strong>把你的文档变成模型能 "搜索" 的格式.</strong></p>
+        <ol style="margin:8px 0;padding-left:20px;font-size:15px;">
+          <li><strong>切块</strong> — 把长文档切成 200-500 字的小块. 太长检索不精准, 太短缺上下文.</li>
+          <li><strong>Embedding</strong> — 每个块通过 Embedding 模型变成一组数字 (向量). 语义相似的块, 向量也相似.</li>
+          <li><strong>存储</strong> — 向量存入向量数据库 (Pinecone / Milvus / pgvector).</li>
+        </ol>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>类比:</strong> 就像图书馆管理员把每本书做了索引卡, 写上关键词. 以后要找什么, 先查索引卡, 不用翻遍所有书.</p>
+      </div>
+      <div class="step-foot">用户提问时发生什么? &darr;</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Step 2: 检索 (Retrieve)</h2>
+      <div class="pipeline-step" data-p="2">
+        <div class="pipeline-step-tag">Step 2: Retrieve</div>
+        <p style="margin:10px 0;"><strong>用户提问 → 变成向量 → 找最相似的文档块.</strong></p>
+        <ol style="margin:8px 0;padding-left:20px;font-size:15px;">
+          <li>用户问: "经期能跑步吗?"</li>
+          <li>这句话通过同一个 Embedding 模型变成向量</li>
+          <li>在向量数据库里计算余弦相似度, 找到最相关的 Top 3 文档块</li>
+          <li>比如: "经期运动指南"、"剧烈运动注意事项"、"瑜伽散步推荐"</li>
+        </ol>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>检索质量 = RAG 质量.</strong> 如果检索到的文档不相关, 后面 LLM 再厉害也白搭. 这就是为什么 "切块策略" 和 "Embedding 模型选择" 是 RAG 的核心优化点.</p>
+      </div>
+      <div class="step-foot">检索到了, 然后呢? &darr;</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Step 3: 增强 (Augment)</h2>
+      <div class="pipeline-step" data-p="3">
+        <div class="pipeline-step-tag">Step 3: Augment</div>
+        <p style="margin:10px 0;"><strong>把检索到的文档块塞进 Prompt, 作为 "参考资料".</strong></p>
+        <div style="background:var(--bg-elev);border:1px dashed var(--border);border-radius:8px;padding:14px;font-family:'Cascadia Code','SF Mono',monospace;font-size:13px;margin:12px 0;white-space:pre-wrap;color:var(--ink-soft);">System: 你是 Vitamin 健康顾问.
+根据以下参考资料回答用户问题.
+如果参考资料中没有相关信息, 说 "我不确定".
+
+&lt;context&gt;
+[检索到的文档块1]
+[检索到的文档块2]
+[检索到的文档块3]
+&lt;/context&gt;
+
+User: 经期能跑步吗?</div>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>关键:</strong> "如果参考资料中没有相关信息, 说 '我不确定'" — 这句话非常重要. 它让模型在没有依据时选择拒答, 而不是编造. 这就是 RAG 降低幻觉的核心机制.</p>
+      </div>
+      <div class="step-foot">最后一步: 生成回答 &darr;</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Step 4: 生成 (Generate)</h2>
+      <div class="pipeline-step" data-p="4">
+        <div class="pipeline-step-tag">Step 4: Generate</div>
+        <p style="margin:10px 0;"><strong>LLM 基于参考资料生成回答, 并标注来源.</strong></p>
+        <div style="background:var(--green-bg-soft);border:1.5px solid var(--green);border-radius:8px;padding:14px;font-size:15px;margin:12px 0;">
+          <p style="margin:0 0 8px;"><strong>模型输出:</strong></p>
+          <p style="margin:0;font-style:italic;">"经期可以适度运动, 但建议避免高强度跑步. 推荐散步、瑜伽等轻量运动. 如果月经量较大或有痛经, 建议以休息为主."</p>
+          <p style="margin:8px 0 0;font-size:13px;color:var(--ink-muted);">来源: 《女性经期运动指南》, 《运动医学建议》</p>
+        </div>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>对比一下:</strong></p>
+        <p style="font-size:14px;">没有 RAG 时: 模型可能说 "经期可以正常跑步, 没有影响" — 错误且危险.<br/>有 RAG 时: 模型基于权威资料回答, 并给出引用 — 准确且可验证.</p>
+      </div>
+      <div class="step-foot">RAG 的 3 大核心优势 &darr;</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">RAG 的 3 大核心优势</h2>
+      <div class="advantage-cards">
+        <div class="advantage-card">
+          <div class="advantage-icon">🔄</div>
+          <div class="advantage-title">知识可更新</div>
+          <div class="advantage-desc">换文档就行, 不用重新训练模型. 医学指南更新了? 换个文件, 几分钟搞定.</div>
+        </div>
+        <div class="advantage-card" style="border-color:var(--green);">
+          <div class="advantage-icon">📑</div>
+          <div class="advantage-title">可溯源</div>
+          <div class="advantage-desc">回答附带引用来源. 用户/医生可以验证 "这个建议出自哪份指南". 合规必需.</div>
+        </div>
+        <div class="advantage-card" style="border-color:var(--amber);">
+          <div class="advantage-icon">🛡️</div>
+          <div class="advantage-title">降低幻觉</div>
+          <div class="advantage-desc">研究表明 RAG 可将幻觉率降低高达 85%. 有据可查比纯靠记忆靠谱得多.</div>
+        </div>
+      </div>
+      <div class="callout callout-red">
+        <p><strong>什么时候必须用 RAG?</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>医疗产品 — 必须引用权威指南, 不能瞎编</li>
+          <li>法律产品 — 必须引用法条, 出错有法律责任</li>
+          <li>企业知识库 — 公司内部文档, 模型不可能知道</li>
+          <li>客服系统 — 产品 FAQ 经常更新, 不能重新训练</li>
+        </ul>
+      </div>
+      <div class="step-foot">动手看看 RAG Pipeline 的动画演示 &darr;</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动画演示 — RAG Pipeline 全流程</h2>
+      <p class="step-lede">点击 "下一步", 一步步看 RAG 是怎么工作的.</p>
+
+      <div class="rag-pipeline">
+        <div class="rag-steps">
+          <div class="rag-step" data-rag="1">
+            <div class="rag-step-num">1</div>
+            <div class="rag-step-content">
+              <div class="rag-step-title">Embed (向量化)</div>
+              <div class="rag-step-desc">文档切块, 转成向量数字, 存入数据库</div>
+              <div class="rag-step-visual">📄 "经期可以适度运动, 但应避免剧烈运动..."<br/>  ↓ Embedding Model<br/>📊 [0.23, -0.15, 0.87, 0.42, ...] → 存入向量数据库</div>
+            </div>
+          </div>
+          <div class="rag-arrow">↓</div>
+          <div class="rag-step" data-rag="2">
+            <div class="rag-step-num">2</div>
+            <div class="rag-step-content">
+              <div class="rag-step-title">Retrieve (检索)</div>
+              <div class="rag-step-desc">用户提问向量化, 找最相似的文档块</div>
+              <div class="rag-step-visual">👤 "经期能跑步吗?"<br/>  ↓ Embedding<br/>📊 [0.21, -0.18, 0.85, ...]<br/>  ↓ 余弦相似度<br/>🎯 Top 3: 相似度 0.92, 0.87, 0.81</div>
+            </div>
+          </div>
+          <div class="rag-arrow">↓</div>
+          <div class="rag-step" data-rag="3">
+            <div class="rag-step-num">3</div>
+            <div class="rag-step-content">
+              <div class="rag-step-title">Augment (增强)</div>
+              <div class="rag-step-desc">检索结果塞进 Prompt 作为参考资料</div>
+              <div class="rag-step-visual">System: "根据以下参考资料回答...<br/>&lt;context&gt;<br/>  资料1: 经期运动指南...<br/>  资料2: 运动强度建议...<br/>&lt;/context&gt;"</div>
+            </div>
+          </div>
+          <div class="rag-arrow">↓</div>
+          <div class="rag-step" data-rag="4">
+            <div class="rag-step-num">4</div>
+            <div class="rag-step-content">
+              <div class="rag-step-title">Generate (生成)</div>
+              <div class="rag-step-desc">LLM 基于参考资料生成回答, 附带引用</div>
+              <div class="rag-step-visual">🤖 "经期可以适度运动, 推荐散步瑜伽...<br/>[来源: 经期运动指南]"<br/><br/>✅ 有据可查 · 可溯源 · 幻觉率↓85%</div>
+            </div>
+          </div>
+        </div>
+        <div class="rag-controls">
+          <button id="rag-next" class="btn btn-primary">下一步 →</button>
+          <button id="rag-reset" class="btn btn-ghost">重来</button>
+          <span class="rag-status" id="rag-status"></span>
+        </div>
+      </div>
+      <div class="step-foot">回到 Vitamin &darr;</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 RAG 方案</h2>
+      <p class="step-lede">Vitamin 是女性健康产品. <mark class="hl">涉及医学知识的功能, 必须用 RAG.</mark></p>
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 知识库应该包含:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>权威医学指南 (经期健康、营养建议、运动指南)</li>
+          <li>药物交互数据 (布洛芬禁忌、常见中药注意事项)</li>
+          <li>Vitamin 产品 FAQ (功能说明、使用方法)</li>
+          <li>季节性健康提醒 (换季注意事项, 定期更新)</li>
+        </ul>
+      </div>
+      <div class="callout callout-red">
+        <p><strong>面试金句:</strong></p>
+        <p>"Vitamin 的医学知识问答必须用 RAG, 原因有三: 一, 医学指南会更新, RAG 换文档就行; 二, 用户需要看到建议来源, RAG 支持溯源; 三, 健康产品零容忍幻觉, RAG 将幻觉率降低 85%."</p>
+      </div>
+      <div class="step-foot">规则 + 作业 &darr;</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">RAG = 给 LLM 配个图书馆.<br/>知识要更新? 要溯源? 要降幻觉? → 用 RAG.</p>
+        <p class="one-liner-foot muted">RAG 改的是 "模型看到什么", 不是 "模型本身".</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>画出 RAG 的 4 步 pipeline (手画): Embed → Retrieve → Augment → Generate. 每步写一句话解释.</li>
+          <li>去 <a href="https://ragplay.vercel.app/" target="_blank" style="color:var(--blue);">RAG Playground</a> 试用 5 分钟, 截图一个检索结果.</li>
+          <li>列出 Vitamin 知识库的 5 类文档 (比如: 经期指南、药物手册...), 估算总文档量.</li>
+          <li>写一段 Prompt 模板, 包含 &lt;context&gt; 占位符, 用于 Vitamin 的医学知识问答.</li>
+        </ol>
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">🎮</td><td style="padding:6px 8px;"><a href="https://ragplay.vercel.app/" target="_blank" style="color:var(--blue);">RAG Playground</a></td><td style="padding:6px 8px;">Interactive</td><td style="padding:6px 8px;">动手试 RAG 全流程</td><td style="padding:6px 8px;">10 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://zhuanlan.zhihu.com/p/675509396" target="_blank" style="color:var(--blue);">一文读懂 RAG</a></td><td style="padding:6px 8px;">知乎</td><td style="padding:6px 8px;">中文, 含高级 RAG 方法</td><td style="padding:6px 8px;">20 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://datawhalechina.github.io/all-in-rag/" target="_blank" style="color:var(--blue);">All-in-RAG 全栈教程</a></td><td style="padding:6px 8px;">Datawhale</td><td style="padding:6px 8px;">中文 RAG 技术全栈指南</td><td style="padding:6px 8px;">2 hr</td></tr>
+            <tr><td style="padding:6px 8px;">🎮</td><td style="padding:6px 8px;"><a href="https://rag-o-matic.vercel.app/" target="_blank" style="color:var(--blue);">RAG-O-MATIC</a></td><td style="padding:6px 8px;">Interactive</td><td style="padding:6px 8px;">滚动式 RAG 可视化</td><td style="padding:6px 8px;">5 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 &darr;</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 人类也是先查再答</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> RAG 4 步 Pipeline</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Step 1: Embed</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Step 2: Retrieve</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Step 3: Augment</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Step 4: Generate</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 3 大核心优势</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Pipeline 动画</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin RAG 方案</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">RAG = 开卷考试. 让模型带着参考资料回答, 不靠记忆瞎编.</p>
+        <p class="end-summary-sub">医疗/法律/企业知识 — 必须 RAG.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 4): Fine-tune 适用场景</div>
+        <p>RAG 解决了 "知识" 问题. 但如果问题不是 "不知道", 而是 "风格不对"?<br/><strong>Fine-tune: 让模型学会你的 "说话方式".</strong></p>
+        <a class="walk-arrow" href="../u4-fine-tune/index.html">继续走 &rarr; Unit 4</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 2.4 · Unit 3 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · Prompt 版本管理 — AI for PM · M3.1</title>
+  <meta name="description" content="Prompt Engineering · Unit 7: 把 Prompt 当代码管理 — 版本号、变更日志、A/B 实验." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.1</span></a><div class="topbar-right"><span class="unit-label">Unit 7 · 版本管理</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">·</span><br/>Prompt 也要版本管理</h1>
+      <p class="hero-sub">改了一个字, 效果可能天差地别. 把 Prompt 当代码管理, 是生产级 AI 产品的标配.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="你 · PM"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head" /><circle cx="42" cy="28" r="2" fill="currentColor" /><circle cx="58" cy="28" r="2" fill="currentColor" /><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" /><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue"><p class="cloud-line">上周改了一句 Prompt, 今天用户投诉变多了...</p><p class="cloud-line">改了什么? 谁改的? 能回滚吗?</p><p class="cloud-line accent">—— 如果没有版本管理, 这些问题无解.</p></div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>理解为什么 Prompt 需要像代码一样管理</li><li>掌握 Semantic Versioning 在 Prompt 上的应用</li><li>知道如何设计 A/B 测试验证 Prompt 改动</li><li>亲手在版本时间线里查看 diff 和指标</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1"><div class="step-num"><span>(1)</span></div><h2 class="step-title">一个真实的事故: "改了一个字, 炸了"</h2><p class="step-lede">某 AI 产品的 PM 把 Prompt 里的"建议"改成了"应该". 用户反馈语气变得"很强硬". 但没人记录这个改动, 花了 3 天才定位问题.</p><div class="callout callout-red"><strong>Prompt 不像代码:</strong><p>代码改错了, 编译器报错. Prompt 改错了, <mark class="hl">没有报错, 只有用户投诉</mark>. 而且很难定位"哪里改错了".</p></div><div class="step-foot">为什么传统的代码管理不够? ↓</div></section>
+
+    <section id="s2" class="step" data-step="2"><div class="step-num"><span>(2)</span></div><h2 class="step-title">Prompt 管理 vs 代码管理: 有什么不同?</h2>
+      <div class="callout callout-blue"><strong>代码:</strong> 改了 → 跑测试 → 确定性结果. 同样的输入, 永远同样的输出.</div>
+      <div class="callout callout-amber"><strong>Prompt:</strong> 改了 → 跑测试 → <mark class="hl">非确定性结果</mark>. 同样的输入, 可能不同的输出. 需要统计评估, 不能只看一次.</div>
+      <div class="truth-bubble"><div class="truth-tag">核心</div><p class="truth-line giant">Prompt 管理 = 代码管理 + 统计评估</p><p class="truth-line muted">→ 除了版本号和 diff, 还需要 A/B 测试和指标对比.</p></div>
+      <div class="step-foot">Semantic Versioning 怎么用在 Prompt 上? ↓</div></section>
+
+    <section id="s3" class="step" data-step="3"><div class="step-num"><span>(3)</span></div><h2 class="step-title">Semantic Versioning: Major.Minor.Patch</h2>
+      <div class="callout callout-green"><table class="resource-table"><thead><tr><th>版本号</th><th>含义</th><th>Prompt 场景</th></tr></thead><tbody>
+        <tr><td><strong>Major (1.0.0)</strong></td><td>破坏性变更</td><td>输出格式改了 / 角色重新定义 / 整体重写</td></tr>
+        <tr><td><strong>Minor (1.1.0)</strong></td><td>新增功能</td><td>加了 Few-shot 示例 / 加了新的安全规则</td></tr>
+        <tr><td><strong>Patch (1.1.1)</strong></td><td>小修小补</td><td>改了一个错别字 / 调整了一句话的措辞</td></tr>
+      </tbody></table></div>
+      <div class="callout callout-amber"><strong>Vitamin 示例:</strong>
+        <p>v1.0.0 — 初版上线, 4 段式基础 Prompt</p>
+        <p>v1.1.0 — 加了 3 个 Few-shot 示例 (Minor: 新功能)</p>
+        <p>v1.1.1 — "建议"改成"你可以试试" (Patch: 措辞调整)</p>
+        <p>v2.0.0 — 输出格式从纯文本改成 JSON (Major: 破坏性变更)</p>
+      </div>
+      <div class="step-foot">版本管理的流程 ↓</div></section>
+
+    <section id="s4" class="step" data-step="4"><div class="step-num"><span>(4)</span></div><h2 class="step-title">流程: 编写 → 测试 → 灰度 → 上线</h2>
+      <div class="callout callout-blue"><ol><li><strong>编写:</strong> 在测试环境修改 Prompt, 标记为 Draft</li><li><strong>测试:</strong> 用 20-50 个测试用例跑一遍, 看准确率和格式正确率</li><li><strong>灰度:</strong> 5-10% 真实用户先用新版本, 监控指标</li><li><strong>上线:</strong> 指标达标后, 逐步扩大到 100%</li></ol></div>
+      <div class="step-foot">A/B 测试怎么做? ↓</div></section>
+
+    <section id="s5" class="step" data-step="5"><div class="step-num"><span>(5)</span></div><h2 class="step-title">A/B 测试: 新旧 Prompt 对决</h2>
+      <div class="callout callout-green"><strong>A/B 测试 Prompt 的方法:</strong><ol>
+        <li>保持旧版本 (A 组, 90% 流量)</li>
+        <li>新版本只发给 10% 用户 (B 组)</li>
+        <li>对比两组的核心指标: 接受率、重新生成率、用户满意度</li>
+        <li>B 组指标更好 → 逐步扩大到 100%</li>
+        <li>B 组指标更差 → 回滚, 分析原因</li>
+      </ol></div>
+      <div class="callout callout-amber"><strong>Vitamin 的关键指标:</strong><p>接受率 > 60% (用户没点"换一个") · 拒答率 < 5% · P95 延迟 < 5 秒</p></div>
+      <div class="step-foot">变更日志怎么写? ↓</div></section>
+
+    <section id="s6" class="step" data-step="6"><div class="step-num"><span>(6)</span></div><h2 class="step-title">变更日志: 每次改动都要记录</h2>
+      <div class="callout callout-blue"><div style="background:var(--bg-card);padding:10px;border-radius:6px;font-family:monospace;font-size:12px;line-height:1.8;margin:8px 0;white-space:pre-wrap;">## Prompt Changelog — Vitamin 经期状态
+
+### v1.2.0 (2026-05-10)
+- [Add] 加了 3 个 Few-shot 示例, 覆盖疲劳/疼痛/情绪
+- [Change] 输出格式改为 JSON
+- [Metric] 接受率 65% → 72% (+7%)
+
+### v1.1.1 (2026-05-05)
+- [Fix] "你应该" → "你可以试试", 语气更温和
+- [Metric] 用户满意度 4.1 → 4.3
+
+### v1.1.0 (2026-04-28)
+- [Add] 加了 Negative Instructions: 不给医疗诊断
+- [Metric] 拒答率从 0% 升到 3% (预期内)</div></div>
+      <div class="step-foot">回滚机制 ↓</div></section>
+
+    <section id="s7" class="step" data-step="7"><div class="step-num"><span>(7)</span></div><h2 class="step-title">回滚: 新版本出问题, 一键回退</h2>
+      <div class="callout callout-red"><strong>何时回滚:</strong><ul><li>接受率下降超过 5%</li><li>用户投诉突然增多</li><li>出现安全违规(给了医疗诊断)</li><li>延迟显著增加</li></ul></div>
+      <div class="callout callout-green"><strong>回滚前提:</strong><p>必须保留每个版本的完整 Prompt 文本. 如果你只保存了最新版, 回滚就无从谈起.</p><p class="muted">→ 最简单的方案: 把 Prompt 存在 Git 里, 每次修改都是一个 commit.</p></div>
+      <div class="step-foot">动手试版本时间线 ↓</div></section>
+
+    <section id="s8" class="step" data-step="8"><div class="step-num"><span>(8)</span></div><h2 class="step-title">动手看: 版本时间线</h2><p class="step-lede">点击每个版本, 查看变更内容和指标对比:</p>
+      <div class="timeline-widget">
+        <div class="tl-header">Vitamin 经期 Prompt — 版本历史</div>
+        <div class="tl-versions">
+          <button class="tl-version active" data-version="1">v1.0.0 <span class="tl-badge draft">初版</span></button>
+          <button class="tl-version" data-version="2">v1.1.0 <span class="tl-badge staging">+安全规则</span></button>
+          <button class="tl-version" data-version="3">v1.2.0 <span class="tl-badge staging">+Few-shot</span></button>
+          <button class="tl-version" data-version="4">v2.0.0 <span class="tl-badge prod">生产版</span></button>
+        </div>
+        <div class="tl-content">
+          <div id="tl-detail-1" class="tl-detail active">
+            <div class="tl-meta"><span>2026-04-20</span><span>初始版本</span><span>纯文本输出</span></div>
+            <div class="tl-diff">## Role
+你是一位健康顾问。
+
+## Task
+给用户健康建议。
+
+## Format
+纯文本, 3 条建议。</div>
+            <div class="tl-metrics"><div class="tl-metric"><div class="tl-metric-val" style="color:var(--red);">52%</div><div class="tl-metric-label">接受率</div></div><div class="tl-metric"><div class="tl-metric-val" style="color:var(--amber);">0%</div><div class="tl-metric-label">拒答率</div></div><div class="tl-metric"><div class="tl-metric-val" style="color:var(--green);">2.1s</div><div class="tl-metric-label">P95 延迟</div></div></div>
+          </div>
+          <div id="tl-detail-2" class="tl-detail">
+            <div class="tl-meta"><span>2026-04-28</span><span>加安全规则</span><span>Minor 更新</span></div>
+            <div class="tl-diff">## Role
+你是 Vitamin 的健康顾问"小 V"。<span class="diff-add">温暖、不说教。</span>
+
+## Task
+给用户<span class="diff-add">个性化</span>健康建议。
+
+<span class="diff-add">## Rules
+- 不要给医疗诊断
+- 不要推荐药物</span>
+
+## Format
+纯文本, 3 条建议。</div>
+            <div class="tl-metrics"><div class="tl-metric"><div class="tl-metric-val" style="color:var(--amber);">58%</div><div class="tl-metric-label">接受率</div></div><div class="tl-metric"><div class="tl-metric-val" style="color:var(--green);">3%</div><div class="tl-metric-label">拒答率</div></div><div class="tl-metric"><div class="tl-metric-val" style="color:var(--green);">2.3s</div><div class="tl-metric-label">P95 延迟</div></div></div>
+          </div>
+          <div id="tl-detail-3" class="tl-detail">
+            <div class="tl-meta"><span>2026-05-10</span><span>加 Few-shot</span><span>Minor 更新</span></div>
+            <div class="tl-diff">... (Role + Task + Rules 不变)
+
+<span class="diff-add">## Examples
+输入: "好累啊" → 经期 · 关怀
+输入: "精力超好" → 排卵期 · 运动
+输入: "想吃甜的" → 经前期 · 饮食</span>
+
+## Format
+纯文本, 3 条建议。</div>
+            <div class="tl-metrics"><div class="tl-metric"><div class="tl-metric-val" style="color:var(--green);">72%</div><div class="tl-metric-label">接受率</div></div><div class="tl-metric"><div class="tl-metric-val" style="color:var(--green);">3%</div><div class="tl-metric-label">拒答率</div></div><div class="tl-metric"><div class="tl-metric-val" style="color:var(--amber);">3.1s</div><div class="tl-metric-label">P95 延迟</div></div></div>
+          </div>
+          <div id="tl-detail-4" class="tl-detail">
+            <div class="tl-meta"><span>2026-05-15</span><span>JSON 输出</span><span>Major 更新</span></div>
+            <div class="tl-diff">... (Role + Task + Rules + Examples 不变)
+
+## Format
+<span class="diff-del">纯文本, 3 条建议。</span>
+<span class="diff-add">JSON: {"greeting":"...","tips":["..."],"warning":"..."}</span></div>
+            <div class="tl-metrics"><div class="tl-metric"><div class="tl-metric-val" style="color:var(--green);">78%</div><div class="tl-metric-label">接受率</div></div><div class="tl-metric"><div class="tl-metric-val" style="color:var(--green);">2%</div><div class="tl-metric-label">拒答率</div></div><div class="tl-metric"><div class="tl-metric-val" style="color:var(--green);">2.8s</div><div class="tl-metric-label">P95 延迟</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-foot">Vitamin 怎么管理 Prompt 版本 ↓</div></section>
+
+    <section id="s9" class="step" data-step="9"><div class="step-num"><span>(9)</span></div><h2 class="step-title">Vitamin 实战: Prompt 管理制度</h2>
+      <div class="can-cant">
+        <article class="can-list"><h3 class="can-head">要做的</h3><ul><li>每个 Prompt 有版本号和变更日志</li><li>修改前先写 A/B 测试计划</li><li>Major 变更需要评审 (PM + 开发)</li><li>保留所有历史版本, 支持一键回滚</li></ul></article>
+        <article class="cant-list"><h3 class="cant-head">避免的</h3><ul><li>直接在生产环境改 Prompt</li><li>不记录就修改 ("我就改了一个字")</li><li>没有测试就全量上线</li><li>只保留最新版本, 无法回滚</li></ul></article>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div></section>
+
+    <section id="s10" class="step" data-step="10"><div class="step-num"><span>(10)</span></div><h2 class="step-title">一句话规则 + 今日作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话</div><p class="one-liner-text">Prompt 是产品资产, 不是一次性文字.<br/>版本号 + 变更日志 + A/B 测试 = 生产级管理.</p><p class="one-liner-foot muted">改 Prompt 之前先问: 版本号是什么? 怎么测试? 能回滚吗?</p></div>
+      <div class="callout callout-green"><strong>课后作业 (30 分钟):</strong><ol><li>为 Vitamin 的经期 Prompt 写一份变更日志 (至少 3 个版本, 每个标明 Major/Minor/Patch).</li><li>设计一个 A/B 测试方案: 把 Vitamin 的问候语从"你好"改成"嗨~", 怎么测试效果?</li><li>在你常用的 AI 工具里, 故意改一个 Prompt 的小细节, 记录输出变化.</li><li>写 100 字: 给团队解释"为什么不能直接在生产环境改 Prompt".</li></ol></div>
+      <div class="callout callout-blue"><strong>资源延伸:</strong><table class="resource-table"><thead><tr><th>类型</th><th>资源</th><th>来源</th><th>值得看的原因</th><th>时间</th></tr></thead><tbody>
+        <tr><td>📖</td><td><a href="https://www.braintrust.dev/articles/what-is-prompt-versioning" target="_blank">What is Prompt Versioning?</a></td><td>Braintrust</td><td>最清晰的版本管理指南</td><td>15 min</td></tr>
+        <tr><td>📖</td><td><a href="https://launchdarkly.com/blog/prompt-versioning-and-management/" target="_blank">Prompt Management Guide</a></td><td>LaunchDarkly</td><td>含灰度发布和 A/B 测试</td><td>20 min</td></tr>
+        <tr><td>📖</td><td><a href="https://www.braintrust.dev/articles/ab-testing-llm-prompts" target="_blank">A/B Testing LLM Prompts</a></td><td>Braintrust</td><td>A/B 测试实操指南</td><td>15 min</td></tr>
+        <tr><td>🛠</td><td><a href="https://langfuse.com/docs/prompt-management/features/a-b-testing" target="_blank">Langfuse A/B Testing</a></td><td>Langfuse</td><td>开源 Prompt 管理工具</td><td>10 min</td></tr>
+      </tbody></table></div>
+      <div class="step-foot">走完了 — 回顾 ↓</div></section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> "改了一个字, 炸了"</a><a href="#s2" class="recap-cell"><span class="rc-num">2</span> Prompt vs 代码管理</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Semantic Versioning</a><a href="#s4" class="recap-cell"><span class="rc-num">4</span> 编写→测试→灰度→上线</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> A/B 测试</a><a href="#s6" class="recap-cell"><span class="rc-num">6</span> 变更日志</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 回滚机制</a><a href="#s8" class="recap-cell"><span class="rc-num">8</span> 版本时间线</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 管理制度</a><a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 7:</p><p class="end-summary-big">Prompt 是产品资产. 版本号 + 变更日志 + A/B 测试 + 回滚 = 生产级管理.</p><p class="end-summary-sub">下一步: Prompt 出了问题, 怎么 debug?</p></div>
+      <div class="next-card"><div class="next-tag">下节课 (Unit 8): Prompt 调试</div><p>Prompt 上线后, AI 答错了怎么办? 不是改一个字碰运气.</p><p>下一步: <strong>4 步 Debug 法 — 确认输入 → 加 CoT → 加 Few-shot → 换模型</strong>.</p><a class="walk-arrow" href="../u8-debugging/index.html">继续走 → Unit 8</a></div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 3.1 · Unit 7 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

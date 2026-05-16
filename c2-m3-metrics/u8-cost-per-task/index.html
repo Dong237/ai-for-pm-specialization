@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 8 · Cost per Successful Task — AI for PM · M2.3</title>
+  <meta name="description" content="不看token成本看每个成功任务花多少钱. 便宜模型可能更贵." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.3</span></a><div class="topbar-right"><span class="unit-label">Unit 8 · Cost per Successful Task</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 8<span class="title-dot">·</span><br/>Cost per Successful Task</h1>
+      <p class="hero-sub">每 token 便宜 19 倍的模型, 实际可能更贵 — 因为它失败了 3 倍.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">老板说 "换个便宜模型省钱" ...</p>
+          <p class="cloud-line">但便宜模型失败率高, 要重试 3 次...</p>
+          <p class="cloud-line accent">—— 别看 $/token, 看 $/成功任务.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 $/token vs $/successful task 的区别</li>
+          <li>算出 "便宜模型可能更贵" 的真实账</li>
+          <li>画 Vitamin 各功能的成本-质量散点图</li>
+          <li>给老板解释为什么不能只看 token 价格</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">$/token 是错误的指标</h2>
+      <p class="step-lede">你在选模型, 两个选择:</p>
+      <div class="cost-compare">
+        <div class="cost-box cheap">
+          <h4>模型 A (便宜)</h4>
+          <span class="cost-num" style="color:var(--green);">$0.005<small>/1K tokens</small></span>
+          <div class="cost-detail">但成功率只有 40%<br/>平均需要 2.5 次才成功</div>
+        </div>
+        <div class="cost-box expensive">
+          <h4>模型 B (贵)</h4>
+          <span class="cost-num" style="color:var(--red);">$0.03<small>/1K tokens</small></span>
+          <div class="cost-detail">成功率 85%<br/>通常 1 次就成功</div>
+        </div>
+      </div>
+      <p>模型 A 每 token 便宜 6 倍. 但:</p>
+      <ul>
+        <li>模型 A: 平均 2.5 次调用 × $0.005 = <strong>$0.0125 / 成功任务</strong></li>
+        <li>模型 B: 平均 1.18 次调用 × $0.03 = <strong>$0.035 / 成功任务</strong></li>
+      </ul>
+      <p>模型 A 还是便宜! 但考虑到用户流失, 每次失败用户可能走了 — <mark class="hl">便宜模型的隐性成本远不止 token 费</mark>.</p>
+      <div class="step-foot">CPST 定义 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">定义: Cost per Successful Task</h2>
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">公式</div>
+        <p class="truth-line giant">CPST =<br/>总花费 (含失败) / 成功任务数</p>
+        <p class="truth-line muted">Total cost = 所有 API 调用的 token 费 + 重试费 + 工具调用费 + 基础设施费.</p>
+      </div>
+      <p>关键: 分母是<strong>成功完成的任务</strong>, 不是总调用次数. 失败的调用也在烧钱, 但不创造价值.</p>
+      <div class="step-foot">CPST 包含什么 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">CPST 的 "全部成本" 包含什么</h2>
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>CPST 的完整分子:</strong></p>
+        <ol>
+          <li><strong>Input tokens 费:</strong> prompt / context 的成本</li>
+          <li><strong>Output tokens 费:</strong> 生成回复的成本</li>
+          <li><strong>重试成本:</strong> 失败后再调用一次 (或多次)</li>
+          <li><strong>工具调用费:</strong> Agent 调用搜索、数据库等</li>
+          <li><strong>缓存写入摊销:</strong> Prompt Caching 的一次性写入成本</li>
+          <li><strong>人工审核成本:</strong> 需要人检查的场景 (按时薪摊)</li>
+        </ol>
+        <p class="muted">只报 token 费的团队, 通常低估真实成本 40-70%.</p>
+      </div>
+      <div class="step-foot">为什么不能只看 token 价 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">案例: 换便宜模型后 CPST 反而涨了</h2>
+      <p class="step-lede">一个真实的模式:</p>
+      <div class="callout callout-red" data-rough="card">
+        <p><strong>Before (用 GPT-4o):</strong></p>
+        <ul>
+          <li>Token 成本: $0.03/次</li>
+          <li>成功率: 85% → 平均 1.18 次/成功任务</li>
+          <li>CPST = $0.03 × 1.18 = <strong>$0.035</strong></li>
+        </ul>
+        <p><strong>After (换 GPT-4o-mini):</strong></p>
+        <ul>
+          <li>Token 成本: $0.003/次 (便宜 10 倍!)</li>
+          <li>成功率: 55% → 平均 1.82 次/成功任务</li>
+          <li>Regen Rate 也上升: 额外 30% 调用</li>
+          <li>CPST = $0.003 × 1.82 × 1.3 = <strong>$0.007</strong></li>
+        </ul>
+        <p>token 价格降了 10 倍, CPST 只降了 5 倍. 而且用户体验变差了, 用户流失带来的隐性成本没算.</p>
+      </div>
+      <p><mark class="hl">结论: 换模型时, 不比 $/token, 比 $/成功任务 + 用户体验.</mark></p>
+      <div class="step-foot">降低 CPST 的正确方式 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">降低 CPST 的四个策略</h2>
+      <div class="callout callout-green" data-rough="card">
+        <ol>
+          <li><strong>提高成功率 (分母变大):</strong> 优化 prompt, 让第一次就成功. 这是杠杆最大的.</li>
+          <li><strong>减少重试 (分子变小):</strong> 降低 Regen Rate, 减少无效调用.</li>
+          <li><strong>Model Routing:</strong> 简单任务用便宜模型, 复杂任务用贵模型. 不是一刀切.</li>
+          <li><strong>Prompt Caching:</strong> 相似问题复用缓存, 省掉重复的 context 成本.</li>
+        </ol>
+      </div>
+      <p>策略 3 最实用: Vitamin 的 "今天天气如何" 用 mini 模型就行, "我这个症状严不严重" 必须用大模型.</p>
+      <div class="step-foot">CPST 和毛利率 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">CPST 直接影响毛利率</h2>
+      <p class="step-lede">AI 产品的毛利率比传统 SaaS 低得多:</p>
+      <div class="callout callout-blue" data-rough="card">
+        <ul>
+          <li><strong>传统 SaaS:</strong> 毛利率 70-85%. 边际成本接近零.</li>
+          <li><strong>AI-Native 产品:</strong> 毛利率 50-65%. 每个用户都在烧 token.</li>
+          <li><strong>早期 AI 产品:</strong> 毛利率可能只有 25%. 为了增长在牺牲利润.</li>
+        </ul>
+        <p class="muted">CPST 越高, 毛利率越低. CPST 翻倍 = 你赚的钱减半 (至少).</p>
+      </div>
+      <p>所以 CPST 不只是技术指标, 是<mark class="hl">直接跟财务报表挂钩的商业指标</mark>.</p>
+      <div class="step-foot">怎么跟老板汇报 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">怎么跟老板讲 CPST</h2>
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>老板问:</strong> "为什么不换个便宜模型?"</p>
+        <p><strong>你的回答:</strong></p>
+        <p>"我算过了. 便宜模型 token 价格低 10 倍, 但成功率从 85% 降到 55%, 重试率上升 30%. 综合算下来, 每个<em>成功任务</em>的成本只降了 5 倍, 而用户体验明显变差, 可能导致留存下降."</p>
+        <p>"我的建议是: 不一刀切换模型, 而是做 Model Routing — 简单任务用便宜模型, 复杂任务保留好模型. 这样 CPST 降 40%, 用户体验不变."</p>
+      </div>
+      <p>核心: 用 CPST 而不是 $/token 来做模型选型的 ROI 分析.</p>
+      <div class="step-foot">看散点图 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手看: Cost-Quality Scatter</h2>
+      <p class="step-lede">Vitamin 五个 AI 功能的 成本 × 成功率 散点图:</p>
+      <div class="scatter-widget" data-rough="card">
+        <div style="position:relative;padding-left:30px;">
+          <div id="scatter-plot" class="scatter-plot">
+            <div class="scatter-quadrants">
+              <div class="scatter-q" style="top:5px;right:5px;">高成功 + 高成本<br/>(优化成本)</div>
+              <div class="scatter-q" style="top:5px;left:5px;">高成功 + 低成本<br/>(理想!)</div>
+              <div class="scatter-q" style="bottom:5px;right:5px;">低成功 + 高成本<br/>(危险!)</div>
+              <div class="scatter-q" style="bottom:5px;left:5px;">低成功 + 低成本<br/>(值得投入?)</div>
+            </div>
+          </div>
+        </div>
+        <div class="scatter-axis-x">每次调用成本 → ($0 — $0.20)</div>
+        <p style="font-size:12px;color:var(--ink-muted);text-align:center;margin-top:4px;">纵轴: 成功率 (30% — 100%) | 悬停看详细 CPST</p>
+      </div>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>目标:</strong> 让所有功能都往<strong>左上角</strong>移动 (低成本 + 高成功率).</p>
+        <p class="muted">右下角 (高成本 + 低成功率) 的功能需要紧急优化或下线.</p>
+      </div>
+      <div class="step-foot">Vitamin 的 CPST 目标 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: CPST 预算和目标</h2>
+      <div class="prob-table" data-rough="prob">
+        <div class="prob-header"><div>Vitamin 功能</div><div>CPST 目标</div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 聊天</div><div class="prob-bar"><div class="bar" data-value="45" style="background:var(--amber);"><span>≤ $0.05/次</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 日报</div><div class="prob-bar"><div class="bar" data-value="25" style="background:var(--green);"><span>≤ $0.02/次</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 饮食建议</div><div class="prob-bar"><div class="bar" data-value="55" style="background:var(--amber);"><span>≤ $0.08/次</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 运动推荐</div><div class="prob-bar"><div class="bar" data-value="60" style="background:var(--red);"><span>≤ $0.10/次</span></div></div></div>
+      </div>
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"$/token 是采购指标, CPST 才是产品指标. 一个 50% 失败率的便宜模型, CPST 可能比贵模型还高. 我会配合 Model Routing: 简单任务用 mini 模型, 复杂任务用大模型, 让整体 CPST 降 40% 同时不影响用户体验."</p>
+      </div>
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">别看 $/token, 看 $/成功任务.<br/>便宜模型 + 高失败率 = 更贵.<br/>CPST 是成本和质量的交汇点.</p>
+      </div>
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>查一下 GPT-4o, GPT-4o-mini, DeepSeek 的 token 价格. 假设成功率分别是 85%, 60%, 70%, 算出各自的 CPST.</li>
+          <li>给 Vitamin 设计一个 Model Routing 方案: 哪些问题用便宜模型, 哪些用贵模型? 判断标准是什么?</li>
+          <li>画一张 Vitamin 5 个功能的 Cost-Quality 散点图 (可以手画), 标出哪些需要优化.</li>
+          <li>写 100 字: 如果老板要求 "AI 成本降 50%", 你怎么做到且不影响用户体验?</li>
+        </ol>
+        <div style="margin-top:16px;padding-top:12px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://www.digitalapplied.com/blog/cost-per-successful-task-new-ai-evaluation-metric" target="_blank" style="color:var(--blue);">CPST: A New AI Metric</a></td><td style="padding:6px 4px;color:var(--ink-muted);">Digital Applied</td><td style="padding:6px 4px;color:var(--ink-muted);">CPST 概念深度解析</td><td style="padding:6px 4px;color:var(--ink-muted);">15 min</td></tr>
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://www.aviso.com/blog/how-to-evaluate-ai-agents-latency-cost-safety-roi" target="_blank" style="color:var(--blue);">AI Agent Cost & ROI</a></td><td style="padding:6px 4px;color:var(--ink-muted);">Aviso</td><td style="padding:6px 4px;color:var(--ink-muted);">含 ROI 计算框架</td><td style="padding:6px 4px;color:var(--ink-muted);">20 min</td></tr>
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://brics-econ.org/how-to-evaluate-llm-agents-task-success-safety-and-cost-metrics" target="_blank" style="color:var(--blue);">Evaluating LLM Agents</a></td><td style="padding:6px 4px;color:var(--ink-muted);">BRICS</td><td style="padding:6px 4px;color:var(--ink-muted);">含成本+安全指标</td><td style="padding:6px 4px;color:var(--ink-muted);">15 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> $/token 是错误指标</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> CPST 定义</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 全部成本包含什么</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 换便宜模型的教训</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 降低CPST四策略</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> CPST与毛利率</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 怎么跟老板讲</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Cost-Quality 散点图</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin CPST 目标</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 一句话 + 作业</a>
+      </div>
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 8:</p>
+        <p class="end-summary-big">$/token 是采购指标, CPST 才是产品指标.<br/>成本和质量要绑在一起看.</p>
+      </div>
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 9): Vitamin 北极星指标定义</div>
+        <p>终于到了最后一步: 给 Vitamin 定义一套完整的指标体系.</p>
+        <p><strong>1 个北极星 + 3 个守门指标, 让整个团队对齐.</strong></p>
+        <a class="walk-arrow" href="../u9-vitamin-northstar/index.html">继续走 → Unit 9</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.3 · Unit 8 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

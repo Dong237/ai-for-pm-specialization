@@ -1,0 +1,468 @@
+/* ============================================
+   U6 · Build vs Buy vs API — unit-specific styles
+   ============================================ */
+
+/* Three road cards */
+.road-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.road-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px 14px 13px 15px;
+  padding: 20px 22px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+.road-card:nth-child(1) { border-color: var(--red); transform: rotate(-0.5deg); }
+.road-card:nth-child(2) { border-color: var(--green); transform: rotate(0.4deg); }
+.road-card:nth-child(3) { border-color: var(--blue); transform: rotate(-0.3deg); }
+
+.road-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+  display: block;
+}
+.road-label {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.road-label-build { background: var(--red-bg); color: var(--red); }
+.road-label-buy { background: var(--green-bg); color: var(--green); }
+.road-label-api { background: var(--blue-bg); color: var(--blue); }
+
+.road-card h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  margin: 0 0 10px;
+}
+.road-card:nth-child(1) h3 { color: var(--red); }
+.road-card:nth-child(2) h3 { color: var(--green); }
+.road-card:nth-child(3) h3 { color: var(--blue); }
+
+.road-detail {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.6;
+}
+.road-detail strong { color: var(--ink); }
+.road-stat {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 10px;
+  font-size: 13px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+.road-stat dt {
+  color: var(--ink-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.road-stat dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Deep-dive road sections */
+.road-section {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.road-section h4 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.road-section-build { border-color: var(--red); }
+.road-section-build h4 { color: var(--red); }
+.road-section-buy { border-color: var(--green); }
+.road-section-buy h4 { color: var(--green); }
+.road-section-api { border-color: var(--blue); }
+.road-section-api h4 { color: var(--blue); }
+
+.road-pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+@media (max-width: 500px) {
+  .road-pros-cons { grid-template-columns: 1fr; }
+}
+.road-pros, .road-cons {
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.road-pros {
+  background: var(--green-bg-soft);
+  border: 1px solid var(--green);
+}
+.road-cons {
+  background: var(--red-bg-soft);
+  border: 1px solid var(--red);
+}
+.road-pros h5, .road-cons h5 {
+  margin: 0 0 6px;
+  font-size: 13px;
+}
+.road-pros h5 { color: var(--green); }
+.road-cons h5 { color: var(--red); }
+.road-pros ul, .road-cons ul {
+  margin: 0;
+  padding-left: 16px;
+  line-height: 1.6;
+}
+
+.road-when {
+  background: var(--amber-bg-soft);
+  border: 1.5px dashed var(--amber);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 14px;
+  font-size: 13px;
+}
+.road-when strong { color: var(--amber); }
+
+/* Comparison table */
+.compare-table-wrap {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+.compare-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  background: var(--bg-card);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1.5px solid var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+.compare-table th {
+  background: var(--bg-elev);
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 13px;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.compare-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table td:first-child {
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.col-build { color: var(--red); }
+.col-buy { color: var(--green); }
+.col-api { color: var(--blue); }
+
+/* Platform landscape */
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.platform-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+.platform-card h5 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+.platform-card p {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.5;
+}
+.platform-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+.platform-tag-free { background: var(--green-bg); color: var(--green); }
+.platform-tag-paid { background: var(--amber-bg); color: var(--amber); }
+.platform-tag-oss { background: var(--blue-bg); color: var(--blue); }
+
+/* ===== Path Chooser Widget ===== */
+.path-chooser {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 0;
+  margin: 24px 0;
+  box-shadow: var(--shadow-elev);
+  overflow: hidden;
+}
+.path-chooser-header {
+  background: var(--bg-elev);
+  padding: 16px 20px;
+  border-bottom: 1.5px solid var(--border);
+}
+.path-chooser-header h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+.path-chooser-header p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.path-progress {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.path-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s;
+}
+.path-dot.done { background: var(--green); }
+.path-dot.current { background: var(--amber); transform: scale(1.3); }
+
+.path-question-area {
+  padding: 24px 20px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.path-q-num {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.path-q-text {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.path-options {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.path-option-btn {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 15px;
+  padding: 10px 20px;
+  border: 2px solid var(--border-strong);
+  background: var(--bg-elev);
+  color: var(--ink);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  min-width: 100px;
+  text-align: center;
+}
+.path-option-btn:hover {
+  border-color: var(--green);
+  background: var(--green-bg-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+.path-option-btn.selected {
+  border-color: var(--green);
+  background: var(--green-bg);
+}
+
+/* Result card */
+.path-result {
+  display: none;
+  padding: 24px 20px;
+  text-align: center;
+  animation: pathReveal 0.6s ease;
+}
+@keyframes pathReveal {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.path-result.visible { display: block; }
+
+.path-result-icon {
+  font-size: 60px;
+  margin-bottom: 12px;
+  display: block;
+}
+.path-result-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.path-result-title.build { color: var(--red); }
+.path-result-title.buy { color: var(--green); }
+.path-result-title.api { color: var(--blue); }
+
+.path-result-reason {
+  font-size: 14px;
+  color: var(--ink-soft);
+  max-width: 500px;
+  margin: 0 auto 16px;
+  line-height: 1.6;
+  text-align: left;
+}
+.path-result-tools {
+  background: var(--bg-elev);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 12px auto;
+  max-width: 500px;
+  font-size: 13px;
+  text-align: left;
+}
+.path-result-tools strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+.path-result-meta {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+.path-result-meta-item {
+  text-align: center;
+}
+.path-result-meta-item .meta-val {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  display: block;
+}
+.path-result-meta-item .meta-label {
+  font-size: 11px;
+  color: var(--ink-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.path-reset-btn {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  padding: 8px 20px;
+  border: 2px dashed var(--border-strong);
+  background: transparent;
+  color: var(--ink-soft);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 16px;
+  transition: all 0.2s;
+}
+.path-reset-btn:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+/* Resource table */
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 12px 0;
+}
+.resource-table th {
+  background: var(--bg-elev);
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border);
+  font-size: 12px;
+}
+.resource-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.resource-table tr:last-child td { border-bottom: none; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }
+
+/* Vitamin decision diagram */
+.vitamin-path-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.vitamin-path-card {
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 16px 18px;
+  border: 2px solid;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+.vitamin-path-card h5 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+.vitamin-path-card p {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.5;
+}
+.vitamin-path-card.vp-buy { border-color: var(--green); }
+.vitamin-path-card.vp-buy h5 { color: var(--green); }
+.vitamin-path-card.vp-api { border-color: var(--blue); }
+.vitamin-path-card.vp-api h5 { color: var(--blue); }
+.vitamin-path-card.vp-build { border-color: var(--red); }
+.vitamin-path-card.vp-build h5 { color: var(--red); }

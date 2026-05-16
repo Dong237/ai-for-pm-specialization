@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>U4 · 当 1 个 LLM 不够用 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M4.3 U4: 单 Agent 的 4 大局限, 以及为什么需要 Multi-Agent." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M4.3</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 4 · 单 Agent 极限</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol>
+    <li><a href="#start" data-step="0">▶</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">■</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>当 1 个 LLM 不够用</h1>
+      <p class="hero-sub">Vitamin AI 管家要同时管营养、周期、情绪... 一个 Agent 扛不住.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head" /><circle cx="42" cy="28" r="2" fill="currentColor" /><circle cx="58" cy="28" r="2" fill="currentColor" /><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" /><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">一个 ChatGPT 就能搞定所有事... 对吧?</p>
+          <p class="cloud-line">等等, 用户问营养时它突然变成了周期专家?</p>
+          <p class="cloud-line">对话长了它就开始重复自己? 还忘了我上次说了啥?</p>
+          <p class="cloud-line accent">—— 让我们压测一下单 Agent 的极限.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解单 Agent 的 4 大局限</li>
+          <li>知道什么时候该从单 Agent 升级到 Multi-Agent</li>
+          <li>通过压力测试亲眼看到单 Agent 崩溃</li>
+          <li>为 Vitamin 制定 Multi-Agent 升级计划</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">简单任务, 单 Agent 确实够用</h2>
+      <p class="step-lede">问"今天吃什么好", 一个 LLM 回答得很好. 问"帮我翻译这段话", 也没问题. 简单任务 = 单 Agent 的舒适区.</p>
+      <div class="callout callout-green">
+        <strong>单 Agent 舒适区:</strong>
+        <ul style="margin:8px 0 0;">
+          <li>单一领域的问答 (营养知识 OR 周期知识)</li>
+          <li>短对话 (3-5 轮)</li>
+          <li>不需要调用外部工具</li>
+          <li>不需要记住历史对话</li>
+        </ul>
+      </div>
+      <div class="step-foot">但 Vitamin 的需求远不止这些 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">错误直觉: "用更长的 Prompt 就行了"</h2>
+      <div class="two-wrong">
+        <article class="wrong"><div class="wrong-mark">✗</div><h3>把所有指令塞进一个 System Prompt</h3><p>"你是营养专家, 也是周期专家, 也是情绪顾问, 也是日程管理员..."</p><div class="wrong-why"><strong>为啥不对:</strong> Prompt 越长, 模型越容易"忘记"中间的指令. 而且不同角色的指令会互相冲突.</div></article>
+        <article class="wrong"><div class="wrong-mark">✗</div><h3>用更大的 Context Window 解决一切</h3><p>"128K context 够放所有历史对话了吧?"</p><div class="wrong-why"><strong>为啥不对:</strong> Context 长 ≠ 处理得好. 研究发现模型在超长 context 中容易"迷路", 中间部分的信息被忽略 (Lost in the Middle).</div></article>
+      </div>
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">单 Agent 有 4 个硬性极限:</p>
+        <p class="truth-line giant"><mark class="hl">复杂度 · 上下文 · 人格 · 工具</mark></p>
+        <p class="truth-line muted">不是"够不够聪明"的问题, 是架构性的限制.</p>
+      </div>
+      <div class="step-foot">逐个看这 4 个极限 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">极限 1: 复杂多步骤任务</h2>
+      <div class="limit-card"><div class="limit-tag">极限 1</div><div class="limit-title">任务太复杂, 需要多步推理 + 多次决策</div>
+        <p>"分析我的饮食记录 → 对比经期数据 → 生成个性化建议 → 设置提醒" — 这是 4 个子任务, 每个需要不同的能力.</p>
+        <p style="color:var(--red);">单 Agent 处理复杂多步任务时, 错误会在步骤间累积. 第 1 步小错 → 第 4 步大错.</p>
+      </div>
+      <div class="callout callout-blue"><strong>Multi-Agent 解法:</strong> 每个子任务交给专门的 Agent. 营养 Agent 分析饮食, 周期 Agent 分析经期, 规划 Agent 整合生成方案.</div>
+      <div class="step-foot">极限 2 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">极限 2: 上下文溢出</h2>
+      <div class="limit-card"><div class="limit-tag">极限 2</div><div class="limit-title">对话太长, Context Window 装不下</div>
+        <p>用户连续聊 50 轮, 加上 System Prompt + 历史记录, 轻松超过 32K token. 旧的信息被截断, 模型"忘了"前面说过什么.</p>
+        <p style="color:var(--red);">即使在 128K context 内, 模型对中间段信息的注意力也会显著下降 (Lost in the Middle 效应).</p>
+      </div>
+      <div class="callout callout-blue"><strong>Multi-Agent 解法:</strong> 每个 Agent 只处理自己领域的 context. 营养 Agent 只看饮食相关上下文, 不用装 50 轮完整对话.</div>
+      <div class="step-foot">极限 3 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">极限 3: 人格 / 风格冲突</h2>
+      <div class="limit-card"><div class="limit-tag">极限 3</div><div class="limit-title">同一个 Prompt 无法同时扮演多种角色</div>
+        <p>Vitamin 需要: 营养师(专业严谨) + 闺蜜(温柔共情) + 提醒助手(简洁高效). 一个 Prompt 塞进三种人格, 模型会"精神分裂".</p>
+        <p style="color:var(--red);">用户说"我心情不好", 你希望闺蜜模式回应. 但模型可能突然切成营养师模式说"建议补充维生素D".</p>
+      </div>
+      <div class="callout callout-blue"><strong>Multi-Agent 解法:</strong> 每个 Agent 有专属 Prompt 和人格. 情绪 Agent 是"温柔闺蜜", 营养 Agent 是"专业营养师". 各司其职, 不冲突.</div>
+      <div class="step-foot">极限 4 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">极限 4: 无法使用工具</h2>
+      <div class="limit-card"><div class="limit-tag">极限 4</div><div class="limit-title">纯 LLM 不能查数据库、调 API、设提醒</div>
+        <p>"帮我查一下我上周的饮食记录" — LLM 本身无法访问数据库. "设一个明天早上 8 点的提醒" — LLM 无法调用日历 API.</p>
+        <p style="color:var(--red);">没有工具调用能力的 Agent = 只能说不能做. 用户要的是行动, 不是建议.</p>
+      </div>
+      <div class="callout callout-blue"><strong>Multi-Agent 解法:</strong> 每个 Agent 配备专属工具. 营养 Agent 连接食物数据库, 周期 Agent 连接经期记录, 提醒 Agent 连接日历 API.</div>
+      <div class="step-foot">4 个极限总结 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">4 个极限, 一张图</h2>
+      <div class="big-insight">
+        <p>单 Agent 的 4 大极限:</p>
+        <p class="insight-text">
+          <span class="pill pill-blue">复杂度</span> 多步任务错误累积<br/>
+          <span class="pill pill-amber">上下文</span> Context 溢出/迷路<br/>
+          <span class="pill pill-green">人格</span> 多角色 Prompt 冲突<br/>
+          <span class="pill pill-amber">工具</span> 纯 LLM 只能说不能做
+        </p>
+        <p>解法: <mark class="hl">拆 → 每个子任务交给专门的 Agent</mark></p>
+      </div>
+      <div class="callout callout-amber"><strong>一句话:</strong> 单 Agent 像一个全能型员工 — 什么都能做一点, 但什么都做不精. Multi-Agent 像一个专业团队 — 每人负责一块, 效率更高.</div>
+      <div class="step-foot">来压测一下 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">单 Agent 压力测试</h2>
+      <p class="step-lede">按顺序点击下面的 5 个查询, 看单 Agent 怎么从"轻松"变成"崩溃".</p>
+      <div id="stress-test" class="stress-test">
+        <div class="stress-meter">
+          <div class="stress-fill" id="stress-fill"></div>
+          <span class="stress-label" id="stress-text">待命</span>
+        </div>
+        <p style="text-align:center;font-size:13px;color:var(--ink-muted);">↑ Agent 压力指数 — 点击下方查询按顺序发送</p>
+        <div class="query-list" id="query-list"></div>
+        <div style="text-align:center;margin-top:12px;">
+          <button id="stress-reset" class="btn btn-ghost">重置</button>
+        </div>
+      </div>
+      <div class="step-foot">Vitamin 的升级计划 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: 从单 Agent 到 Multi-Agent 的升级理由</h2>
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 单 Agent 现状:</strong> 一个 LLM 扛所有功能 — 营养咨询 + 周期跟踪 + 情绪支持 + 提醒管理.</p>
+        <p><strong>遇到的问题:</strong></p>
+        <ul style="margin:4px 0 0;">
+          <li>System Prompt 2000 token, 太长, 中间指令被忽略</li>
+          <li>聊营养时突然切成"心理咨询师"语气</li>
+          <li>无法查用户的历史饮食记录 (没有工具调用)</li>
+          <li>复杂问题 (综合分析) 经常给出不一致的答案</li>
+        </ul>
+      </div>
+      <div class="callout callout-green">
+        <strong>升级方案预览 (后续 5 节会详细展开):</strong>
+        <ul style="margin:8px 0 0;">
+          <li>U5: 用 <strong>ReAct 框架</strong>让 Agent 边想边做</li>
+          <li>U6: 给 Agent 装 <strong>Tools</strong> (查数据库、调 API)</li>
+          <li>U7: 用 <strong>Router</strong> 把用户请求分发到对应的子 Agent</li>
+          <li>U8: 设计 Agent 间的 <strong>Handoff</strong> (工作交接)</li>
+          <li>U9: 搭建完整的 <strong>Vitamin Multi-Agent 架构</strong></li>
+        </ul>
+      </div>
+      <div class="callout callout-red"><strong>面试金句:</strong><p>"我最初用单 Agent 实现 Vitamin AI 管家, 但发现 4 个瓶颈: 复杂度、上下文、人格冲突、工具缺失. 所以我升级到 Multi-Agent 架构, 用 Router + 3 个专属子 Agent + 共享 Memory 的方案."</p></div>
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话</div><p class="one-liner-text">单 Agent 的极限 = 复杂度 + 上下文 + 人格 + 工具.<br/>突破极限的方法: 拆成多个专属 Agent.</p></div>
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>把 Vitamin 的功能列表分成"单 Agent 能做"和"需要 Multi-Agent"两栏.</li>
+          <li>给 Vitamin 设计 3 个子 Agent 的职责划分 (名字 + 负责什么 + 需要什么工具).</li>
+          <li>写一个"压力测试"场景: 设计一个会让 Vitamin 单 Agent 崩溃的用户对话.</li>
+          <li>用 200 字解释: 为什么 Multi-Agent 比一个超长 Prompt 更好?</li>
+        </ol>
+      </div>
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+          <tbody>
+            <tr><td>📖</td><td><a href="https://www.flowhunt.io/blog/multi-agent-ai-system/" target="_blank">Multi-Agent AI Systems 2026</a></td><td>最新的 Multi-Agent 研究综述</td><td>20 min</td></tr>
+            <tr><td>📖</td><td><a href="https://pecollective.com/blog/ai-agent-frameworks-compared/" target="_blank">Agent Frameworks Compared</a></td><td>LangGraph vs CrewAI vs AutoGen 对比</td><td>15 min</td></tr>
+            <tr><td>📖</td><td><a href="https://jimmysong.io/zh/book/agentic-design-patterns/02-routing/" target="_blank">Agent设计模式: 路由</a></td><td>中文版 Agent 路由设计模式详解</td><td>15 min</td></tr>
+            <tr><td>📺</td><td><a href="https://www.youtube.com/watch?v=4jRBRDbJemM" target="_blank">3Blue1Brown: Neural Networks</a></td><td>理解 Agent 背后的 LLM 原理</td><td>20 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="step-foot">完成 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 简单任务够用</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 长Prompt不是解法</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 极限1: 复杂度</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 极限2: 上下文</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 极限3: 人格冲突</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 极限4: 无工具</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 4极限一张图</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 压力测试</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin升级计划</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 4:</p><p class="end-summary-big">单 Agent 的 4 大极限: 复杂度 / 上下文 / 人格 / 工具.<br/>解法: 拆成专属 Multi-Agent 团队.</p></div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 5): ReAct 框架</div>
+        <p>知道了为什么需要 Multi-Agent, 先学单个 Agent 怎么变强: <strong>ReAct = 边推理边行动</strong>. Vitamin AI 管家的核心工作模式.</p>
+        <a class="walk-arrow" href="../u5-react/index.html">继续走 → Unit 5</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><p>AI for PM · Course 4 · Module 3 · Unit 4 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

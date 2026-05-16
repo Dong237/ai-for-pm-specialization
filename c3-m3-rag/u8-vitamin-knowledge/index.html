@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 8 · Vitamin 医学知识库结构 — AI for PM · M3.3</title>
+  <meta name="description" content="为 Vitamin 设计完整的 RAG 医学知识库" />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.3</span></a><div class="topbar-right"><span class="unit-label">Unit 8 · Vitamin 知识库</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 8<span class="title-dot">·</span><br/>Vitamin 医学知识库</h1>
+      <p class="hero-sub">前 7 个 Unit 全部用上 — 设计一个完整的知识库</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">学了 Pipeline、Embedding、Chunking、Retrieval、Citation、Evaluation...</p>
+          <p class="cloud-line">现在要把这些全部串起来, 为 Vitamin 搭一个真正的知识库!</p>
+          <p class="cloud-line accent">—— 这是 Module 3.3 的大作业.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>为 Vitamin 设计 5 类文档的知识库结构</li>
+          <li>每类文档配好 Chunking + Embedding + 检索策略</li>
+          <li>设计完整的 RAG 技术架构图</li>
+          <li>规划知识库的更新和质量监控流程</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">Vitamin 需要什么样的知识库?</h2>
+      <p class="step-lede">Vitamin 是一个女性健康 AI 应用, 有 5 个身体状态追踪. 它的 RAG 知识库需要覆盖:</p>
+      <div class="three-cards">
+        <article class="wonder" style="transform:rotate(-0.6deg)"><div class="wonder-tag">1</div><h3>妇科医学</h3><div class="wonder-note">经期、排卵、孕期、更年期的医学知识</div></article>
+        <article class="wonder" style="transform:rotate(0.4deg)"><div class="wonder-tag">2</div><h3>营养学</h3><div class="wonder-note">食物成分、营养建议、饮食禁忌</div></article>
+        <article class="wonder" style="transform:rotate(-0.3deg)"><div class="wonder-tag">3</div><h3>中医养生</h3><div class="wonder-note">体质辨识、食疗方案、穴位按摩</div></article>
+        <article class="wonder" style="transform:rotate(0.5deg)"><div class="wonder-tag">4</div><h3>产品文档</h3><div class="wonder-note">功能说明、会员政策、FAQ</div></article>
+        <article class="wonder" style="transform:rotate(-0.4deg)"><div class="wonder-tag">5</div><h3>研究文献</h3><div class="wonder-note">最新论文、行业报告、WHO 指南</div></article>
+      </div>
+      <div class="step-foot">每类文档的特点和策略不一样 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">RAG 知识库的第一法则: 内容质量</h2>
+      <div class="truth-bubble">
+        <div class="truth-tag">铁律</div>
+        <p class="truth-line giant">垃圾进, 垃圾出.</p>
+        <p class="truth-line">RAG 只能搜到你知识库里有的东西. 知识库的内容过时、错误、冗余 → 再好的 Pipeline 也救不了.</p>
+        <p class="truth-line muted">"最关键的不是 AI, 而是你给它的知识库." — 行业共识</p>
+      </div>
+      <div class="callout callout-red">
+        <p><strong>Vitamin 知识库的质量要求:</strong></p>
+        <ul>
+          <li>所有医学内容必须经过医学顾问审核</li>
+          <li>定期更新 — 不同文档有不同的更新频率</li>
+          <li>去重 — 不能有多个版本的同一文档</li>
+          <li>标注权威性 — 区分"WHO 指南" 和 "个人博客"</li>
+        </ul>
+      </div>
+      <div class="step-foot">知识库的技术架构是什么? ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Vitamin RAG 技术架构</h2>
+      <div class="vkb-arch">
+        <div class="vkb-layer">
+          <span class="vkb-label" style="background:var(--blue-bg);color:var(--blue)">数据层</span>
+          <span class="vkb-desc">5 类文档 → 清洗 → 去重 → 质量审核 → 入库</span>
+        </div>
+        <div class="vkb-layer">
+          <span class="vkb-label" style="background:var(--green-bg);color:var(--green)">处理层</span>
+          <span class="vkb-desc">Chunking (Recursive/语义/不切) → Embedding (bge-large-zh) → Vector DB</span>
+        </div>
+        <div class="vkb-layer">
+          <span class="vkb-label" style="background:var(--amber-bg);color:var(--amber)">检索层</span>
+          <span class="vkb-desc">Hybrid Search → Reranking → Metadata 过滤 → Top-5 chunks</span>
+        </div>
+        <div class="vkb-layer">
+          <span class="vkb-label" style="background:var(--purple-bg);color:var(--purple)">生成层</span>
+          <span class="vkb-desc">LLM + Citation Prompt → 生成回答 + 行内引用 → Post-hoc 验证</span>
+        </div>
+        <div class="vkb-layer">
+          <span class="vkb-label" style="background:var(--red-bg);color:var(--red)">监控层</span>
+          <span class="vkb-desc">RAGAS 自动评测 → 人工抽查 → 知识库更新触发器</span>
+        </div>
+      </div>
+      <div class="step-foot">每类文档的具体策略 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">妇科医学文档: 精度优先</h2>
+      <div class="callout callout-blue">
+        <p><strong>文档特点:</strong> 长篇 PDF, 多话题, 有章节结构, 更新周期长.</p>
+        <p><strong>策略:</strong></p>
+        <ul>
+          <li><strong>Chunking:</strong> 语义切分 (话题转折处切), 512 tokens, 15% overlap</li>
+          <li><strong>Metadata:</strong> 章节标题 + 页码 + 来源 + 审核日期</li>
+          <li><strong>Retrieval:</strong> Hybrid + Reranking, Top-K=50, N=5</li>
+          <li><strong>安全:</strong> 涉及用药/诊断的 chunk 标记为 "需要免责声明"</li>
+        </ul>
+      </div>
+      <div class="step-foot">营养学文档策略 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">营养学 + 中医: 结构化优先</h2>
+      <div class="can-cant">
+        <article class="can-list" style="border-color:var(--green)">
+          <h3 class="can-head" style="color:var(--green)">营养学文档</h3>
+          <ul>
+            <li><strong>食物表:</strong> 每种食物一个 chunk, 不切</li>
+            <li><strong>营养指南:</strong> Recursive 切, 400 tokens</li>
+            <li><strong>表格数据:</strong> 特殊处理, 保留表头作为 context</li>
+            <li>Metadata: 食物分类 + 营养素 + 适用人群</li>
+          </ul>
+        </article>
+        <article class="cant-list" style="border-color:var(--amber)">
+          <h3 class="cant-head" style="color:var(--amber)">中医养生文档</h3>
+          <ul>
+            <li><strong>方剂:</strong> 每个方剂一个 chunk, 不切</li>
+            <li><strong>体质辨识:</strong> 每种体质一个 chunk</li>
+            <li><strong>食疗:</strong> 按段落切, 400 tokens</li>
+            <li>Metadata: 体质类型 + 症状 + 适应症</li>
+          </ul>
+        </article>
+      </div>
+      <div class="step-foot">产品文档 + 研究文献 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">产品文档: 短文档不切, 研究文献: 按页切</h2>
+      <div class="recall-table">
+        <div class="recall-row"><div class="recall-task" style="font-size:14px">用户手册</div><div class="recall-arrow">→</div><div class="recall-explain">按功能章节切, 每个功能 1 个 chunk. 更新频率: 每版本.</div></div>
+        <div class="recall-row"><div class="recall-task" style="font-size:14px">FAQ</div><div class="recall-arrow">→</div><div class="recall-explain">不切! 每个 Q&A 就是一个 chunk. 更新频率: 每月.</div></div>
+        <div class="recall-row"><div class="recall-task" style="font-size:14px">会员政策</div><div class="recall-arrow">→</div><div class="recall-explain">不切. 文档短, 整篇 Embed. 更新频率: 每季度.</div></div>
+        <div class="recall-row"><div class="recall-task" style="font-size:14px">研究论文</div><div class="recall-arrow">→</div><div class="recall-explain">按页切分. 保留论文标题 + 作者 + 年份作为 metadata.</div></div>
+        <div class="recall-row"><div class="recall-task" style="font-size:14px">WHO 指南</div><div class="recall-arrow">→</div><div class="recall-explain">语义切分. 标记权威性等级: "国际标准".</div></div>
+      </div>
+      <div class="step-foot">知识库怎么更新? ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">知识库更新策略</h2>
+      <p class="step-lede">知识库不是"搭好就完了". 医学知识在更新, 产品在迭代, 知识库也要跟着更新.</p>
+      <div class="callout callout-green">
+        <p><strong>Vitamin 更新策略:</strong></p>
+        <ul>
+          <li><strong>医学文档:</strong> 每季度审核一次, 有新指南立即更新</li>
+          <li><strong>FAQ:</strong> 每月根据客服反馈新增 Q&A</li>
+          <li><strong>研究文献:</strong> 每季度添加最新论文</li>
+          <li><strong>产品文档:</strong> 每次版本更新时同步更新</li>
+        </ul>
+        <p><strong>更新流程:</strong></p>
+        <ol>
+          <li>新文档 → 医学顾问审核 → 清洗 → Chunking</li>
+          <li>新 chunks → Embedding → 追加到 Vector DB</li>
+          <li>删除/替换旧版本的 chunks</li>
+          <li>跑 RAGAS 验证更新后的检索质量没有下降</li>
+        </ol>
+      </div>
+      <div class="step-foot">来看看完整的知识库长什么样 ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: Vitamin Knowledge Organizer</h2>
+      <p class="step-lede">切换 5 个 Tab, 浏览 Vitamin 知识库的完整文档结构. 点击查看每类文档的详情.</p>
+
+      <div class="kb-widget">
+        <div class="kb-tabs" id="kb-tabs"></div>
+        <div id="kb-panels"></div>
+        <div class="kb-summary" id="kb-summary"></div>
+        <div style="margin-top:14px;text-align:center;font-size:14px;font-weight:600;color:var(--green)">
+          知识库总览: <span id="kb-grand-total"></span>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>注意观察:</strong></p>
+        <ul>
+          <li>不同类别的文档数量和 chunk 数差异很大</li>
+          <li>每类文档的 Chunking 策略不同 — 没有"一刀切"</li>
+          <li>更新频率也不同 — FAQ 每月, WHO 指南每年</li>
+          <li>这就是一个真实的知识库规划长什么样</li>
+        </ul>
+      </div>
+      <div class="step-foot">最后的整体蓝图 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin RAG 完整蓝图</h2>
+      <p class="step-lede">把 Module 3.3 学到的所有概念串在一起:</p>
+      <div class="callout callout-green">
+        <p><strong>数据:</strong> 5 类 × 20+ 篇文档 × ~2000 chunks</p>
+        <p><strong>Embedding:</strong> bge-large-zh-v1.5, 1024 维, 本地部署 (数据安全)</p>
+        <p><strong>Chunking:</strong> 混合策略 — 医学用语义切, FAQ 不切, 其余 Recursive</p>
+        <p><strong>Vector DB:</strong> Milvus (开源) 或阿里云 DashVector</p>
+        <p><strong>Retrieval:</strong> Hybrid (BM25 + 向量) → Reranking → Top-5</p>
+        <p><strong>Generation:</strong> 通义千问 / GPT-4o, T=0.2 (医学要稳)</p>
+        <p><strong>Citation:</strong> 行内引用 [1][2] + 底部来源 + 免责声明</p>
+        <p><strong>Evaluation:</strong> RAGAS 周报, Faithfulness >0.9 为及格线</p>
+        <p><strong>更新:</strong> 分类更新, 最快每月 (FAQ), 最慢每年 (WHO)</p>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>这个方案能解决什么?</strong></p>
+        <ul>
+          <li>"经期能吃冰吗?" → 检索到经期饮食指南 + 中医养生, 准确回答 + 引用来源</li>
+          <li>"会员怎么退款?" → 检索到会员政策, 准确告知流程</li>
+          <li>"最新的叶酸研究怎么说?" → 检索到研究文献, 给出摘要</li>
+        </ul>
+      </div>
+      <div class="step-foot">总结 + 毕业作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 毕业作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">Module 3.3 一句话</div>
+        <p class="one-liner-text">RAG = 先搜后答.<br/>知识库质量 > 检索策略 > LLM 选型.</p>
+        <p class="one-liner-foot muted">垃圾知识库 + 最好的 LLM = 还是垃圾. 先把内容做好.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>毕业作业 (60 分钟):</strong>
+        <ol>
+          <li>为 Vitamin 写一份 1 页的 <strong>RAG 知识库 PRD</strong>: 5 类文档 × 每类的 Chunking/Embedding/更新策略.</li>
+          <li>画出 Vitamin 的 <strong>RAG 架构图</strong>: 从用户提问到生成回答的完整流程.</li>
+          <li>准备 <strong>20 个测试 query</strong> (覆盖 5 类文档), 标注每个 query 的"期望检索到的文档".</li>
+          <li>写一段 <strong>面试回答</strong> (200 字): "如果让你为一个健康 AI 应用搭建知识库, 你会怎么做?"</li>
+        </ol>
+        <div style="margin-top:18px">
+          <strong>资源延伸:</strong>
+          <table style="width:100%; font-size:13px; margin-top:8px; border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📖</td><td>RAG 技术全栈指南</td><td><a href="https://github.com/datawhalechina/all-in-rag" target="_blank">Datawhale</a></td><td>最完整的中文 RAG 教程</td><td>2 hr</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">🛠</td><td>Dify RAG 平台</td><td><a href="https://dify.ai" target="_blank">dify.ai</a></td><td>零代码搭建 RAG 应用</td><td>30 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📖</td><td>RAG in Healthcare</td><td><a href="https://arkenea.com/blog/rag-in-healthcare/" target="_blank">Arkenea</a></td><td>医疗 RAG 的特殊考量</td><td>20 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border)"><td style="padding:6px 8px">📖</td><td>RAG 生产指南 2026</td><td><a href="https://lushbinary.com/blog/rag-retrieval-augmented-generation-production-guide/" target="_blank">Lushbinary</a></td><td>企业级 RAG 架构最新实践</td><td>25 min</td></tr>
+            <tr><td style="padding:6px 8px">🛠</td><td>阿里云百炼 RAG</td><td><a href="https://help.aliyun.com/zh/model-studio/rag-knowledge-base" target="_blank">阿里云</a></td><td>国内合规的 RAG 平台</td><td>30 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">Module 3.3 走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 5 类文档需求</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 内容质量第一</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 技术架构 5 层</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 妇科文档策略</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 营养 + 中医策略</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 产品 + 研究策略</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 更新策略</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Knowledge Organizer</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> 完整蓝图</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 毕业作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">Module 3.3 总结:</p>
+        <p class="end-summary-big">RAG = 给 LLM 一个可搜索的知识库, 让它"开卷考试".</p>
+        <p class="end-summary-sub">Pipeline → Embedding → Chunking → Retrieval → Citation → Evaluation. 知识库质量是一切的基础.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">Module 3.3 完成! 下一站: Module 3.4</div>
+        <p>你已经学会了 RAG 知识库的全部核心概念. 接下来, 我们要学习如何用 <strong>Python API</strong> 把这些概念变成可运行的代码.</p>
+        <p><strong>从"理解 RAG"到"动手搭 RAG" — Module 3.4 见!</strong></p>
+        <a class="walk-arrow" href="../index.html">← 返回 Module 3.3 目录</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 3.3 · Unit 8 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

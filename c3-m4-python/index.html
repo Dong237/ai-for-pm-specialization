@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Module 3.4 · Python 调 API 自动化 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Module 3.4: 8 个单元, 从环境搭建到完整 Vitamin 脚本, 用 Python 调 LLM API 自动化." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../shared/styles.css" />
+  <style>
+    .module-hero {
+      text-align: center;
+      padding: 60px 0 40px;
+    }
+    .module-tag {
+      display: inline-block;
+      background: var(--amber-bg);
+      border: 2px solid var(--amber);
+      color: var(--ink);
+      padding: 6px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      transform: rotate(-2deg);
+    }
+    .module-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 600;
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+    .module-sub {
+      font-size: 18px;
+      color: var(--ink-soft);
+      margin: 0 0 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .module-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .module-stat { text-align: center; }
+    .module-stat-num {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--blue);
+      display: block;
+    }
+    .module-stat-label { font-size: 13px; color: var(--ink-muted); }
+
+    .units-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      margin: 24px 0 40px;
+    }
+    @media (max-width: 700px) { .units-grid { grid-template-columns: 1fr; } }
+    .unit-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-strong);
+      border-radius: 12px 14px 13px 15px;
+      padding: 20px 22px;
+      text-decoration: none;
+      color: var(--ink);
+      display: block;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .unit-card:hover {
+      transform: translateY(-4px) rotate(-0.3deg);
+      box-shadow: var(--shadow-elev);
+    }
+    .unit-card:nth-child(odd) { transform: rotate(-0.4deg); }
+    .unit-card:nth-child(even) { transform: rotate(0.3deg); }
+    .unit-card:nth-child(odd):hover { transform: translateY(-4px) rotate(-0.7deg); }
+    .unit-card:nth-child(even):hover { transform: translateY(-4px) rotate(0deg); }
+
+    .unit-card-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .unit-card:nth-child(1) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(2) .unit-card-num { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+    .unit-card:nth-child(3) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+    .unit-card:nth-child(4) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(5) .unit-card-num { background: var(--purple-bg); color: var(--purple); border: 2px solid var(--purple); }
+    .unit-card:nth-child(6) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(7) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+    .unit-card:nth-child(8) .unit-card-num { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+
+    .unit-card-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 8px;
+      line-height: 1.3;
+    }
+    .unit-card-desc {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin: 0;
+      line-height: 1.5;
+    }
+    .unit-card-arrow {
+      position: absolute;
+      bottom: 16px; right: 18px;
+      color: var(--green);
+      font-size: 18px;
+      transition: transform 0.2s;
+    }
+    .unit-card:hover .unit-card-arrow { transform: translateX(4px); }
+
+    .module-complete {
+      background: var(--green-bg);
+      border: 3px solid var(--green);
+      border-radius: 14px;
+      padding: 28px;
+      text-align: center;
+      margin: 40px 0;
+      box-shadow: var(--shadow-elev);
+      transform: rotate(-0.3deg);
+    }
+    .module-complete-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0 0 12px;
+      color: var(--ink);
+    }
+    .module-complete-desc {
+      font-size: 15px;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    .next-module {
+      background: var(--bg-card);
+      border: 2px dashed var(--purple);
+      border-radius: 12px;
+      padding: 22px 24px;
+      margin: 24px 0 40px;
+      transform: rotate(0.3deg);
+      box-shadow: var(--shadow-card);
+    }
+    .next-module-tag {
+      display: inline-block;
+      background: var(--purple-bg);
+      color: var(--purple);
+      padding: 3px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .narrative-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 0 0 40px;
+      padding: 18px;
+      background: var(--bg-elev);
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+    }
+    .narrative-flow .nf-step {
+      font-size: 13px;
+      padding: 4px 10px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-strong);
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .narrative-flow .nf-arrow { color: var(--ink-faint); font-size: 16px; }
+  </style>
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Module 3.4 Overview</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="canvas" style="max-width:860px;">
+
+    <div class="module-hero">
+      <div class="module-tag">Course 3: Build · Module 4 (最后一个模块)</div>
+      <h1 class="module-title">Python 调 API 自动化</h1>
+      <p class="module-sub">从 python --version 到一个完整的 Vitamin 100 条用例自动化脚本. 8 个单元, 手把手从零搭起来.</p>
+
+      <div class="module-stats">
+        <div class="module-stat">
+          <span class="module-stat-num">8</span>
+          <span class="module-stat-label">单元</span>
+        </div>
+        <div class="module-stat">
+          <span class="module-stat-num">~90</span>
+          <span class="module-stat-label">分钟阅读</span>
+        </div>
+        <div class="module-stat">
+          <span class="module-stat-num">8</span>
+          <span class="module-stat-label">互动小工具</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="narrative-flow">
+      <span class="nf-step">Setup</span>
+      <span class="nf-arrow">&rarr;</span>
+      <span class="nf-step">Security</span>
+      <span class="nf-arrow">&rarr;</span>
+      <span class="nf-step">First Call</span>
+      <span class="nf-arrow">&rarr;</span>
+      <span class="nf-step">Errors</span>
+      <span class="nf-arrow">&rarr;</span>
+      <span class="nf-step">Batch</span>
+      <span class="nf-arrow">&rarr;</span>
+      <span class="nf-step">CSV</span>
+      <span class="nf-arrow">&rarr;</span>
+      <span class="nf-step">Costs</span>
+      <span class="nf-arrow">&rarr;</span>
+      <span class="nf-step">Vitamin Script</span>
+    </div>
+
+    <div class="units-grid">
+
+      <a href="./u1-setup/index.html" class="unit-card">
+        <div class="unit-card-num">1</div>
+        <h2 class="unit-card-title">Python 环境搭建</h2>
+        <p class="unit-card-desc">安装 Python, 创建虚拟环境, pip install openai. 跟着 checklist 一步步来, 10 分钟搞定.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u2-api-security/index.html" class="unit-card">
+        <div class="unit-card-num">2</div>
+        <h2 class="unit-card-title">API Key 安全管理</h2>
+        <p class="unit-card-desc">把 key 写在代码里 = 把银行密码贴在额头上. 学 .env + .gitignore, 5 个场景判安全.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u3-hello-world/index.html" class="unit-card">
+        <div class="unit-card-num">3</div>
+        <h2 class="unit-card-title">第一次调用 LLM API</h2>
+        <p class="unit-card-desc">10 行代码, 从 Python 发一条消息给 GPT, 收到回复. 你的第一个 AI 脚本诞生.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u4-error-handling/index.html" class="unit-card">
+        <div class="unit-card-num">4</div>
+        <h2 class="unit-card-title">Try/Except 错误处理</h2>
+        <p class="unit-card-desc">网络断了? Key 过期了? 429 限频了? 5 种常见错误, 每种一个 try/except 方案.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u5-batch/index.html" class="unit-card">
+        <div class="unit-card-num">5</div>
+        <h2 class="unit-card-title">批量调用 + Rate Limiting</h2>
+        <p class="unit-card-desc">100 条数据一次性丢给 API 会怎样? 学 time.sleep + 指数退避, 稳稳跑完.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u6-csv/index.html" class="unit-card">
+        <div class="unit-card-num">6</div>
+        <h2 class="unit-card-title">CSV 输入输出</h2>
+        <p class="unit-card-desc">从 Excel 导出 CSV, 逐行读取 + 调 API + 结果写回新列. 完整的数据管道.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u7-cost-logging/index.html" class="unit-card">
+        <div class="unit-card-num">7</div>
+        <h2 class="unit-card-title">Token 计数 + 成本日志</h2>
+        <p class="unit-card-desc">每次 API 调用花了多少钱? tiktoken 算 token, 日志记成本, 老板问你答得出.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u8-vitamin-script/index.html" class="unit-card">
+        <div class="unit-card-num">8</div>
+        <h2 class="unit-card-title">Vitamin 100 条用例脚本</h2>
+        <p class="unit-card-desc">把前 7 个单元全串起来: 读 CSV, 安全加载 key, 批量调用, 错误处理, 成本统计, 输出报告.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+    </div>
+
+    <div class="module-complete">
+      <h2 class="module-complete-title">学完这 8 个单元, 你能做到:</h2>
+      <p class="module-complete-desc">
+        独立搭建 Python 环境 · 安全管理 API Key · 写脚本调 LLM API · 处理各种报错 · 批量自动化 · 读写 CSV 数据 · 追踪 Token 成本 · 拥有一份完整的 Vitamin 自动化脚本放在 GitHub 上
+      </p>
+    </div>
+
+    <div class="next-module">
+      <div class="next-module-tag">Course 3: Build 完成!</div>
+      <p style="font-size:18px;font-weight:600;margin:8px 0;">恭喜你完成 Course 3 的全部内容!</p>
+      <p>你现在有: <strong>Vitamin Bot + 知识库 + Python 自动化脚本 + GitHub 链接</strong> -- 这些就是你面试时的作品集.</p>
+      <p style="margin-top:12px;">下一门课 <strong>Course 4: Ship -- 上线与拿 offer</strong>, 把这些作品打磨上线, 准备面试.</p>
+      <a class="walk-arrow" href="../c4-m1-evaluation/index.html">进入 Course 4: Ship &rarr;</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 3.4 · 个人定制版</p>
+  </footer>
+
+  <script src="../shared/app.js"></script>
+</body>
+</html>

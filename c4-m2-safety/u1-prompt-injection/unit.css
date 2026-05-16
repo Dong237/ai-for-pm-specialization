@@ -1,0 +1,255 @@
+/* U1 Prompt Injection — unit-specific styles */
+
+/* Attack type tabs */
+.attack-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.attack-tab {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 13px;
+  padding: 6px 14px;
+  border: 2px solid var(--border-strong);
+  border-radius: 6px 8px 7px 9px;
+  background: var(--bg-card);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+}
+.attack-tab:hover {
+  border-color: var(--red);
+  color: var(--ink);
+}
+.attack-tab.active {
+  background: var(--red-bg);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* Simulator container */
+.injection-sim {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.sim-panel {
+  display: none;
+}
+.sim-panel.active {
+  display: block;
+}
+
+.sim-attack-label {
+  font-size: 12px;
+  color: var(--red);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.sim-input {
+  background: var(--bg-elev);
+  border: 1.5px solid var(--border);
+  border-left: 4px solid var(--red);
+  border-radius: 6px;
+  padding: 14px 16px;
+  font-family: "Cascadia Code", "SF Mono", "Courier New", monospace;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.sim-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+@media (max-width: 600px) {
+  .sim-results { grid-template-columns: 1fr; }
+}
+
+.sim-result {
+  border-radius: 8px;
+  padding: 14px 16px;
+  border: 2px solid;
+  position: relative;
+}
+.sim-result-bad {
+  background: var(--red-bg-soft);
+  border-color: var(--red);
+}
+.sim-result-good {
+  background: var(--green-bg-soft);
+  border-color: var(--green);
+}
+
+.sim-result-tag {
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+}
+.sim-result-bad .sim-result-tag { background: var(--red); }
+.sim-result-good .sim-result-tag { background: var(--green); }
+
+.sim-result-text {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+.sim-defense-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.sim-defense-toggle label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+/* Toggle switch */
+.toggle-switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--red-bg);
+  border: 2px solid var(--red);
+  border-radius: 26px;
+  transition: 0.3s;
+}
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  height: 18px; width: 18px;
+  left: 2px; bottom: 2px;
+  background: var(--red);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.toggle-switch input:checked + .toggle-slider {
+  background: var(--green-bg);
+  border-color: var(--green);
+}
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(22px);
+  background: var(--green);
+}
+
+.defense-status {
+  font-size: 13px;
+  font-weight: 600;
+}
+.defense-status.off { color: var(--red); }
+.defense-status.on { color: var(--green); }
+
+/* Attack type cards for steps 3-7 */
+.attack-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px 12px 11px 13px;
+  padding: 18px 20px;
+  margin: 16px 0;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+.attack-card::before {
+  content: attr(data-type);
+  position: absolute;
+  top: -10px;
+  left: 14px;
+  background: var(--red);
+  color: white;
+  padding: 2px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  transform: rotate(-2deg);
+}
+
+.attack-example {
+  background: var(--bg-elev);
+  border-left: 3px solid var(--red);
+  padding: 12px 14px;
+  border-radius: 4px;
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 12px 0;
+  white-space: pre-wrap;
+}
+
+.defense-box {
+  background: var(--green-bg-soft);
+  border: 1.5px solid var(--green);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+.defense-box strong { color: var(--green); }
+
+/* Risk meter */
+.risk-meter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+.risk-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.risk-high { background: var(--red); }
+.risk-med { background: var(--amber); }
+.risk-low { background: var(--green); }
+.risk-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Attack flow diagram */
+.attack-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.flow-node {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.flow-user { background: var(--blue-bg); border: 1.5px solid var(--blue); color: var(--blue); }
+.flow-attack { background: var(--red-bg); border: 1.5px solid var(--red); color: var(--red); }
+.flow-llm { background: var(--amber-bg); border: 1.5px solid var(--amber); color: var(--amber); }
+.flow-output { background: var(--green-bg); border: 1.5px solid var(--green); color: var(--green); }
+.flow-arrow { color: var(--ink-faint); font-size: 18px; }

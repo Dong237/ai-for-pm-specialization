@@ -1,0 +1,164 @@
+/* U5: ReAct Framework — unit-specific styles */
+
+.react-viewer {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.react-query {
+  background: var(--bg-elev);
+  border-left: 4px solid var(--blue);
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+
+.react-query strong { color: var(--blue); }
+
+.react-trace {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 60px;
+}
+
+.react-step {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  animation: slideIn 0.4s ease;
+  border-left: 4px solid;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.react-step.thought {
+  background: var(--amber-bg-soft);
+  border-color: var(--amber);
+  color: var(--ink);
+}
+
+.react-step.action {
+  background: var(--blue-bg-soft);
+  border-color: var(--blue);
+  color: var(--ink);
+}
+
+.react-step.observation {
+  background: var(--green-bg-soft);
+  border-color: var(--green);
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.react-step.answer {
+  background: var(--purple-bg);
+  border-color: var(--purple);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.react-step-label {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 8px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.thought .react-step-label { background: var(--amber); color: white; }
+.action .react-step-label { background: var(--blue); color: white; }
+.observation .react-step-label { background: var(--green); color: white; }
+.answer .react-step-label { background: var(--purple); color: white; }
+
+.react-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.react-counter {
+  margin-left: auto;
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+
+/* Loop diagram */
+.loop-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+
+.loop-node {
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  min-width: 100px;
+}
+
+.loop-node.thought-node { background: var(--amber-bg); border: 2px solid var(--amber); color: var(--ink); }
+.loop-node.action-node { background: var(--blue-bg); border: 2px solid var(--blue); color: var(--ink); }
+.loop-node.observation-node { background: var(--green-bg); border: 2px solid var(--green); color: var(--ink); }
+
+.loop-arrow {
+  font-size: 24px;
+  color: var(--ink-faint);
+}
+
+/* CoT vs ReAct comparison */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+@media (max-width: 600px) {
+  .compare-grid { grid-template-columns: 1fr; }
+}
+
+.compare-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.compare-card.cot { border-color: var(--ink-faint); transform: rotate(-0.3deg); }
+.compare-card.react { border-color: var(--green); transform: rotate(0.3deg); }
+
+.compare-title {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.compare-card.cot .compare-title { color: var(--ink-muted); }
+.compare-card.react .compare-title { color: var(--green); }
+
+.resource-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; }
+.resource-table th { text-align: left; padding: 8px; border-bottom: 2px solid var(--border-strong); font-size: 13px; color: var(--ink-muted); }
+.resource-table td { padding: 8px; border-bottom: 1px dashed var(--border); vertical-align: top; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

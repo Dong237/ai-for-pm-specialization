@@ -1,0 +1,307 @@
+/* U1 — 评测三层架构 · unit-specific styles */
+
+/* Pyramid widget */
+.pyramid-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 24px 0;
+  box-shadow: var(--shadow-card);
+}
+.pyramid-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 20px 0;
+}
+.pyramid-layer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  border: 2px solid;
+}
+.pyramid-layer:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-elev);
+}
+.pyramid-layer.active {
+  box-shadow: var(--shadow-elev);
+}
+.pyramid-layer-1 {
+  width: 55%;
+  padding: 16px 20px;
+  background: var(--amber-bg);
+  border-color: var(--amber);
+  border-radius: 8px 8px 0 0;
+  clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+  font-size: 16px;
+  color: var(--ink);
+}
+.pyramid-layer-2 {
+  width: 75%;
+  padding: 16px 20px;
+  background: var(--blue-bg);
+  border-color: var(--blue);
+  font-size: 16px;
+  color: var(--ink);
+}
+.pyramid-layer-3 {
+  width: 95%;
+  padding: 16px 20px;
+  background: var(--green-bg);
+  border-color: var(--green);
+  border-radius: 0 0 8px 8px;
+  font-size: 16px;
+  color: var(--ink);
+}
+.pyramid-detail {
+  background: var(--bg-elev);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  display: none;
+}
+.pyramid-detail.visible {
+  display: block;
+  animation: fadeSlide 0.3s ease;
+}
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.pyramid-detail h4 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--ink);
+}
+.pyramid-detail ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.pyramid-detail li {
+  padding: 3px 0;
+}
+
+/* Drag zone */
+.drag-zone {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--bg-elev);
+  border: 1.5px dashed var(--border);
+  border-radius: 8px;
+}
+.drag-zone h4 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.drag-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 40px;
+}
+.drag-item {
+  display: inline-block;
+  padding: 6px 14px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: grab;
+  transition: transform 0.15s, box-shadow 0.15s;
+  user-select: none;
+  touch-action: none;
+}
+.drag-item:active {
+  cursor: grabbing;
+  transform: scale(1.05) rotate(-2deg);
+  box-shadow: var(--shadow-elev);
+}
+.drag-item.placed {
+  opacity: 0.4;
+  cursor: default;
+  text-decoration: line-through;
+}
+.drag-item.correct {
+  background: var(--green-bg);
+  border-color: var(--green);
+  color: var(--ink);
+}
+.drag-item.wrong {
+  background: var(--red-bg);
+  border-color: var(--red);
+  color: var(--ink);
+}
+
+/* Drop targets on pyramid layers */
+.drop-target {
+  min-height: 36px;
+  margin-top: 8px;
+  padding: 6px;
+  border: 1.5px dashed var(--border);
+  border-radius: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  transition: background 0.2s;
+}
+.drop-target.drag-over {
+  background: var(--amber-bg-soft);
+  border-color: var(--amber);
+}
+.drop-target .drag-item {
+  cursor: default;
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+/* Score display */
+.drag-score {
+  text-align: center;
+  margin-top: 16px;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.drag-score .score-num {
+  color: var(--green);
+  font-size: 28px;
+}
+
+/* Layer cards for steps 3-5 */
+.layer-card {
+  background: var(--bg-card);
+  border: 2px solid;
+  border-radius: 12px 14px 13px 15px;
+  padding: 20px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+.layer-card-tag {
+  position: absolute;
+  top: -12px;
+  left: 16px;
+  padding: 3px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  transform: rotate(-2deg);
+  color: white;
+}
+.layer-1-card { border-color: var(--amber); transform: rotate(-0.3deg); }
+.layer-1-card .layer-card-tag { background: var(--amber); }
+.layer-2-card { border-color: var(--blue); transform: rotate(0.3deg); }
+.layer-2-card .layer-card-tag { background: var(--blue); }
+.layer-3-card { border-color: var(--green); transform: rotate(-0.4deg); }
+.layer-3-card .layer-card-tag { background: var(--green); }
+
+.layer-card h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  margin: 8px 0 12px;
+}
+.layer-card table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.layer-card th, .layer-card td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px dashed var(--border);
+}
+.layer-card th {
+  font-weight: 600;
+  color: var(--ink-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* Causal chain diagram */
+.causal-chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+  padding: 20px;
+  background: var(--bg-elev);
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+}
+.chain-node {
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  border: 2px solid;
+}
+.chain-node-1 { background: var(--amber-bg); border-color: var(--amber); }
+.chain-node-2 { background: var(--blue-bg); border-color: var(--blue); }
+.chain-node-3 { background: var(--green-bg); border-color: var(--green); }
+.chain-arrow {
+  font-size: 24px;
+  color: var(--ink-faint);
+}
+
+/* Failure case cards */
+.failure-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.failure-card {
+  background: var(--red-bg-soft);
+  border: 1.5px dashed var(--red);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 14px;
+}
+.failure-card strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--red);
+}
+
+/* Resource table */
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.resource-table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--border);
+  font-weight: 600;
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+.resource-table td {
+  padding: 8px 10px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.resource-table a {
+  color: var(--blue);
+}

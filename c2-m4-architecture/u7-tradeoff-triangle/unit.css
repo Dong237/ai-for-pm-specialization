@@ -1,0 +1,142 @@
+/* U7 · Trade-off Triangle */
+
+.triangle-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.triangle-canvas {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 20px;
+  aspect-ratio: 1;
+}
+.triangle-canvas svg {
+  width: 100%;
+  height: 100%;
+}
+
+.triangle-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.tri-btn {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  padding: 8px 18px;
+  border: 2px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--ink);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+}
+.tri-btn:hover { border-color: var(--blue); }
+.tri-btn.active { border-color: var(--green); background: var(--green-bg); }
+
+.triangle-analysis {
+  background: var(--bg-elev);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 100px;
+}
+.tri-arch-name {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.tri-scores {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.tri-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tri-score-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.tri-score-bar {
+  width: 80px;
+  height: 8px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.tri-score-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.tri-tradeoff {
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+/* Tradeoff comparison grid */
+.tradeoff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+.tradeoff-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.tradeoff-arch {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.tradeoff-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.tradeoff-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+.tradeoff-row-label {
+  width: 50px;
+  text-align: right;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+.tradeoff-dots {
+  display: flex;
+  gap: 3px;
+}
+.tradeoff-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid;
+}
+.tradeoff-dot.filled { }
+.tradeoff-dot.empty { opacity: 0.2; }

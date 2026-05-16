@@ -1,0 +1,184 @@
+/* U2 · 三大类 AI 指标 — unit-specific styles */
+
+/* Category cards */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.cat-card {
+  border-radius: 12px 14px 13px 15px;
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+.cat-card.quality { background: var(--blue-bg); border: 2px solid var(--blue); transform: rotate(-0.5deg); }
+.cat-card.adoption { background: var(--green-bg); border: 2px solid var(--green); transform: rotate(0.4deg); }
+.cat-card.cost { background: var(--amber-bg); border: 2px solid var(--amber); transform: rotate(-0.3deg); }
+
+.cat-tag {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.quality .cat-tag { background: var(--blue); color: white; }
+.adoption .cat-tag { background: var(--green); color: white; }
+.cost .cat-tag { background: var(--amber); color: white; }
+
+.cat-card h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px; margin: 0 0 8px;
+}
+.cat-card ul {
+  list-style: none; padding: 0; margin: 0;
+}
+.cat-card li {
+  padding: 4px 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.cat-card li::before {
+  content: "•"; margin-right: 8px; color: var(--ink-faint);
+}
+
+/* Sorter widget */
+.sorter-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.sorter-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 14px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  border: 1px dashed var(--border);
+  min-height: 50px;
+}
+.sorter-chip {
+  display: inline-block;
+  padding: 6px 14px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  user-select: none;
+}
+.sorter-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+.sorter-chip.placed {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.sorter-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 600px) {
+  .sorter-columns { grid-template-columns: 1fr; }
+}
+.sorter-col {
+  border-radius: 8px;
+  padding: 14px;
+  min-height: 120px;
+}
+.sorter-col.quality { background: var(--blue-bg-soft); border: 2px dashed var(--blue); }
+.sorter-col.adoption { background: var(--green-bg-soft); border: 2px dashed var(--green); }
+.sorter-col.cost { background: var(--amber-bg-soft); border: 2px dashed var(--amber); }
+
+.sorter-col-title {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.sorter-col.quality .sorter-col-title { color: var(--blue); }
+.sorter-col.adoption .sorter-col-title { color: var(--green); }
+.sorter-col.cost .sorter-col-title { color: var(--amber); }
+
+.sorter-col-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sorted-chip {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  animation: tokenPop 0.3s ease;
+}
+.sorted-chip.correct { background: var(--green-bg); color: var(--green); }
+.sorted-chip.wrong { background: var(--red-bg); color: var(--red); text-decoration: line-through; }
+
+.sorter-score {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+}
+
+/* Flow diagram */
+.flow-chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+.flow-node {
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+}
+.flow-node.q { background: var(--blue-bg); border: 2px solid var(--blue); color: var(--blue); }
+.flow-node.a { background: var(--green-bg); border: 2px solid var(--green); color: var(--green); }
+.flow-node.c { background: var(--amber-bg); border: 2px solid var(--amber); color: var(--amber); }
+.flow-arrow {
+  font-size: 24px;
+  color: var(--ink-faint);
+}
+
+/* Vitamin combo table */
+.combo-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0;
+  font-size: 14px;
+}
+.combo-table th {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.combo-table td {
+  padding: 10px 12px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.combo-table tr:last-child td { border-bottom: none; }

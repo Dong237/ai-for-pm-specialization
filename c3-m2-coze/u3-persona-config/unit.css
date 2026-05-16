@@ -1,0 +1,116 @@
+/* Unit 3 · Persona Config — unit-specific styles */
+
+.persona-editor {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.persona-editor h3 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px dashed var(--border);
+}
+.field-group {
+  margin-bottom: 16px;
+}
+.field-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--ink-soft);
+}
+.field-group textarea,
+.field-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.field-group textarea { min-height: 100px; resize: vertical; }
+.field-group textarea:focus,
+.field-group input:focus { outline: none; border-color: var(--blue); }
+
+.persona-preview {
+  background: var(--bg-elev);
+  border: 2px dashed var(--green);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+}
+.persona-preview-chat {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  min-height: 120px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.preview-msg {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  animation: msgSlide 0.3s ease;
+}
+@keyframes msgSlide {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.preview-msg.bot-msg {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  margin-right: 20%;
+}
+.preview-msg.user-msg {
+  background: var(--blue-bg);
+  border: 1px solid var(--blue);
+  margin-left: 20%;
+  text-align: right;
+}
+
+/* Prompt structure blocks */
+.prompt-blocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 20px 0;
+}
+@media (max-width: 600px) { .prompt-blocks { grid-template-columns: 1fr; } }
+.prompt-block {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px;
+}
+.prompt-block-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.prompt-block h4 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+.prompt-block p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+}

@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 5 · Refusal Rate — AI for PM · M2.3</title>
+  <meta name="description" content="AI 说我不知道的比例. 太低=幻觉, 太高=没用. 找到甜蜜区间." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.3</span></a><div class="topbar-right"><span class="unit-label">Unit 5 · Refusal Rate</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 5<span class="title-dot">·</span><br/>Refusal Rate</h1>
+      <p class="hero-sub">AI 说 "我不知道" 到底是好事还是坏事? 答案: 看比例.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">用户问 "我能不能吃这个药", AI 说 "抱歉我无法回答" ...</p>
+          <p class="cloud-line">这到底是 AI 太笨还是 AI 太聪明?</p>
+          <p class="cloud-line accent">—— 关键看比例. 10-20% 是健康产品的甜蜜区.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 Refusal Rate 的定义和为什么它是 "双刃剑"</li>
+          <li>知道太低 (幻觉风险) 和太高 (体验差) 的后果</li>
+          <li>找到 Vitamin 的 Refusal Rate 甜蜜区间</li>
+          <li>设计 "优雅拒答" 的产品体验</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">一个真实的两难</h2>
+      <p class="step-lede">用户在 Vitamin 里问: "月经推迟了两周, 是不是怀孕了?"</p>
+      <p>AI 怎么办?</p>
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card" style="border-color:var(--red);">
+          <div class="wrong-mark">A</div>
+          <h3>直接回答</h3>
+          <p>"月经推迟两周可能的原因有: 1. 怀孕 2. 压力 3. 多囊..."</p>
+          <div class="wrong-why">→ 风险: 如果用户因此不去看医生, 延误了诊断.</div>
+        </article>
+        <article class="wrong" data-rough="card" style="border-color:var(--amber);">
+          <div class="wrong-mark">B</div>
+          <h3>拒绝回答</h3>
+          <p>"抱歉, 这个问题我无法回答, 请咨询专业医生."</p>
+          <div class="wrong-why">→ 风险: 用户觉得 AI 没用, 下次不会来问了.</div>
+        </article>
+      </div>
+      <p><mark class="hl">两个选择都不完美. Refusal Rate 就是在衡量: AI 选了多少次 B.</mark></p>
+      <div class="step-foot">定义 ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">定义: AI 拒绝回答的比例</h2>
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">公式</div>
+        <p class="truth-line giant">Refusal Rate =<br/>拒答次数 / 总查询次数</p>
+        <p class="truth-line muted">"拒答" = AI 的回复中包含 "我无法回答" / "请咨询医生" / "我不确定" 等标记.</p>
+      </div>
+      <p>技术上, 可以用关键词匹配检测拒答: "I'm sorry", "我无法", "请咨询", 或者模型输出的 refusal token.</p>
+      <div class="step-foot">为什么是双刃剑 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">双刃剑: 太低和太高都是问题</h2>
+      <div class="spectrum-bar">
+        <div class="spectrum-sweet" style="left:15%;width:25%;">甜蜜区</div>
+      </div>
+      <div class="spectrum-labels">
+        <span>0% — 什么都答, 幻觉满天飞</span>
+        <span>100% — 什么都不答, 没用</span>
+      </div>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>太低 (< 5%):</strong> AI 对什么都回答, 即使完全不确定. 在健康领域, 这意味着用户可能收到错误的医疗建议.</p>
+        <p><strong>太高 (> 30%):</strong> AI 过度谨慎, 正常问题也拒答. 用户觉得功能没用, Feature Adoption 下降.</p>
+        <p><strong>刚好 (10-20%):</strong> AI 在边界清晰的问题上拒答 (药物、诊断), 在安全问题上正常回答.</p>
+      </div>
+      <div class="step-foot">关键区分 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">True Refusal vs False Refusal</h2>
+      <p class="step-lede">不是所有拒答都是一样的:</p>
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card" style="border-color:var(--green);background:var(--green-bg-soft);">
+          <div class="wrong-mark" style="color:var(--green);">✓</div>
+          <h3>True Refusal (正确拒答)</h3>
+          <p>"能不能吃 XX 药?" → AI 拒答 → 正确! 不该给医疗建议.</p>
+          <div class="wrong-why" style="border-color:var(--green);">这种拒答在保护用户, 越多越好.</div>
+        </article>
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>False Refusal (错误拒答)</h3>
+          <p>"经期可以跑步吗?" → AI 拒答 → 错误! 这是常识性问题.</p>
+          <div class="wrong-why">这种拒答在损害体验, 需要修复.</div>
+        </article>
+      </div>
+      <p><mark class="hl">好的 Refusal Rate 不只是一个数字, 还要看 True vs False 的比例.</mark></p>
+      <p>目标: True Refusal 多, False Refusal 少 = 聪明的 AI.</p>
+      <div class="step-foot">怎么控制 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">控制 Refusal Rate 的三个手段</h2>
+      <div class="callout callout-green" data-rough="card">
+        <ol>
+          <li><strong>System Prompt 边界:</strong> 明确告诉 AI "以下类型的问题请拒答: 药物推荐、诊断、处方". 其他正常回答.</li>
+          <li><strong>分级回答:</strong> 不要只有 "回答" 和 "拒答" 两种. 加一个中间态: "我可以提供一些参考信息, 但建议你咨询医生".</li>
+          <li><strong>监控 False Refusal:</strong> 人工抽检被拒答的问题, 看有没有本该回答的. 如果有 → 调整 prompt.</li>
+        </ol>
+      </div>
+      <p>策略 2 最实用: "不确定但给参考" 比 "完全拒答" 体验好 10 倍.</p>
+      <div class="step-foot">健康产品的特殊考量 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">健康产品: 宁可多拒, 不可乱答</h2>
+      <p class="step-lede">不同产品类型, Refusal Rate 策略不同:</p>
+      <div class="callout callout-amber" data-rough="card">
+        <ul>
+          <li><strong>聊天机器人 (闲聊):</strong> Refusal Rate 越低越好. 拒答 = 扫兴.</li>
+          <li><strong>写作助手:</strong> 5-10% 合理. 对版权内容拒答.</li>
+          <li><strong>健康产品 (Vitamin):</strong> 10-20% 是甜蜜区. 医疗边界必须拒, 日常问题必须答.</li>
+          <li><strong>金融产品:</strong> 15-25%. 合规要求高, 投资建议需谨慎.</li>
+        </ul>
+        <p class="muted">规律: 风险越高的领域, Refusal Rate 的下限越高.</p>
+      </div>
+      <p><mark class="hl">Vitamin 的原则: 宁可让用户多看一次 "请咨询医生", 也不让用户看到一次错误的医疗建议.</mark></p>
+      <div class="step-foot">优雅拒答的设计 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">产品设计: 优雅地拒答</h2>
+      <p class="step-lede">拒答不等于 "说我不知道然后走人". 好的拒答体验:</p>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>差的拒答:</strong> "抱歉, 我无法回答这个问题."</p>
+        <p><strong>好的拒答:</strong> "这个问题涉及医疗诊断, 我无法给出准确判断. 不过我可以:<br/>1. 帮你整理相关的身体记录, 方便你看医生时带上<br/>2. 推荐你附近的妇科门诊<br/>3. 告诉你一些相关的常识性信息"</p>
+      </div>
+      <p>好的拒答 = <strong>拒绝 + 替代方案</strong>. 用户虽然没得到直接答案, 但得到了有价值的下一步.</p>
+      <div class="step-foot">动手试试 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Refusal Rate 调节器</h2>
+      <p class="step-lede">拖动滑块, 看不同 Refusal Rate 下的后果:</p>
+      <div class="refusal-slider-widget" data-rough="card">
+        <div class="refusal-meter">
+          <label for="refusal-slider">Refusal Rate:</label>
+          <span id="refusal-val" class="refusal-val">15%</span>
+        </div>
+        <input id="refusal-slider" type="range" min="0" max="80" value="15" step="1" style="width:100%;" />
+        <div class="refusal-consequences">
+          <div id="refusal-risk" class="refusal-con risk"></div>
+          <div id="refusal-benefit" class="refusal-con benefit"></div>
+        </div>
+        <div id="refusal-verdict" class="refusal-verdict"></div>
+      </div>
+      <div class="step-foot">Vitamin 的设定 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: Refusal Rate 按功能设定</h2>
+      <div class="prob-table" data-rough="prob">
+        <div class="prob-header"><div>Vitamin 功能</div><div>目标 Refusal Rate</div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 聊天 (健康问答)</div><div class="prob-bar"><div class="bar" data-value="18" style="background:var(--green);"><span>12-18%</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 饮食建议</div><div class="prob-bar"><div class="bar" data-value="12" style="background:var(--green);"><span>8-12%</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 运动推荐</div><div class="prob-bar"><div class="bar" data-value="15" style="background:var(--green);"><span>10-15%</span></div></div></div>
+        <div class="prob-row"><div class="prob-word" style="font-size:15px;">AI 身体日报</div><div class="prob-bar"><div class="bar" data-value="5" style="background:var(--blue);"><span>3-5%</span></div></div></div>
+      </div>
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"Refusal Rate 是安全和体验的平衡器. 在健康产品里, 我设定 10-20% 的拒答率, 并且区分 True Refusal (该拒) 和 False Refusal (不该拒). 拒答的时候不是说'我不知道', 而是给替代方案 — 比如帮用户整理资料、推荐医院."</p>
+      </div>
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Refusal Rate 是双刃剑:<br/>太低 = 乱答 (幻觉), 太高 = 没用.<br/>健康产品甜蜜区: 10-20%.</p>
+      </div>
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>问 ChatGPT / 豆包 10 个健康问题 (5 个安全的 + 5 个敏感的), 记录它拒答了几次. 你认为哪些拒答是 True, 哪些是 False?</li>
+          <li>写 Vitamin AI 聊天功能的拒答策略: 哪些问题必须拒? 拒答后给什么替代方案?</li>
+          <li>设计一段 "优雅拒答" 的 System Prompt: 让 AI 在拒答时提供 2-3 个替代选项.</li>
+          <li>比较: 如果 Refusal Rate 是 5% vs 30%, 对 Vitamin 的 NPS 分别会有什么影响?</li>
+        </ol>
+        <div style="margin-top:16px;padding-top:12px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://oecd.ai/en/catalogue/metrics/reject-rate-rr" target="_blank" style="color:var(--blue);">OECD AI Reject Rate</a></td><td style="padding:6px 4px;color:var(--ink-muted);">OECD</td><td style="padding:6px 4px;color:var(--ink-muted);">权威定义 + 计算方法</td><td style="padding:6px 4px;color:var(--ink-muted);">10 min</td></tr>
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://www.emergentmind.com/topics/refusal-rate-analysis" target="_blank" style="color:var(--blue);">Refusal Rate Analysis in LLMs</a></td><td style="padding:6px 4px;color:var(--ink-muted);">Emergent Mind</td><td style="padding:6px 4px;color:var(--ink-muted);">深度分析 + 研究综述</td><td style="padding:6px 4px;color:var(--ink-muted);">20 min</td></tr>
+            <tr><td style="padding:6px 4px;">📖</td><td style="padding:6px 4px;"><a href="https://galileo.ai/blog/llm-performance-metrics" target="_blank" style="color:var(--blue);">7 Key LLM Metrics</a></td><td style="padding:6px 4px;color:var(--ink-muted);">Galileo AI</td><td style="padding:6px 4px;color:var(--ink-muted);">含拒答率实操</td><td style="padding:6px 4px;color:var(--ink-muted);">15 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 怀孕还是压力? 两难</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Refusal Rate 定义</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 太低太高都不行</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> True vs False Refusal</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 控制三手段</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 健康产品: 宁多拒</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 优雅拒答设计</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Refusal Rate 调节器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 按功能设定</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 一句话 + 作业</a>
+      </div>
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 5:</p>
+        <p class="end-summary-big">Refusal Rate 是安全与体验的平衡器.<br/>健康产品: 10-20%, 拒答时给替代方案.</p>
+      </div>
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 6): Task Completion Rate</div>
+        <p>用户的任务最终解决了吗? Agent 类产品的核心指标.</p>
+        <p><strong>85%+ 才算生产级.</strong></p>
+        <a class="walk-arrow" href="../u6-task-completion/index.html">继续走 → Unit 6</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.3 · Unit 5 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

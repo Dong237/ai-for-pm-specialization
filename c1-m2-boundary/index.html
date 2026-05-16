@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Module 1.2 · AI 能力边界 + 用例识别 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Module 1.2: 知道 AI 能做什么、不能做什么. 用 Task Analysis 框架给 Vitamin 做可行性评估." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../shared/styles.css" />
+  <style>
+    .module-hero { text-align: center; padding: 60px 0 40px; }
+    .module-tag {
+      display: inline-block; background: var(--green-bg); border: 2px solid var(--green);
+      color: var(--ink); padding: 6px 18px; border-radius: 8px; font-size: 14px;
+      font-weight: 600; margin-bottom: 16px; transform: rotate(-2deg);
+    }
+    .module-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: clamp(32px, 6vw, 48px); font-weight: 600; line-height: 1.2; margin: 0 0 12px;
+    }
+    .module-sub {
+      font-size: 18px; color: var(--ink-soft); margin: 0 0 32px; max-width: 600px;
+      margin-left: auto; margin-right: auto;
+    }
+    .module-stats { display: flex; justify-content: center; gap: 32px; margin-bottom: 40px; flex-wrap: wrap; }
+    .module-stat { text-align: center; }
+    .module-stat-num {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 36px; font-weight: 700; color: var(--green); display: block;
+    }
+    .module-stat-label { font-size: 13px; color: var(--ink-muted); }
+
+    .units-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px; margin: 24px 0 40px;
+    }
+    @media (max-width: 700px) { .units-grid { grid-template-columns: 1fr; } }
+    .unit-card {
+      background: var(--bg-card); border: 2px solid var(--border-strong);
+      border-radius: 12px 14px 13px 15px; padding: 20px 22px; text-decoration: none;
+      color: var(--ink); display: block; box-shadow: var(--shadow-card);
+      transition: transform 0.2s, box-shadow 0.2s; position: relative;
+    }
+    .unit-card:hover { transform: translateY(-4px) rotate(-0.3deg); box-shadow: var(--shadow-elev); }
+    .unit-card:nth-child(odd) { transform: rotate(-0.4deg); }
+    .unit-card:nth-child(even) { transform: rotate(0.3deg); }
+    .unit-card:nth-child(odd):hover { transform: translateY(-4px) rotate(-0.7deg); }
+    .unit-card:nth-child(even):hover { transform: translateY(-4px) rotate(0deg); }
+
+    .unit-card-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 18px; font-weight: 700; margin-bottom: 10px;
+    }
+    .unit-card:nth-child(1) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(2) .unit-card-num { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+    .unit-card:nth-child(3) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(4) .unit-card-num { background: var(--purple-bg); color: var(--purple); border: 2px solid var(--purple); }
+    .unit-card:nth-child(5) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+    .unit-card:nth-child(6) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(7) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(8) .unit-card-num { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+
+    .unit-card-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 20px; font-weight: 600; margin: 0 0 8px; line-height: 1.3;
+    }
+    .unit-card-desc { font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.5; }
+    .unit-card-arrow {
+      position: absolute; bottom: 16px; right: 18px; color: var(--green);
+      font-size: 18px; transition: transform 0.2s;
+    }
+    .unit-card:hover .unit-card-arrow { transform: translateX(4px); }
+
+    .module-complete {
+      background: var(--green-bg); border: 3px solid var(--green); border-radius: 14px;
+      padding: 28px; text-align: center; margin: 40px 0; box-shadow: var(--shadow-elev);
+      transform: rotate(-0.3deg);
+    }
+    .module-complete-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 24px; font-weight: 600; margin: 0 0 12px; color: var(--ink);
+    }
+    .module-complete-desc { font-size: 15px; color: var(--ink-soft); margin: 0; }
+
+    .prev-module, .next-module {
+      background: var(--bg-card); border: 2px dashed var(--purple); border-radius: 12px;
+      padding: 22px 24px; margin: 24px 0 20px; transform: rotate(0.3deg);
+      box-shadow: var(--shadow-card);
+    }
+    .prev-module { border-color: var(--ink-muted); transform: rotate(-0.3deg); }
+    .module-nav-tag {
+      display: inline-block; background: var(--purple-bg); color: var(--purple);
+      padding: 3px 12px; border-radius: 4px; font-size: 13px; font-weight: 600; margin-bottom: 10px;
+    }
+    .prev-module .module-nav-tag { background: var(--bg-elev); color: var(--ink-muted); }
+    .module-nav-link {
+      color: var(--green); text-decoration: none; font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 18px; display: inline-block; margin-top: 8px; transition: transform 0.2s;
+    }
+    .module-nav-link:hover { transform: translateX(4px); }
+  </style>
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Module 1.2 Overview</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="canvas" style="max-width:860px;">
+
+    <div class="module-hero">
+      <div class="module-tag">Course 1: Discover · Module 2</div>
+      <h1 class="module-title">AI 能力边界<br/>+ 用例识别</h1>
+      <p class="module-sub">知道了 AI 怎么工作, 现在要回答: 什么场景该上 AI? 什么不该? 用 Task Analysis 框架, 给 Vitamin 每个功能做一次可行性评估.</p>
+
+      <div class="module-stats">
+        <div class="module-stat">
+          <span class="module-stat-num">8</span>
+          <span class="module-stat-label">单元</span>
+        </div>
+        <div class="module-stat">
+          <span class="module-stat-num">~80</span>
+          <span class="module-stat-label">分钟阅读</span>
+        </div>
+        <div class="module-stat">
+          <span class="module-stat-num">8</span>
+          <span class="module-stat-label">互动小工具</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="units-grid">
+      <a href="./u1-reading-writing-chatting/index.html" class="unit-card">
+        <div class="unit-card-num">1</div>
+        <h2 class="unit-card-title">AI 三大主战场: Reading / Writing / Chatting</h2>
+        <p class="unit-card-desc">Andrew Ng 框架. 任何 AI 产品需求都能映射到阅读、写作、对话三类之一.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u2-math-realtime/index.html" class="unit-card">
+        <div class="unit-card-num">2</div>
+        <h2 class="unit-card-title">AI 死穴 1: 精确数学 + 实时数据</h2>
+        <p class="unit-card-desc">为什么 ChatGPT 算 17 位乘法会错. Vitamin 不能让 AI 算 BMI 的原因.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u3-lost-in-middle/index.html" class="unit-card">
+        <div class="unit-card-num">3</div>
+        <h2 class="unit-card-title">AI 死穴 2: 长上下文 "大海捞针"</h2>
+        <p class="unit-card-desc">Context Window 大 ≠ 真的能用 — 中段记忆会模糊. "我记得你之前说" 经常说错.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u4-stability/index.html" class="unit-card">
+        <div class="unit-card-num">4</div>
+        <h2 class="unit-card-title">AI 死穴 3: 稳定性问题</h2>
+        <p class="unit-card-desc">同样问题问两次得到不同答案. 这对医疗类产品意味着什么.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u5-task-analysis/index.html" class="unit-card">
+        <div class="unit-card-num">5</div>
+        <h2 class="unit-card-title">Task Analysis: Feasibility × Value</h2>
+        <p class="unit-card-desc">Andrew Ng Week 3 核心方法. 任何需求按 "AI 能做吗 × 做了值钱吗" 打分.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u6-ai-vs-rules/index.html" class="unit-card">
+        <div class="unit-card-num">6</div>
+        <h2 class="unit-card-title">AI vs 规则的决策准则</h2>
+        <p class="unit-card-desc">6 条判断: 输入是否结构化? 需要解释吗? 用户能容忍错误吗? 决策树一目了然.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u7-accuracy-threshold/index.html" class="unit-card">
+        <div class="unit-card-num">7</div>
+        <h2 class="unit-card-title">"70% 准确率" 上线门槛</h2>
+        <p class="unit-card-desc">AI 不像传统软件追求 100%. 什么场景 70% 就能上、什么场景 99% 才能上.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+
+      <a href="./u8-vitamin-decision/index.html" class="unit-card">
+        <div class="unit-card-num">8</div>
+        <h2 class="unit-card-title">Vitamin 5 状态拆解实操</h2>
+        <p class="unit-card-desc">把 Vitamin 5 个身体状态拆成 "必须 AI / 可 AI 可规则 / 必须规则" 三档, 产出决策表.</p>
+        <span class="unit-card-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="module-complete">
+      <h2 class="module-complete-title">学完这 8 个单元, 你能做到:</h2>
+      <p class="module-complete-desc">
+        判断任何功能该用 AI 还是规则 · 用 Feasibility × Value 框架评估需求 ·<br/>
+        知道 AI 的三大死穴 · 给每个功能设定准确率门槛 ·<br/>
+        产出 Vitamin 用例决策表 (5 状态 × 3 档分类)
+      </p>
+    </div>
+
+    <div class="prev-module">
+      <div class="module-nav-tag">上一个模块: Module 1.1</div>
+      <h3 style="margin:8px 0;">LLM 工作机制 + 8 个核心概念</h3>
+      <p style="font-size:15px;color:var(--ink-soft);">Token、Temperature、Context Window... 这些概念是本模块的基础.</p>
+      <a class="module-nav-link" href="../c1-m1-llm/index.html">← 回到 Module 1.1</a>
+    </div>
+
+    <div class="next-module">
+      <div class="module-nav-tag">下一个模块: Module 1.3</div>
+      <h3 style="margin:8px 0;">AI 行业图景 + 模型横评</h3>
+      <p style="font-size:15px;color:var(--ink-soft);">了解了 AI 能力边界, 接下来要选模型: <strong>OpenAI vs DeepSeek vs Qwen, 哪个最适合 Vitamin?</strong></p>
+      <a class="module-nav-link" href="../c1-m3-landscape/index.html">进入 Module 1.3 →</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 1: Discover · Module 1.2 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../shared/rough.min.js"></script>
+  <script src="../shared/app.js"></script>
+</body>
+</html>

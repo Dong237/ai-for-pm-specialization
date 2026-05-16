@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 5 · Prompt 模板管理 — AI for PM · M2.1</title>
+  <meta name="description" content="AI PM 课 · M2.1 Unit 5: Prompt 也是产品资产. 版本号/变更日志/A/B 实验/灰度." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.1</span></a><div class="topbar-right"><span class="unit-label">Unit 5 · Prompt 管理</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">&#9654;</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">&#9632;</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 5<span class="title-dot">&middot;</span><br/>Prompt 是产品代码</h1>
+      <p class="hero-sub">你改了一个 Prompt 里的逗号, AI 的输出风格就变了. Prompt 不是随便写写的文本, 它是你产品的 "灵魂代码".</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="你"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · 管理 Prompt 版本)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">上周改了一下 Prompt, AI 的语气突然变生硬了...</p>
+          <p class="cloud-line">改之前的版本呢? 找不到了!</p>
+          <p class="cloud-line">Prompt 不应该像代码一样有版本管理吗?</p>
+          <p class="cloud-line accent">—— 没错, 这就是今天要学的.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list"><li>理解为什么 Prompt 是产品资产, 需要版本管理</li><li>知道 Prompt 变更的审批流程</li><li>学会 A/B 测试 Prompt 的方法</li><li>为 Vitamin 设计 Prompt 管理规范</li></ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">改一个词, 输出大变 — Prompt 的蝴蝶效应</h2>
+      <p class="step-lede">传统代码: 改一行, 编译器会告诉你有没有 bug. Prompt: 改一个词, <mark class="hl">没有编译器, 没有报错, 但输出可能全变了</mark>.</p>
+      <div class="callout callout-red"><p><strong>真实案例:</strong> Prompt 从 "你是健康助手" 改成 "你是专业健康顾问", AI 的回答从温暖友好变成了冰冷的医学术语. 用户接受率从 86% 掉到了 52%.</p></div>
+      <p class="step-lede">这就是为什么 Prompt 需要像代码一样管理: 版本号、变更日志、评测、回滚.</p>
+      <div class="step-foot">但很多团队还在随便改 Prompt ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">大多数团队的 Prompt 管理现状: 一团糟</h2>
+      <div class="two-wrong">
+        <article class="wrong"><div class="wrong-mark">&cross;</div><h3>Prompt 写在代码里, 改了没人知道</h3><p>工程师想 "优化一下", 直接改了 Prompt, 没通知 PM.</p><div class="wrong-why">结果: AI 语气变了, 用户反馈 "AI 怎么变了", PM 不知道发生了什么.</div></article>
+        <article class="wrong"><div class="wrong-mark">&cross;</div><h3>Prompt 放在飞书文档, 版本混乱</h3><p>"Prompt 最终版.docx", "Prompt 最终版v2.docx", "Prompt 最终版v2-改.docx"</p><div class="wrong-why">结果: 没人知道线上跑的是哪个版本. 出了问题, 无法回滚.</div></article>
+      </div>
+      <div class="truth-bubble"><div class="truth-tag">真相</div><p class="truth-line big">Prompt 是产品资产, 地位等同于 <mark class="hl">产品代码</mark>.</p><p class="truth-line giant">它需要: 版本号 · 变更日志 · 评审 · A/B · 回滚</p><p class="truth-line muted">每一次 Prompt 变更, 都相当于一次产品发版.</p></div>
+      <div class="step-foot">Prompt 的生命周期是什么? ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Prompt 的 4 阶段生命周期</h2>
+      <div class="lifecycle-cards">
+        <div class="lc-card"><div class="lc-icon">&#9997;</div><h4>1. 起草</h4><p>PM 写初版 Prompt, 在 Playground 调试, 直到效果满意.</p></div>
+        <div class="lc-card"><div class="lc-icon">&#128269;</div><h4>2. 评审</h4><p>PM + 算法双签审批. 跑评测集, 对比新旧版指标.</p></div>
+        <div class="lc-card"><div class="lc-icon">&#128202;</div><h4>3. 灰度/A/B</h4><p>5% 用户先用新版. 观察指标, 无退步则逐步放量.</p></div>
+        <div class="lc-card"><div class="lc-icon">&#128640;</div><h4>4. 全量/回滚</h4><p>指标达标, 全量发布. 出问题, 一键回滚到上一版.</p></div>
+      </div>
+      <div class="callout callout-blue"><p><strong>关键:</strong> 这个流程跟传统的 "代码发版" 几乎一样. 只是对象从代码变成了 Prompt. PM 在这里的角色是 "Prompt 的产品经理" — 决定改什么、怎么测、什么时候发.</p></div>
+      <div class="step-foot">版本号怎么编? ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Prompt 版本号规范</h2>
+      <p class="step-lede">借鉴软件的语义化版本: <code>主版本.次版本</code>:</p>
+      <div class="callout callout-amber">
+        <p><strong>v1.0 → v1.1:</strong> 小修改 — 调语气、改措辞、加约束. 效果应该只是微调.</p>
+        <p><strong>v1.x → v2.0:</strong> 大改 — 结构重写、增加新的输入字段、改变输出格式. 效果可能显著变化.</p>
+      </div>
+      <p class="step-lede">每个版本都需要记录:</p>
+      <table class="constraint-table" style="margin:16px 0;font-size:13px;">
+        <thead><tr><th>字段</th><th>示例</th></tr></thead>
+        <tbody>
+          <tr><td>版本号</td><td>v1.2</td></tr>
+          <tr><td>变更日期</td><td>2025-03-10</td></tr>
+          <tr><td>变更人</td><td>PM + 算法</td></tr>
+          <tr><td>变更内容</td><td>增加趋势对比, 优化语气</td></tr>
+          <tr><td>变更原因</td><td>用户反馈总结缺少趋势分析</td></tr>
+          <tr><td>评测结果</td><td>准确率 84% → 91%, 接受率 72% → 86%</td></tr>
+          <tr><td>状态</td><td>全量上线 / A/B 中 / 已回滚</td></tr>
+        </tbody>
+      </table>
+      <div class="step-foot">A/B 测试怎么做? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Prompt 的 A/B 测试</h2>
+      <p class="step-lede">不确定哪个 Prompt 更好? A/B 测试:</p>
+      <div class="callout callout-blue">
+        <p><strong>A 组 (50% 用户):</strong> Prompt v1.2 — 当前版本, 温暖友好风格.</p>
+        <p><strong>B 组 (50% 用户):</strong> Prompt v1.3 — 新版本, 增加了结构化输出 (先数据 → 再分析 → 再建议).</p>
+        <p><strong>跑 7 天, 看:</strong> 接受率谁高? 准确率有变化吗? 用户反馈有差异吗?</p>
+        <p><strong>结果:</strong> B 组接受率 +8%, 准确率持平. → B 胜出, 全量发 v1.3.</p>
+      </div>
+      <div class="callout callout-amber"><p><strong>PM 注意:</strong> Prompt A/B 测试跟传统 UI A/B 一样, 但观察的指标不同. 不看点击率, 看 "AI 输出的接受率 + 准确率". 先小流量 (5-10%), 再逐步放量.</p></div>
+      <div class="step-foot">灰度发布怎么做? ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">灰度发布: 先给 5% 用户试</h2>
+      <p class="step-lede">大版本更新 (v1.x → v2.0) 风险高. 灰度发布 = 逐步放量:</p>
+      <div class="callout callout-green">
+        <p><strong>Day 1:</strong> 5% 用户用新 Prompt, 观察指标. &#10004; 无退步 → 继续.</p>
+        <p><strong>Day 3:</strong> 放量到 20%. &#10004; 接受率 +3% → 继续.</p>
+        <p><strong>Day 5:</strong> 放量到 50%. &#10004; 稳定 → 继续.</p>
+        <p><strong>Day 7:</strong> 全量 100%. &#10004; 新版本正式上线.</p>
+      </div>
+      <div class="callout callout-red"><p><strong>任何一步出问题 → 立刻回滚到旧版.</strong> 这就是为什么需要版本管理: 回滚不是 "找到之前的飞书文档", 而是 "一键切回 v1.2".</p></div>
+      <div class="step-foot">PRD 里怎么写? ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">PRD 中的 Prompt 管理模块怎么写</h2>
+      <p class="step-lede">在 PRD 的 Prompt 管理章节, 写清楚这些:</p>
+      <div class="callout callout-amber">
+        <p><strong>1. 当前 Prompt 版本:</strong> v2.0 (附完整 Prompt 文本)</p>
+        <p><strong>2. 变更审批流程:</strong> PM 起草 → 算法 Review → 评测集跑分 → PM+算法双签</p>
+        <p><strong>3. 发布策略:</strong> 小修 (v1.x) 可直接发; 大改 (vX.0) 必须灰度 7 天</p>
+        <p><strong>4. 回滚机制:</strong> 保留最近 5 个版本, 任意版本可一键回滚, 回滚后立即生效</p>
+        <p><strong>5. A/B 测试规则:</strong> 每次有重大改动, 先 A/B 跑 7 天, 以接受率为主指标</p>
+      </div>
+      <div class="callout callout-blue"><p>注意: PM 不需要写 Prompt 的存储技术方案 (那是工程的事). 但 PM 必须定义 "谁有权改 Prompt" 和 "怎么验证改完是否更好".</p></div>
+      <div class="step-foot">动手看看版本演变 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: 看 Vitamin Prompt 的版本演变</h2>
+      <p class="step-lede">点击左侧时间线的不同版本, 看 Prompt 是怎么一步步优化的:</p>
+      <div class="version-timeline">
+        <div class="vt-title">Vitamin 每日总结 — Prompt 版本历史</div>
+        <ul class="vt-list" id="vt-list"></ul>
+        <div class="vt-detail" id="vt-detail"></div>
+      </div>
+      <div class="callout callout-amber"><p><strong>注意演变规律:</strong> v1.0 很简单 (准确率 78%); v1.1 加了上下文 (84%); v1.2 优化了结构和语气 (91%); v2.0 加了安全限制 (93%). 每次改进都有明确的原因和数据支持.</p></div>
+      <div class="step-foot">Vitamin 的完整方案 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 Prompt 管理规范</h2>
+      <div class="can-cant">
+        <article class="can-list"><h3 class="can-head">&#10003; 规范要求</h3><ul>
+          <li>每个 AI 功能有独立的 Prompt, 独立版本号</li>
+          <li>所有 Prompt 存储在配置中心, 不硬编码</li>
+          <li>变更需 PM + 算法双签</li>
+          <li>大版本灰度 7 天, 小修可热更新</li>
+          <li>保留最近 10 个版本, 支持一键回滚</li>
+        </ul></article>
+        <article class="cant-list"><h3 class="cant-head">&#10007; 禁止事项</h3><ul>
+          <li>工程师私自改 Prompt 不通知 PM</li>
+          <li>Prompt 只存在代码里, 不在配置中心</li>
+          <li>改完 Prompt 不跑评测就上线</li>
+          <li>没有回滚机制就做大版本更新</li>
+          <li>A/B 测试不到 7 天就下结论</li>
+        </ul></article>
+      </div>
+      <div class="callout callout-red"><strong>面试金句:</strong><p>"在 AI 产品中, Prompt 是产品代码. 我会在 PRD 里建立 Prompt 管理规范: 版本号、变更日志、PM+算法双签审批、A/B 测试、灰度发布、一键回滚. 每次 Prompt 变更都等同于一次产品发版, 必须有评测数据支持."</p></div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 课后作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话:</div><p class="one-liner-text">Prompt 是产品代码 —<br/>每次改动都需要版本号、评测、回滚能力.</p><p class="one-liner-foot muted">改 Prompt ≈ 产品发版. 不评测就上线 = 不测试就发布.</p></div>
+      <div class="callout callout-green"><strong>课后作业 (30 分钟):</strong><ol>
+        <li>为 Vitamin 的 "健康问答" 功能, 写一个 System Prompt (100-200 字), 标注为 v1.0.</li>
+        <li>修改 Prompt 的一个方面 (如语气/结构/约束), 标注为 v1.1, 写清楚变更记录.</li>
+        <li>设计一个 A/B 测试方案: v1.0 vs v1.1, 分别给 50% 用户, 跑 7 天, 主指标是什么?</li>
+        <li>去 PromptLayer 或 Humanloop 的官网看看, 了解专业的 Prompt 版本管理工具长什么样.</li>
+      </ol></div>
+      <div class="callout callout-green" style="transform:rotate(0.3deg);"><strong>资源延伸:</strong>
+        <table class="resource-table"><thead><tr><th>类型</th><th>内容</th><th>来源</th><th>推荐理由</th><th>时长</th></tr></thead><tbody>
+          <tr><td>&#128736;</td><td><a href="https://www.promptlayer.com/" target="_blank">PromptLayer</a></td><td>PromptLayer</td><td>最流行的 Prompt 版本管理 + A/B 测试平台</td><td>10 min</td></tr>
+          <tr><td>&#128196;</td><td><a href="https://launchdarkly.com/blog/prompt-versioning-and-management/" target="_blank">Prompt Versioning Guide</a></td><td>LaunchDarkly</td><td>Prompt 版本管理的完整指南</td><td>15 min</td></tr>
+          <tr><td>&#128196;</td><td><a href="https://blog.promptlayer.com/you-should-be-a-b-testing-your-prompts/" target="_blank">You Should Be A/B Testing Your Prompts</a></td><td>PromptLayer Blog</td><td>为什么 Prompt 需要 A/B 测试</td><td>10 min</td></tr>
+          <tr><td>&#128196;</td><td><a href="https://www.braintrust.dev/articles/best-prompt-versioning-tools-2025" target="_blank">5 Best Prompt Versioning Tools</a></td><td>Braintrust</td><td>2025 年 Prompt 版本管理工具对比</td><td>10 min</td></tr>
+        </tbody></table>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> Prompt 的蝴蝶效应</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 管理现状: 一团糟</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 4 阶段生命周期</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 版本号规范</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> A/B 测试</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 灰度发布</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> PRD 怎么写</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 版本演变实操</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 管理规范</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 5:</p><p class="end-summary-big">Prompt = 产品代码.<br/>版本号 + 评审 + A/B + 灰度 + 回滚.</p><p class="end-summary-sub">每次改 Prompt 都等同于产品发版, 需要数据支持.</p></div>
+      <div class="next-card"><div class="next-tag">下节课 (Unit 6): 成本预算栏</div><p>4 个核心模块学完了. 但 AI 产品还有一个传统产品没有的问题: <strong>每次 API 调用都在烧钱</strong>. token 数 &times; 单价 &times; 调用频率 = 月成本. 算清楚再开工.</p><a class="walk-arrow" href="../u6-cost-budget/index.html">继续走 &rarr; Unit 6</a></div>
+    </section>
+  </main>
+
+  <footer class="footer"><p>AI for PM · Module 2.1 · Unit 5 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

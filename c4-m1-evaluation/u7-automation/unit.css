@@ -1,0 +1,32 @@
+/* U7 — Automation Pipeline · unit-specific styles */
+.pipe-widget{background:var(--bg-card);border:2px solid var(--ink);border-radius:12px;padding:24px;margin:24px 0;box-shadow:var(--shadow-card)}
+.pipe-timeline{display:flex;flex-direction:column;gap:0;margin:16px 0;position:relative}
+.pipe-stage{display:flex;align-items:flex-start;gap:14px;padding:16px;background:var(--bg-elev);border:2px solid var(--border);border-radius:10px;margin-bottom:0;position:relative;transition:all .3s;cursor:pointer}
+.pipe-stage:hover{box-shadow:var(--shadow-card)}
+.pipe-stage.active{border-color:var(--blue);background:var(--blue-bg-soft)}
+.pipe-stage.done{border-color:var(--green);background:var(--green-bg-soft)}
+.pipe-stage.running{border-color:var(--amber);background:var(--amber-bg-soft);animation:pulseBorder 1.5s ease infinite}
+@keyframes pulseBorder{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.3)}50%{box-shadow:0 0 0 6px rgba(245,158,11,0)}}
+.pipe-connector{width:2px;height:16px;background:var(--border);margin:0 0 0 28px}
+.pipe-connector.done{background:var(--green)}
+.pipe-num{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Excalifont",system-ui;font-size:18px;font-weight:700;flex-shrink:0;border:2px solid var(--border);background:var(--bg-card);color:var(--ink-soft);transition:all .3s}
+.pipe-stage.done .pipe-num{background:var(--green);border-color:var(--green);color:white}
+.pipe-stage.running .pipe-num{background:var(--amber);border-color:var(--amber);color:white}
+.pipe-stage-content{flex:1}
+.pipe-stage-title{font-family:"Excalifont","LXGW WenKai Screen",system-ui;font-size:16px;font-weight:600;margin:0 0 4px}
+.pipe-stage-desc{font-size:13px;color:var(--ink-soft);margin:0}
+.pipe-stage-result{margin-top:8px;padding:8px 12px;background:var(--bg-card);border:1px dashed var(--border);border-radius:6px;font-size:12px;color:var(--ink-soft);display:none}
+.pipe-stage.done .pipe-stage-result{display:block;animation:fadeSlide .3s ease}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.pipe-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.pipe-report{margin-top:20px;padding:16px;background:var(--bg-elev);border:2px solid var(--green);border-radius:10px;display:none}
+.pipe-report.visible{display:block;animation:fadeSlide .4s ease}
+.pipe-report h4{font-family:"Excalifont","LXGW WenKai Screen",system-ui;font-size:16px;margin:0 0 12px;color:var(--green)}
+.pipe-report-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border);font-size:13px}
+.pipe-report-row:last-child{border-bottom:none}
+.pipe-report-label{color:var(--ink-soft)}
+.pipe-report-val{font-weight:600}
+.resource-table{width:100%;border-collapse:collapse;font-size:14px}
+.resource-table th{text-align:left;padding:8px 10px;border-bottom:2px solid var(--border);font-weight:600;color:var(--ink-muted);font-size:12px}
+.resource-table td{padding:8px 10px;border-bottom:1px dashed var(--border);vertical-align:top}
+.resource-table a{color:var(--blue)}

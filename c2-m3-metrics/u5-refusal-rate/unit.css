@@ -1,0 +1,48 @@
+/* U5 · Refusal Rate — unit-specific styles */
+.refusal-slider-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.refusal-meter {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 18px; flex-wrap: wrap;
+}
+.refusal-meter label { font-weight: 600; font-size: 15px; min-width: 140px; }
+.refusal-val {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 28px; font-weight: 700; min-width: 60px; text-align: center;
+}
+.refusal-consequences {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;
+}
+@media (max-width: 600px) { .refusal-consequences { grid-template-columns: 1fr; } }
+.refusal-con {
+  padding: 14px; border-radius: 10px; font-size: 14px;
+}
+.refusal-con.risk { background: var(--red-bg-soft); border: 1.5px solid var(--red); }
+.refusal-con.benefit { background: var(--green-bg-soft); border: 1.5px solid var(--green); }
+.refusal-con h4 { margin: 0 0 6px; font-size: 15px; }
+.refusal-con.risk h4 { color: var(--red); }
+.refusal-con.benefit h4 { color: var(--green); }
+.refusal-con p { margin: 0; color: var(--ink-soft); }
+.refusal-verdict {
+  text-align: center; padding: 14px; border-radius: 8px; font-weight: 700; font-size: 16px;
+  margin-top: 10px;
+}
+.spectrum-bar {
+  position: relative; height: 50px; border-radius: 8px; margin: 24px 0;
+  background: linear-gradient(90deg, var(--red-bg) 0%, var(--green-bg) 30%, var(--green-bg) 70%, var(--red-bg) 100%);
+  border: 1.5px solid var(--border-strong);
+}
+.spectrum-labels {
+  display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-muted); margin-top: 6px;
+}
+.spectrum-sweet {
+  position: absolute; top: 0; height: 100%; background: rgba(34,197,94,0.15);
+  border-left: 2px dashed var(--green); border-right: 2px dashed var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--green);
+}

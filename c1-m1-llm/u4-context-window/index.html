@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · Context Window — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Unit 4: 模型的'短期记忆'上限. 满了之后会发生什么." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M1</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 4 · Context Window</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>Context Window</h1>
+      <p class="hero-sub">AI 的 "短期记忆" 到底有多大? 满了之后会怎样?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/>
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 学完 Token)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">我跟 ChatGPT 聊了 20 条, 它突然忘了第 3 条说的事?</p>
+          <p class="cloud-line">Vitamin 要做多轮对话, 会不会聊着聊着就 "失忆"?</p>
+          <p class="cloud-line accent">—— 今天搞清楚.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道 Context Window 是什么、上限是多少</li>
+          <li>理解 "Lost in the Middle" 现象</li>
+          <li>知道窗口满了之后的 3 种应对策略</li>
+          <li>给 Vitamin 设计一个多轮对话的 context 管理方案</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) 失忆现象 -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">AI 的 "失忆" 现场</h2>
+      <p class="step-lede">试过这样的场景吗 ——</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>第 1 条:</strong> "我叫产品经理, 在深圳, 做健康类 AI 产品."</p>
+        <p><strong>第 5 条:</strong> "帮我分析一下用户画像."</p>
+        <p><strong>第 12 条:</strong> "那你觉得我们产品应该怎么定位?"</p>
+        <p><strong>第 18 条:</strong> "对了, 我第 1 条说的那个产品叫什么来着?"</p>
+        <p style="margin-top:12px;"><strong>AI 的回答:</strong> <span style="color:var(--red);">"抱歉, 根据我们的对话记录, 你没有提到具体的产品名..."</span></p>
+        <p class="muted" style="margin-top:8px;">→ 你明明第 1 条就说了. 但 AI "忘了".</p>
+      </div>
+
+      <p>这不是 bug. 这是 AI 的<em>物理限制</em> — 它的 "短期记忆" 有一个硬上限.</p>
+      <p>这个上限叫 <mark class="hl">Context Window</mark>.</p>
+
+      <div class="step-foot">Context Window 到底是什么? ↓</div>
+    </section>
+
+    <!-- (2) 错猜测 vs 真相 -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">AI 没有 "长期记忆"</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>猜测: AI 像人一样有记忆</h3>
+          <p>它记住了我之前说的每句话, 就像人记日记.</p>
+          <div class="wrong-why"><strong>不对:</strong> AI 没有"记忆". 每次你看到的 "上下文", 都是你自己的对话被完整塞进去重新处理的. 它不是 "想起来", 是 "重新读了一遍".</div>
+        </article>
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>猜测: 越贵的模型记忆越好</h3>
+          <p>GPT-4 比 GPT-3.5 贵, 记忆肯定更大?</p>
+          <div class="wrong-why"><strong>半对:</strong> GPT-4 的 context window 确实比 GPT-3.5 大 (128K vs 4K). 但 "大" 不等于 "好" — 中间的信息依然会被忽略.</div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">Context Window = <mark class="hl">模型一次能 "看到" 的全部内容</mark>.</p>
+        <p class="truth-line giant">它不是记忆, 是一个固定大小的框.</p>
+        <p class="truth-line">每次调用, 你的 system prompt + 对话历史 + 新输入, 全部塞进这个框里. 超过框的部分, AI <strong>完全看不到</strong>.</p>
+        <p class="truth-line muted">→ 类比: Context Window 是一张桌子. 你能同时摊开多少张纸取决于桌子大小. 放不下的纸, 就得收起来 — AI 看不到收起来的.</p>
+      </div>
+
+      <div class="step-foot">这个 "框" 里装的到底是什么? ↓</div>
+    </section>
+
+    <!-- (3) Context = 三块内容 -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Context = 四块内容, 挤在一个框里</h2>
+      <p class="step-lede">每次调用 API, 模型看到的是这四块拼在一起:</p>
+
+      <div class="context-diagram" data-rough="card">
+        <div class="context-bar">
+          <div class="ctx-segment ctx-system" style="width:15%;">System</div>
+          <div class="ctx-segment ctx-history" style="width:35%;">对话历史</div>
+          <div class="ctx-segment ctx-input" style="width:15%;">用户输入</div>
+          <div class="ctx-segment ctx-output" style="width:15%;">AI 输出</div>
+          <div class="ctx-segment ctx-empty" style="width:20%;">剩余空间</div>
+        </div>
+        <div class="context-legend">
+          <div class="legend-item"><span class="legend-dot" style="background:var(--purple);"></span> System Prompt (人设/规则)</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--blue);"></span> 对话历史 (之前的问答)</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--green);"></span> 当前用户输入</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--amber);"></span> AI 生成的输出</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>关键认知:</strong>
+        <ol>
+          <li><strong>System Prompt 每次都要占位</strong>: 如果你的 system prompt 有 1000 tokens, 每次对话都要 "交" 这 1000 token 的 "房租"</li>
+          <li><strong>对话越长, 历史越大</strong>: 聊 10 轮, 历史可能已经有 3000 tokens</li>
+          <li><strong>输出也算</strong>: AI 生成的回复也占 context 空间</li>
+          <li><strong>总和不能超过上限</strong>: 超了就得砍</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">那这个上限到底是多大? ↓</div>
+    </section>
+
+    <!-- (4) 窗口大小对比 -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">各家模型的 Context 上限</h2>
+      <p class="step-lede">不同模型, 桌子大小差别很大:</p>
+
+      <div class="window-cards">
+        <div class="window-card" data-rough="card">
+          <div class="window-model">GPT-3.5</div>
+          <div class="window-size">4K</div>
+          <div class="window-equiv">≈ 3 页 A4 纸</div>
+        </div>
+        <div class="window-card" data-rough="card">
+          <div class="window-model">GPT-4o</div>
+          <div class="window-size">128K</div>
+          <div class="window-equiv">≈ 200 页书</div>
+        </div>
+        <div class="window-card" data-rough="card">
+          <div class="window-model">Claude</div>
+          <div class="window-size">200K</div>
+          <div class="window-equiv">≈ 300 页书</div>
+        </div>
+        <div class="window-card" data-rough="card">
+          <div class="window-model">DeepSeek</div>
+          <div class="window-size">128K</div>
+          <div class="window-equiv">≈ 200 页书</div>
+        </div>
+        <div class="window-card" data-rough="card">
+          <div class="window-model">Gemini</div>
+          <div class="window-size">1M</div>
+          <div class="window-equiv">≈ 7 本书!</div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>从 4K 到 1M — 3 年扩大了 250 倍.</strong></p>
+        <p>但别急着高兴 — 大窗口不代表用得好. 下一步告诉你为什么.</p>
+      </div>
+
+      <div class="step-foot">128K 够用了吧? 其实有个大坑 ↓</div>
+    </section>
+
+    <!-- (5) Lost in the Middle -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">"Lost in the Middle" — 大 ≠ 好</h2>
+      <p class="step-lede">Google 的研究发现: 即使 context 够大, 模型对<mark class="hl">中间位置</mark>的信息也 "不太上心".</p>
+
+      <div class="litm-chart" data-rough="card">
+        <div style="font-size:13px;color:var(--ink-muted);margin-bottom:8px;font-weight:600;">模型对不同位置信息的注意力强度</div>
+        <div class="litm-bars">
+          <div class="litm-bar" style="height:0%;background:var(--green);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--green);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--green);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--amber);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--amber);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--red);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--red);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--red);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--red);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--amber);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--amber);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--amber);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--green);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--green);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--green);"></div>
+          <div class="litm-bar" style="height:0%;background:var(--green);"></div>
+        </div>
+        <div class="litm-labels">
+          <span>← 开头 (高注意力)</span>
+          <span style="color:var(--red);">中间 (低注意力)</span>
+          <span>结尾 (高注意力) →</span>
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>PM 实用含义:</strong>
+        <ol>
+          <li>System prompt 放在最前面 → 注意力高 ✓</li>
+          <li>用户最新的问题在最后面 → 注意力高 ✓</li>
+          <li>对话历史中间的信息 → <strong>容易被忽略</strong> ✗</li>
+        </ol>
+        <p>所以 "我之前说过 X" 这种引用, AI 可能真的 "没注意到".</p>
+        <p class="muted">→ 论文: "Lost in the Middle: How Language Models Use Long Contexts" (2023, Google/Stanford)</p>
+      </div>
+
+      <div class="step-foot">那 context 满了之后, 怎么处理? ↓</div>
+    </section>
+
+    <!-- (6) 满了之后的策略 -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">满了之后: 三种应对策略</h2>
+
+      <div class="strategy-cards">
+        <div class="strategy-card" data-rough="card">
+          <div class="strategy-name" style="color:var(--blue);">策略 1: 截断最早的</div>
+          <p style="font-size:14px;color:var(--ink-soft);">像聊天记录一样, 只保留最近 N 轮. 最简单, 但用户之前说的重要信息会丢失.</p>
+          <p style="font-size:13px;color:var(--ink-muted);"><strong>适合:</strong> 简单问答类产品</p>
+        </div>
+        <div class="strategy-card" data-rough="card">
+          <div class="strategy-name" style="color:var(--red);">策略 2: 报错拒绝</div>
+          <p style="font-size:14px;color:var(--ink-soft);">超过上限直接报错 "对话太长, 请新建一个". 粗暴但安全.</p>
+          <p style="font-size:13px;color:var(--ink-muted);"><strong>适合:</strong> 早期 MVP, 不想处理复杂逻辑</p>
+        </div>
+        <div class="strategy-card" data-rough="card">
+          <div class="strategy-name" style="color:var(--green);">策略 3: 摘要压缩</div>
+          <p style="font-size:14px;color:var(--ink-soft);">把早期对话让 AI 压缩成摘要, 用摘要替代原文. 最优雅, 但摘要可能丢细节.</p>
+          <p style="font-size:13px;color:var(--ink-muted);"><strong>适合:</strong> Vitamin 这类需要多轮追踪的产品</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>实际产品通常组合使用:</strong>
+        <p>System prompt (固定) + 摘要 (压缩早期) + 最近 3-5 轮原文 (保留最新上下文).</p>
+        <p>ChatGPT / Claude 的 "记忆" 功能, 本质就是策略 3 的变体.</p>
+      </div>
+
+      <div class="step-foot">Context 越长, 钱也越贵 ↓</div>
+    </section>
+
+    <!-- (7) 成本影响 -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Context 越长 = 每次调用越贵</h2>
+      <p class="step-lede">API 是按 <mark class="hl">输入 token 数 + 输出 token 数</mark> 收费的. 你塞进 context 的每个 token 都算钱.</p>
+
+      <div class="callout callout-red" data-rough="card">
+        <p><strong>一笔简单的账:</strong></p>
+        <ul>
+          <li>System prompt: ~200 tokens (每次都要付)</li>
+          <li>对话历史 (5 轮): ~500 tokens</li>
+          <li>用户新输入: ~50 tokens</li>
+          <li>AI 回复: ~150 tokens</li>
+        </ul>
+        <p>总计: <strong>~900 tokens / 次</strong></p>
+        <p style="margin-top:8px;">如果对话到了 20 轮, 历史膨胀到 ~3000 tokens:</p>
+        <p>总计: <strong>~3400 tokens / 次</strong> — 是第 1 轮的 <span style="color:var(--red);font-weight:600;">4 倍</span>.</p>
+      </div>
+
+      <p>这意味着:</p>
+      <ul>
+        <li>对话越长, 每次调用越贵 (因为历史越来越大)</li>
+        <li>用策略 3 (摘要压缩) 可以把历史压缩到固定大小, 控制成本</li>
+        <li>限制对话轮数也是一种成本控制手段</li>
+      </ul>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 经验法则:</strong>
+        <p>"设计产品时, 永远假设 context 是稀缺资源. 每个塞进 context 的 token, 都在烧钱."</p>
+      </div>
+
+      <div class="step-foot">来动手试试 — 看 context 怎么填满 ↓</div>
+    </section>
+
+    <!-- (8) 互动 widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: 看 Context Window 怎么填满</h2>
+      <p class="step-lede">点 "下一条消息" 模拟一段 Vitamin 对话. 看 context 窗口怎么一步步被填满:</p>
+
+      <div class="bucket-widget" data-rough="card">
+        <div class="bucket-header">
+          <div class="bucket-meter">
+            <span class="bucket-meter-used" id="bucket-used">0</span>
+            <span class="bucket-meter-limit"> / <span id="bucket-limit">400</span> tokens</span>
+          </div>
+          <div class="bucket-model-select">
+            <button class="bucket-model-btn active" data-model="gpt35">GPT-3.5 (4K)</button>
+            <button class="bucket-model-btn" data-model="gpt4">GPT-4 (128K)</button>
+            <button class="bucket-model-btn" data-model="claude">Claude (200K)</button>
+          </div>
+        </div>
+
+        <div class="bucket-progress">
+          <div class="bucket-progress-fill" id="bucket-progress-fill"></div>
+        </div>
+
+        <div class="bucket-container" id="bucket-container">
+          <div style="color:var(--ink-muted);text-align:center;padding:20px;font-size:14px;">点击 "+ 下一条消息" 开始模拟对话</div>
+        </div>
+
+        <div class="bucket-controls">
+          <button id="bucket-add" class="btn btn-primary">+ 下一条消息</button>
+          <button id="bucket-reset" class="btn btn-ghost">重来</button>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>试试这些:</strong>
+        <ol>
+          <li>用 GPT-3.5 (4K) 模式 — 看几轮后 context 就满了?</li>
+          <li>切到 GPT-4 (128K) — 是不是宽裕很多?</li>
+          <li>注意看: 满了之后, 最早的消息变灰色 (被截断了)</li>
+        </ol>
+        <p class="muted">→ 小模型 3-4 轮就满了. 大模型可以撑十几轮. 但不管多大, 终会满.</p>
+      </div>
+
+      <div class="step-foot">把这个知识用到 Vitamin 上 ↓</div>
+    </section>
+
+    <!-- (9) Vitamin 案例 -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 多轮对话怎么管 Context</h2>
+      <p class="step-lede"><mark class="hl">Vitamin 需要追踪用户 5 种身体状态, 记住历史. 但 context 有限.</mark></p>
+
+      <div class="can-cant">
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">✓ 可以这么设计</h3>
+          <ul>
+            <li><strong>System prompt 精简</strong>: 控制在 200 tokens 以内</li>
+            <li><strong>摘要压缩</strong>: 每 5 轮, 让 AI 压缩历史到 ~100 tokens</li>
+            <li><strong>状态卡片</strong>: 用结构化 JSON 保存用户 5 状态, 固定 50 tokens</li>
+            <li><strong>最近 3 轮原文</strong>: 保持最新上下文的完整性</li>
+            <li><strong>选 128K 模型</strong>: 用 DeepSeek V3, 空间够大</li>
+          </ul>
+        </article>
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">✗ 别这么做</h3>
+          <ul>
+            <li><strong>无限保留所有历史</strong>: 20 轮后 context 炸了</li>
+            <li><strong>把文档塞进 context</strong>: 一份说明书 5000 tokens, 直接占满</li>
+            <li><strong>忽略 lost-in-middle</strong>: 重要信息放在中间, AI 会忽略</li>
+            <li><strong>不限制对话轮数</strong>: 成本随轮数线性增长</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句, 抄走:</strong>
+        <p>"Context Window 是多轮对话的天花板. 我设计 Vitamin 时, 用 '摘要 + 最近 3 轮 + 结构化状态卡' 的策略管理 context, 既保证连贯性, 又控制成本. 每次调用控制在 500 tokens 以内."</p>
+      </div>
+
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) 规则 + 作业 -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Context Window = AI 的短期记忆.<br/>满了就失忆. 管好这个窗口是 PM 的活.</p>
+        <p class="one-liner-foot muted">每次调用, 先算: System + 历史 + 输入 + 输出 = 总共多少 token?</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 ChatGPT, 连续聊 15 轮关于 Vitamin 的话题. 在第 15 轮, 问它 "我第 1 轮说了什么?" — 看它能不能记住.</li>
+          <li>写一个 Vitamin 的 system prompt (控制在 200 tokens 以内). 用 tiktokenizer 验证 token 数.</li>
+          <li>设计一个 "Vitamin 状态卡片" JSON 格式, 记录用户的 5 种身体状态, 估算它占多少 tokens.</li>
+          <li>画一张图: Vitamin 每次 API 调用时, context 里应该装什么? 各占多少 token?</li>
+        </ol>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>📄</td>
+                <td><a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener">Lost in the Middle (论文)</a></td>
+                <td>Google 论文, 揭示模型忽略中间信息的现象</td>
+                <td>30 min</td>
+              </tr>
+              <tr>
+                <td>📺</td>
+                <td><a href="https://www.youtube.com/watch?v=kCc8FmEb1nY" target="_blank" rel="noopener">Karpathy: Let's build GPT</a></td>
+                <td>从零实现 Transformer, 理解 context 的底层机制</td>
+                <td>2 hr</td>
+              </tr>
+              <tr>
+                <td>🎮</td>
+                <td><a href="https://tiktokenizer.vercel.app/" target="_blank" rel="noopener">Tiktokenizer</a></td>
+                <td>计算你的 prompt 占多少 tokens, 估算 context 预算</td>
+                <td>5 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td><a href="https://platform.openai.com/docs/guides/text-generation" target="_blank" rel="noopener">OpenAI: Text Generation Guide</a></td>
+                <td>官方文档, 讲解 context window 的使用和限制</td>
+                <td>20 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> AI 的失忆现场</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 没有长期记忆</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Context = 四块内容</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 各家窗口大小</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Lost in the Middle</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 满了的三种策略</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Context 越长越贵</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Memory Bucket 模拟</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin context 管理</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">Context Window = AI 的短期记忆框.<br/>它不记事, 它只看框里的内容. 管好这个框.</p>
+        <p class="end-summary-sub">System prompt + 摘要 + 最近几轮 = 最优的 context 管理策略.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 5): Temperature</div>
+        <p>U1 我们提过 Temperature, 但只是浅尝. 下节课深入 ——<br/>
+          <strong>Temperature 到底在数学上干了什么? 它是怎么把 "严谨" 变成 "放飞" 的?</strong></p>
+        <p>理解了 Temperature, 你就掌握了调 AI 行为的第一个旋钮.</p>
+        <a class="walk-arrow" href="../u5-temperature/index.html">继续走 → Unit 5</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1 · Unit 4 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+/* ============================================
+   Unit 6 · Top-P / Top-K — unit-specific
+   ============================================ */
+
+/* Dual threshold widget */
+.threshold-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.threshold-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 200px;
+  padding: 0 4px 0 4px;
+  margin-bottom: 8px;
+  border-bottom: 2px solid var(--ink);
+  position: relative;
+}
+.threshold-bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+.threshold-bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.4s ease, opacity 0.3s, background 0.3s;
+  position: relative;
+  min-height: 2px;
+}
+.threshold-bar.filtered {
+  opacity: 0.15;
+}
+.threshold-bar.kept {
+  opacity: 1;
+}
+.threshold-bar-pct {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.threshold-bar-label {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 6px;
+  color: var(--ink-soft);
+}
+.threshold-bar.filtered + .threshold-bar-label,
+.threshold-bar-wrap.filtered .threshold-bar-label {
+  color: var(--ink-faint);
+}
+
+/* Top-K line indicator */
+.topk-line {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-right: 3px dashed var(--red);
+  transition: left 0.3s;
+  pointer-events: none;
+  z-index: 2;
+}
+.topk-label {
+  position: absolute;
+  top: -20px;
+  right: -30px;
+  font-size: 11px;
+  color: var(--red);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Controls */
+.threshold-controls {
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+}
+.threshold-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.threshold-label {
+  min-width: 80px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.threshold-val {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  min-width: 50px;
+}
+.threshold-slider { flex: 1; min-width: 100px; }
+.threshold-info {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-left: auto;
+}
+
+.threshold-summary {
+  background: var(--bg-elev);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  border-left: 3px solid var(--purple);
+}
+
+/* Pipeline diagram */
+.pipeline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.pipeline-step {
+  background: var(--bg-card);
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 80px;
+}
+.pipeline-step:nth-child(1) { border-color: var(--ink-muted); }
+.pipeline-step:nth-child(3) { border-color: var(--red); color: var(--red); }
+.pipeline-step:nth-child(5) { border-color: var(--blue); color: var(--blue); }
+.pipeline-step:nth-child(7) { border-color: var(--green); color: var(--green); }
+.pipeline-step:nth-child(9) { border-color: var(--amber); color: var(--amber); }
+.pipeline-arrow {
+  font-size: 18px;
+  color: var(--ink-faint);
+}
+
+/* API defaults table */
+.api-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 12px 0;
+}
+.api-table th {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.api-table td {
+  padding: 8px 12px;
+  border-bottom: 1px dashed var(--border);
+}
+.api-table tr:last-child td { border-bottom: none; }
+
+/* Resource table */
+.resource-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 12px 0; }
+.resource-table th { text-align: left; padding: 8px 10px; border-bottom: 2px solid var(--border-strong); font-size: 13px; color: var(--ink-muted); }
+.resource-table td { padding: 8px 10px; border-bottom: 1px dashed var(--border); vertical-align: top; }
+.resource-table tr:last-child td { border-bottom: none; }
+.resource-table a { color: var(--blue); text-decoration: none; }
+.resource-table a:hover { text-decoration: underline; }

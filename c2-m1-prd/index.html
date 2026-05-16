@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Module 2.1 · AI 版 PRD 4 模块写法 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Module 2.1: 8 个单元, 从传统 PRD 到 AI PRD 的 4 大模块 + 成本栏 + 隐私栏, 学会写 AI 产品的需求文档." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../shared/styles.css" />
+  <style>
+    .module-hero {
+      text-align: center;
+      padding: 60px 0 40px;
+    }
+    .module-tag {
+      display: inline-block;
+      background: var(--amber-bg);
+      border: 2px solid var(--amber);
+      color: var(--ink);
+      padding: 6px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      transform: rotate(-2deg);
+    }
+    .module-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 600;
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+    .module-sub {
+      font-size: 18px;
+      color: var(--ink-soft);
+      margin: 0 0 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .module-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .module-stat { text-align: center; }
+    .module-stat-num {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--blue);
+      display: block;
+    }
+    .module-stat-label { font-size: 13px; color: var(--ink-muted); }
+
+    .units-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      margin: 24px 0 40px;
+    }
+    @media (max-width: 700px) {
+      .units-grid { grid-template-columns: 1fr; }
+    }
+    .unit-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-strong);
+      border-radius: 12px 14px 13px 15px;
+      padding: 20px 22px;
+      text-decoration: none;
+      color: var(--ink);
+      display: block;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .unit-card:hover {
+      transform: translateY(-4px) rotate(-0.3deg);
+      box-shadow: var(--shadow-elev);
+    }
+    .unit-card:nth-child(odd) { transform: rotate(-0.4deg); }
+    .unit-card:nth-child(even) { transform: rotate(0.3deg); }
+    .unit-card:nth-child(odd):hover { transform: translateY(-4px) rotate(-0.7deg); }
+    .unit-card:nth-child(even):hover { transform: translateY(-4px) rotate(0deg); }
+
+    .unit-card-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .unit-card:nth-child(1) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(2) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(3) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+    .unit-card:nth-child(4) .unit-card-num { background: var(--red-bg); color: var(--red); border: 2px solid var(--red); }
+    .unit-card:nth-child(5) .unit-card-num { background: var(--purple-bg); color: var(--purple); border: 2px solid var(--purple); }
+    .unit-card:nth-child(6) .unit-card-num { background: var(--blue-bg); color: var(--blue); border: 2px solid var(--blue); }
+    .unit-card:nth-child(7) .unit-card-num { background: var(--amber-bg); color: var(--amber); border: 2px solid var(--amber); }
+    .unit-card:nth-child(8) .unit-card-num { background: var(--green-bg); color: var(--green); border: 2px solid var(--green); }
+
+    .unit-card-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 8px;
+      line-height: 1.3;
+    }
+    .unit-card-desc {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin: 0;
+      line-height: 1.5;
+    }
+    .unit-card-arrow {
+      position: absolute;
+      bottom: 16px;
+      right: 18px;
+      color: var(--green);
+      font-size: 18px;
+      transition: transform 0.2s;
+    }
+    .unit-card:hover .unit-card-arrow { transform: translateX(4px); }
+
+    .module-complete {
+      background: var(--green-bg);
+      border: 3px solid var(--green);
+      border-radius: 14px;
+      padding: 28px;
+      text-align: center;
+      margin: 40px 0;
+      box-shadow: var(--shadow-elev);
+      transform: rotate(-0.3deg);
+    }
+    .module-complete-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0 0 12px;
+      color: var(--ink);
+    }
+    .module-complete-desc {
+      font-size: 15px;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    .next-module {
+      background: var(--bg-card);
+      border: 2px dashed var(--purple);
+      border-radius: 12px;
+      padding: 22px 24px;
+      margin: 24px 0 40px;
+      transform: rotate(0.3deg);
+      box-shadow: var(--shadow-card);
+    }
+    .next-module-tag {
+      display: inline-block;
+      background: var(--purple-bg);
+      color: var(--purple);
+      padding: 3px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .prev-module {
+      background: var(--bg-card);
+      border: 2px dashed var(--ink-faint);
+      border-radius: 12px;
+      padding: 18px 24px;
+      margin: 0 0 24px;
+      transform: rotate(-0.2deg);
+      box-shadow: var(--shadow-card);
+    }
+    .prev-module-tag {
+      display: inline-block;
+      background: var(--bg-elev);
+      color: var(--ink-muted);
+      padding: 3px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Module 2.1 Overview</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="canvas" style="max-width:860px;">
+
+    <!-- Previous module link -->
+    <div class="prev-module">
+      <div class="prev-module-tag">上一个模块: Module 1.1</div>
+      <p style="font-size:15px;color:var(--ink-soft);margin:4px 0;">LLM 工作机制 + 8 个核心概念 — 已经建立了 AI PM 的核心认知基础.</p>
+      <a href="../c1-m1-llm/index.html" style="color:var(--ink-muted);text-decoration:none;font-size:14px;">&larr; 回顾 Module 1.1</a>
+    </div>
+
+    <!-- Module hero -->
+    <div class="module-hero">
+      <div class="module-tag">Course 2: Define · Module 1</div>
+      <h1 class="module-title">AI 版 PRD<br/>4 模块写法</h1>
+      <p class="module-sub">传统 PRD 描述 "点击什么 → 发生什么". AI PRD 描述 "概率性输出 + 兜底 + 评测". 8 个单元, 从零写出一份完整的 AI 产品需求文档.</p>
+
+      <div class="module-stats">
+        <div class="module-stat">
+          <span class="module-stat-num">8</span>
+          <span class="module-stat-label">单元</span>
+        </div>
+        <div class="module-stat">
+          <span class="module-stat-num">~80</span>
+          <span class="module-stat-label">分钟阅读</span>
+        </div>
+        <div class="module-stat">
+          <span class="module-stat-num">8</span>
+          <span class="module-stat-label">互动小工具</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Units grid -->
+    <div class="units-grid">
+
+      <a href="./u1-traditional-vs-ai/index.html" class="unit-card">
+        <div class="unit-card-num">1</div>
+        <h2 class="unit-card-title">传统 PRD vs AI PRD 的本质差异</h2>
+        <p class="unit-card-desc">传统 PRD 写 "点击什么 → 发生什么", AI PRD 多了一个不确定性维度: 概率性输出 + 兜底 + 评测.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u2-io-schema/index.html" class="unit-card">
+        <div class="unit-card-num">2</div>
+        <h2 class="unit-card-title">AI PRD 模块 1: 模型 IO 描述</h2>
+        <p class="unit-card-desc">Input Schema + Output Schema = 给算法工程师看的合同. 定义清楚 "什么进去, 什么出来".</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u3-metrics/index.html" class="unit-card">
+        <div class="unit-card-num">3</div>
+        <h2 class="unit-card-title">AI PRD 模块 2: 效果指标定义</h2>
+        <p class="unit-card-desc">准确率 / 接受率 / 拒答率 / 平均延迟. 每个指标的目标值, 不达标怎么兜底.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u4-fallback/index.html" class="unit-card">
+        <div class="unit-card-num">4</div>
+        <h2 class="unit-card-title">AI PRD 模块 3: 错误兜底机制</h2>
+        <p class="unit-card-desc">AI 答错了怎么办? 5 类兜底: 重试 / 切模型 / 切规则 / 转人工 / 直接拒答.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u5-prompt-mgmt/index.html" class="unit-card">
+        <div class="unit-card-num">5</div>
+        <h2 class="unit-card-title">AI PRD 模块 4: Prompt 模板管理</h2>
+        <p class="unit-card-desc">Prompt 也是产品资产. 版本号 / 变更日志 / A/B 实验 / 灰度发布.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u6-cost-budget/index.html" class="unit-card">
+        <div class="unit-card-num">6</div>
+        <h2 class="unit-card-title">PRD 中的成本预算栏</h2>
+        <p class="unit-card-desc">单次调用 token 数 × 模型单价 × 调用频率 = 月成本上限. 算清楚再开工.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u7-data-privacy/index.html" class="unit-card">
+        <div class="unit-card-num">7</div>
+        <h2 class="unit-card-title">PRD 中的数据来源 + 隐私要求</h2>
+        <p class="unit-card-desc">训练 / 检索 / 日志数据从哪来, 保留多久, 谁能看. 合规不是事后打补丁.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+      <a href="./u8-vitamin-prd-v2/index.html" class="unit-card">
+        <div class="unit-card-num">8</div>
+        <h2 class="unit-card-title">Vitamin PRD v2 实操</h2>
+        <p class="unit-card-desc">把 Vitamin 文档升级成完整 4 模块 + 成本栏 + 隐私栏的 AI PRD. 从头到尾写一遍.</p>
+        <span class="unit-card-arrow">&rarr;</span>
+      </a>
+
+    </div>
+
+    <!-- Module completion summary -->
+    <div class="module-complete">
+      <h2 class="module-complete-title">学完这 8 个单元, 你能做到:</h2>
+      <p class="module-complete-desc">
+        区分传统 PRD 和 AI PRD 的结构差异 · 写出模型 IO Schema ·<br/>
+        定义 AI 效果指标和兜底机制 · 管理 Prompt 版本 ·<br/>
+        估算 API 成本预算 · 写出符合隐私合规的数据栏 ·<br/>
+        独立完成一份完整的 AI 产品 PRD
+      </p>
+    </div>
+
+    <!-- Next module teaser -->
+    <div class="next-module">
+      <div class="next-module-tag">下一个模块: Module 2.2</div>
+      <h3 style="margin:8px 0;">Token 经济学</h3>
+      <p style="font-size:15px;color:var(--ink-soft);">学会了写 AI PRD, 接下来要回答: <strong>一个 AI 功能到底要花多少钱?</strong> 从 token 定价到 ROI 计算, 让你在产品评审时拿出真实的数字.</p>
+      <a href="../c2-m2-cost/index.html" style="color:var(--green);text-decoration:none;font-family:'Excalifont','LXGW WenKai Screen',system-ui,sans-serif;font-size:18px;display:inline-block;margin-top:8px;">进入 Module 2.2 &rarr;</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 2: Define · Module 2.1 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../shared/rough.min.js"></script>
+  <script src="../shared/app.js"></script>
+</body>
+</html>

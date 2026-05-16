@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 6 · 架构选型决策树 — AI for PM · M2.4</title>
+  <meta name="description" content="6 个 yes/no 问题, 自动推荐最合适的 AI 架构." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.4</span></a><div class="topbar-right"><span class="unit-label">Unit 6 · 决策树</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 6<span class="title-dot">·</span><br/>架构选型决策树</h1>
+      <p class="hero-sub">6 个问题, 自动选出最合适的架构.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">老板给了一个新需求, 需要 AI 实现.</p>
+          <p class="cloud-line">4 种架构我都学了, 但具体这个需求该用哪种?</p>
+          <p class="cloud-line accent">—— 6 个 Yes/No 问题, 帮你选.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>掌握 6 步决策树的完整逻辑</li>
+          <li>面对任何 AI 需求, 3 分钟选出架构</li>
+          <li>面试时画决策树, 展示系统化思维</li>
+          <li>用决策树分析 Vitamin 的每个功能</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">为什么需要决策树?</h2>
+      <p class="step-lede">你现在知道 4 种架构各自的优缺点. 但面对具体需求时, 还是会纠结. 原因: <mark class="hl">缺一个系统化的判断流程.</mark></p>
+      <div class="callout callout-blue">
+        <p><strong>决策树 = 把 "纠结" 变成 "流程".</strong></p>
+        <p style="font-size:14px;margin-top:6px;">每个分支都是一个明确的 Yes/No 问题. 回答完, 自动得出推荐. 不用凭感觉.</p>
+      </div>
+      <div class="step-foot">先看决策树的 6 个问题 &darr;</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">决策树的 6 个问题</h2>
+      <div class="tree-diagram">
+        <div class="tree-node"><span style="color:var(--blue);font-weight:700;">Q1</span><span class="tree-node-q">模型自带的知识够用吗?</span><span class="tree-leaf" style="background:var(--red-bg);color:var(--red);">No → RAG</span></div>
+        <div class="tree-node"><span style="color:var(--blue);font-weight:700;">Q2</span><span class="tree-node-q">需要溯源 (引用来源) 吗?</span><span class="tree-leaf" style="background:var(--blue-bg);color:var(--blue);">Yes → RAG</span></div>
+        <div class="tree-node"><span style="color:var(--blue);font-weight:700;">Q3</span><span class="tree-node-q">Prompt + Few-shot 效果满意吗?</span><span class="tree-leaf" style="background:var(--green-bg);color:var(--green);">Yes → Prompt-only</span></div>
+        <div class="tree-node"><span style="color:var(--blue);font-weight:700;">Q4</span><span class="tree-node-q">问题是 "风格/语调" 不对吗?</span><span style="font-size:13px;color:var(--ink-muted);">Yes → 继续 Q5</span></div>
+        <div class="tree-node"><span style="color:var(--blue);font-weight:700;">Q5</span><span class="tree-node-q">有 500+ 条标注数据 + 已 PMF?</span><span class="tree-leaf" style="background:var(--amber-bg);color:var(--amber);">Yes → Fine-tune</span></div>
+        <div class="tree-node"><span style="color:var(--blue);font-weight:700;">Q6</span><span class="tree-node-q">任务 3+ 步, 各步需要不同专长?</span><span class="tree-leaf" style="background:var(--red-bg);color:var(--red);">Yes → Multi-Agent</span></div>
+      </div>
+      <div class="step-foot">每个问题的细节 &darr;</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Q1-Q2: 知识够不够? 要不要溯源?</h2>
+      <p class="step-lede">这两个问题筛出 RAG 场景.</p>
+      <div class="callout callout-blue">
+        <p><strong>Q1: 模型自带的知识够用吗?</strong></p>
+        <p style="font-size:14px;">如果用户会问模型训练时不知道的事 (你的产品文档 / 最新行业报告 / 公司内部知识), 模型自带的知识不够 → RAG.</p>
+        <p style="margin-top:12px;"><strong>Q2: 需要溯源吗?</strong></p>
+        <p style="font-size:14px;">如果用户需要看到 "这个建议出自哪份指南", 或者合规要求必须标注信息来源 → RAG. Prompt-only 没法引用来源.</p>
+      </div>
+      <div class="step-foot">Q3: Prompt 够不够? &darr;</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Q3: Prompt + Few-shot 效果满意吗?</h2>
+      <p class="step-lede">如果到了这一步, 说明知识不是问题. 那先试 Prompt.</p>
+      <div class="callout callout-green">
+        <p><strong>试过才知道够不够.</strong></p>
+        <p style="font-size:14px;">很多人跳过这一步, 直接上 RAG 或 Fine-tune. 但 2026 年的模型 + 精心设计的 Prompt + 3-5 个 Few-shot examples, 能解决的问题比你想的多得多.</p>
+        <p style="font-size:14px;margin-top:6px;">效果满意 → <strong>就用 Prompt-only</strong>. 最简单就是最好.</p>
+      </div>
+      <div class="step-foot">Q4-Q5: 风格问题? &darr;</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Q4-Q5: 是风格问题吗? 有数据吗?</h2>
+      <p class="step-lede">Prompt 效果不满意. 到底是什么不满意?</p>
+      <div class="two-wrong">
+        <article class="wrong" style="background:var(--amber-bg-soft);border-color:var(--amber);">
+          <div class="wrong-mark" style="color:var(--amber);">A</div>
+          <h3>风格/语调不对</h3>
+          <p>内容对, 但说话方式不像品牌要求的.</p>
+          <div class="wrong-why" style="border-left-color:var(--amber);">→ 有 500+ 数据 + 已 PMF → <strong>Fine-tune</strong><br/>→ 没有 → 继续用 Prompt, 积累数据</div>
+        </article>
+        <article class="wrong" style="background:var(--blue-bg-soft);border-color:var(--blue);">
+          <div class="wrong-mark" style="color:var(--blue);">B</div>
+          <h3>不是风格问题</h3>
+          <p>可能是任务太复杂, 一步做不完.</p>
+          <div class="wrong-why" style="border-left-color:var(--blue);">→ 继续 Q6: 是否需要多 Agent 协作</div>
+        </article>
+      </div>
+      <div class="step-foot">Q6: 需要多 Agent 吗? &darr;</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Q6: 需要多个 Agent 协作吗?</h2>
+      <p class="step-lede">最后一个问题, 也是门槛最高的选项.</p>
+      <div class="callout callout-red">
+        <p><strong>Multi-Agent 的判断标准:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li>任务有 3 步以上 (不是 1-2 步能搞定的)</li>
+          <li>不同步骤需要不同 "专长" (搜索 / 分析 / 生成 / 审核)</li>
+          <li>需要调用多种工具 (数据库 / API / 搜索引擎)</li>
+        </ul>
+        <p style="margin-top:8px;">全满足 → Multi-Agent. 不满足 → 大概率用 RAG + 工具调用就够了.</p>
+      </div>
+      <div class="step-foot">完整决策树图 &darr;</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">完整决策树一览</h2>
+      <div class="big-insight">
+        <p class="insight-text" style="font-size:clamp(16px,3vw,20px);text-align:left;">
+          Q1 知识够吗? → No → <strong style="color:var(--blue);">RAG</strong><br/>
+          Q2 要溯源吗? → Yes → <strong style="color:var(--blue);">RAG</strong><br/>
+          Q3 Prompt 够吗? → Yes → <strong style="color:var(--green);">Prompt-only</strong><br/>
+          Q4 风格问题? + Q5 有数据+PMF? → Yes → <strong style="color:var(--amber);">Fine-tune</strong><br/>
+          Q6 多步骤+多专长? → Yes → <strong style="color:var(--red);">Multi-Agent</strong><br/>
+          其他 → <strong style="color:var(--blue);">RAG + 工具调用</strong>
+        </p>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>面试技巧:</strong> 面试官问 "你怎么选 AI 架构?", 画这棵决策树, 从 Q1 开始一步步走. 比说 "看情况" 强 100 倍.</p>
+      </div>
+      <div class="step-foot">动手试试决策树 &darr;</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试试 — 架构决策树</h2>
+      <p class="step-lede">回答 Yes/No 问题, 看看你的需求推荐什么架构.</p>
+      <div class="decision-tree">
+        <div class="dt-path" id="dt-path"></div>
+        <div class="dt-question-box">
+          <div class="dt-q-num" id="dt-q-num"></div>
+          <div class="dt-q-text" id="dt-q-text"></div>
+          <div class="dt-q-hint" id="dt-q-hint"></div>
+        </div>
+        <div class="dt-buttons" id="dt-btn-container">
+          <button class="dt-btn dt-btn-yes" id="dt-yes">Yes</button>
+          <button class="dt-btn dt-btn-no" id="dt-no">No</button>
+        </div>
+        <div class="dt-result" id="dt-result">
+          <div class="dt-result-icon" id="dt-result-icon"></div>
+          <div class="dt-result-arch" id="dt-result-arch"></div>
+          <div class="dt-result-reason" id="dt-result-reason"></div>
+        </div>
+        <div class="dt-reset"><button class="btn btn-ghost" id="dt-reset-btn">重新开始</button></div>
+      </div>
+      <div class="step-foot">用决策树分析 Vitamin &darr;</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">用决策树分析 Vitamin 的 4 个功能</h2>
+      <table class="compare-table">
+        <thead><tr><th>功能</th><th>Q1 知识</th><th>Q2 溯源</th><th>Q3 Prompt</th><th>结论</th></tr></thead>
+        <tbody>
+          <tr><td>情绪分类</td><td style="color:var(--green);">够</td><td style="color:var(--green);">不要</td><td style="color:var(--green);">满意</td><td><span class="pill pill-green">Prompt-only</span></td></tr>
+          <tr><td>医学问答</td><td style="color:var(--red);">不够</td><td>—</td><td>—</td><td><span class="pill pill-blue">RAG</span></td></tr>
+          <tr><td>品牌语调</td><td style="color:var(--green);">够</td><td style="color:var(--green);">不要</td><td style="color:var(--red);">不满意</td><td><span class="pill pill-amber">Fine-tune (后期)</span></td></tr>
+          <tr><td>身体翻译器</td><td style="color:var(--red);">不够</td><td>—</td><td>—</td><td><span style="background:var(--red-bg);color:var(--red);padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600;">RAG + Multi-Agent</span></td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-red">
+        <p><strong>面试金句:</strong></p>
+        <p>"我用一棵决策树给 Vitamin 的每个功能选架构. 情绪分类: Q3 就结束, Prompt-only. 医学问答: Q1 就结束, 必须 RAG. 身体翻译器: 不仅需要 RAG 的知识检索, 还需要 Multi-Agent 的多步骤编排. 每个决策都有据可查."</p>
+      </div>
+      <div class="step-foot">规则 + 作业 &darr;</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">6 个 Yes/No 问题, 3 分钟选出架构.<br/>面试画决策树, 比说 "看情况" 强 100 倍.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>用决策树工具测试 3 个不同场景 (Vitamin 功能), 截图每个结果.</li>
+          <li>在纸上手画完整决策树 (6 个节点 + 4 种结果), 拍照保存.</li>
+          <li>找一个你日常用的 AI 产品, 用决策树反推它可能用了什么架构. 写出推理过程.</li>
+          <li>写 200 字: 这棵决策树有什么局限? 什么场景下可能给出错误建议?</li>
+        </ol>
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://theproductspace.in/blogs/artificial-intelligence/when-to-use-rag-vs-fine-tuning-vs-agents" target="_blank" style="color:var(--blue);">When to Use RAG vs Fine-tuning vs Agents</a></td><td style="padding:6px 8px;">ProductSpace</td><td style="padding:6px 8px;">PM 视角的决策框架</td><td style="padding:6px 8px;">15 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://quantpi.ai/blog-rag-vs-fine-tuning-vs-prompt-engineering" target="_blank" style="color:var(--blue);">RAG vs Fine-tuning Decision Framework</a></td><td style="padding:6px 8px;">QuantPi</td><td style="padding:6px 8px;">详细决策矩阵</td><td style="padding:6px 8px;">15 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://cloud.google.com/blog/products/ai-machine-learning/to-tune-or-not-to-tune-a-guide-to-leveraging-your-data-with-llms" target="_blank" style="color:var(--blue);">To Tune or Not to Tune</a></td><td style="padding:6px 8px;">Google Cloud</td><td style="padding:6px 8px;">Google 官方选型指南</td><td style="padding:6px 8px;">20 min</td></tr>
+            <tr><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://www.cloudmagazin.com/en/2026/04/01/rag-vs-fine-tuning-vs-prompt-engineering-ai-approach-cloud-workload/" target="_blank" style="color:var(--blue);">Which AI Approach for Which Workload</a></td><td style="padding:6px 8px;">cloudmagazin</td><td style="padding:6px 8px;">按工作负载分析</td><td style="padding:6px 8px;">10 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 &darr;</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 为什么需要决策树</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 6 个问题总览</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Q1-Q2: 知识+溯源</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Q3: Prompt 够吗</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Q4-Q5: 风格+数据</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Q6: 多 Agent 吗</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 完整决策树</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 交互式决策树</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 分析</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 6:</p>
+        <p class="end-summary-big">6 个 Yes/No 问题 → 自动选出架构. 系统化, 不靠感觉.</p>
+        <p class="end-summary-sub">面试时画这棵树. 立刻加分.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 7): 成本/效果/复杂度三角</div>
+        <p>决策树告诉你 "选什么". 但选了之后, 还得在成本、效果、复杂度之间取舍.<br/><strong>只能优化两个, 牺牲第三个 — 这就是 PM 的决策空间.</strong></p>
+        <a class="walk-arrow" href="../u7-tradeoff-triangle/index.html">继续走 &rarr; Unit 7</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.4 · Unit 6 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

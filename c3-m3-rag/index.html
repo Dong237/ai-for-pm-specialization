@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Module 3.3 · RAG 知识库搭建 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · Module 3.3: 从零搭建 RAG 知识库 — Embed → Retrieve → Augment 全流程" />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../shared/styles.css" />
+  <style>
+    .mod-hero { padding: 60px 0 40px; text-align: center; }
+    .mod-hero h1 {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: clamp(32px, 6vw, 52px);
+      line-height: 1.15; margin: 0 0 12px;
+    }
+    .mod-hero .mod-sub { color: var(--ink-muted); font-size: 18px; margin: 0 0 28px; }
+    .mod-overview {
+      background: var(--amber-bg); border: 2px solid var(--amber);
+      border-radius: 14px; padding: 24px 28px; margin: 0 0 40px;
+      transform: rotate(-0.3deg); box-shadow: var(--shadow-card);
+    }
+    .mod-overview p { margin: 0 0 8px; }
+    .unit-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px; margin: 0 0 40px;
+    }
+    .unit-card {
+      background: var(--bg-card); border: 2px solid var(--border-strong);
+      border-radius: 10px 12px 11px 13px; padding: 20px 22px;
+      text-decoration: none; color: var(--ink);
+      box-shadow: var(--shadow-card); transition: transform 0.15s, box-shadow 0.15s;
+      display: block;
+    }
+    .unit-card:hover { transform: translateY(-3px) rotate(-0.5deg); box-shadow: var(--shadow-elev); }
+    .unit-card:nth-child(odd) { transform: rotate(-0.4deg); }
+    .unit-card:nth-child(even) { transform: rotate(0.3deg); }
+    .unit-card:nth-child(odd):hover { transform: translateY(-3px) rotate(-0.8deg); }
+    .unit-card:nth-child(even):hover { transform: translateY(-3px) rotate(0.6deg); }
+    .uc-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; background: var(--green-bg);
+      color: var(--green); border-radius: 50%; font-weight: 700; font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .uc-title {
+      font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+      font-size: 18px; font-weight: 600; margin: 0 0 8px;
+    }
+    .uc-desc { font-size: 14px; color: var(--ink-soft); margin: 0 0 10px; }
+    .uc-widget {
+      display: inline-block; background: var(--blue-bg); color: var(--blue);
+      padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    }
+    .mod-flow {
+      background: var(--bg-card); border: 2px solid var(--blue);
+      border-radius: 12px; padding: 24px; margin: 0 0 40px;
+      box-shadow: var(--shadow-card); text-align: center;
+    }
+    .mod-flow h3 { color: var(--blue); margin: 0 0 14px; font-size: 18px; }
+    .flow-steps {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 8px; align-items: center;
+    }
+    .flow-step {
+      background: var(--bg-elev); border: 1.5px solid var(--border-strong);
+      border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600;
+    }
+    .flow-arrow { color: var(--ink-faint); font-size: 18px; }
+    .mod-footer { text-align: center; padding: 30px 20px; border-top: 1px dashed var(--border); color: var(--ink-muted); font-size: 13px; }
+  </style>
+</head>
+<body data-theme="light">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · C3</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Module 3.3 · RAG 知识库搭建</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="canvas">
+    <div class="mod-hero">
+      <h1>Module 3.3<br/>RAG 知识库搭建</h1>
+      <p class="mod-sub">让 LLM 不再"只凭记忆答题" — 给它一个可搜索的知识库</p>
+    </div>
+
+    <div class="mod-overview">
+      <p><strong>这个 Module 解决什么问题?</strong></p>
+      <p>LLM 训练时"读"过海量文本, 但它不知道你公司今天发了什么公告, 也没读过你的产品文档. <mark class="hl">RAG (Retrieval-Augmented Generation)</mark> 就是在 LLM 回答之前, 先帮它搜一遍你的知识库, 把最相关的内容塞进 prompt — 让它"开卷考试".</p>
+      <p>8 个 Unit, 从 Pipeline 全景 → Embedding → 切片 → 检索 → 引用 → 评测 → 实战, 走完一遍你就能规划一个 RAG 产品.</p>
+    </div>
+
+    <div class="mod-flow">
+      <h3>Module 3.3 学习路线</h3>
+      <div class="flow-steps">
+        <span class="flow-step">U1 Pipeline 全景</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">U2 Embedding</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">U3 Chunking</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">U4 Splitting</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">U5 Retrieval</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">U6 Citation</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">U7 Evaluation</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">U8 Vitamin KB</span>
+      </div>
+    </div>
+
+    <div class="unit-grid">
+      <a class="unit-card" href="u1-pipeline/index.html">
+        <span class="uc-num">1</span>
+        <h3 class="uc-title">RAG 三步走</h3>
+        <p class="uc-desc">Embed → Retrieve → Augment, 一张图看完 RAG 全流程. 理解"开卷考试"比"闭卷考试"强在哪.</p>
+        <span class="uc-widget">Pipeline Animator</span>
+      </a>
+      <a class="unit-card" href="u2-embedding/index.html">
+        <span class="uc-num">2</span>
+        <h3 class="uc-title">Embedding 是什么</h3>
+        <p class="uc-desc">文字怎么变成向量? 为什么"苹果"和"橘子"的向量比"苹果"和"卡车"更近?</p>
+        <span class="uc-widget">Embedding Explorer</span>
+      </a>
+      <a class="unit-card" href="u3-chunking/index.html">
+        <span class="uc-num">3</span>
+        <h3 class="uc-title">Chunk 大小与重叠</h3>
+        <p class="uc-desc">知识库里一篇 5000 字的文档, 该切成多大的块? 块与块之间要不要重叠?</p>
+        <span class="uc-widget">Chunk Slicer</span>
+      </a>
+      <a class="unit-card" href="u4-splitting/index.html">
+        <span class="uc-num">4</span>
+        <h3 class="uc-title">语义 vs 固定切分</h3>
+        <p class="uc-desc">按字数切 vs 按意思切 — 同一篇文档, 两种方法的检索效果差多少?</p>
+        <span class="uc-widget">Split Comparator</span>
+      </a>
+      <a class="unit-card" href="u5-retrieval/index.html">
+        <span class="uc-num">5</span>
+        <h3 class="uc-title">Top-K + Reranking</h3>
+        <p class="uc-desc">向量搜索找回 50 个候选, 怎么从中精选 5 个最相关的? Cross-Encoder Reranking 登场.</p>
+        <span class="uc-widget">Retrieval Simulator</span>
+      </a>
+      <a class="unit-card" href="u6-citation/index.html">
+        <span class="uc-num">6</span>
+        <h3 class="uc-title">引用机制 (Citation)</h3>
+        <p class="uc-desc">用户问"这个结论哪来的?" — RAG 怎么标注来源, 让回答可追溯、可验证?</p>
+        <span class="uc-widget">Citation Viewer</span>
+      </a>
+      <a class="unit-card" href="u7-evaluation/index.html">
+        <span class="uc-num">7</span>
+        <h3 class="uc-title">RAG 评测</h3>
+        <p class="uc-desc">Faithfulness + Relevancy — 用 RAGAS 框架给你的 RAG 打分, 找出薄弱环节.</p>
+        <span class="uc-widget">RAG Evaluator</span>
+      </a>
+      <a class="unit-card" href="u8-vitamin-knowledge/index.html">
+        <span class="uc-num">8</span>
+        <h3 class="uc-title">Vitamin 医学知识库</h3>
+        <p class="uc-desc">把前 7 个 Unit 学到的全部用上 — 为 Vitamin 设计一个 5 类文档的医学知识库结构.</p>
+        <span class="uc-widget">Knowledge Organizer</span>
+      </a>
+    </div>
+  </main>
+
+  <footer class="mod-footer">
+    <p>AI for PM · Module 3.3 · RAG 知识库搭建 · 个人定制版</p>
+  </footer>
+
+  <script src="../shared/app.js"></script>
+</body>
+</html>

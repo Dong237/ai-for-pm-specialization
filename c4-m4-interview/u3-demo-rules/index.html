@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · Demo 演示三分钟法则 — AI for PM</title>
+  <meta name="description" content="3 分钟 Demo 演示: 30s 痛点 + 30s 方案 + 60s 演示 + 30s 数据 + 30s 反思." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M4.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 · Demo 三分钟法则</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 3<span class="title-dot">·</span><br/>Demo 演示三分钟法则</h1>
+      <p class="hero-sub">"能给我 Demo 一下吗?" — 3 分钟, 5 段, 每段有固定时长.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="准备 Demo 的你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 准备现场演示)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">面试官说 "能演示一下吗?"</p>
+          <p class="cloud-line">我打开 App... 然后呢? 说什么? 点什么?</p>
+          <p class="cloud-line">3 分钟好短, 怕来不及; 又怕说太多...</p>
+          <p class="cloud-line accent">—— 5 段, 30+30+60+30+30, 刚好 3 分钟.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>掌握 "痛点→方案→演示→数据→反思" 5 段结构</li>
+          <li>写出 Vitamin Demo 的逐字脚本</li>
+          <li>用倒计时器练习, 卡在 3 分钟以内</li>
+          <li>知道 Demo 翻车时怎么救场</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">为什么是 3 分钟?</h2>
+      <p class="step-lede">面试官的注意力窗口 = <mark class="hl">3 分钟</mark>. 超过这个时间, 他开始走神, 你开始紧张.</p>
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>3 分钟的黄金法则:</strong></p>
+        <ul>
+          <li>投资人 pitch = 3 分钟 (YC Demo Day 标准)</li>
+          <li>产品评审 = 3 分钟走完核心链路</li>
+          <li>面试 Demo = 3 分钟展示 + 无限追问时间</li>
+        </ul>
+        <p>3 分钟不是限制, 是<strong>强制你只讲最重要的东西</strong>.</p>
+      </div>
+      <div class="step-foot">3 分钟怎么分配 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">5 段切分法</h2>
+      <p class="step-lede">180 秒 = 30 + 30 + 60 + 30 + 30.</p>
+
+      <div class="demo-timeline" style="pointer-events:none;">
+        <div class="timeline-bar">
+          <div class="timeline-segment" style="pointer-events:auto;">30s 痛点</div>
+          <div class="timeline-segment" style="pointer-events:auto;">30s 方案</div>
+          <div class="timeline-segment" style="pointer-events:auto;">60s 演示</div>
+          <div class="timeline-segment" style="pointer-events:auto;">30s 数据</div>
+          <div class="timeline-segment" style="pointer-events:auto;">30s 反思</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>核心原则:</strong> 演示段占 60s = 总时长的 1/3. 这是主角. 其他 4 段都是为了给演示做铺垫和收尾.</p>
+      </div>
+      <div class="step-foot">每一段具体说什么 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">段 1: 痛点 (30s) — 让面试官感同身受</h2>
+      <div class="demo-section-card" data-rough="card" style="border-color:var(--red);transform:rotate(-0.3deg);">
+        <div class="demo-section-header">
+          <div class="demo-section-time" style="color:var(--red);">30s</div>
+          <div class="demo-section-name" style="color:var(--red);">痛点 Pain Point</div>
+        </div>
+        <div class="demo-section-script">"女性用户每天要手动记录身体状态 — 经期、情绪、饮食、运动. 我们调研了 20 位用户, 发现 60% 觉得 '太麻烦了, 每天要点 10 几个按钮'. 结果: D30 留存率只有 15%."</div>
+        <p style="font-size:13px;color:var(--ink-muted);margin-top:10px;"><strong>关键:</strong> 用<strong>具体数字</strong>描述痛点, 不要说 "用户觉得不方便".</p>
+      </div>
+      <div class="step-foot">段 2: 方案 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">段 2: 方案 (30s) — 一句话说清解决方案</h2>
+      <div class="demo-section-card" data-rough="card" style="border-color:var(--blue);transform:rotate(0.3deg);">
+        <div class="demo-section-header">
+          <div class="demo-section-time" style="color:var(--blue);">30s</div>
+          <div class="demo-section-name" style="color:var(--blue);">方案 Solution</div>
+        </div>
+        <div class="demo-section-script">"所以我设计了 AI 智能记录功能: 用户只需说一句话, 比如 '今天有点累, 中午吃了沙拉, 下午跑了步', AI 就自动提取情绪、饮食、运动信息, 填入身体追踪系统. 技术上用了 RAG + GPT-4o-mini."</div>
+        <p style="font-size:13px;color:var(--ink-muted);margin-top:10px;"><strong>关键:</strong> 方案 = <strong>一句话产品概念</strong> + 技术方案名字. 不展开技术细节.</p>
+      </div>
+      <div class="step-foot">段 3: 演示 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">段 3: 演示 (60s) — 现场操作, 边做边说</h2>
+      <div class="demo-section-card" data-rough="card" style="border-color:var(--green);transform:rotate(-0.2deg);">
+        <div class="demo-section-header">
+          <div class="demo-section-time" style="color:var(--green);">60s</div>
+          <div class="demo-section-name" style="color:var(--green);">演示 Live Demo</div>
+        </div>
+        <div class="demo-section-script">"我来现场演示. [打开 App/Prototype] 我输入: '昨晚没睡好, 早上跑了 3 公里, 心情还行'. 你看, AI 自动识别了 3 个维度: 睡眠 — 欠佳; 运动 — 跑步 3km; 情绪 — 平稳. 全部自动填入今天的记录. 整个过程不到 5 秒, 之前手动要点 12 个按钮."</div>
+        <p style="font-size:13px;color:var(--ink-muted);margin-top:10px;"><strong>关键:</strong> (1) 提前准备好输入内容 (2) 确保网络正常 (3) 边操作边解说, 不要沉默 (4) 万一翻车, 用截图兜底.</p>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>翻车预案:</strong>
+        <p>如果 Demo 加载失败或出错, 立刻说: "API 偶尔有延迟, 让我给你看预录的效果." 然后切到准备好的截图/录屏. <strong>永远有 Plan B</strong>.</p>
+      </div>
+      <div class="step-foot">段 4: 数据 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">段 4: 数据 (30s) — 4 个数字收尾</h2>
+      <div class="demo-section-card" data-rough="card" style="border-color:var(--amber);transform:rotate(0.3deg);">
+        <div class="demo-section-header">
+          <div class="demo-section-time" style="color:var(--amber);">30s</div>
+          <div class="demo-section-name" style="color:var(--amber);">数据 Metrics</div>
+        </div>
+        <div class="demo-section-script">"看一下效果: D30 留存率 15% → 28%, 超过目标. 月 Token 成本 $108. NPS 32 → 51. AI 功能日均使用率 73%."</div>
+        <p style="font-size:13px;color:var(--ink-muted);margin-top:10px;"><strong>关键:</strong> 4 个数据点, 每个 ~7 秒. Before → After 格式最有冲击力.</p>
+      </div>
+      <div class="step-foot">段 5: 反思 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">段 5: 反思 (30s) — 学到了什么, 下一步是什么</h2>
+      <div class="demo-section-card" data-rough="card" style="border-color:var(--purple);transform:rotate(-0.3deg);">
+        <div class="demo-section-header">
+          <div class="demo-section-time" style="color:var(--purple);">30s</div>
+          <div class="demo-section-name" style="color:var(--purple);">反思 Reflection</div>
+        </div>
+        <div class="demo-section-script">"回顾这个项目, 我最大的收获是: 先用最小方案验证, 再升级技术栈. 我们从 Prompt Engineering 起步, 验证了可行性, 再加 RAG 提升准确率. 下一步计划是加入多轮对话, 让 AI 能追问细节."</div>
+        <p style="font-size:13px;color:var(--ink-muted);margin-top:10px;"><strong>关键:</strong> 反思 = <strong>学到了什么</strong> + <strong>下一步是什么</strong>. 面试官最看重自我反思能力.</p>
+      </div>
+      <div class="step-foot">用计时器实际练一遍 ↓</div>
+    </section>
+
+    <!-- (8) Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Demo 计时器 — 实战练习</h2>
+      <p class="step-lede">点击时间轴查看每段脚本, 点 "开始练习" 启动 3 分钟倒计时. 段落切换时会有提示音.</p>
+
+      <div id="demo-timer" class="demo-timeline">
+        <div class="timeline-bar">
+          <div class="timeline-segment">30s 痛点</div>
+          <div class="timeline-segment">30s 方案</div>
+          <div class="timeline-segment">60s 演示</div>
+          <div class="timeline-segment">30s 数据</div>
+          <div class="timeline-segment">30s 反思</div>
+        </div>
+        <div id="timeline-detail" class="timeline-detail"></div>
+        <div class="practice-timer">
+          <div class="timer-section-label" id="timer-section-label">痛点 (30s)</div>
+          <div class="timer-display" id="timer-display">3:00</div>
+          <div class="timer-progress"><div class="timer-progress-fill" id="timer-progress-fill"></div></div>
+          <div class="timer-controls">
+            <button id="timer-start" class="btn btn-primary">开始练习</button>
+            <button id="timer-reset" class="btn btn-ghost">重置</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-foot">Vitamin Demo 完整脚本 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin Demo — 完整 3 分钟脚本</h2>
+      <p class="step-lede">把 5 段连起来, 这就是你面试时的 Demo 脚本. 打印出来贴在电脑旁边.</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p style="margin-bottom:12px;"><span class="pill pill-amber">30s 痛点</span> "女性用户每天要手动记录身体状态, 需要点 10 几个按钮. 调研 20 位用户, 60% 觉得太麻烦. D30 留存只有 15%."</p>
+        <p style="margin-bottom:12px;"><span class="pill pill-blue">30s 方案</span> "我设计了 AI 智能记录: 说一句话, AI 自动提取信息. 技术选型: RAG + GPT-4o-mini."</p>
+        <p style="margin-bottom:12px;"><span class="pill pill-green">60s 演示</span> "[打开 App] 输入 '昨晚没睡好, 跑了 3km, 心情还行'. AI 识别: 睡眠欠佳, 运动 3km, 情绪平稳. 自动填入, 不到 5 秒."</p>
+        <p style="margin-bottom:12px;"><span class="pill pill-amber">30s 数据</span> "留存 15%→28%, Token $108/月, NPS 32→51, 日均使用率 73%."</p>
+        <p><span class="pill pill-green">30s 反思</span> "收获: 先 Prompt 验证, 再加 RAG 升级. 下一步: 多轮对话."</p>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">3 分钟 Demo = 30s 痛点 + 30s 方案 + 60s 演示 + 30s 数据 + 30s 反思.<br/>演示是主角, 其他都是配角.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>用上面的计时器, 完整走一遍 3 分钟 Demo. 录音回听.</li>
+          <li>准备 Demo 翻车的 Plan B: 截 3 张关键操作截图, 存在手机里.</li>
+          <li>把 5 段脚本写在一张纸上, 贴在电脑旁边. 面试前过 3 遍.</li>
+          <li>给一个朋友 Demo, 请他计时, 看你是否在 3 分钟以内.</li>
+        </ol>
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📺</td>
+              <td><a href="https://www.youtube.com/results?search_query=YC+demo+day+pitch" target="_blank" style="color:var(--blue);">YC Demo Day Pitches</a></td>
+              <td style="color:var(--ink-muted);">YouTube</td>
+              <td style="color:var(--ink-muted);">学最好的 3 分钟 pitch</td>
+              <td style="color:var(--ink-muted);">30 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border);">
+              <td style="padding:6px 4px;">📖</td>
+              <td><a href="https://www.producthunt.com/stories/how-to-demo-your-product" target="_blank" style="color:var(--blue);">How to Demo Your Product</a></td>
+              <td style="color:var(--ink-muted);">Product Hunt</td>
+              <td style="color:var(--ink-muted);">Demo 技巧合集</td>
+              <td style="color:var(--ink-muted);">15 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">🛠</td>
+              <td><a href="https://www.figma.com/prototyping/" target="_blank" style="color:var(--blue);">Figma Prototyping</a></td>
+              <td style="color:var(--ink-muted);">Figma</td>
+              <td style="color:var(--ink-muted);">做可交互原型 Demo</td>
+              <td style="color:var(--ink-muted);">20 min</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 为什么 3 分钟</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 5 段切分法</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 30s 痛点</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 30s 方案</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 60s 演示</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 30s 数据</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 30s 反思</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 计时器练习</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 完整脚本</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">3 分钟 Demo: 痛点→方案→演示→数据→反思. 永远有 Plan B.</p>
+        <p class="end-summary-sub">演示占 60 秒, 是主角. 练到不看脚本.</p>
+      </div>
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 4): "为什么这么设计" 答辩</div>
+        <p>Demo 完之后, 面试官一定会追问:<br/><strong>"你为什么选 RAG 不选 Fine-tune? 为什么选这个指标?"</strong></p>
+        <p>每个设计决策, 你都需要一个 "为什么" 的答案.</p>
+        <a class="walk-arrow" href="../u4-design-defense/index.html">继续走 → Unit 4</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 4 · Module 4 · Unit 3 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

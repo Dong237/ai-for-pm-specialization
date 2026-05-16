@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>U1 · PM-算法协作 5大冲突 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M4.3 U1: PM 和算法工程师的 5 个真实冲突, 以及解决之道." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M4.3</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · PM-算法协作冲突</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 1<span class="title-dot">·</span><br/>PM-算法协作 5 大冲突</h1>
+      <p class="hero-sub">你终于做出了 Vitamin Bot. 然后算法工程师说: "你这个需求没法做."</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="困惑的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M44 38 Q50 44 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · AI PM)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">我做的 Vitamin Bot 效果不好...</p>
+          <p class="cloud-line">算法说"指标已经很好了"... 那为啥用户体验差?</p>
+          <p class="cloud-line">是我的需求有问题, 还是算法的指标有问题?</p>
+          <p class="cloud-line accent">—— 5 个冲突, 逐个拆解.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>识别 PM-算法协作中的 5 大常见冲突</li>
+          <li>理解每个冲突的本质原因 (不是谁对谁错)</li>
+          <li>掌握 5 个对应的解决策略</li>
+          <li>在 Vitamin 项目中预防这些冲突</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">PM 和算法工程师, 天生就"语言不通"</h2>
+      <p class="step-lede">你说"效果不好", 算法听到的是"你在质疑我的模型". 你说"能不能快点", 算法听到的是"你不懂训练要多久". 这不是态度问题 — 是<mark class="hl">两个专业的语言系统完全不同</mark>.</p>
+
+      <div class="versus-grid">
+        <div class="versus-side pm-side">
+          <h3 class="versus-title">PM 的世界</h3>
+          <ul style="margin:0;padding-left:18px;font-size:15px;">
+            <li>用户反馈 / NPS / 留存率</li>
+            <li>"快速上线验证"</li>
+            <li>"效果好不好" = 用户满不满意</li>
+            <li>周级迭代节奏</li>
+          </ul>
+        </div>
+        <div class="versus-vs">VS</div>
+        <div class="versus-side algo-side">
+          <h3 class="versus-title">算法的世界</h3>
+          <ul style="margin:0;padding-left:18px;font-size:15px;">
+            <li>AUC / F1 / Precision / Recall</li>
+            <li>"数据质量决定上限"</li>
+            <li>"效果好不好" = 离线指标够不够</li>
+            <li>月级训练周期</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-foot">不是谁对谁错, 是双方在用不同的尺子量同一件事 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">错误直觉: "算法不配合" vs "PM 不懂技术"</h2>
+
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>PM 的错觉: 算法团队不配合</h3>
+          <p>"他们总说做不了, 是不想做吧?"</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            算法说"做不了"通常有技术原因: 数据不够, 模型能力边界, 合规约束. 不是态度问题.
+          </div>
+        </article>
+        <article class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>算法的错觉: PM 不懂技术还瞎指挥</h3>
+          <p>"你连 Precision 和 Recall 都分不清, 怎么提需求?"</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            PM 不需要会写模型, 但需要理解能力边界. 同样, 算法也要理解业务指标. 双向翻译才是解法.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">PM-算法冲突的本质:</p>
+        <p class="truth-line giant"><mark class="hl">目标错位 + 语言不通 + 节奏不同</mark></p>
+        <p class="truth-line muted">不是人的问题, 是结构性的认知鸿沟. 好在有方法论可以弥合.</p>
+      </div>
+
+      <div class="step-foot">接下来逐个拆解 5 大冲突. 冲突 1 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">冲突 1: "效果不好"</h2>
+      <p class="step-lede">这是最常见的冲突. PM 说效果不好, 算法说指标很好. 两个人说的"效果"根本不是一回事.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>PM 说的"效果不好":</strong> 用户投诉多了 / 点击率下降 / NPS 掉了</p>
+        <p><strong>算法说的"效果很好":</strong> 离线 AUC 0.85 / F1 提升了 3 个点 / 消融实验显著</p>
+        <p class="muted">→ 一个看线上用户行为, 一个看离线实验数据. 根本不在一个维度上.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>解法: 对齐指标体系</strong>
+        <ol>
+          <li><strong>建立"北极星指标":</strong> PM 和算法共同定义一个业务+技术都认可的核心指标</li>
+          <li><strong>打通线上线下:</strong> 离线 AUC 只是筛选条件, 线上 A/B 测试才是金标准</li>
+          <li><strong>定期 review:</strong> 每周看同一份数据 dashboard, 用同一套语言讨论</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">冲突 2: 速度问题 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">冲突 2: "模型迭代慢"</h2>
+      <p class="step-lede">产品要周级迭代, 模型训练要月级周期. 两个时钟天然不同步.</p>
+
+      <div class="callout callout-amber">
+        <p><strong>PM 的焦虑:</strong> 竞品两周出一版, 我们的模型三个月没更新</p>
+        <p><strong>算法的现实:</strong> 标注 1 万条数据要 2 周, 训练一轮要 3 天, 评测+调参又 1 周</p>
+        <p class="muted">→ 模型不是代码, 不能"今天写完明天上线".</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>解法: 双轨并行</strong>
+        <ol>
+          <li><strong>快轨 (规则/Prompt):</strong> 用规则引擎或 Prompt 工程快速响应业务需求, 先上线验证</li>
+          <li><strong>慢轨 (模型):</strong> 算法团队并行准备数据、训练、评测, 等模型就绪再替换快轨方案</li>
+          <li><strong>共识排期:</strong> PM 提需求时附上优先级 + 可接受的等待时间, 算法回复可行性 + 预计时间</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">冲突 3: 数据问题 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">冲突 3: "数据要不到"</h2>
+      <p class="step-lede">AI 产品的核心燃料是数据. 但数据往往拿不到 — 不是不给, 是不能给.</p>
+
+      <div class="callout callout-red">
+        <p><strong>常见场景:</strong></p>
+        <ul style="margin:0;">
+          <li>用户隐私数据: 合规部门不批</li>
+          <li>跨部门数据: 别的 BU 不愿意共享</li>
+          <li>标注数据: 标注成本高, 预算不够</li>
+          <li>历史数据: 格式混乱, 质量差, 无法直接使用</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>解法: 数据策略前置</strong>
+        <ol>
+          <li><strong>合规先行:</strong> 在需求阶段就拉合规团队入场, 确认数据使用边界</li>
+          <li><strong>脱敏方案:</strong> 匿名化 + 差分隐私 + 用户明确授权</li>
+          <li><strong>数据飞轮:</strong> 从产品使用中持续收集数据, 而非一次性要大量数据</li>
+          <li><strong>合成数据:</strong> 用 LLM 生成模拟数据做初期训练, 真实数据做微调</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">冲突 4: 能力边界 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">冲突 4: "这个需求没法做"</h2>
+      <p class="step-lede">PM 想象中的 AI 无所不能. 现实中的 AI 有很硬的边界.</p>
+
+      <div class="callout callout-amber">
+        <p><strong>"没法做" 的三种含义:</strong></p>
+        <ol>
+          <li><strong>技术不可行:</strong> 当前模型能力做不到 (如精确医疗诊断)</li>
+          <li><strong>数据不支持:</strong> 没有足够的训练数据来支撑这个功能</li>
+          <li><strong>法律不允许:</strong> 涉及合规风险 (如自动开处方)</li>
+        </ol>
+        <p class="muted">→ 这三种"没法做"的解法完全不同. PM 要追问"哪种没法做".</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>解法: 需求降级 + 边界探索</strong>
+        <ol>
+          <li><strong>追问具体原因:</strong> "是模型能力不够, 还是数据不够, 还是合规不允许?"</li>
+          <li><strong>降级需求:</strong> 从"诊断" → "风险提示", 从"自动决策" → "辅助建议"</li>
+          <li><strong>分步实现:</strong> 先做 80% 可行的部分, 剩下 20% 留给下个版本</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">冲突 5: 效果衰减 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">冲突 5: "上线后效果变差了"</h2>
+      <p class="step-lede">模型上线第一周效果 90 分, 第三周变成 70 分. 这不是 bug, 是<mark class="hl">数据漂移 (Data Drift)</mark>.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>为什么会变差?</strong></p>
+        <ul style="margin:0;">
+          <li>用户行为变了: 训练数据是冬天的, 现在是夏天</li>
+          <li>用户群变了: 初期用户 vs 大规模用户, 分布不同</li>
+          <li>外部环境变了: 政策变化, 竞品变化, 市场变化</li>
+          <li>反馈循环: 模型的输出影响了用户行为, 用户行为又影响了模型输入</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>解法: 监控 + 重训 + 预期管理</strong>
+        <ol>
+          <li><strong>上线监控:</strong> 部署实时指标看板, 关键指标异常自动告警</li>
+          <li><strong>定期重训:</strong> 每 2-4 周用最新数据重新训练模型</li>
+          <li><strong>预期管理:</strong> 在 PRD 中写明"模型需要持续维护", 预留运维人力</li>
+          <li><strong>A/B 灰度:</strong> 新模型先灰度 10% 用户, 确认效果再全量</li>
+        </ol>
+      </div>
+
+      <div class="step-foot">5 个冲突都讲完了, 来练练手 ↓</div>
+    </section>
+
+    <!-- (8) Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">练一练: 冲突解决器</h2>
+      <p class="step-lede">5 个冲突场景, 每个有 3 个解决选项. 选出最佳方案, 看看你的协作直觉怎么样.</p>
+
+      <div id="conflict-resolver">
+        <div class="score-tracker">
+          <span class="score-label">你的得分:</span>
+          <span class="score-num" id="conflict-score">0</span>
+          <span class="score-total">/ <span id="conflict-total">0</span> 已答</span>
+          <button id="conflict-reset" class="btn btn-ghost">重来</button>
+        </div>
+        <div id="conflict-cards" class="conflict-cards"></div>
+      </div>
+
+      <div class="step-foot">拿这些冲突对照 Vitamin ↓</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 团队的 5 个协作场景</h2>
+      <p class="step-lede">把 5 大冲突映射到你的 Vitamin 项目. 提前预防 > 事后救火.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>场景 1 · "效果不好":</strong> Vitamin 的情绪分类准确率 85%, 但用户觉得"AI 不懂我". → 对齐: 把"用户满意度评分"加入模型优化目标.</p>
+        <p><strong>场景 2 · "迭代慢":</strong> 营养知识库更新了, 模型还是旧知识. → 双轨: RAG 检索先上, 模型微调并行.</p>
+        <p><strong>场景 3 · "数据要不到":</strong> 用户的经期数据是核心隐私. → 脱敏: 本地计算 + 聚合统计, 不上传原始数据.</p>
+        <p><strong>场景 4 · "做不了":</strong> "AI 能不能判断用户是否怀孕?" → 降级: 只做"提醒用户去医院检查", 不做诊断.</p>
+        <p><strong>场景 5 · "变差了":</strong> 夏天用户的饮食习惯变了, 营养建议不准了. → 监控: 按季度重训营养推荐模型.</p>
+      </div>
+
+      <div class="callout callout-red">
+        <strong>面试金句:</strong>
+        <p>"AI 产品上线不是终点, 而是起点. 好的 AI PM 在 PRD 里就写好模型监控、重训排期和数据飞轮方案, 而不是上线后才发现效果变差."</p>
+      </div>
+
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">PM-算法冲突的本质是<br/>"目标错位 + 语言不通 + 节奏不同".<br/>解法: 对齐指标, 双轨并行, 需求降级.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>列出你在 Vitamin 项目中可能遇到的 3 个 PM-算法冲突, 写出每个的"本质原因"和"解法".</li>
+          <li>为 Vitamin 写一份"指标对齐表": 业务指标 → 模型指标 的对应关系 (至少 5 行).</li>
+          <li>用"需求降级"思维, 把"AI 健康诊断"这个需求改写为 3 个可落地的子需求.</li>
+          <li>写一段 200 字的面试回答: "你怎么和算法工程师协作?"</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>资源</th><th>为什么值得看</th><th>时间</th></tr></thead>
+          <tbody>
+            <tr><td>📖</td><td><a href="https://zhuanlan.zhihu.com/p/1913981975624135141" target="_blank">520道AI PM面试题</a></td><td>覆盖 PM-算法协作的常见面试题</td><td>30 min</td></tr>
+            <tr><td>📖</td><td><a href="https://blog.csdn.net/sinat_28461591/article/details/148502374" target="_blank">AI PM跨界挑战</a></td><td>技术、数据与用户三重协作的实战案例</td><td>15 min</td></tr>
+            <tr><td>📖</td><td><a href="https://www.woshipm.com/share/5920122.html" target="_blank">传统PM的自救指南</a></td><td>从传统PM转型AI PM的路径与心得</td><td>20 min</td></tr>
+            <tr><td>📖</td><td><a href="https://www.zhihu.com/question/19925962" target="_blank">PM如何与程序员沟通</a></td><td>知乎高赞回答, 实操沟通技巧</td><td>15 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">完成 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> PM vs 算法: 语言不通</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 错误直觉: 不是态度问题</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 冲突1: "效果不好"</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 冲突2: "迭代慢"</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 冲突3: "数据要不到"</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 冲突4: "做不了"</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 冲突5: "上线后变差"</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 冲突解决器 (互动)</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 5 个场景</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">PM-算法冲突 = 目标错位 + 语言不通 + 节奏不同.<br/>解法: 对齐 · 双轨 · 降级.</p>
+        <p class="end-summary-sub">好的 AI PM 不是消灭冲突, 而是用结构化的方法把冲突变成共识.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 2): 算法术语速通</div>
+        <p>冲突的核心是"语言不通". 下一节, 我们速通 10 个算法核心术语 — precision, recall, F1, AUC... 这些词你搞懂了, 和算法工程师的对话就通了一大半.</p>
+        <p><strong>面试被问"你懂算法指标吗?" — 这节课就是你的答案.</strong></p>
+        <a class="walk-arrow" href="../u2-terminology/index.html">继续走 → Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Course 4 · Module 3 · Unit 1 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

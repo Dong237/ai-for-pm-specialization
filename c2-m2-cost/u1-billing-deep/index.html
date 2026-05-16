@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 1 · Token 计费机制 (深化) — AI for PM · M2.2</title>
+  <meta name="description" content="不只是按字符算钱. 每家定价不同、计费精度不同. 先看清楚账单上的数字到底怎么来的." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M2.2</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 1 · Token 计费机制</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">&#9654;</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">&#9632;</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 1<span class="title-dot">&middot;</span><br/>Token 计费, 深入骨髓</h1>
+      <p class="hero-sub">你以为 API 就是 "调一次多少钱" —— 其实同一句话, 在不同模型上费用差 100 倍.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你, 一个正在看账单的 PM">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M44 38 Q50 34 56 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 &middot; 看着 API 账单皱眉)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">上个月 API 账单 &#165;3000... 我什么都没改啊?</p>
+          <p class="cloud-line">老板问我: "每条消息多少钱?" 我答不上来...</p>
+          <p class="cloud-line">DeepSeek 便宜 100 倍, 真的能用吗?</p>
+          <p class="cloud-line accent">&mdash;&mdash; 10 步, 看清每一分钱.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>看懂 API 返回的 usage 字段, 知道账单怎么算的</li>
+          <li>背出主流模型的定价档位 (价格差 100 倍!)</li>
+          <li>识别 "隐藏成本": reasoning tokens, batch 折扣</li>
+          <li>给 Vitamin 选出性价比最优的模型组合</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">一条 API 调用的账单长什么样</h2>
+      <p class="step-lede">每次你调 LLM API, 返回的 JSON 里都有一个 <code>usage</code> 字段. 这就是计费的依据.</p>
+
+      <div class="api-response">
+        <div>{</div>
+        <div>&nbsp;&nbsp;<span class="key">"model"</span>: <span class="val-str">"deepseek-v4-flash"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="key">"usage"</span>: {</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"prompt_tokens"</span>: <span class="val-num">328</span>,&nbsp;&nbsp;&nbsp;<span class="comment">// 你发的 (输入)</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"completion_tokens"</span>: <span class="val-num">156</span>,&nbsp;&nbsp;<span class="comment">// AI 回的 (输出)</span></div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="key">"total_tokens"</span>: <span class="val-num">484</span></div>
+        <div>&nbsp;&nbsp;}</div>
+        <div>}</div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>三个数字决定你的账单:</strong></p>
+        <ol>
+          <li><strong>prompt_tokens</strong> &mdash; 你发给模型的内容 (system prompt + 用户输入 + 历史对话)</li>
+          <li><strong>completion_tokens</strong> &mdash; 模型生成的回复</li>
+          <li>费用 = prompt_tokens &times; 输入单价 + completion_tokens &times; 输出单价</li>
+        </ol>
+      </div>
+      <div class="step-foot">那 "单价" 到底是多少? 答案是: 看你选的模型 &darr;</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">不是 "按字收费" &mdash; 是按 Token 收费</h2>
+
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">&cross;</div>
+          <h3>错觉: "一个字一分钱"</h3>
+          <p>以为费用 = 字数 &times; 单价, 像短信一样.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            Token ≠ 字. "unhappiness" 是 1 个英文词, 但 2 个 token (un + happiness). "你好" 可能是 1 个 token, 也可能是 2 个 &mdash; 取决于模型的 tokenizer.
+          </div>
+        </article>
+        <article class="wrong">
+          <div class="wrong-mark">&cross;</div>
+          <h3>错觉: "每家收费差不多"</h3>
+          <p>以为 LLM API 像云服务器, 价格差 2-3 倍封顶.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            最便宜的 DeepSeek V4 Flash 输入 $0.14/M, 最贵的 GPT-5.5 Pro 输入 $30/M &mdash; 差了 <strong>214 倍</strong>.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">LLM 计费的核心单位是 <mark class="hl">Token</mark>, 不是字、不是词、不是句.</p>
+        <p class="truth-line giant">1 token &asymp; 4 英文字母 &asymp; 1-1.5 中文字</p>
+        <p class="truth-line muted">&rarr; 所有 API 的价格都标 "每百万 token" (per 1M tokens). 你需要先知道你的文本有多少 token, 才能算账.</p>
+      </div>
+      <div class="step-foot">那各家到底怎么定价? 列个表给你看 &darr;</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">主流模型定价一览 &mdash; 100 倍差距</h2>
+      <p class="step-lede"><span class="ts-badge">截至 2026 年 5 月</span> 点击表头可排序.</p>
+
+      <div class="pricing-table">
+        <table id="pricing-sortable">
+          <thead>
+            <tr>
+              <th>模型</th>
+              <th data-sortable data-col="1">输入 ($/1M)</th>
+              <th data-sortable data-col="2">输出 ($/1M)</th>
+              <th>厂商</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="model-badge badge-ds">DS</span>DeepSeek V4 Flash</td>
+              <td data-val="0.14" class="price-cheap">$0.14</td>
+              <td data-val="0.28" class="price-cheap">$0.28</td>
+              <td>DeepSeek</td>
+            </tr>
+            <tr>
+              <td><span class="model-badge badge-gemini">G</span>Gemini 2.5 Flash</td>
+              <td data-val="0.15" class="price-cheap">$0.15</td>
+              <td data-val="0.60" class="price-cheap">$0.60</td>
+              <td>Google</td>
+            </tr>
+            <tr>
+              <td><span class="model-badge badge-qwen">Q</span>Qwen3 Max</td>
+              <td data-val="0.78" class="price-cheap">$0.78</td>
+              <td data-val="3.12" class="price-mid">$3.12</td>
+              <td>Alibaba</td>
+            </tr>
+            <tr>
+              <td><span class="model-badge badge-claude">C</span>Claude Haiku 4.5</td>
+              <td data-val="1.00" class="price-mid">$1.00</td>
+              <td data-val="5.00" class="price-mid">$5.00</td>
+              <td>Anthropic</td>
+            </tr>
+            <tr>
+              <td><span class="model-badge badge-ds">DS</span>DeepSeek V4 Pro</td>
+              <td data-val="1.74" class="price-mid">$1.74</td>
+              <td data-val="3.48" class="price-mid">$3.48</td>
+              <td>DeepSeek</td>
+            </tr>
+            <tr>
+              <td><span class="model-badge badge-gpt">O</span>GPT-5.4</td>
+              <td data-val="2.50" class="price-mid">$2.50</td>
+              <td data-val="15.00" class="price-expensive">$15.00</td>
+              <td>OpenAI</td>
+            </tr>
+            <tr>
+              <td><span class="model-badge badge-claude">C</span>Claude Sonnet 4.6</td>
+              <td data-val="3.00" class="price-mid">$3.00</td>
+              <td data-val="15.00" class="price-expensive">$15.00</td>
+              <td>Anthropic</td>
+            </tr>
+            <tr>
+              <td><span class="model-badge badge-gpt">O</span>GPT-5.5</td>
+              <td data-val="5.00" class="price-expensive">$5.00</td>
+              <td data-val="30.00" class="price-expensive">$30.00</td>
+              <td>OpenAI</td>
+            </tr>
+            <tr>
+              <td><span class="model-badge badge-claude">C</span>Claude Opus 4.7</td>
+              <td data-val="5.00" class="price-expensive">$5.00</td>
+              <td data-val="25.00" class="price-expensive">$25.00</td>
+              <td>Anthropic</td>
+            </tr>
+            <tr>
+              <td><span class="model-badge badge-gpt">O</span>GPT-5.5 Pro</td>
+              <td data-val="30.00" class="price-expensive">$30.00</td>
+              <td data-val="180.00" class="price-expensive">$180.00</td>
+              <td>OpenAI</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="step-foot">从 $0.14 到 $30 &mdash; 这 100 倍的差距从哪来? &darr;</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">100 倍价差, 可视化给你看</h2>
+      <p class="step-lede">如果把价格画成柱子, 你会发现便宜模型的柱子几乎看不见.</p>
+
+      <div class="price-gap" style="height:260px; padding-bottom:40px;">
+        <div class="gap-bar" style="height:3px; background:var(--blue);">
+          <span class="gap-bar-price" style="background:var(--blue);">$0.14</span>
+          <span class="gap-bar-label">DS V4 Flash</span>
+        </div>
+        <div class="gap-bar" style="height:4px; background:var(--purple);">
+          <span class="gap-bar-price" style="background:var(--purple);">$0.15</span>
+          <span class="gap-bar-label">Gemini Flash</span>
+        </div>
+        <div class="gap-bar" style="height:6px; background:#8b5cf6;">
+          <span class="gap-bar-price" style="background:#8b5cf6;">$0.78</span>
+          <span class="gap-bar-label">Qwen3 Max</span>
+        </div>
+        <div class="gap-bar" style="height:18px; background:var(--amber);">
+          <span class="gap-bar-price" style="background:var(--amber);">$2.50</span>
+          <span class="gap-bar-label">GPT-5.4</span>
+        </div>
+        <div class="gap-bar" style="height:36px; background:var(--red);">
+          <span class="gap-bar-price" style="background:var(--red);">$5.00</span>
+          <span class="gap-bar-label">GPT-5.5</span>
+        </div>
+        <div class="gap-bar" style="height:200px; background:#dc2626;">
+          <span class="gap-bar-price" style="background:#dc2626;">$30.00</span>
+          <span class="gap-bar-label">GPT-5.5 Pro</span>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>PM 直觉:</strong> 贵 = 好? 不一定.</p>
+        <p>GPT-5.5 Pro 是 DeepSeek V4 Flash 价格的 <strong>214 倍</strong>, 但在简单对话任务上, 质量差距可能只有 5-10%. 选模型不是选最贵的, 是选<mark class="hl">够用的</mark>.</p>
+      </div>
+      <div class="step-foot">价格标的 "per 1M tokens" &mdash; 这个单位是啥意思? &darr;</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">计费单位: 每百万 Token (per 1M tokens)</h2>
+      <p class="step-lede">别被 "百万" 吓到 &mdash; 你的一次调用通常只有几百到几千 token.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>换算公式:</strong></p>
+        <p style="font-family:'Excalifont','LXGW WenKai Screen',system-ui; font-size:20px; text-align:center; margin:16px 0;">
+          单次费用 = <span style="color:var(--blue);">token 数</span> &divide; 1,000,000 &times; <span style="color:var(--red);">单价</span>
+        </p>
+      </div>
+
+      <div class="callout callout-green" style="transform:rotate(0.3deg);">
+        <p><strong>举个例子:</strong></p>
+        <p>Vitamin 用户问: "经期可以跑步吗?"</p>
+        <ul>
+          <li>输入 ~350 tokens (system prompt 200 + 用户输入 50 + 历史 100)</li>
+          <li>输出 ~200 tokens (AI 回复)</li>
+        </ul>
+        <p>用 DeepSeek V4 Flash:</p>
+        <p style="text-align:center; font-size:18px;">
+          350 &divide; 1M &times; $0.14 + 200 &divide; 1M &times; $0.28 = <strong style="color:var(--green);">$0.0001</strong>
+        </p>
+        <p>用 Claude Opus 4.7:</p>
+        <p style="text-align:center; font-size:18px;">
+          350 &divide; 1M &times; $5.00 + 200 &divide; 1M &times; $25.00 = <strong style="color:var(--red);">$0.0068</strong>
+        </p>
+        <p class="muted">&rarr; 同一个问答, Opus 是 DeepSeek 的 68 倍.</p>
+      </div>
+      <div class="step-foot">有些模型的账单里, 还有你看不见的 "隐藏 token" &darr;</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">隐藏成本: Reasoning Tokens (思考 Token)</h2>
+      <p class="step-lede">用 o3 / DeepSeek R1 这类 "推理模型", 你看到的输出是 500 token, 但它可能在背后 "想" 了 3000 token. 你全得付钱.</p>
+
+      <div class="reasoning-visual">
+        <p style="margin:0 0 8px;"><strong>普通模型 (DeepSeek V4 Flash):</strong></p>
+        <div class="token-bar-stack">
+          <div class="token-bar-visible" style="width:100%;">500 output tokens (全可见)</div>
+        </div>
+        <div class="token-bar-legend">
+          <span><span class="legend-dot" style="background:var(--green);"></span>可见 output</span>
+        </div>
+
+        <p style="margin:16px 0 8px;"><strong>推理模型 (o3 / DeepSeek R1):</strong></p>
+        <div class="token-bar-stack">
+          <div class="token-bar-hidden" style="width:75%;">2500 reasoning tokens (不可见, 但收费!)</div>
+          <div class="token-bar-visible" style="width:25%;">500</div>
+        </div>
+        <div class="token-bar-legend">
+          <span><span class="legend-dot" style="background:var(--red);"></span>隐藏 reasoning tokens</span>
+          <span><span class="legend-dot" style="background:var(--green);"></span>可见 output</span>
+        </div>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>这意味着:</strong> 推理模型的实际花费可能是你预估的 <strong>3-6 倍</strong>. 看到 500 output tokens, 实际账单可能按 3000 tokens 收.</p>
+        <p class="muted">&rarr; 这就是为什么 Vitamin 不需要给每个问题都用推理模型. 简单问题用普通模型即可.</p>
+      </div>
+      <div class="step-foot">还有一种省钱方式: 不着急的任务, 用 Batch API &darr;</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Batch API: 延时换折扣, 省 50%</h2>
+      <p class="step-lede">OpenAI / Anthropic 都提供 <strong>Batch API</strong>: 你把请求打包发过去, 24 小时内返回结果, 但价格打五折.</p>
+
+      <div class="two-wrong" style="margin:18px 0;">
+        <article class="stage stage-train" style="transform:rotate(-0.3deg);">
+          <div class="stage-tag" style="color:var(--blue);">实时 API (Real-time)</div>
+          <ul style="padding-left:18px; margin:8px 0;">
+            <li>即时返回 (~1-5 秒)</li>
+            <li>原价: <strong>100%</strong></li>
+            <li>适合: 用户对话、实时交互</li>
+          </ul>
+        </article>
+        <article class="stage stage-infer" style="transform:rotate(0.3deg);">
+          <div class="stage-tag" style="color:var(--green);">Batch API (批量)</div>
+          <ul style="padding-left:18px; margin:8px 0;">
+            <li>24 小时内返回</li>
+            <li>原价的 <strong style="color:var(--green);">50%</strong></li>
+            <li>适合: 内容生成、分析报告、数据标注</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 能用 Batch API 的场景:</strong></p>
+        <ul>
+          <li>每晚生成次日的 "每日健康小贴士" (不需要实时)</li>
+          <li>批量分析用户周报 / 月报 (可以等几小时)</li>
+          <li>内容审核 (先存后审)</li>
+        </ul>
+        <p class="muted">&rarr; 把能延迟的任务移到 Batch, 立省 50%.</p>
+      </div>
+      <div class="step-foot">学了这么多概念, 来动手感受一下 &darr;</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: 多模型费用对比器</h2>
+      <p class="step-lede">输入一段文字, 看看同样的内容在不同模型上要花多少钱.</p>
+
+      <div class="billing-widget">
+        <textarea id="billing-text" class="billing-input" placeholder="在这里输入文字, 比如: 你好, 我最近月经不太规律, 上个月推迟了5天, 这个月又提前了3天. 我平时作息比较规律, 饮食也还算健康. 请问这种情况正常吗? 需要去医院检查吗?">你好, 我最近月经不太规律, 上个月推迟了5天, 这个月又提前了3天. 我平时作息比较规律, 饮食也还算健康. 请问这种情况正常吗? 需要去医院检查吗?</textarea>
+
+        <div class="sort-bar">
+          <span style="font-size:13px;color:var(--ink-muted);margin-right:4px;">排序:</span>
+          <button class="sort-btn active" data-sort="input">按输入价</button>
+          <button class="sort-btn" data-sort="output">按输出价</button>
+          <button class="sort-btn" data-sort="total">按总费用</button>
+        </div>
+
+        <div id="billing-results" class="billing-results"></div>
+
+        <p class="muted" style="margin-top:12px; font-size:12px;">* Token 数为估算值 (基于字符统计), 实际值取决于各模型 tokenizer. 价格截至 2026 年 5 月.</p>
+      </div>
+      <div class="step-foot">回到 Vitamin &mdash; 有了这些知识, 选什么模型? &darr;</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 案例: 选模型的逻辑</h2>
+      <p class="step-lede">不同功能用不同模型, 这叫 <mark class="hl">"模型分级"</mark>. Vitamin 至少需要三档:</p>
+
+      <div class="can-cant">
+        <article class="can-list">
+          <h3 class="can-head" style="color:var(--green);">&#10003; 便宜档: DeepSeek V4 Flash</h3>
+          <ul>
+            <li>日常对话 / 闲聊</li>
+            <li>简单分类 (情绪 5 状态)</li>
+            <li>内容改写 / 摘要</li>
+          </ul>
+          <p class="muted" style="margin:8px 0 0;">$0.14/$0.28 &mdash; 占 Vitamin 80% 的调用量</p>
+        </article>
+        <article class="cant-list" style="border-color:var(--amber);">
+          <h3 class="cant-head" style="color:var(--amber);">&#9670; 中档: Claude Sonnet 4.6</h3>
+          <ul>
+            <li>健康建议生成</li>
+            <li>多轮深度对话</li>
+            <li>用户周报 / 月报</li>
+          </ul>
+          <p class="muted" style="margin:8px 0 0;">$3.00/$15.00 &mdash; 占 15% 调用量</p>
+        </article>
+      </div>
+
+      <div class="callout callout-red" style="margin-top:16px;">
+        <p><strong>&#9670; 贵档: Claude Opus 4.7 / GPT-5.4</strong></p>
+        <ul>
+          <li>复杂健康问题需要深度推理</li>
+          <li>敏感场景需要最高质量回复</li>
+        </ul>
+        <p class="muted">$5.00/$25.00 &mdash; 占 5% 调用量, 但贡献 30%+ 的账单</p>
+      </div>
+
+      <div class="callout callout-amber">
+        <strong>面试金句:</strong>
+        <p>"AI 产品选模型不是选最好的, 是<mark class="hl">按场景选够用的</mark>. 80% 的请求走便宜模型, 20% 的高价值请求走贵模型 &mdash; 这能省 60-80% 成本."</p>
+      </div>
+      <div class="step-foot">一句话总结 + 作业 &darr;</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Token 是 AI 产品的水电煤 &mdash;<br/>不同供应商水费差 100 倍,<br/>选错了月底账单吓死你.</p>
+        <p class="one-liner-foot muted">看 API 账单时, 永远先问: 这些 token 用的是哪个模型? 能不能用更便宜的?</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 <a href="https://pricepertoken.com/" target="_blank">PricePerToken.com</a>, 输入 Vitamin 的一段 system prompt, 看看在不同模型上的费用差异.</li>
+          <li>算一算: Vitamin 每天 1000 个用户, 每人 5 次对话, 每次 500 token, 用 DeepSeek V4 Flash vs Claude Opus 4.7, 月费用分别是多少?</li>
+          <li>列出 Vitamin 的 5 个核心 AI 功能, 标注每个功能该用便宜档 / 中档 / 贵档.</li>
+          <li>写 200 字: 如果你是 Vitamin 的 PM, 怎么跟老板解释 "为什么我们同时用 3 个不同价格的模型".</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue" style="transform:rotate(0.2deg);">
+        <strong>资源延伸:</strong>
+        <table style="width:100%; font-size:13px; border-collapse:collapse; margin-top:8px;">
+          <tr><td style="padding:6px 4px;">&#127918;</td><td><a href="https://pricepertoken.com/" target="_blank">PricePerToken.com</a></td><td>实时对比 300+ 模型价格</td><td>5 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#127918;</td><td><a href="https://artificialanalysis.ai/tools/llm-price-calculator" target="_blank">LLM Price Calculator</a></td><td>输入 token 数算费用</td><td>5 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://www.knightli.com/2026/04/25/llm-token-pricing-principles/" target="_blank">大模型 API 为什么按 Token 收费</a></td><td>中文深度解析计费原理</td><td>15 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://zhuanlan.zhihu.com/p/1935794192564609333" target="_blank">大模型经济学真相</a></td><td>知乎 &middot; Token 成本越来越贵的深层分析</td><td>20 min</td></tr>
+          <tr style="border-top:1px dashed var(--border);"><td style="padding:6px 4px;">&#128250;</td><td><a href="https://www.cloudzero.com/blog/llm-api-pricing-comparison/" target="_blank">LLM API Pricing 2026</a></td><td>全面的英文价格对比指南</td><td>15 min</td></tr>
+        </table>
+      </div>
+      <div class="step-foot">走完了 &mdash; 回顾 &darr;</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> API 账单的 usage 字段</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Token ≠ 字, 别被 "字数" 骗了</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 定价一览: $0.14 到 $30</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 100 倍价差可视化</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Per 1M tokens 怎么算</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Reasoning tokens 隐藏成本</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> Batch API 省 50%</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 多模型费用对比器</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 三档选模型</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 1:</p>
+        <p class="end-summary-big">LLM 定价差 100 倍 &mdash; 选对模型比砍价重要 100 倍.</p>
+        <p class="end-summary-sub">同样的问答, DeepSeek V4 Flash 花 $0.0001, Claude Opus 花 $0.0068. 你选哪个?</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 2): Tokenizer 差异放大成本</div>
+        <p>今天我们看了价格表 &mdash; 但价格只是一半的故事.<br/>同一句中文, 在 GPT 的 tokenizer 里可能变成 19 个 token, 在 Qwen 里只有 6 个.</p>
+        <p><strong>Tokenizer 的差异, 直接把成本差距再放大一倍.</strong></p>
+        <a class="walk-arrow" href="../u2-tokenizer-cost/index.html">继续走 &rarr; Unit 2</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM &middot; Module 2.2 &middot; Unit 1 &middot; 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

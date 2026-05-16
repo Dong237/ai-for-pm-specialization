@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · Chunk 大小与重叠 — AI for PM · M3.3</title>
+  <meta name="description" content="Chunking: 文档切片的大小和重叠策略" />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.3</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 · Chunk 大小与重叠</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 3<span class="title-dot">·</span><br/>Chunk 大小与重叠</h1>
+      <p class="hero-sub">5000 字的文档, 切成多大的块最好?</p>
+
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">上节课说 Embedding 之前要先把文档"切片"...</p>
+          <p class="cloud-line">切太大? 切太小? 重叠多少?</p>
+          <p class="cloud-line">感觉这个"切法"很影响效果啊?</p>
+          <p class="cloud-line accent">—— 对, 非常影响. 今天搞定它.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解为什么需要 Chunking, 不切行不行</li>
+          <li>知道 Chunk 大小的最佳范围 (256-512 tokens)</li>
+          <li>理解 Overlap 的作用和最佳比例</li>
+          <li>动手试切一段 Vitamin 文档, 看效果差异</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">为什么不能把整篇文档直接 Embed?</h2>
+      <p class="step-lede">一篇医学文档可能有 5000 字, 覆盖 10 个不同话题. 如果整篇 Embed 成一个向量:</p>
+
+      <div class="two-wrong">
+        <article class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>问题 1: 向量太"稀释"</h3>
+          <p>5000 字的内容压成一个向量, 每个话题的信息被稀释. 就像把 10 种颜色混在一起变成灰色 — 什么颜色都不像了.</p>
+        </article>
+        <article class="wrong">
+          <div class="wrong-mark">✗</div>
+          <h3>问题 2: 塞不进 LLM</h3>
+          <p>LLM 的 Context Window 有限 (4K~128K tokens). 如果每次检索返回 3 篇 5000 字文档 = 15000 字, 占满了窗口, 没空间给 prompt 和回答.</p>
+        </article>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>所以:</strong> 把长文档切成小段 (Chunk), 每段 200~500 字. 每段有自己的向量, 检索时能精确匹配到最相关的那一小段.</p>
+        <p class="muted">类比: 整本教科书 vs 索引卡片. 你搜"经期饮食"时, 找到的是那一张相关的卡片, 不是整本书.</p>
+      </div>
+      <div class="step-foot">那切多大最好? ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Chunk 大小: 不大不小, 刚刚好</h2>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">核心</div>
+        <p class="truth-line big">Chunk 太大 → 向量被稀释, 检索不精准</p>
+        <p class="truth-line big">Chunk 太小 → 缺乏上下文, 意思不完整</p>
+        <p class="truth-line giant">最佳: 256 ~ 512 tokens</p>
+        <p class="truth-line muted">中文大约 400~800 字. 行业共识是从 512 tokens 开始试.</p>
+      </div>
+
+      <div class="size-recs">
+        <div class="size-rec">
+          <div class="rec-size" style="color:var(--blue)">256</div>
+          <div class="rec-label">短 Chunk</div>
+          <div class="rec-use">适合 FAQ、简短回答<br/>精确匹配, 但上下文少</div>
+        </div>
+        <div class="size-rec">
+          <div class="rec-size" style="color:var(--green)">512</div>
+          <div class="rec-label">标准 Chunk</div>
+          <div class="rec-use">最推荐的起始值<br/>平衡精度和上下文</div>
+        </div>
+        <div class="size-rec">
+          <div class="rec-size" style="color:var(--amber)">1024</div>
+          <div class="rec-label">长 Chunk</div>
+          <div class="rec-use">适合复杂分析型问题<br/>上下文充足, 但不够精确</div>
+        </div>
+      </div>
+      <div class="step-foot">大小定了, 还有一个问题: 边界怎么处理? ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">边界问题: 一句话被切成两半</h2>
+      <p class="step-lede">假设你按 50 个字一刀切. 原文是:</p>
+
+      <div class="prompt-box">
+        <div class="prompt-leader">原文:</div>
+        <div style="font-size:15px">经期应避免食用过于寒凉的食物,如冰淇淋、冰镇饮料等,<strong style="color:var(--red)">|← 第50个字, 这里切!</strong> 因为寒凉食物可能会加重痛经症状.</div>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>Chunk 1:</strong> "经期应避免食用过于寒凉的食物,如冰淇淋、冰镇饮料等,"</p>
+        <p><strong>Chunk 2:</strong> "因为寒凉食物可能会加重痛经症状."</p>
+        <p>Chunk 2 失去了上文 — 用户问"经期能吃冰吗?", 如果只检索到 Chunk 2, 它说"因为寒凉食物加重痛经", 但没说<em>什么</em>寒凉食物!</p>
+      </div>
+
+      <p class="step-lede"><strong>解决方案: Overlap (重叠)</strong> — 让相邻 Chunk 有一段重叠内容.</p>
+      <div class="step-foot">Overlap 具体怎么工作? ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Overlap: 给边界加"缓冲带"</h2>
+      <p class="step-lede">Overlap 就是让相邻的 Chunk 共享一部分文字. 比如 Chunk Size = 50 字, Overlap = 10 字:</p>
+
+      <div class="callout callout-blue">
+        <p><strong>Chunk 1:</strong> 字 1~50</p>
+        <p><strong>Chunk 2:</strong> 字 <span style="color:var(--amber);font-weight:600">41</span>~90 (前 10 个字和 Chunk 1 重叠)</p>
+        <p><strong>Chunk 3:</strong> 字 <span style="color:var(--amber);font-weight:600">81</span>~130 (前 10 个字和 Chunk 2 重叠)</p>
+        <p class="muted">重叠的部分就是"缓冲带" — 确保被切断的句子在下一个 Chunk 里也出现.</p>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>行业最佳实践: Overlap = Chunk Size 的 10%~20%</strong></p>
+        <ul>
+          <li>Chunk = 512 tokens → Overlap = 50~100 tokens</li>
+          <li>NVIDIA 测试发现 <strong>15% overlap</strong> 效果最好</li>
+          <li>太多 overlap → Chunk 数量暴增, 存储成本上升, 检索冗余</li>
+          <li>太少 overlap → 边界信息丢失</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>有趣的发现:</strong> 2026 年的研究显示, 在某些检索场景中, overlap 的收益可能<strong>接近零</strong>. 所以最好的做法是: 有 overlap 和没 overlap 都试一试, 看你的具体场景哪个好.</p>
+      </div>
+      <div class="step-foot">除了大小和重叠, 还有一个维度: 在哪里切? ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">在哪里切: 按字数 vs 按段落/句子</h2>
+      <p class="step-lede">最简单的切法是"每 500 字切一刀". 但更聪明的切法是<strong>尊重文本结构</strong>.</p>
+
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task">固定大小</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">每 N 个字/token 切一刀. 简单粗暴, 可能切断句子.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task">Recursive</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">先按段落切, 段落太长再按句子切, 再太长按逗号切. <strong>LangChain 默认方式, 最推荐.</strong></div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task">语义切分</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">用 Embedding 检测"话题转折点", 在转折处切. 精确但慢. → U4 详讲.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task">页面级</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">PDF 按页切. 适合排版固定的文档 (医学指南、法规). NVIDIA 测试中准确率最高.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>PM 决策:</strong> 从 <strong>Recursive Character Splitting</strong> 开始, 设 chunk_size=512, overlap=50~100. 跑一轮检索测试. 如果效果不够好, 再试语义切分或调参.</p>
+      </div>
+      <div class="step-foot">来看看不同 Chunk Size 的效果差异 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">大 Chunk vs 小 Chunk: 效果对比</h2>
+      <p class="step-lede">同一个问题 "经期能吃冰吗?", 用不同 Chunk Size 检索, 结果天差地别.</p>
+
+      <div class="can-cant">
+        <article class="can-list" style="border-color:var(--blue)">
+          <h3 class="can-head" style="color:var(--blue)">小 Chunk (200 字)</h3>
+          <ul>
+            <li>检索到: "经期应避免寒凉食物, 如冰淇淋..."</li>
+            <li>精准命中 — 但缺乏前因后果</li>
+            <li>Chunk 数量多 → 存储大</li>
+            <li>适合: FAQ, 简短事实性问题</li>
+          </ul>
+        </article>
+        <article class="cant-list" style="border-color:var(--amber)">
+          <h3 class="cant-head" style="color:var(--amber)">大 Chunk (1000 字)</h3>
+          <ul>
+            <li>检索到: 整篇"经期饮食"章节</li>
+            <li>上下文丰富 — 但包含很多无关内容</li>
+            <li>Chunk 数量少 → 存储小</li>
+            <li>适合: 复杂分析型问题</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>关键发现 (NVIDIA 2024):</strong></p>
+        <ul>
+          <li>事实性问题 (谁? 什么时候?) → 小 Chunk (256 tokens) 效果好</li>
+          <li>分析性问题 (为什么? 怎么做?) → 大 Chunk (1024 tokens) 效果好</li>
+          <li>混合场景 → 512 tokens 是最佳平衡点</li>
+        </ul>
+      </div>
+      <div class="step-foot">还有一个常见问题: 短文档需要切吗? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">什么时候不需要 Chunking?</h2>
+      <p class="step-lede">不是所有文档都需要切. 有些时候, <strong>不切反而更好</strong>.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>不需要切的场景:</strong></p>
+        <ul>
+          <li>FAQ 列表 — 每个 Q&A 本身就很短 (50~200 字)</li>
+          <li>产品描述 — 每个产品一段, 天然是独立的</li>
+          <li>客服工单 — 每个工单就是一个完整的上下文</li>
+        </ul>
+        <p><strong>必须切的场景:</strong></p>
+        <ul>
+          <li>长篇医学指南 (几千到几万字)</li>
+          <li>法律法规文档</li>
+          <li>技术文档手册</li>
+        </ul>
+        <p class="muted">规则: 文档 > 500 字且覆盖多个话题 → 切. 文档短且单一主题 → 不切.</p>
+      </div>
+      <div class="step-foot">到了最有趣的部分 — 自己动手切 ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: Chunk Slicer 切片器</h2>
+      <p class="step-lede">粘贴一段文本, 调整 Chunk Size 和 Overlap, 看看切出来什么效果. 黄色高亮 = 重叠区域.</p>
+
+      <div class="chunk-widget">
+        <textarea class="chunk-textarea" id="chunk-text" placeholder="粘贴文本到这里, 或使用默认的经期饮食文档..."></textarea>
+
+        <div class="chunk-controls">
+          <div class="chunk-control-group">
+            <label>Chunk Size: <span class="chunk-val" id="chunk-size-val">80</span> 字</label>
+            <input type="range" id="chunk-size" min="30" max="200" value="80" step="10" />
+          </div>
+          <div class="chunk-control-group">
+            <label>Overlap: <span class="chunk-val" id="chunk-overlap-val">15</span> 字</label>
+            <input type="range" id="chunk-overlap" min="0" max="60" value="15" step="5" />
+          </div>
+        </div>
+
+        <div class="chunk-output-header">
+          <h4>切分结果</h4>
+          <span class="chunk-stats" id="chunk-stats"></span>
+        </div>
+        <div class="chunk-list" id="chunk-output"></div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>试试这些:</strong></p>
+        <ul>
+          <li>把 Chunk Size 调到 30 — 看看切得太碎的效果</li>
+          <li>把 Chunk Size 调到 200 — 看看切得太大的效果</li>
+          <li>把 Overlap 调到 0 — 看看没有重叠时边界怎么断裂</li>
+          <li>把 Overlap 调到 50 — 看看重叠太多时的冗余</li>
+        </ul>
+      </div>
+      <div class="step-foot">回到 Vitamin ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 Chunking 策略</h2>
+      <p class="step-lede">Vitamin 的知识库有<strong>多种文档类型</strong>, 需要<strong>不同的 Chunking 策略</strong>.</p>
+
+      <div class="recall-table">
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">医学指南 PDF</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">按页 + Recursive 切, 512 tokens, 15% overlap. 保留章节标题作为 metadata.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">FAQ 列表</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">每个 Q&A 作为一个 chunk, 不切. 天然是独立的.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">中医养生文</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">按段落切, 400 tokens. 中医文本往往一段一个方子, 天然分段.</div>
+        </div>
+        <div class="recall-row">
+          <div class="recall-task" style="font-size:14px">营养学手册</div>
+          <div class="recall-arrow">→</div>
+          <div class="recall-explain">每种食物/营养素一个 chunk. 表格类内容特殊处理.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>Vitamin Chunking 建议:</strong></p>
+        <ul>
+          <li>默认: Recursive Character Splitting, 512 tokens, overlap 80 tokens</li>
+          <li>每个 chunk 保留 metadata: 来源文档名 + 章节标题 + 页码</li>
+          <li>FAQ 和短文档: 不切, 整条存</li>
+          <li>上线后监控: 看哪些 chunk 被检索到但用户不满意 → 调参</li>
+        </ul>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">Chunk Size 512 + Overlap 15% —<br/>先用这个默认值, 再根据检索效果调.</p>
+        <p class="one-liner-foot muted">切太大向量稀释, 切太小上下文丢失. 找到平衡点.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>找一篇 Vitamin 相关的医学科普文 (500~1000 字), 粘贴到上面的 Chunk Slicer, 用不同参数切, 记录你觉得哪个参数最"自然".</li>
+          <li>同一段文字, 分别用 Chunk Size=100 和 Chunk Size=500 切, 写下两种切法各自的优缺点.</li>
+          <li>思考: Vitamin 的 FAQ 列表 (每条 50~200 字) 需要 Chunking 吗? 为什么?</li>
+          <li>为 Vitamin 写一个 Chunking 策略文档 (200 字): 不同类型文档分别用什么 Chunk Size 和 Overlap.</li>
+        </ol>
+
+        <div style="margin-top:18px">
+          <strong>资源延伸:</strong>
+          <table style="width:100%; font-size:13px; margin-top:8px; border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border)">
+              <td style="padding:6px 8px">📖</td>
+              <td>Chunking Strategies Guide</td>
+              <td><a href="https://weaviate.io/blog/chunking-strategies-for-rag" target="_blank">Weaviate</a></td>
+              <td>最全面的 Chunking 策略指南</td>
+              <td>15 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border)">
+              <td style="padding:6px 8px">🛠</td>
+              <td>NVIDIA Chunking 实验</td>
+              <td><a href="https://developer.nvidia.com/blog/finding-the-best-chunking-strategy-for-accurate-ai-responses/" target="_blank">NVIDIA Blog</a></td>
+              <td>不同 Chunk Size 的实验数据</td>
+              <td>20 min</td>
+            </tr>
+            <tr style="border-bottom:1px dashed var(--border)">
+              <td style="padding:6px 8px">📖</td>
+              <td>Chunking 实战教程</td>
+              <td><a href="https://stackoverflow.blog/2024/12/27/breaking-up-is-hard-to-do-chunking-in-rag-applications/" target="_blank">Stack Overflow</a></td>
+              <td>Chunking 决策的直觉和实践</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 8px">📺</td>
+              <td>RAG 技术全栈指南</td>
+              <td><a href="https://github.com/datawhalechina/all-in-rag" target="_blank">Datawhale</a></td>
+              <td>中文 RAG 全流程教程</td>
+              <td>30 min</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 为什么不能整篇 Embed</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 最佳 Chunk Size</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 边界切断问题</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Overlap 缓冲带</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 4 种切法对比</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 大 vs 小 Chunk</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 什么时候不切</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Chunk Slicer</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 策略</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">Chunk Size 512 + Overlap 15% = 最佳起点.</p>
+        <p class="end-summary-sub">切太大稀释, 切太小断裂. 不同文档用不同策略.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 4): 语义 vs 固定切分</div>
+        <p>今天学的是"按字数切" — 简单但粗暴. 有一种更聪明的切法: <strong>语义切分</strong>, 它能自动找到"话题转折点".</p>
+        <p><strong>同一篇文档, 两种切法的效果差多少? 下节课对比给你看.</strong></p>
+        <a class="walk-arrow" href="../u4-splitting/index.html">继续走 → Unit 4</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><p>AI for PM · Module 3.3 · Unit 3 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

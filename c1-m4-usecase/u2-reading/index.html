@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 2 · Reading 类用例 — AI for PM · M1.4</title>
+  <meta name="description" content="AI PM 课 · M1.4 Unit 2: AI 的第一种超能力 -- Reading. 拆解 Summarize / Classify / Extract 三种模式." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.4</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 · Reading 类用例</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">&#9654;</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">&#9632;</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">&#9654;</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 2<span class="title-dot">·</span><br/>Reading: AI 的第一种超能力</h1>
+      <p class="hero-sub">上一课你学了 Augmentation vs Automation. 现在进入具体的 AI 能力类型 -- 从 Reading 开始.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你 · PM">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 产品经理)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">Reading 几乎总是 Augmentation -- AI 读文本, 人做决定.</p>
+          <p class="cloud-line">但 "读" 这件事, 居然有 <strong>3 种完全不同的模式</strong>?</p>
+          <p class="cloud-line">Summarize / Classify / Extract -- 差别在哪?</p>
+          <p class="cloud-line accent">-- 10 步, 全拆清楚.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>分清 Summarize / Classify / Extract 三种 Reading 模式</li>
+          <li>知道每种模式的输入-输出长什么样</li>
+          <li>会给 Vitamin 的用户数据选对 Reading 模式</li>
+          <li>动手体验 3 种模式处理 Vitamin 用户消息</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">同一段文本, 三种不同的 "读法"</h2>
+      <p class="step-lede">Vitamin 用户写了一段健康日记:</p>
+
+      <div class="input-block">
+        <div class="input-label">&#128221; 用户日记</div>
+        <div class="input-text">
+          "最近一周一直感觉头疼, 晚上老是睡不好, 凌晨三四点就醒了. 食欲也不太好, 早上基本不想吃东西. 心情有点低落, 可能跟工作压力大有关系. 上周开始吃了布洛芬, 头疼稍微好一点了."
+        </div>
+      </div>
+
+      <p class="step-lede">同一段文字, AI 可以做 3 件<em>完全不同</em>的事:</p>
+
+      <div class="three-readings">
+        <article class="reading-card r-summarize" data-rough="card">
+          <div class="r-tag r-tag-blue">Summarize 压缩</div>
+          <div class="r-arrow">&darr;</div>
+          <div class="r-output">
+            <p>&#8226; 头疼 + 失眠持续一周</p>
+            <p>&#8226; 食欲差, 情绪低落, 可能与工作压力相关</p>
+            <p>&#8226; 已服布洛芬, 头疼有改善</p>
+          </div>
+          <div class="r-nature">200 字 &rarr; 3 句话</div>
+        </article>
+
+        <article class="reading-card r-classify" data-rough="card">
+          <div class="r-tag r-tag-green">Classify 分类</div>
+          <div class="r-arrow">&darr;</div>
+          <div class="r-output">
+            <div class="r-class-bars">
+              <div class="r-cbar"><span class="r-cbar-label">焦虑</span><div class="r-cbar-track"><div class="r-cbar-fill" data-value="72" style="width:0;background:var(--amber)"><span>72%</span></div></div></div>
+              <div class="r-cbar"><span class="r-cbar-label">疲惫</span><div class="r-cbar-track"><div class="r-cbar-fill" data-value="85" style="width:0;background:var(--red)"><span>85%</span></div></div></div>
+              <div class="r-cbar"><span class="r-cbar-label">平静</span><div class="r-cbar-track"><div class="r-cbar-fill" data-value="15" style="width:0;background:var(--green)"><span>15%</span></div></div></div>
+              <div class="r-cbar"><span class="r-cbar-label">愉快</span><div class="r-cbar-track"><div class="r-cbar-fill" data-value="8" style="width:0;background:var(--blue)"><span>8%</span></div></div></div>
+            </div>
+          </div>
+          <div class="r-nature">文本 &rarr; N 个标签 + 置信度</div>
+        </article>
+
+        <article class="reading-card r-extract" data-rough="card">
+          <div class="r-tag r-tag-amber">Extract 提取</div>
+          <div class="r-arrow">&darr;</div>
+          <div class="r-output">
+            <div class="r-entity-group">
+              <span class="r-entity e-symptom">头疼</span>
+              <span class="r-entity e-symptom">失眠</span>
+              <span class="r-entity e-symptom">食欲差</span>
+              <span class="r-entity e-mood">心情低落</span>
+              <span class="r-entity e-med">布洛芬</span>
+              <span class="r-entity e-time">上周</span>
+              <span class="r-entity e-cause">工作压力</span>
+            </div>
+          </div>
+          <div class="r-nature">非结构化 &rarr; 结构化字段</div>
+        </article>
+      </div>
+
+      <div class="step-foot">同一段文本, 三种不同的输出. 它们的区别是什么? ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">一个常见误解 -- 和真相</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">&times;</div>
+          <h3>误解: "Reading 就是让 AI 理解文本"</h3>
+          <p>AI 读懂了内容, 然后什么都能做.</p>
+          <div class="wrong-why">
+            <strong>问题:</strong>
+            "理解" 太模糊了. 同一段文字, Summarize 只关注 "重点是什么", Classify 只关注 "属于哪类", Extract 只关注 "有哪些实体".
+            它们需要不同的 prompt、不同的输出格式、不同的评估标准.
+            <br/><br/>
+            PM 不能笼统地说 "让 AI 读一下用户日记" -- 你必须指定: <strong>是要压缩? 贴标签? 还是挖字段?</strong>
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">Reading 不是 "理解" -- 是 <mark class="hl">3 种不同的信息变换</mark>:</p>
+        <div class="truth-trio">
+          <div class="truth-mode">
+            <div class="truth-mode-icon">&#128220;</div>
+            <div class="truth-mode-name">Summarize</div>
+            <div class="truth-mode-eq">长 &rarr; 短</div>
+          </div>
+          <div class="truth-mode">
+            <div class="truth-mode-icon">&#127991;</div>
+            <div class="truth-mode-name">Classify</div>
+            <div class="truth-mode-eq">文本 &rarr; 标签</div>
+          </div>
+          <div class="truth-mode">
+            <div class="truth-mode-icon">&#9874;&#65039;</div>
+            <div class="truth-mode-name">Extract</div>
+            <div class="truth-mode-eq">散乱 &rarr; 结构</div>
+          </div>
+        </div>
+        <p class="truth-line muted">&rarr; 每种变换都有自己的 prompt 模板、输出格式、质量指标. 下面一个个拆.</p>
+      </div>
+
+      <div class="step-foot">先从第一个开始: Summarize ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Pattern 1: Summarize -- 长变短</h2>
+      <p class="step-lede">Summarize 的本质: 保留意思, 压缩体积. 像把一杯果汁浓缩成一颗糖.</p>
+
+      <div class="transform-demo" id="summarize-demo">
+        <div class="td-input">
+          <div class="td-label">&#128221; 输入: 用户日记 (87 字)</div>
+          <div class="td-text" id="sum-input-text">
+            <span class="td-word">最近</span><span class="td-word">一周</span><span class="td-word">一直</span><span class="td-word key">感觉</span><span class="td-word key">头疼</span><span class="td-word">,</span>
+            <span class="td-word">晚上</span><span class="td-word">老是</span><span class="td-word key">睡不好</span><span class="td-word">,</span>
+            <span class="td-word">凌晨</span><span class="td-word">三四点</span><span class="td-word">就</span><span class="td-word">醒了</span><span class="td-word">.</span>
+            <span class="td-word key">食欲</span><span class="td-word">也</span><span class="td-word">不太好</span><span class="td-word">,</span>
+            <span class="td-word">早上</span><span class="td-word">基本</span><span class="td-word">不想</span><span class="td-word">吃</span><span class="td-word">东西</span><span class="td-word">.</span>
+            <span class="td-word key">心情</span><span class="td-word">有点</span><span class="td-word key">低落</span><span class="td-word">,</span>
+            <span class="td-word">可能</span><span class="td-word">跟</span><span class="td-word key">工作压力</span><span class="td-word">大</span><span class="td-word">有关系</span><span class="td-word">.</span>
+            <span class="td-word">上周</span><span class="td-word">开始</span><span class="td-word">吃了</span><span class="td-word key">布洛芬</span><span class="td-word">,</span>
+            <span class="td-word">头疼</span><span class="td-word">稍微</span><span class="td-word key">好一点</span><span class="td-word">了</span><span class="td-word">.</span>
+          </div>
+        </div>
+        <div class="td-process">
+          <button class="btn btn-primary" id="sum-btn">&#128270; AI 扫描 &rarr;</button>
+        </div>
+        <div class="td-output" id="sum-output" style="display:none;">
+          <div class="td-label">&#128196; 输出: 3 句摘要</div>
+          <div class="td-result">
+            <p>&#8226; 头疼 + 失眠持续一周, 凌晨早醒</p>
+            <p>&#8226; 食欲差、情绪低, 疑似工作压力导致</p>
+            <p>&#8226; 已服布洛芬, 头疼有缓解</p>
+          </div>
+          <div class="td-meta">87 字 &rarr; 42 字. 压缩率 52%.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 怎么用 Summarize?</strong></p>
+        <ul>
+          <li>每周健康周报: 7 天的日记自动浓缩成 3 条核心</li>
+          <li>医生端: 用户 3 个月的记录 &rarr; 一页摘要</li>
+          <li>用户自己: "帮我看看这周身体整体怎么样"</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">第二种 Reading: Classify ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Pattern 2: Classify -- 贴标签</h2>
+      <p class="step-lede">Classify 的本质: 把文本放进<em>预定义的几个桶</em>里, 并说出 AI 有多确信.</p>
+
+      <div class="transform-demo" id="classify-demo">
+        <div class="td-input">
+          <div class="td-label">&#128221; 输入: 用户消息</div>
+          <div class="td-text" id="cls-input-text">
+            <span class="td-word">最近</span><span class="td-word">老是</span><span class="td-word emph">睡不好</span><span class="td-word">,</span>
+            <span class="td-word emph">心烦</span><span class="td-word">,</span>
+            <span class="td-word">不知道</span><span class="td-word">为什么</span><span class="td-word">就是</span><span class="td-word emph">提不起劲</span><span class="td-word">.</span>
+            <span class="td-word">工作</span><span class="td-word">上</span><span class="td-word">也</span><span class="td-word emph">焦虑</span><span class="td-word">,</span>
+            <span class="td-word">总</span><span class="td-word">觉得</span><span class="td-word">自己</span><span class="td-word">做</span><span class="td-word">得</span><span class="td-word">不够好</span><span class="td-word">.</span>
+          </div>
+        </div>
+        <div class="td-process">
+          <button class="btn btn-primary" id="cls-btn">&#127991; AI 分类 &rarr;</button>
+        </div>
+        <div class="td-output" id="cls-output" style="display:none;">
+          <div class="td-label">&#127991; 输出: 情绪分类 + 置信度</div>
+          <div class="cls-bars">
+            <div class="cls-bar-row">
+              <span class="cls-label">焦虑</span>
+              <div class="cls-track"><div class="cls-fill cls-fill-red" data-value="82"><span>82%</span></div></div>
+            </div>
+            <div class="cls-bar-row">
+              <span class="cls-label">疲惫</span>
+              <div class="cls-track"><div class="cls-fill cls-fill-amber" data-value="71"><span>71%</span></div></div>
+            </div>
+            <div class="cls-bar-row">
+              <span class="cls-label">沮丧</span>
+              <div class="cls-track"><div class="cls-fill cls-fill-purple" data-value="58"><span>58%</span></div></div>
+            </div>
+            <div class="cls-bar-row">
+              <span class="cls-label">平静</span>
+              <div class="cls-track"><div class="cls-fill cls-fill-green" data-value="12"><span>12%</span></div></div>
+            </div>
+            <div class="cls-bar-row">
+              <span class="cls-label">愉快</span>
+              <div class="cls-track"><div class="cls-fill cls-fill-blue" data-value="5"><span>5%</span></div></div>
+            </div>
+          </div>
+          <div class="cls-verdict">
+            <span class="pill pill-amber">主要情绪: 焦虑</span>
+            <span class="pill pill-blue">次要: 疲惫</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 怎么用 Classify?</strong></p>
+        <ul>
+          <li>情绪日记分类: 用户写完 &rarr; AI 自动贴情绪标签 (可让用户修正, L3 增强)</li>
+          <li>消息意图分类: 用户输入 &rarr; 是提问 / 倾诉 / 记录 / 求助?</li>
+          <li>症状严重度分级: 轻微 / 中等 / 严重 / 紧急</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">第三种 Reading: Extract ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Pattern 3: Extract -- 挖结构</h2>
+      <p class="step-lede">Extract 的本质: 从散乱的自然语言中, 挖出<em>有名字的字段</em>. 像考古一样, 从泥土里刨出宝贝.</p>
+
+      <div class="transform-demo" id="extract-demo">
+        <div class="td-input">
+          <div class="td-label">&#128221; 输入: 用户消息</div>
+          <div class="td-text" id="ext-input-text">
+            <span class="td-word">头疼</span><span class="td-word">、</span><span class="td-word">失眠</span><span class="td-word">、</span><span class="td-word">食欲不好</span><span class="td-word">,</span>
+            <span class="td-word">上周</span><span class="td-word">开始</span><span class="td-word">吃了</span><span class="td-word">布洛芬</span><span class="td-word">,</span>
+            <span class="td-word">昨天</span><span class="td-word">量</span><span class="td-word">了</span><span class="td-word">体温</span><span class="td-word">37.2</span><span class="td-word">.</span>
+            <span class="td-word">经期</span><span class="td-word">第三天</span><span class="td-word">,</span>
+            <span class="td-word">量</span><span class="td-word">比较</span><span class="td-word">大</span><span class="td-word">.</span>
+          </div>
+        </div>
+        <div class="td-process">
+          <button class="btn btn-primary" id="ext-btn">&#9874;&#65039; AI 提取 &rarr;</button>
+        </div>
+        <div class="td-output" id="ext-output" style="display:none;">
+          <div class="td-label">&#128203; 输出: 结构化数据</div>
+          <div class="ext-json">
+            <div class="ext-field">
+              <span class="ext-key">symptoms:</span>
+              <span class="ext-val">[<span class="r-entity e-symptom">头疼</span>, <span class="r-entity e-symptom">失眠</span>, <span class="r-entity e-symptom">食欲不好</span>]</span>
+            </div>
+            <div class="ext-field">
+              <span class="ext-key">medication:</span>
+              <span class="ext-val">[<span class="r-entity e-med">布洛芬</span>]</span>
+            </div>
+            <div class="ext-field">
+              <span class="ext-key">vitals:</span>
+              <span class="ext-val">{<span class="r-entity e-vital">体温: 37.2</span>}</span>
+            </div>
+            <div class="ext-field">
+              <span class="ext-key">period:</span>
+              <span class="ext-val">{<span class="r-entity e-time">day: 3</span>, <span class="r-entity e-symptom">flow: heavy</span>}</span>
+            </div>
+            <div class="ext-field">
+              <span class="ext-key">timeline:</span>
+              <span class="ext-val"><span class="r-entity e-time">上周</span> (布洛芬), <span class="r-entity e-time">昨天</span> (体温)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 怎么用 Extract?</strong></p>
+        <ul>
+          <li>症状提取: 用户自由输入 &rarr; 自动填入症状清单</li>
+          <li>用药信息提取: 识别药品名 + 剂量 + 开始时间</li>
+          <li>生理数据提取: 从文字中抓出体温、体重、血压等数值</li>
+        </ul>
+        <p class="muted">Extract 是最 "结构化" 的 Reading 模式 -- 输出可以直接存数据库, 供后续分析使用.</p>
+      </div>
+
+      <div class="step-foot">三种模式都见过了. 现在对比: 什么时候用哪个? ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">三种模式, 怎么选?</h2>
+      <p class="step-lede">拿到一段用户输入, 先问自己一个问题: <mark class="hl">我要的输出长什么样?</mark></p>
+
+      <div class="comparison-table">
+        <div class="ct-header">
+          <div class="ct-cell ct-corner"></div>
+          <div class="ct-cell ct-h ct-h-blue">&#128220; Summarize</div>
+          <div class="ct-cell ct-h ct-h-green">&#127991; Classify</div>
+          <div class="ct-cell ct-h ct-h-amber">&#9874;&#65039; Extract</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-label">一句话</div>
+          <div class="ct-cell">长变短</div>
+          <div class="ct-cell">贴标签</div>
+          <div class="ct-cell">挖字段</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-label">输出形式</div>
+          <div class="ct-cell">短文本 (段落/要点)</div>
+          <div class="ct-cell">标签 + 置信度</div>
+          <div class="ct-cell">结构化数据 (JSON/表)</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-label">Vitamin 场景</div>
+          <div class="ct-cell">周报、日记摘要</div>
+          <div class="ct-cell">情绪分类、意图识别</div>
+          <div class="ct-cell">症状提取、用药记录</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-label">常见精度</div>
+          <div class="ct-cell">ROUGE 评分</div>
+          <div class="ct-cell">F1 / Accuracy</div>
+          <div class="ct-cell">Precision / Recall</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-label">最怕出错</div>
+          <div class="ct-cell">漏了关键信息</div>
+          <div class="ct-cell">分错类别</div>
+          <div class="ct-cell">漏提取或多提取</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-cell ct-label">光谱位置</div>
+          <div class="ct-cell"><span class="pill pill-blue">通常 L2</span></div>
+          <div class="ct-cell"><span class="pill pill-green">通常 L2-L3</span></div>
+          <div class="ct-cell"><span class="pill pill-amber">通常 L2</span></div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p><strong>决策速查:</strong></p>
+        <p>&#128073; "我想要<strong>精华</strong>" &rarr; Summarize</p>
+        <p>&#128073; "我想知道它<strong>属于哪类</strong>" &rarr; Classify</p>
+        <p>&#128073; "我想挖出<strong>具体信息</strong>填表" &rarr; Extract</p>
+      </div>
+
+      <div class="step-foot">选对了模式, 接下来 PM 要关注什么? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">PM 需要关注的 3 个质量问题</h2>
+      <p class="step-lede">AI 不是 100% 准确的. 每种 Reading 模式都有自己的 "出错方式", PM 要提前设计兜底:</p>
+
+      <div class="risk-cards">
+        <article class="risk-card risk-sum" data-rough="card">
+          <h3>&#128220; Summarize 的风险</h3>
+          <div class="risk-scenario">
+            <p class="risk-q">&#128163; 最怕什么?</p>
+            <p>漏掉关键信息. 用户提到 "吃了布洛芬", 但摘要里没体现.</p>
+            <p class="risk-q">&#128737;&#65039; PM 怎么兜底?</p>
+            <ul>
+              <li>摘要下方展示 "查看原文" 链接</li>
+              <li>涉及用药/症状, 用 Extract 辅助校验</li>
+              <li>加 "这个摘要准确吗?" 用户反馈按钮</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="risk-card risk-cls" data-rough="card">
+          <h3>&#127991; Classify 的风险</h3>
+          <div class="risk-scenario">
+            <p class="risk-q">&#128163; 最怕什么?</p>
+            <p>分错类. 用户其实很焦虑, AI 说 "平静". 导致下游推荐完全错位.</p>
+            <p class="risk-q">&#128737;&#65039; PM 怎么兜底?</p>
+            <ul>
+              <li>展示 top-3 类别让用户选 (L3 增强)</li>
+              <li>置信度低于阈值时标记 "不确定"</li>
+              <li>收集用户修正数据, 持续优化分类模型</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="risk-card risk-ext" data-rough="card">
+          <h3>&#9874;&#65039; Extract 的风险</h3>
+          <div class="risk-scenario">
+            <p class="risk-q">&#128163; 最怕什么?</p>
+            <p>两种错: 漏提取 ("布洛芬" 没抓到) 或多提取 (把 "不头疼" 提取成 "头疼").</p>
+            <p class="risk-q">&#128737;&#65039; PM 怎么兜底?</p>
+            <ul>
+              <li>提取结果高亮显示原文中的对应部分, 让用户确认</li>
+              <li>关键字段 (用药) 缺失时主动追问</li>
+              <li>不依赖 Extract 做医疗决策, 仅用于辅助记录</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="callout callout-red">
+        <p><strong>PM 的通用原则:</strong> 无论哪种 Reading 模式, AI 读完之后, <mark class="hl">都要给用户一个修正的机会</mark>. 这就是 U1 说的 Augmentation -- AI 给初稿, 人来确认.</p>
+      </div>
+
+      <div class="step-foot">概念讲完了, 来动手体验 ↓</div>
+    </section>
+
+    <!-- (8) -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试试 -- Reading 工具箱</h2>
+      <p class="step-lede">下面是 3 个标签页, 每个对应一种 Reading 模式. 你可以编辑输入文本, 然后点 "处理" 看 AI 的输出.</p>
+
+      <div class="reading-toolkit" id="reading-toolkit">
+        <div class="rt-tabs">
+          <button class="rt-tab active" data-mode="summarize">&#128220; Summarize</button>
+          <button class="rt-tab" data-mode="classify">&#127991; Classify</button>
+          <button class="rt-tab" data-mode="extract">&#9874;&#65039; Extract</button>
+        </div>
+
+        <!-- Summarize panel -->
+        <div class="rt-panel active" data-mode="summarize">
+          <div class="rt-input-section">
+            <label class="rt-label">输入文本 (可编辑):</label>
+            <textarea class="rt-textarea" id="rt-sum-input" rows="5">这周感觉特别累, 经期第五天了, 量已经很少了. 周二晚上跟朋友吃了一顿火锅, 第二天肚子有点不舒服. 周四开始做瑜伽, 感觉好了一些. 整体心情还可以, 但工作上有个 deadline 比较焦虑. 周末准备好好休息.</textarea>
+          </div>
+          <button class="btn btn-primary rt-process" data-mode="summarize">&#128270; 处理 &rarr;</button>
+          <div class="rt-output" id="rt-sum-output" style="display:none;">
+            <div class="rt-output-label">AI 摘要结果:</div>
+            <div class="rt-output-content" id="rt-sum-result"></div>
+            <div class="rt-vitamin-note">
+              <strong>Vitamin 应用:</strong> 这段摘要可以出现在用户的 "本周健康回顾" 卡片中. 用户看完摘要, 点 "准确" 或 "补充" 来修正.
+            </div>
+          </div>
+        </div>
+
+        <!-- Classify panel -->
+        <div class="rt-panel" data-mode="classify">
+          <div class="rt-input-section">
+            <label class="rt-label">输入文本 (可编辑):</label>
+            <textarea class="rt-textarea" id="rt-cls-input" rows="5">今天心情超好! 经期结束了, 终于可以去游泳了. 下午跟闺蜜逛了街, 买了一条裙子. 晚上准备做点好吃的犒劳自己.</textarea>
+          </div>
+          <button class="btn btn-primary rt-process" data-mode="classify">&#127991; 处理 &rarr;</button>
+          <div class="rt-output" id="rt-cls-output" style="display:none;">
+            <div class="rt-output-label">AI 分类结果:</div>
+            <div class="rt-output-content" id="rt-cls-result"></div>
+            <div class="rt-vitamin-note">
+              <strong>Vitamin 应用:</strong> 自动给这条日记打上情绪标签, 显示在情绪趋势图上. 用户可以点 "修正情绪" 来调整.
+            </div>
+          </div>
+        </div>
+
+        <!-- Extract panel -->
+        <div class="rt-panel" data-mode="extract">
+          <div class="rt-input-section">
+            <label class="rt-label">输入文本 (可编辑):</label>
+            <textarea class="rt-textarea" id="rt-ext-input" rows="5">早上吃了一个鸡蛋和一碗粥, 中午没怎么吃, 晚上吃了点水果. 今天走了 8000 步, 体重 52.3kg. 睡了 7 个小时, 但半夜醒了一次. 吃了一片维生素 C.</textarea>
+          </div>
+          <button class="btn btn-primary rt-process" data-mode="extract">&#9874;&#65039; 处理 &rarr;</button>
+          <div class="rt-output" id="rt-ext-output" style="display:none;">
+            <div class="rt-output-label">AI 提取结果:</div>
+            <div class="rt-output-content" id="rt-ext-result"></div>
+            <div class="rt-vitamin-note">
+              <strong>Vitamin 应用:</strong> 提取的数据自动填入健康追踪表. 用户确认后, 数据进入趋势分析.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-foot">Reading 在 Vitamin 的 5 个状态里怎么用? ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的 5 个状态, 各用什么 Reading?</h2>
+      <p class="step-lede">每个身体状态的用户数据不同, 需要的 Reading 模式也不同:</p>
+
+      <div class="state-reading-map">
+        <div class="srm-row">
+          <div class="srm-state srm-jq">经期</div>
+          <div class="srm-modes">
+            <div class="srm-mode srm-extract">
+              <strong>&#9874;&#65039; Extract 为主</strong>
+              <p>提取: 经期天数、经量、症状 (痛经/头疼/情绪波动)</p>
+            </div>
+            <div class="srm-mode srm-classify">
+              <strong>&#127991; Classify 辅助</strong>
+              <p>痛经严重度分级: 轻微/中等/严重</p>
+            </div>
+          </div>
+        </div>
+        <div class="srm-row">
+          <div class="srm-state srm-by">备孕</div>
+          <div class="srm-modes">
+            <div class="srm-mode srm-summarize">
+              <strong>&#128220; Summarize 为主</strong>
+              <p>每周排卵追踪数据汇总: 基础体温、LH试纸、白带变化</p>
+            </div>
+            <div class="srm-mode srm-extract">
+              <strong>&#9874;&#65039; Extract 辅助</strong>
+              <p>提取: 排卵日预测依据、同房记录</p>
+            </div>
+          </div>
+        </div>
+        <div class="srm-row">
+          <div class="srm-state srm-yq">孕期</div>
+          <div class="srm-modes">
+            <div class="srm-mode srm-extract">
+              <strong>&#9874;&#65039; Extract 为主</strong>
+              <p>提取: 产检数据 (血压/体重/胎心率)、不适症状</p>
+            </div>
+            <div class="srm-mode srm-classify">
+              <strong>&#127991; Classify 关键</strong>
+              <p>症状严重度分级: 正常/需注意/立即就医</p>
+            </div>
+          </div>
+        </div>
+        <div class="srm-row">
+          <div class="srm-state srm-ch">产后</div>
+          <div class="srm-modes">
+            <div class="srm-mode srm-classify">
+              <strong>&#127991; Classify 为主</strong>
+              <p>产后情绪筛查: 正常波动 vs 产后抑郁风险</p>
+            </div>
+            <div class="srm-mode srm-summarize">
+              <strong>&#128220; Summarize 辅助</strong>
+              <p>恢复进度周报: 喂养记录 + 身体恢复 + 情绪变化</p>
+            </div>
+          </div>
+        </div>
+        <div class="srm-row">
+          <div class="srm-state srm-gnq">更年期</div>
+          <div class="srm-modes">
+            <div class="srm-mode srm-extract">
+              <strong>&#9874;&#65039; Extract 为主</strong>
+              <p>提取: 潮热频次、失眠天数、情绪变化、HRT 用药</p>
+            </div>
+            <div class="srm-mode srm-summarize">
+              <strong>&#128220; Summarize 辅助</strong>
+              <p>月度症状变化趋势总结</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-green">
+        <p><strong>核心洞察:</strong> Extract 在每个状态都用得到 -- 因为 Vitamin 的核心价值就是 "把用户的自由表达变成可追踪的结构化数据". 而 Classify 在高风险状态 (孕期/产后) 尤其关键, 因为它决定了 AI 后续的响应策略.</p>
+      </div>
+
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">拿到文本, 先问: 要压缩? 要贴标签? 要挖字段?<br/>答案就是你该用的 Reading 模式.</p>
+        <p class="one-liner-foot muted">Summarize = 长变短. Classify = 文本变标签. Extract = 散乱变结构. 三选一, 或组合使用.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>打开 ChatGPT/豆包, 输入一段 200 字的健康日记 (自己编或复制上面的). 分别让 AI 做 Summarize / Classify / Extract, 对比输出差异.</li>
+          <li>给 Vitamin 的 5 个身体状态各写一条 "Reading prompt" -- 明确指定用哪种模式、输出什么格式.</li>
+          <li>找一个你用过的 App (微信读书/小红书/美团), 找出其中 3 处使用了 Reading 类 AI 的功能, 判断它们用的是 Summarize/Classify/Extract.</li>
+          <li>写 200 字: 为什么 Extract 在 Vitamin 这种健康 App 中最关键? (提示: 想想数据库需要什么)</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue resource-table-callout">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead>
+            <tr><th>类型</th><th>内容</th><th>来源</th><th>为什么值得看</th><th>时间</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>&#128214;</td>
+              <td>Top 30+ NLP Use Cases with Real-life Examples</td>
+              <td>AIMultiple</td>
+              <td>大量真实产品中 NLP 的应用, 扩展视野</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>&#128214;</td>
+              <td>Choose a Natural Language Processing Technology</td>
+              <td>Microsoft Azure Docs</td>
+              <td>从工程视角看 NLP 技术选型</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>&#128214;</td>
+              <td>Enterprise Text Summarization with LLMs</td>
+              <td>Addepto</td>
+              <td>企业级文本摘要的技术方案和案例</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>&#128250;</td>
+              <td>NLP 自然语言处理入门</td>
+              <td>B 站 / YouTube</td>
+              <td>中文 NLP 基础概念讲解, 适合非技术 PM</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>&#128736;&#65039;</td>
+              <td>Google Cloud Natural Language API</td>
+              <td>Google Cloud</td>
+              <td>实际体验 Classify + Extract 的 API, 看看工程师怎么用</td>
+              <td>10 min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">&#9632;</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 同一段文本, 3 种 "读法"</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 不是 "理解" -- 是 3 种信息变换</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Summarize: 长变短</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Classify: 贴标签</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Extract: 挖结构</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 三种模式对比决策表</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> PM 的 3 个质量兜底</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Reading 工具箱实战</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 5 状态的 Reading 地图</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">Reading = AI 的 "耳朵".<br/>Summarize 压缩, Classify 贴标签, Extract 挖结构.</p>
+        <p class="end-summary-sub">拿到文本先问: 要精华? 要分类? 要填表? 答案就是你的 Reading 模式.</p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 3): Writing 类用例</div>
+        <p>Reading 把文本变成数据. <strong>Writing 是镜像 -- 把数据变成文本.</strong></p>
+        <p>如果 Reading 是 AI 的 "耳朵", Writing 就是 AI 的 "嘴巴". 它也有 3 种子模式: <strong>Draft (从零写) / Paraphrase (改写) / Expand (展开)</strong>.</p>
+        <p>下一课, 你会看到同一条 Vitamin 数据, 在 3 种温度下写出完全不同风格的文本.</p>
+        <a class="walk-arrow" href="../u3-writing/index.html">继续走 &rarr; Unit 3</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.4 · Unit 2 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

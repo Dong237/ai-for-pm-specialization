@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 7 · 成本/效果/复杂度三角 — AI for PM · M2.4</title>
+  <meta name="description" content="每种架构在成本、效果、复杂度三维上的取舍. 只能优化两个, 牺牲第三个." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.4</span></a><div class="topbar-right"><span class="unit-label">Unit 7 · 三角取舍</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="步骤导航"><ol><li><a href="#start" data-step="0">▶</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">■</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 7<span class="title-dot">·</span><br/>成本 / 效果 / 复杂度三角</h1>
+      <p class="hero-sub">只能优化两个, 牺牲第三个 — 这就是 PM 的决策空间.</p>
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">选了架构, 但老板问: "能不能又便宜又好又简单?"</p>
+          <p class="cloud-line accent">—— 不能. 但你能选择牺牲哪一个.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 "不可能三角" 在 AI 架构中的体现</li>
+          <li>知道每种架构优化了什么、牺牲了什么</li>
+          <li>在三角图上可视化 4 种架构的取舍</li>
+          <li>给 Vitamin 做出 "我们选择牺牲什么" 的明确决策</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">"不可能三角" — 项目管理的经典理论</h2>
+      <p class="step-lede">项目管理有句老话: <mark class="hl">"快、好、便宜 — 只能选两个."</mark></p>
+      <div class="big-insight">
+        <p>AI 架构也一样:</p>
+        <p class="insight-text">效果好 + 成本低 → 但复杂度高<br/>效果好 + 简单 → 但很贵<br/>成本低 + 简单 → 但效果有限</p>
+        <p>PM 的工作不是追求 "三个都要", 而是决定 "牺牲哪一个".</p>
+      </div>
+      <div class="step-foot">3 个维度分别是什么? &darr;</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">三角的 3 个维度</h2>
+      <div class="three-cards">
+        <article class="wonder" style="border-color:var(--green);"><div class="wonder-tag" style="border-color:var(--green);">维度 1</div><h3>效果 (Effectiveness)</h3><div class="wonder-note">输出质量、准确率、用户满意度. 效果越好, 产品越有价值.</div></article>
+        <article class="wonder" style="border-color:var(--red);"><div class="wonder-tag" style="border-color:var(--red);">维度 2</div><h3>成本 (Cost)</h3><div class="wonder-note">API 调用费 + 搭建费 + 维护人力. 成本越低, 商业模型越健康.</div></article>
+        <article class="wonder" style="border-color:var(--amber);"><div class="wonder-tag" style="border-color:var(--amber);">维度 3</div><h3>复杂度 (Complexity)</h3><div class="wonder-note">搭建难度 + 维护难度 + 调试难度. 复杂度越低, 团队越能快速迭代.</div></article>
+      </div>
+      <div class="step-foot">每种架构在三角里的位置 &darr;</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Prompt-only: 成本低 + 简单, 牺牲效果</h2>
+      <div class="callout callout-green">
+        <p><strong>Prompt-only 优化了:</strong> 成本极低, 复杂度极低. 几小时上线, 月费几百块.</p>
+        <p><strong>牺牲了:</strong> 效果受限于模型自带能力. 不知道的知识会编, 风格控制有限.</p>
+        <p class="muted">适合: MVP 阶段, 快速验证, 不需要极致效果的场景.</p>
+      </div>
+      <div class="step-foot">RAG 呢? &darr;</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">RAG: 效果好 + 成本可控, 牺牲一点复杂度</h2>
+      <div class="callout callout-blue">
+        <p><strong>RAG 优化了:</strong> 效果显著提升 (幻觉↓85%), 成本比 Fine-tune 低得多.</p>
+        <p><strong>牺牲了:</strong> 复杂度上升 — 需要搭建向量数据库、维护文档、优化检索策略.</p>
+        <p class="muted">适合: 需要专有知识 + 溯源的产品. 性价比最高的中间选项.</p>
+      </div>
+      <div class="step-foot">Fine-tune 和 Multi-Agent 呢? &darr;</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Fine-tune 和 Multi-Agent: 效果最好, 但代价最大</h2>
+      <div class="two-wrong">
+        <article class="wrong" style="background:var(--amber-bg-soft);border-color:var(--amber);">
+          <div class="wrong-mark" style="color:var(--amber);">FT</div>
+          <h3>Fine-tune</h3>
+          <p>效果: 风格/术语完美匹配</p>
+          <div class="wrong-why" style="border-left-color:var(--amber);">代价: 训练费 + 数据标注 + 推理成本上涨 + 需要重新训练</div>
+        </article>
+        <article class="wrong" style="background:var(--red-bg-soft);border-color:var(--red);">
+          <div class="wrong-mark" style="color:var(--red);">MA</div>
+          <h3>Multi-Agent</h3>
+          <p>效果: 能处理最复杂的多步骤任务</p>
+          <div class="wrong-why" style="border-left-color:var(--red);">代价: 成本翻倍 + 延迟叠加 + 编排和调试极其复杂</div>
+        </article>
+      </div>
+      <div class="step-foot">一张表看清楚 &darr;</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">4 种架构的三角取舍对比</h2>
+      <table class="compare-table">
+        <thead><tr><th>架构</th><th>效果</th><th>成本</th><th>复杂度</th><th>牺牲了什么</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--green);">Prompt-only</td><td>★★☆☆☆</td><td>★☆☆☆☆</td><td>★☆☆☆☆</td><td>效果天花板</td></tr>
+          <tr><td style="color:var(--blue);">RAG</td><td>★★★★☆</td><td>★★★☆☆</td><td>★★★☆☆</td><td>搭建复杂度</td></tr>
+          <tr><td style="color:var(--amber);">Fine-tune</td><td>★★★★☆</td><td>★★★★☆</td><td>★★★★☆</td><td>成本 + 复杂度</td></tr>
+          <tr><td style="color:var(--red);">Multi-Agent</td><td>★★★★★</td><td>★★★★★</td><td>★★★★★</td><td>成本 + 复杂度 (极高)</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-amber">
+        <p><strong>关键洞察:</strong> 效果从 Prompt → Multi-Agent 持续提升, 但成本和复杂度也持续提升. <strong>没有免费的午餐.</strong></p>
+      </div>
+      <div class="step-foot">PM 该怎么决策? &darr;</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">PM 的决策框架: "我们牺牲什么?"</h2>
+      <p class="step-lede">不要问 "能不能三个都要", 要问 <mark class="hl">"我们产品的阶段, 应该牺牲哪一个?"</mark></p>
+      <div class="callout callout-blue">
+        <p><strong>不同阶段的取舍策略:</strong></p>
+        <ul style="margin:8px 0 0;padding-left:20px;">
+          <li><span class="pill pill-green">MVP 阶段</span> 牺牲效果, 保成本和简单 → <strong>Prompt-only</strong></li>
+          <li><span class="pill pill-blue">验证后</span> 愿意增加复杂度, 换效果提升 → <strong>RAG</strong></li>
+          <li><span class="pill pill-amber">PMF 后</span> 愿意花钱换极致效果 → <strong>Fine-tune</strong></li>
+          <li><span class="pill" style="background:var(--red-bg);color:var(--red);">规模化</span> 效果是竞争壁垒, 不惜代价 → <strong>Multi-Agent</strong></li>
+        </ul>
+      </div>
+      <div class="step-foot">动手: 三角可视化 &darr;</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试试 — 三角取舍可视化</h2>
+      <p class="step-lede">点击不同架构, 看它在三角图上的位置. 注意 "优化了什么, 牺牲了什么".</p>
+      <div class="triangle-widget">
+        <div class="triangle-controls">
+          <button class="tri-btn active" data-arch="prompt">Prompt-only</button>
+          <button class="tri-btn" data-arch="rag">RAG</button>
+          <button class="tri-btn" data-arch="finetune">Fine-tune</button>
+          <button class="tri-btn" data-arch="multiagent">Multi-Agent</button>
+        </div>
+        <div class="triangle-canvas">
+          <svg id="tri-svg" viewBox="0 0 360 360"></svg>
+        </div>
+        <div class="triangle-analysis" id="tri-analysis"></div>
+      </div>
+      <div class="step-foot">回到 Vitamin &darr;</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的取舍决策</h2>
+      <p class="step-lede">Vitamin 是初创健康产品, 当前阶段的优先级:</p>
+      <div class="truth-bubble">
+        <div class="truth-tag">Vitamin 策略</div>
+        <p class="truth-line big">现阶段: <mark class="hl">牺牲效果上限, 保成本和简单</mark></p>
+        <p class="truth-line">核心功能用 Prompt-only 快速上线, 医学问答用 RAG 保准确.</p>
+        <p class="truth-line">Fine-tune 和 Multi-Agent 留到 PMF 后, 有数据有预算再做.</p>
+        <p class="truth-line muted">→ 这不是 "偷懒", 这是 "阶段性最优解".</p>
+      </div>
+      <div class="callout callout-red">
+        <p><strong>面试金句:</strong></p>
+        <p>"AI 架构的三角取舍是: 效果、成本、复杂度只能优化两个. Vitamin 现阶段选择牺牲效果上限, 保成本和简单 — 因为 MVP 的核心目标是验证需求, 不是追求极致效果. PMF 后, 再按需升级."</p>
+      </div>
+      <div class="step-foot">规则 + 作业 &darr;</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">效果 / 成本 / 复杂度 — 只能优化两个.<br/>PM 的工作是选择牺牲哪一个.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>用三角工具对比 4 种架构, 截图每种的三角图.</li>
+          <li>写出 Vitamin 当前阶段的取舍决策: "我们优化 ___ 和 ___, 牺牲 ___."</li>
+          <li>假设 Vitamin 拿到 500 万融资, 取舍策略会怎么变? 写出新的决策和理由.</li>
+          <li>找一个你日常用的 AI 产品, 分析它在三角上的位置, 推测它牺牲了什么.</li>
+        </ol>
+        <div style="margin-top:18px;">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://towardsdatascience.com/iron-triangles-powerful-tools-for-analyzing-trade-offs-in-ai-product-development/" target="_blank" style="color:var(--blue);">Iron Triangles in AI Product Development</a></td><td style="padding:6px 8px;">TDS</td><td style="padding:6px 8px;">三角取舍的理论基础</td><td style="padding:6px 8px;">15 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://medium.com/data-science-collective/the-magical-triangle-the-every-ai-application-needs-to-master-894956e52cfe" target="_blank" style="color:var(--blue);">The AI Magical Triangle</a></td><td style="padding:6px 8px;">Medium</td><td style="padding:6px 8px;">Speed/Cost/Capability 三角</td><td style="padding:6px 8px;">10 min</td></tr>
+            <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://brandedby.co/article/rag-vs-fine-tuning-vs-agents-the-decision-matrix-cost-latency-accuracy-maintenance" target="_blank" style="color:var(--blue);">Decision Matrix: Cost/Latency/Accuracy</a></td><td style="padding:6px 8px;">BrandedBy</td><td style="padding:6px 8px;">多维度决策矩阵</td><td style="padding:6px 8px;">15 min</td></tr>
+            <tr><td style="padding:6px 8px;">📖</td><td style="padding:6px 8px;"><a href="https://dev.to/muzammil_endevsols/rag-vs-fine-tuning-vs-prompting-2026-strategic-guide-169l" target="_blank" style="color:var(--blue);">2026 Strategic Guide</a></td><td style="padding:6px 8px;">DEV</td><td style="padding:6px 8px;">2026 策略全指南</td><td style="padding:6px 8px;">20 min</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 &darr;</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 不可能三角</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 3 个维度</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Prompt: 低成本</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> RAG: 性价比</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> FT/MA: 效果极致</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 4 架构对比</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 阶段性决策</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 三角可视化</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 取舍</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 7:</p>
+        <p class="end-summary-big">效果/成本/复杂度 — 只能优化两个. 选择牺牲哪一个, 就是 PM 的核心决策.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 8): Vitamin 架构选型</div>
+        <p>最后一节: 把前 7 个单元学到的全用上, 为 Vitamin 做一次<strong>完整的架构决策论证</strong>.<br/>这就是你面试的 "架构决策文档".</p>
+        <a class="walk-arrow" href="../u8-vitamin-architecture/index.html">继续走 &rarr; Unit 8</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM · Module 2.4 · Unit 7 · 个人定制版</p><p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

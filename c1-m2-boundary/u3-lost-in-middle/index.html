@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · AI 死穴 2: 长上下文大海捞针 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M1.2 Unit 3: Context Window 大 ≠ 真的能用. 中间位置的信息会被 AI 遗忘." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.2</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 · 长上下文大海捞针</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 3<span class="title-dot">·</span><br/>大海捞针</h1>
+      <p class="hero-sub">128K Context Window ≠ 128K 都能用. 中间的信息会被 AI 遗忘.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个无奈的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M44 40 Q50 36 56 40" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="28" y2="80" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="72" y2="80" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · 用户说过的话被 AI 忘了)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">用户在第 3 条消息说"我对虾过敏"...</p>
+          <p class="cloud-line">到了第 15 条, AI 推荐了虾仁炒饭??</p>
+          <p class="cloud-line">明明都在 Context Window 里, 怎么就<strong>忘了</strong>?</p>
+          <p class="cloud-line accent">—— "Lost in the Middle" 效应, 今天拆清楚.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>知道为什么 AI 会"忘记"中间位置的信息</li>
+          <li>理解 U 型注意力曲线 (开头和结尾记得清, 中间模糊)</li>
+          <li>掌握 4 种缓解策略: 放开头、放结尾、做摘要、精简上下文</li>
+          <li>给 Vitamin 设计"状态卡" — 确保关键健康信息不被遗忘</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">"我记得你之前说过..." — AI 经常在瞎编</h2>
+      <p class="step-lede">看这段 Vitamin 的对话, 问题出在哪里:</p>
+
+      <div class="chat-scenario" data-rough="card">
+        <div class="chat-msg user">
+          <span class="msg-num">#1</span>
+          <div class="msg-label">用户</div>
+          你好, 我想用 Vitamin 管理健康.
+        </div>
+        <div class="chat-msg ai">
+          <span class="msg-num">#2</span>
+          <div class="msg-label">AI</div>
+          欢迎! 请告诉我你的基本情况, 我来为你定制健康计划.
+        </div>
+        <div class="chat-msg user">
+          <span class="msg-num">#3</span>
+          <div class="msg-label">用户</div>
+          我 28 岁, 经期一般 28 天周期. 另外, <span class="chat-highlight">我对虾过敏, 吃了会严重起疹子</span>.
+        </div>
+        <div class="chat-msg ai">
+          <span class="msg-num">#4</span>
+          <div class="msg-label">AI</div>
+          收到! 28 天周期很规律. 我会记住你的过敏信息.
+        </div>
+
+        <div class="chat-forgot">... (中间经过了 10 轮关于经期、运动、睡眠的对话) ...</div>
+
+        <div class="chat-msg user">
+          <span class="msg-num">#15</span>
+          <div class="msg-label">用户</div>
+          今天黄体期第 3 天, 推荐点晚餐吧.
+        </div>
+        <div class="chat-msg ai danger">
+          <span class="msg-num">#16</span>
+          <div class="msg-label">AI (危险!)</div>
+          黄体期建议多补充蛋白质! 推荐: <span class="chat-highlight">蒜蓉虾仁炒西兰花</span>, 配糙米饭, 富含...
+        </div>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <p><strong>发生了什么?</strong> 用户在第 3 条消息明确说了"对虾过敏". 但到了第 15 条, 中间隔了 12 轮对话, AI 推荐了虾仁. 过敏信息在 Context Window 的<mark class="hl">中间位置</mark>, 被 AI "遗忘"了.</p>
+        <p class="muted">对健康产品来说, 这不是体验问题, 是<strong>安全问题</strong>.</p>
+      </div>
+
+      <div class="step-foot">为什么会这样? 不是说 128K Context Window 能装很多吗? ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">128K 的容量 ≠ 128K 的利用率</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错觉: "Context Window 越大, 记忆力越强"</h3>
+          <p>128K 够装 20 万字, 所以 AI 能完美记住这 20 万字的每个细节.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            能"装下"不代表能"注意到". 就像你的书架能放 200 本书, 但你常翻的只有最上面和最下面那几本. 中间的积灰了.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错觉: "AI 平等对待每一条消息"</h3>
+          <p>所有信息在 Context Window 里权重一样.</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            Transformer 的注意力机制对<strong>位置</strong>敏感. 开头和结尾的信息天然获得更多注意力权重, 中间的信息被压缩.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">Stanford & Google 发现了一个 U 型曲线:</p>
+        <p class="truth-line giant"><mark class="hl">开头记得清, 结尾记得清, 中间会模糊</mark></p>
+        <p class="truth-line">这就是 <strong>"Lost in the Middle"</strong> 效应 — 2023 年 Stanford 最有影响力的 LLM 研究之一.</p>
+        <p class="truth-line muted">→ 论文: Liu et al., "Lost in the Middle: How Language Models Use Long Contexts", Stanford & UC Berkeley, 2023.</p>
+      </div>
+
+      <div class="step-foot">具体是什么样的 U 型曲线? ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">U 型注意力 — 看这张图就懂了</h2>
+      <p class="step-lede">研究者在文档的不同位置放一个关键事实, 测试 AI 能不能找到它. 结果:</p>
+
+      <div class="u-curve-container" data-rough="card">
+        <div id="u-curve-bars" class="u-curve-bars"></div>
+        <div class="u-curve-labels">
+          <span>← 开头 (位置 1)</span>
+          <span>中间 (位置 10-11)</span>
+          <span>结尾 (位置 20) →</span>
+        </div>
+        <p class="u-curve-caption">纵轴 = AI 找到关键信息的准确率. 中间位置低到只有 ~42%.</p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>跟人类很像!</strong></p>
+        <p>心理学上有个 <strong>"序列位置效应" (Serial Position Effect)</strong>: 让人记一串词, 开头的记得最牢 (首因效应), 结尾的也记得清 (近因效应), 中间的模糊.</p>
+        <p>AI 的 Transformer 架构<em>也</em>表现出这个效应 — 虽然原因不完全一样, 但结果惊人地相似.</p>
+      </div>
+
+      <div class="step-foot">为什么 Transformer 会这样? ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">原因: 注意力权重天然偏向两头</h2>
+      <p class="step-lede">下面 20 个方块代表 Context Window 里的 20 个位置. 颜色越深 = AI 给的注意力越多:</p>
+
+      <div class="attention-diagram" data-rough="card">
+        <div id="attn-tokens" class="attn-tokens"></div>
+        <div class="attn-legend">
+          <div class="attn-legend-item"><span class="attn-legend-dot" style="background:rgb(34,197,94)"></span> 高注意力</div>
+          <div class="attn-legend-item"><span class="attn-legend-dot" style="background:rgb(245,158,11)"></span> 中注意力</div>
+          <div class="attn-legend-item"><span class="attn-legend-dot" style="background:rgb(239,68,68)"></span> 低注意力</div>
+        </div>
+      </div>
+
+      <p class="step-lede">为什么会这样? 两个原因:</p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>1. 开头的"首因优势" (Primacy):</strong></p>
+        <p>Transformer 使用 causal masking — 每个 token 只能看到它前面的 token. 所以开头的 token 被<em>后面所有 token</em> 注意到, 累积的注意力权重最高.</p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>2. 结尾的"近因优势" (Recency):</strong></p>
+        <p>最新的 token 离输出位置最近, 在模型的"工作记忆"中最鲜活. 就像你读完一封长邮件, 最后几句话印象最深.</p>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <p><strong>中间 = "双重劣势":</strong> 既不是被所有后续 token 关注的开头, 也不是最新鲜的结尾. 注意力权重在这里最低 — 这就是信息的"记忆黑洞".</p>
+      </div>
+
+      <div class="step-foot">这对产品意味着什么? ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">对产品的影响: 多轮对话的"危险地带"</h2>
+      <p class="step-lede">在一个 20 条消息的对话中, AI 对不同位置信息的记忆力:</p>
+
+      <div class="danger-zone">
+        <div class="dz-block dz-safe" style="flex:3;" title="消息 1-3">1-3</div>
+        <div class="dz-block dz-warn" style="flex:2;" title="消息 4-6">4-6</div>
+        <div class="dz-block dz-danger" style="flex:6;" title="消息 7-14">7-14</div>
+        <div class="dz-block dz-warn" style="flex:2;" title="消息 15-17">15-17</div>
+        <div class="dz-block dz-safe" style="flex:3;" title="消息 18-20">18-20</div>
+      </div>
+      <div class="dz-labels">
+        <span>🟢 安全区 (开头)</span>
+        <span>🔴 危险区 (中间)</span>
+        <span>🟢 安全区 (结尾)</span>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <p><strong>Vitamin 的危险场景:</strong></p>
+        <ul>
+          <li>用户在第 3 条说了过敏信息 → 到第 15 条已经在"中间"了</li>
+          <li>用户在第 5 条提到正在吃某种药 → AI 第 18 条给建议时忘了药物交互</li>
+          <li>用户早期说过"我在备孕" → AI 后来推荐了备孕禁忌的运动</li>
+        </ul>
+        <p class="muted">这些都不是假设 — 是真实会发生的问题.</p>
+      </div>
+
+      <div class="step-foot">怎么解决? 4 个策略 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">四种缓解策略 — PM 必知</h2>
+
+      <div class="strategy-cards">
+        <div class="strategy-card">
+          <div class="strategy-num">1</div>
+          <h4>关键信息放开头</h4>
+          <p>过敏、用药、身体状态等核心信息, 放在 System Prompt 的最前面. 开头是注意力最集中的位置.</p>
+        </div>
+        <div class="strategy-card">
+          <h4><div class="strategy-num">2</div>关键信息在末尾重复</h4>
+          <p>在每次 API 调用时, 在用户最新消息之前重新附上关键信息. "提醒: 用户对虾过敏."</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-num">3</div>
+          <h4>用摘要代替完整历史</h4>
+          <p>不要把 20 轮对话全塞进去. 每隔几轮做一次摘要, 只保留关键事实 + 最近 3-5 轮原文.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-num">4</div>
+          <h4>精简上下文, 不要过度填充</h4>
+          <p>Context Window 不是越满越好. 塞太多无关信息反而稀释关键信息的注意力权重.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>Anthropic 的官方建议:</strong> "Place the most important directives at the beginning to set the context or at the end to keep them fresh." (把最重要的指令放在开头定调, 或放在结尾保持新鲜.)</p>
+        <p class="muted">→ 来源: <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" target="_blank" style="color:var(--blue);">Claude Prompting Best Practices</a></p>
+      </div>
+
+      <div class="step-foot">"大海捞针" 测试是怎么做的? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">Needle-in-a-Haystack 测试 — 业界标准</h2>
+      <p class="step-lede">Greg Kamradt 发明了一个著名测试: 在不同长度的文档的不同位置放一句关键信息 (needle), 看 AI 能不能找到它.</p>
+
+      <div class="niah-heatmap" data-rough="card">
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <div class="niah-y-label">↑ 上下文越长 (4K → 128K)</div>
+          <div style="flex:1;">
+            <div id="niah-grid" class="niah-grid"></div>
+            <div class="niah-labels">
+              <span>← 开头</span>
+              <span>Needle 位置 (深度)</span>
+              <span>结尾 →</span>
+            </div>
+          </div>
+        </div>
+        <p class="u-curve-caption">绿色 = 找到了 · 黄色 = 勉强 · 红色 = 丢失了. 中间位置 + 长上下文 = 红色重灾区.</p>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>关键发现:</strong></p>
+        <ul>
+          <li>短上下文 (4K-8K): 各位置表现都不错</li>
+          <li>中等上下文 (32K): 中间位置开始出现明显下降</li>
+          <li>长上下文 (128K): 中间位置准确率可能低于 50%</li>
+          <li>即使号称支持 128K 的模型, 实际有效利用率远低于 100%</li>
+        </ul>
+        <p class="muted">→ 这就是为什么"Context Window 大" 不能作为模型选型的唯一标准.</p>
+      </div>
+
+      <div class="step-foot">动手试试 — 把"关键信息"放在不同位置 ↓</div>
+    </section>
+
+    <!-- (8) WIDGET -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试 — Needle Finder</h2>
+      <p class="step-lede">下面 20 个方块代表一篇长文档. 点击任意位置, 把"关键信息" (📌) 放进去, 看 AI 找到它的概率:</p>
+
+      <div class="needle-widget" data-rough="card">
+        <div id="needle-doc" class="needle-doc"></div>
+
+        <div class="needle-attention">
+          <div class="needle-attn-label">AI 注意力分布 (每个位置的关注度):</div>
+          <div id="needle-attn-bars" class="needle-attn-bars"></div>
+        </div>
+
+        <div id="needle-result" class="needle-result"></div>
+
+        <div class="needle-controls">
+          <button id="needle-reset" class="btn btn-ghost">重置</button>
+          <span class="needle-hint">试试把 📌 放在最中间 (位置 10-11), 再放到开头/结尾对比</span>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>你会发现:</strong></p>
+        <ul>
+          <li>位置 1-3: 准确率 85-92%, 安全</li>
+          <li>位置 9-12: 准确率 42-48%, <mark class="hl">危险</mark></li>
+          <li>位置 18-20: 准确率 85-91%, 安全</li>
+        </ul>
+        <p>这意味着: 如果用户的过敏信息恰好落在对话的"中间地带", AI 有将近一半的概率忽略它.</p>
+      </div>
+
+      <div class="step-foot">Vitamin 怎么应对这个问题? ↓</div>
+    </section>
+
+    <!-- (9) Vitamin case study -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 的解法: 结构化"状态卡"</h2>
+      <p class="step-lede">不要依赖对话历史来传递关键信息. 每次 API 调用时, 在 System Prompt 开头放一个<mark class="hl">结构化状态卡</mark>:</p>
+
+      <div class="state-card-example">
+<span class="tag">&lt;user_state&gt;</span>
+  <span class="tag">&lt;basic&gt;</span>
+    年龄: <span class="val">28</span> | 周期: <span class="val">28天</span> | 当前阶段: <span class="val">黄体期第3天</span>
+  <span class="tag">&lt;/basic&gt;</span>
+  <span class="tag">&lt;allergies&gt;</span>
+    <span class="val">虾 (严重, 会起疹子)</span>
+  <span class="tag">&lt;/allergies&gt;</span>
+  <span class="tag">&lt;medications&gt;</span>
+    <span class="val">叶酸 0.4mg/天</span>
+  <span class="tag">&lt;/medications&gt;</span>
+  <span class="tag">&lt;goals&gt;</span>
+    <span class="val">调理月经 · 改善睡眠</span>
+  <span class="tag">&lt;/goals&gt;</span>
+<span class="tag">&lt;/user_state&gt;</span></div>
+
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>这个状态卡解决了什么:</strong></p>
+        <ul>
+          <li>过敏信息<strong>永远在 Prompt 开头</strong> — 注意力最集中的位置</li>
+          <li>不依赖 AI "记住"历史对话 — 每次调用都显式提供</li>
+          <li>用 XML 标签结构化 — 比纯文本更容易被 AI 解析</li>
+          <li>信息可以从数据库动态生成 — 不占对话历史的 token</li>
+        </ul>
+      </div>
+
+      <div class="can-cant">
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">✓ 状态卡应该包含</h3>
+          <ul>
+            <li>过敏信息 (食物、药物)</li>
+            <li>当前身体状态 (经期/备孕/孕期/产后/更年期)</li>
+            <li>正在服用的药物</li>
+            <li>重要健康目标</li>
+            <li>近期异常症状</li>
+          </ul>
+        </article>
+
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">✗ 不应该塞进状态卡</h3>
+          <ul>
+            <li>完整对话历史 (太长, 适得其反)</li>
+            <li>不影响安全的偏好 (最喜欢的颜色)</li>
+            <li>已经解决的历史问题</li>
+            <li>重复冗余的信息</li>
+            <li>大段未结构化的笔记</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="step-foot">一句话规则 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">Context Window 大 ≠ 能用.<br/>重要信息放开头或结尾,<br/>中间是记忆黑洞.</p>
+        <p class="one-liner-foot muted">别靠 AI 的"记性", 靠你的 Prompt 结构设计.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>打开 ChatGPT / 豆包, 先在第 1 条消息里告诉它一个"关键信息" (比如"我对花生过敏"). 然后随便聊 10-15 轮无关话题. 最后问一个跟关键信息相关的问题, 看它还记不记得.</li>
+          <li>把同样的实验重做, 但这次把关键信息放在<strong>最后一条</strong>消息的前面重复一遍. 比较两次结果.</li>
+          <li>为 Vitamin 设计一个"用户状态卡" XML 模板, 包含你认为最重要的 5-8 个字段. 想想: 哪些信息被遗忘了会有安全风险?</li>
+          <li>用 200 字给非技术朋友解释: 为什么 AI 的"记忆"不是均匀分布的, 为什么重要的事情要放在对话的开头.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead>
+            <tr><th>类型</th><th>资源</th><th>来源</th><th>为什么值得看</th><th>时间</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>📄</td>
+              <td><a href="https://arxiv.org/abs/2307.03172" target="_blank">Lost in the Middle 论文</a></td>
+              <td>Stanford / arXiv</td>
+              <td>原始论文, U 型曲线的出处. 摘要 + 图表看 5 分钟就够</td>
+              <td>5 分钟</td>
+            </tr>
+            <tr>
+              <td>🎮</td>
+              <td><a href="https://github.com/gkamradt/LLMTest_NeedleInAHaystack" target="_blank">Needle-in-a-Haystack 测试</a></td>
+              <td>GitHub / Greg Kamradt</td>
+              <td>业界标准的长上下文评测工具, 含热力图可视化</td>
+              <td>10 分钟</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" target="_blank">Claude Prompting Best Practices</a></td>
+              <td>Anthropic</td>
+              <td>官方的信息位置建议, 直接可用于 Prompt 设计</td>
+              <td>15 分钟</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td><a href="https://dev.to/thousand_miles_ai/the-lost-in-the-middle-problem-why-llms-ignore-the-middle-of-your-context-window-3al2" target="_blank">Lost in the Middle 详解</a></td>
+              <td>DEV Community</td>
+              <td>通俗易懂的英文解读, 含实用建议</td>
+              <td>10 分钟</td>
+            </tr>
+            <tr>
+              <td>📺</td>
+              <td><a href="https://www.coursera.org/learn/generative-ai-for-everyone" target="_blank">Generative AI for Everyone</a></td>
+              <td>Coursera / Andrew Ng</td>
+              <td>Week 1 讲 Context Window 的限制, 配合本单元学习</td>
+              <td>2 小时</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 虾过敏被 AI 忘了</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> 128K ≠ 能用 128K</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> U 型注意力曲线</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> 首因 + 近因效应</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 多轮对话的危险地带</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 四种缓解策略</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> Needle-in-a-Haystack 测试</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Needle Finder 动手试</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 结构化状态卡</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业 + 资源</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">AI 的记忆是 U 型的 — 开头和结尾清楚, 中间模糊.<br/>重要信息放在 Prompt 开头, 用结构化状态卡传递.</p>
+        <p class="end-summary-sub">这是 "Lost in the Middle" 效应, PM 必须在 Prompt 设计中应对它.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 4): AI 死穴 3 — 稳定性问题</div>
+        <p>同样的问题问两次, AI 给两个不同的答案.<br/>
+        这不是 bug, 是概率模型的本质. 但对医疗产品来说, <strong>不稳定 = 不可信</strong>.</p>
+        <p>Vitamin 怎么在"概率性输出"上做出"确定性体验"? 下节课讲.</p>
+        <a class="walk-arrow" href="../u4-stability/index.html">继续走 → Unit 4</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.2 · Unit 3 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

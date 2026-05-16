@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 6 · CSV 输入输出 — AI for PM · M3.4</title>
+  <meta name="description" content="AI PM 课 · M3.4 Unit 6: 从 CSV 读数据, 调 API, 结果写回 CSV." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 6 · CSV 输入输出</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="Step navigation"><ol>
+    <li><a href="#start" data-step="0">&#9654;</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+    <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+    <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+    <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+    <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">&#9632;</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 6<span class="title-dot">·</span><br/>CSV 输入输出</h1>
+      <p class="hero-sub">Excel 导出 CSV &rarr; Python 读取 &rarr; 调 API &rarr; 结果写回 CSV. 完整的数据管道.</p>
+
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">我的数据在 Excel 里, 怎么喂给 Python?</p>
+          <p class="cloud-line">API 的结果怎么存下来, 老板要看报告啊...</p>
+          <p class="cloud-line accent">-- CSV 就是 Excel 和 Python 之间的桥.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步走完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 CSV 格式 (就是逗号分隔的表格)</li>
+          <li>用 Python csv 模块读写 CSV 文件</li>
+          <li>逐行读取 + 调 API + 写回结果</li>
+          <li>输出一份可以用 Excel 打开的结果文件</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">CSV 是什么? 就是 "纯文本表格"</h2>
+      <p class="step-lede">打开记事本, 看看 CSV 长什么样:</p>
+
+      <div class="code-block">id,question,category
+1,经期可以运动吗?,运动
+2,孕早期吃什么好?,饮食
+3,失眠怎么办?,睡眠
+4,痛经如何缓解?,经期
+5,排卵期有什么症状?,周期</div>
+
+      <div class="callout callout-blue">
+        <p><strong>CSV = Comma-Separated Values (逗号分隔值).</strong> 每行是一条数据, 每列用逗号分隔. Excel 可以直接打开它, Python 也可以直接读取它. 它是两者之间最简单的桥梁.</p>
+      </div>
+      <div class="step-foot">怎么从 Excel 得到 CSV? ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Excel &rarr; CSV: 文件 &rarr; 另存为 &rarr; CSV</h2>
+      <p class="step-lede">在 Excel 或 Google Sheets 里:</p>
+      <div class="callout callout-amber">
+        <ol>
+          <li>打开你的表格</li>
+          <li>文件 &rarr; 另存为 (或 导出)</li>
+          <li>格式选 <strong>CSV UTF-8</strong> (很重要, 中文不乱码)</li>
+          <li>保存. 完成.</li>
+        </ol>
+        <p class="muted">Google Sheets: 文件 &rarr; 下载 &rarr; 逗号分隔值 (.csv)</p>
+      </div>
+      <div class="step-foot">有了 CSV 文件, 来用 Python 读取 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Python 读取 CSV -- 4 行代码</h2>
+
+      <div class="code-block"><span class="kw">import</span> csv
+
+<span class="kw">with</span> open(<span class="str">"input.csv"</span>, <span class="str">"r"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+    reader = csv.DictReader(f)  <span class="cmt"># 按列名读取</span>
+    <span class="kw">for</span> row <span class="kw">in</span> reader:
+        print(row[<span class="str">"question"</span>])  <span class="cmt"># 取 "question" 列的值</span>
+
+<span class="cmt"># 输出:
+# 经期可以运动吗?
+# 孕早期吃什么好?
+# ...</span></div>
+
+      <div class="callout callout-green">
+        <p><strong>csv.DictReader</strong> 把每行变成一个字典: <code>{"id": "1", "question": "经期可以运动吗?", "category": "运动"}</code>. 你可以用列名直接取值, 比用下标方便.</p>
+      </div>
+      <div class="step-foot">读取会了, 来看怎么写入结果 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Python 写入 CSV -- 把结果存下来</h2>
+
+      <div class="code-block"><span class="kw">import</span> csv
+
+results = [
+    {<span class="str">"question"</span>: <span class="str">"经期可以运动吗?"</span>, <span class="str">"answer"</span>: <span class="str">"可以, 建议低强度..."</span>},
+    {<span class="str">"question"</span>: <span class="str">"孕早期吃什么好?"</span>, <span class="str">"answer"</span>: <span class="str">"建议多吃叶酸..."</span>},
+]
+
+<span class="kw">with</span> open(<span class="str">"output.csv"</span>, <span class="str">"w"</span>, encoding=<span class="str">"utf-8-sig"</span>, newline=<span class="str">""</span>) <span class="kw">as</span> f:
+    writer = csv.DictWriter(f, fieldnames=[<span class="str">"question"</span>, <span class="str">"answer"</span>])
+    writer.writeheader()  <span class="cmt"># 写表头</span>
+    writer.writerows(results)  <span class="cmt"># 写所有行</span>
+
+print(<span class="str">"结果已保存到 output.csv"</span>)</div>
+
+      <div class="callout callout-amber">
+        <p><strong>encoding="utf-8-sig"</strong>: 加了 BOM 标记, Excel 打开时中文不会乱码. 这是个小坑, 记住就好.</p>
+      </div>
+      <div class="step-foot">把读和写串起来, 就是完整的数据管道 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">完整管道: 读 CSV &rarr; 调 API &rarr; 写 CSV</h2>
+
+      <div class="code-block"><span class="kw">import</span> csv, time
+
+<span class="kw">def</span> <span class="fn">process_csv</span>(input_file, output_file):
+    <span class="cmt"># 1. 读取输入</span>
+    <span class="kw">with</span> open(input_file, <span class="str">"r"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+        rows = list(csv.DictReader(f))
+
+    print(<span class="str">f"读取了 </span>{len(rows)}<span class="str"> 条数据"</span>)
+
+    <span class="cmt"># 2. 逐行调 API</span>
+    results = []
+    <span class="kw">for</span> i, row <span class="kw">in</span> enumerate(rows):
+        answer = ask_ai(row[<span class="str">"question"</span>])
+        results.append({
+            **row,  <span class="cmt"># 保留原有所有列</span>
+            <span class="str">"ai_response"</span>: answer,
+            <span class="str">"status"</span>: <span class="str">"ok"</span> <span class="kw">if</span> <span class="str">"ERROR"</span> <span class="kw">not in</span> answer <span class="kw">else</span> <span class="str">"error"</span>
+        })
+        print(<span class="str">f"[</span>{i+1}<span class="str">/</span>{len(rows)}<span class="str">] done"</span>)
+        time.sleep(1)
+
+    <span class="cmt"># 3. 写入输出</span>
+    fieldnames = list(results[0].keys())
+    <span class="kw">with</span> open(output_file, <span class="str">"w"</span>, encoding=<span class="str">"utf-8-sig"</span>, newline=<span class="str">""</span>) <span class="kw">as</span> f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(results)
+
+    ok = sum(1 <span class="kw">for</span> r <span class="kw">in</span> results <span class="kw">if</span> r[<span class="str">"status"</span>] == <span class="str">"ok"</span>)
+    print(<span class="str">f"完成! </span>{ok}<span class="str">/</span>{len(rows)}<span class="str"> 成功, 结果在 </span>{output_file}<span class="str">"</span>)
+
+<span class="cmt"># 运行</span>
+process_csv(<span class="str">"input.csv"</span>, <span class="str">"output.csv"</span>)</div>
+      <div class="step-foot">来看一个真实的 Vitamin 输入 CSV 长什么样 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">Vitamin 的输入 CSV 设计</h2>
+
+      <div class="code-block"><span class="cmt"># vitamin_test_cases.csv</span>
+id,question,category,body_state,expected_tone
+1,经期可以运动吗?,运动,menstrual,温暖鼓励
+2,孕早期吃什么好?,饮食,normal,专业建议
+3,我好焦虑怎么办,情绪,luteal,共情安抚
+4,月经迟了5天正常吗?,周期,normal,客观分析
+5,今天好累不想动,日常,menstrual,理解共情</div>
+
+      <div class="callout callout-blue">
+        <p><strong>设计技巧:</strong> 输入 CSV 不只有问题, 还加了 <code>body_state</code> (身体状态) 和 <code>expected_tone</code> (期望语气). 这样跑完之后, 你可以对比 AI 回复跟期望是否一致.</p>
+      </div>
+      <div class="step-foot">输出 CSV 应该包含什么? ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">输出 CSV 设计 -- 给老板看的报告</h2>
+      <p class="step-lede">输出 CSV 在输入基础上增加 AI 回复、状态、token 数:</p>
+
+      <div class="code-block"><span class="cmt"># 输出 CSV 的列:</span>
+id, question, category, body_state, expected_tone,
+ai_response, status, tokens_used, cost_usd</div>
+
+      <table class="compare-table">
+        <thead><tr><th>新增列</th><th>说明</th><th>示例值</th></tr></thead>
+        <tbody>
+          <tr><td><code>ai_response</code></td><td>AI 的回复文本</td><td>"可以! 建议低强度..."</td></tr>
+          <tr><td><code>status</code></td><td>成功/失败</td><td>ok / error</td></tr>
+          <tr><td><code>tokens_used</code></td><td>消耗的 token 数</td><td>142</td></tr>
+          <tr><td><code>cost_usd</code></td><td>这条调用的费用</td><td>$0.00021</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-green">
+        <p><strong>PM 技巧:</strong> 这份 CSV 用 Excel 打开就是一份<strong>完整的测试报告</strong>. 老板问 "AI 回复质量怎么样?", 你把这个表发过去.</p>
+      </div>
+      <div class="step-foot">来试试交互式 CSV Processor ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">CSV Processor -- 模拟完整流程</h2>
+      <p class="step-lede">点击 "加载 CSV" 模拟上传, 然后点 "Process" 看逐行处理效果:</p>
+
+      <div class="csv-processor" id="csv-processor">
+        <div class="csv-title">CSV &rarr; API &rarr; CSV Processor</div>
+
+        <div class="csv-upload-area">点击加载 input.csv (模拟)</div>
+
+        <div id="csv-input-table" style="margin:12px 0;"></div>
+
+        <div class="csv-controls">
+          <button class="csv-btn" disabled>Process All</button>
+          <span class="csv-status">Load CSV first</span>
+        </div>
+
+        <div id="csv-output-table" style="margin:12px 0;"></div>
+      </div>
+      <div class="step-foot">来看 Vitamin 的完整 CSV 管道 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 案例 -- 完整数据管道</h2>
+
+      <div class="big-insight">
+        <p>Vitamin QA 数据管道:</p>
+        <p class="insight-text">Excel 准备 100 条用例<br/>&rarr; 另存为 CSV<br/>&rarr; Python 脚本逐行处理<br/>&rarr; 输出 output.csv<br/>&rarr; Excel 打开检查结果</p>
+      </div>
+
+      <div class="callout callout-blue">
+        <p><strong>这套管道可以反复用:</strong></p>
+        <ul>
+          <li>改了 system prompt? 重跑 100 条, 对比前后结果.</li>
+          <li>换了模型? 重跑, 看质量和成本变化.</li>
+          <li>加了新用例? 追加到 CSV, 重跑.</li>
+        </ul>
+        <p class="muted">这就是 PM 用 Python 的核心价值: <strong>可重复的自动化测试</strong>.</p>
+      </div>
+      <div class="step-foot">作业 + 一句话总结 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">CSV 是 Excel 和 Python 的桥.<br/>读 csv.DictReader, 写 csv.DictWriter, 搞定.</p>
+        <p class="one-liner-foot muted">encoding="utf-8-sig" 解决中文乱码. 记住这一个坑就行.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>在 Excel 里创建 5 条 Vitamin 测试用例, 另存为 CSV.</li>
+          <li>写一个 process_csv() 脚本, 读取你的 CSV, 调 API, 输出 output.csv.</li>
+          <li>用 Excel 打开 output.csv, 检查 AI 回复质量 + 中文是否乱码.</li>
+          <li>思考: 如果你需要跑 1000 条, CSV 文件会有多大? 需要分批处理吗?</li>
+        </ol>
+
+        <div style="margin-top:16px;">
+          <strong>资源延伸:</strong>
+          <table class="compare-table" style="margin-top:8px;">
+            <thead><tr><th>类型</th><th>资源</th><th>说明</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>📖</td><td><a href="https://docs.python.org/3/library/csv.html" target="_blank">Python csv 官方文档</a></td><td>csv 模块完整 API 参考</td><td>10 min</td></tr>
+              <tr><td>📖</td><td><a href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html" target="_blank">Pandas read_csv 文档</a></td><td>进阶: 用 Pandas 处理大 CSV</td><td>15 min</td></tr>
+              <tr><td>📖</td><td><a href="https://www.sitepoint.com/openai-api-python-data-analysis/" target="_blank">OpenAI + Python 数据分析</a></td><td>用 API 批量分析 CSV 数据的教程</td><td>20 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> CSV = 纯文本表格</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Excel 导出 CSV</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> Python 读取 CSV</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> Python 写入 CSV</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 完整读写管道</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> Vitamin 输入设计</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 输出报告设计</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> CSV Processor 演示</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 数据管道</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 6:</p>
+        <p class="end-summary-big">CSV = PM 和 Python 之间的翻译官. 读 DictReader, 写 DictWriter.</p>
+        <p class="end-summary-sub">Excel &rarr; CSV &rarr; Python &rarr; API &rarr; CSV &rarr; Excel. 全通了.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 7): Token 计数 + 成本日志</div>
+        <p>管道通了, 但每次调用花了多少钱? 100 条总共花了多少?</p>
+        <p>下一节学 <strong>tiktoken 计数 + 成本追踪</strong>, 老板问你答得出.</p>
+        <a class="walk-arrow" href="../u7-cost-logging/index.html">继续走 &rarr; Unit 7</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer"><p>AI for PM · Module 3.4 · Unit 6 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+/* U4 · Regeneration Rate — unit-specific styles */
+
+.regen-sim {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+.regen-output {
+  background: var(--bg-elev);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 80px;
+  transition: opacity 0.3s;
+}
+.regen-prompt-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.regen-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.regen-btn {
+  background: var(--amber-bg);
+  border: 2px solid var(--amber);
+  color: var(--ink);
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  transition: transform 0.15s;
+}
+.regen-btn:hover { transform: scale(1.05); }
+.regen-btn:active { transform: scale(0.97); }
+.regen-accept-btn {
+  background: var(--green-bg);
+  border: 2px solid var(--green);
+  color: var(--ink);
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+}
+
+.regen-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+@media (max-width: 500px) { .regen-dashboard { grid-template-columns: 1fr; } }
+.regen-stat {
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+}
+.regen-stat-num {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  display: block;
+}
+.regen-stat-label { font-size: 12px; color: var(--ink-muted); }
+.regen-bar-container {
+  margin-top: 14px;
+}
+.regen-bar-track {
+  height: 24px;
+  background: var(--bg-elev);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+.regen-bar-fill {
+  height: 100%;
+  background: var(--amber);
+  border-radius: 12px;
+  transition: width 0.4s ease;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+}
+.regen-commentary {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-style: italic;
+  min-height: 20px;
+}
+
+/* Signal strength indicator */
+.signal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.signal-card {
+  padding: 16px;
+  border-radius: 10px;
+  text-align: center;
+}
+.signal-card.weak { background: var(--green-bg-soft); border: 1.5px solid var(--green); }
+.signal-card.medium { background: var(--amber-bg-soft); border: 1.5px solid var(--amber); }
+.signal-card.strong { background: var(--red-bg-soft); border: 1.5px solid var(--red); }
+.signal-value {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 28px; font-weight: 700; display: block;
+}
+.signal-card.weak .signal-value { color: var(--green); }
+.signal-card.medium .signal-value { color: var(--amber); }
+.signal-card.strong .signal-value { color: var(--red); }
+.signal-meaning { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }

@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 4 · Chatting 类用例 — AI for PM · M1.4</title>
+  <meta name="description" content="AI PM 课 · M1.4 Unit 4: Q&A / Support / Companion — 三种对话模式, 对应不同架构和产品决策." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.4</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 4 · Chatting 类用例</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <!-- Step nav -->
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ================================================== -->
+    <!-- ▶ START                                            -->
+    <!-- ================================================== -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 4<span class="title-dot">·</span><br/>Chatting 类用例</h1>
+      <p class="hero-sub">Q&A / Support / Companion — 都叫"聊天", 但架构、风险、产品设计完全不同.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个好奇的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 在设计 Vitamin 对话功能)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">上一课学了 Writing — 让 AI 生成内容, 那是单次的.</p>
+          <p class="cloud-line">但 Vitamin 要跟用户"聊天", 多轮对话. 这比 Reading 和 Writing 都复杂.</p>
+          <p class="cloud-line">"客服问答" 跟 "情感陪伴", 虽然都是聊天, 但产品逻辑应该很不一样吧?</p>
+          <p class="cloud-line accent">—— 对. 完全不一样. 今天拆清楚.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>区分 Q&A / Support / Companion 三种对话模式</li>
+          <li>知道每种模式需要的记忆、语气、Fallback 策略有什么不同</li>
+          <li>用 Chat Pattern Visualizer 亲眼看到三种对话的运行方式</li>
+          <li>判断 Vitamin 的每个对话功能该用哪种模式</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (1) 三个看起来一样的聊天, 其实完全不同              -->
+    <!-- ================================================== -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">三个"聊天"场景, 一个比一个复杂</h2>
+      <p class="step-lede">想象 Vitamin 用户打开 App, 发了三条消息. 都是"跟 AI 聊天", 但仔细看 ——</p>
+
+      <div class="chat-pattern-cards">
+        <article class="chat-pattern-card">
+          <span class="pattern-icon">📚</span>
+          <span class="pattern-label pattern-label-qa">Q&A</span>
+          <h3>"经期能吃布洛芬吗?"</h3>
+          <p>用户要一个<strong>事实答案</strong>, 最好有来源. 问完就走.</p>
+        </article>
+        <article class="chat-pattern-card">
+          <span class="pattern-icon">🩺</span>
+          <span class="pattern-label pattern-label-support">Support</span>
+          <h3>"我这两天肚子痛, 怎么办?"</h3>
+          <p>用户有一个<strong>待解决的问题</strong>, AI 需要追问、排查、给建议.</p>
+        </article>
+        <article class="chat-pattern-card">
+          <span class="pattern-icon">💬</span>
+          <span class="pattern-label pattern-label-companion">Companion</span>
+          <h3>"今天心情不太好, 想聊聊"</h3>
+          <p>用户需要<strong>情感陪伴</strong>, 没有明确目标. 要的是被"听到".</p>
+        </article>
+      </div>
+
+      <p class="step-lede">从表面看, 三个都是"用户发消息 → AI 回消息". 但产品经理如果把它们当同一种功能来设计, 一定会踩坑.</p>
+
+      <div class="step-foot">为什么会踩坑? 因为大多数人对"聊天"有一个错误假设 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (2) 错误直觉 vs 真相                                -->
+    <!-- ================================================== -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">错误直觉: "接一个 LLM 就能聊"</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错觉: 所有聊天都一样</h3>
+          <p>"接一个大模型 API, 加个对话框, 用户发什么它回什么就行了."</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            Q&A 需要<strong>检索知识库</strong>才能给出准确答案 (不然它就编). Support 需要<strong>决策树</strong>引导用户一步步排查. Companion 需要<strong>人格设定 + 长期记忆</strong>才有温度. 一个裸 LLM, 三个都做不好.
+          </div>
+        </article>
+
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错觉: 越像人越好</h3>
+          <p>"AI 聊天越自然、越有感情越好, 用户越喜欢."</p>
+          <div class="wrong-why">
+            <strong>为啥不对:</strong>
+            Q&A 场景里用户要的是<strong>精准和快</strong>, 不需要 AI 嘘寒问暖. Support 场景里 AI 太热情会显得不专业. 只有 Companion 才需要"像人一样". 场景决定语气.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">Chatting 不是一种模式, 是<mark class="hl">三种完全不同的产品形态</mark>:</p>
+        <p class="truth-line giant">Q&A · Support · Companion</p>
+        <p class="truth-line muted">→ 三种模式的数据流向、记忆需求、风险等级都不同. Reading 和 Writing 是 one-shot (单次), Chatting 加了循环 (多轮). 这个循环怎么转, 就是这三种模式的核心区别.</p>
+      </div>
+
+      <div class="step-foot">先看最简单的: Q&A ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (3) Q&A — 线性流                                    -->
+    <!-- ================================================== -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">模式 1: Q&A — 一问一答, 线性流</h2>
+      <p class="step-lede">用户提一个事实性问题, AI 回答并附上来源. 像查字典, 但比字典聪明.</p>
+
+      <div class="flow-diagram" data-rough="card">
+        <h4 style="color:var(--blue);">Q&A 数据流: 直线型</h4>
+        <div class="flow-linear">
+          <div class="flow-node flow-node-user">用户提问</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node flow-node-system">检索知识库<br/>(RAG)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node flow-node-ai">生成答案<br/>+ 引用来源</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node flow-node-user">用户满意<br/>对话结束</div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>关键词: RAG (Retrieval-Augmented Generation)</strong></p>
+        <p>AI 不是凭"记忆"回答, 而是先从你准备好的知识库里<strong>检索</strong>相关内容, 再用 LLM 把检索到的内容<strong>组织</strong>成自然语言答案.</p>
+        <p>→ 没有 RAG 的 Q&A = 让 AI 瞎编. 有 RAG 的 Q&A = AI + 字典.</p>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>Vitamin 例子:</strong>
+        <p>"经期能吃布洛芬吗?" → AI 检索 Vitamin 的健康知识库 → 找到《妇产科学》相关段落 → 生成答案并标注来源.</p>
+        <p class="muted">如果知识库里没有? → AI 回答"我目前没有关于这个问题的权威资料, 建议咨询医生."</p>
+      </div>
+
+      <div class="step-foot">Q&A 是最简单的模式. 下一个复杂一级: Support ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (4) Support — 分支流                                -->
+    <!-- ================================================== -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">模式 2: Support — 引导式排查, 分支流</h2>
+      <p class="step-lede">用户有一个待解决的问题, 但信息不够. AI 需要<strong>主动追问</strong>, 像医生问诊一样, 逐步缩小范围.</p>
+
+      <div class="flow-diagram" data-rough="card">
+        <h4 style="color:var(--amber);">Support 数据流: 分支型</h4>
+        <div class="flow-branch">
+          <div class="flow-branch-row">
+            <div class="flow-node flow-node-user">用户描述问题</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node flow-node-ai">AI 追问<br/>缩小范围</div>
+          </div>
+          <div class="flow-arrow-down">↓ 根据回答分支 ↓</div>
+          <div class="flow-branch-split">
+            <div class="flow-branch-option opt-a">情况 A<br/>→ 建议 A</div>
+            <div class="flow-branch-option opt-b">情况 B<br/>→ 建议 B</div>
+            <div class="flow-branch-option opt-c">无法判断<br/>→ 转人工/就医</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>关键词: Decision Tree (决策树)</strong></p>
+        <p>Support 不是让 LLM 自由发挥, 而是把 AI 约束在一棵预设的<strong>决策树</strong>上. 每次追问都是在走树的分支, 最终到达一个确定的"叶子节点" (建议).</p>
+        <p>→ 如果让 AI 自由回答健康问题, 它可能说"你可能怀孕了" —— 这在产品里是灾难性的.</p>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>Vitamin 例子:</strong>
+        <p>"肚子痛怎么办?" → AI 追问: 位置? 时间? 经期阶段? → 判断: 经前痉挛 → 给出热敷 + 休息建议. 如果排查后无法判断 → 明确说"建议线下就医".</p>
+        <p class="muted">Support 的风险比 Q&A 高, 因为涉及<strong>健康判断</strong>. Fallback (兜底) 策略必须清晰.</p>
+      </div>
+
+      <div class="step-foot">最复杂的来了: Companion ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (5) Companion — 循环流                              -->
+    <!-- ================================================== -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">模式 3: Companion — 情感陪伴, 循环流</h2>
+      <p class="step-lede">用户不是来"问问题"或"解决问题"的, 而是来<strong>被听到</strong>的. 没有明确终点, 对话可以一直转下去.</p>
+
+      <div class="flow-diagram" data-rough="card">
+        <h4 style="color:var(--purple);">Companion 数据流: 循环型</h4>
+        <div class="flow-circular">
+          <div class="flow-circular-ring">
+            <div class="flow-node flow-node-user">用户表达情绪</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node flow-node-ai">AI 共情回应</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node flow-node-user">用户继续倾诉</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node flow-node-ai">AI 回忆 + 鼓励</div>
+          </div>
+          <div class="flow-loop-label">↻ 循环 — 没有固定终点, 直到用户觉得好了</div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>关键词: Persona + Long-term Memory (人设 + 长期记忆)</strong></p>
+        <p>Companion 需要两个 Q&A 和 Support 不需要的东西:</p>
+        <ol>
+          <li><strong>人设</strong> — AI 不是"助手", 是"朋友". 有固定的说话风格、价值观、称呼方式.</li>
+          <li><strong>长期记忆</strong> — 记住用户上周说过什么、喜欢什么甜品、工作压力大的频率. 这需要跨会话的记忆存储.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>风险警告:</strong>
+        <p>Companion 是三种模式里<strong>风险最高</strong>的:</p>
+        <ul style="margin:8px 0 0;padding-left:18px;">
+          <li><strong>情感依赖</strong> — 用户可能把 AI 当成真正的朋友, 取代真人社交</li>
+          <li><strong>边界模糊</strong> — 用户可能说出自杀倾向, AI 需要识别并引导到专业资源</li>
+          <li><strong>隐私敏感</strong> — 长期记忆存储了大量个人情感数据, 合规风险极高</li>
+        </ul>
+        <p class="muted">→ 这就是为什么很多健康 App 不敢做 Companion: 不是技术做不到, 是产品风险太大.</p>
+      </div>
+
+      <div class="step-foot">三种模式摆齐了, 来做一个全面对比 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (6) 三种模式大对比                                   -->
+    <!-- ================================================== -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">三种模式, 一张表看清差异</h2>
+      <p class="step-lede">PM 做产品决策, 需要从 6 个维度对比这三种模式:</p>
+
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>维度</th>
+              <th class="col-qa">Q&A 问答</th>
+              <th class="col-support">Support 支持</th>
+              <th class="col-companion">Companion 陪伴</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>对话流向</td>
+              <td>线性 (一问一答)</td>
+              <td>分支 (追问→判断)</td>
+              <td>循环 (无固定终点)</td>
+            </tr>
+            <tr>
+              <td>记忆需求</td>
+              <td>无 / 极短期</td>
+              <td>本次会话内</td>
+              <td>跨会话长期记忆</td>
+            </tr>
+            <tr>
+              <td>语气</td>
+              <td>专业、客观</td>
+              <td>关切、有条理</td>
+              <td>温暖、像朋友</td>
+            </tr>
+            <tr>
+              <td>核心技术</td>
+              <td>RAG 知识检索</td>
+              <td>决策树 + Prompt</td>
+              <td>人设 + 记忆存储</td>
+            </tr>
+            <tr>
+              <td>Fallback 策略</td>
+              <td>"不知道" + 推荐来源</td>
+              <td>无法判断 → 转人工</td>
+              <td>继续倾听 / 推荐专业帮助</td>
+            </tr>
+            <tr>
+              <td>风险等级</td>
+              <td style="color:var(--green);font-weight:600;">低</td>
+              <td style="color:var(--amber);font-weight:600;">中</td>
+              <td style="color:var(--red);font-weight:600;">高</td>
+            </tr>
+            <tr>
+              <td>Context 消耗</td>
+              <td>~800 tokens</td>
+              <td>~2000 tokens</td>
+              <td>~3000+ tokens</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 决策要点:</strong>
+        <p>从左到右, 复杂度递增、风险递增、成本递增. 所以产品经理的策略应该是: <mark class="hl">先做 Q&A (低风险验证), 再做 Support (中风险, 价值高), 最后考虑 Companion (高风险, 需充分准备).</mark></p>
+      </div>
+
+      <div class="step-foot">光看表不够, 来看底层架构到底差在哪 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (7) 底层架构差异                                     -->
+    <!-- ================================================== -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">底层架构: 三种模式各需要什么"零件"</h2>
+      <p class="step-lede">PM 不需要自己写代码, 但要知道每种模式需要什么基础设施, 才能准确评估工期和成本.</p>
+
+      <div class="arch-cards">
+        <article class="arch-card" data-rough="card">
+          <h4>Q&A 需要的零件</h4>
+          <ul>
+            <li><span class="arch-tag arch-tag-must">必须</span> 知识库 (文档/FAQ)</li>
+            <li><span class="arch-tag arch-tag-must">必须</span> Embedding + 向量检索</li>
+            <li><span class="arch-tag arch-tag-must">必须</span> Prompt: "基于以下内容回答"</li>
+            <li><span class="arch-tag arch-tag-nice">可选</span> 引用溯源 (标注出处)</li>
+          </ul>
+          <p style="margin-top:10px;font-size:12px;color:var(--ink-muted);">工期估计: 1-2 周 (用 Coze/Dify 更快)</p>
+        </article>
+
+        <article class="arch-card" data-rough="card">
+          <h4>Support 需要的零件</h4>
+          <ul>
+            <li><span class="arch-tag arch-tag-must">必须</span> 决策树 / 对话流设计</li>
+            <li><span class="arch-tag arch-tag-must">必须</span> 会话状态管理</li>
+            <li><span class="arch-tag arch-tag-must">必须</span> Fallback → 人工兜底</li>
+            <li><span class="arch-tag arch-tag-nice">可选</span> 用户历史数据接入</li>
+            <li><span class="arch-tag arch-tag-nice">可选</span> 症状分类模型</li>
+          </ul>
+          <p style="margin-top:10px;font-size:12px;color:var(--ink-muted);">工期估计: 3-4 周 (含医学审核)</p>
+        </article>
+
+        <article class="arch-card" data-rough="card">
+          <h4>Companion 需要的零件</h4>
+          <ul>
+            <li><span class="arch-tag arch-tag-must">必须</span> 人格设定 (Persona Prompt)</li>
+            <li><span class="arch-tag arch-tag-must">必须</span> 长期记忆存储 (DB)</li>
+            <li><span class="arch-tag arch-tag-must">必须</span> 情绪识别 / 风险检测</li>
+            <li><span class="arch-tag arch-tag-must">必须</span> 危机 Fallback (自杀干预)</li>
+            <li><span class="arch-tag arch-tag-nice">可选</span> 个性化推荐</li>
+          </ul>
+          <p style="margin-top:10px;font-size:12px;color:var(--ink-muted);">工期估计: 6-8 周 (含伦理审核)</p>
+        </article>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>注意 Context Window 的消耗差异:</strong></p>
+        <p>Q&A 每次只需塞入<strong>问题 + 检索结果 (~800 tokens)</strong>. Companion 需要塞入<strong>人设 + 长期记忆摘要 + 近期对话 (~3000+ tokens)</strong>. 这意味着 Companion 的 API 调用成本是 Q&A 的 <strong>3-4 倍</strong>.</p>
+        <p class="muted">→ 回想 M1 学的 Context Window 和 Token 定价 — 这些知识现在派上用场了.</p>
+      </div>
+
+      <div class="step-foot">理论够了, 来亲手体验 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (8) Widget: Chat Pattern Visualizer                 -->
+    <!-- ================================================== -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: Chat Pattern Visualizer</h2>
+      <p class="step-lede">点击下面 4 个 Vitamin 场景, 看看每种对话模式是怎么跑的. 注意右侧面板的差异.</p>
+
+      <div class="chat-viz-widget">
+        <div class="chat-viz-header">
+          <h3>Chat Pattern Visualizer</h3>
+          <p>点击场景卡片, 观察对话流 + 右侧元数据变化</p>
+        </div>
+
+        <div class="chat-viz-scenarios">
+          <button class="scenario-btn" data-scenario="qa">
+            <span class="scenario-num">1</span>
+            <span class="scenario-text">"经期能不能跑步?"</span><br/>
+            <span class="scenario-tag scenario-tag-qa">Q&A</span>
+          </button>
+          <button class="scenario-btn" data-scenario="support">
+            <span class="scenario-num">2</span>
+            <span class="scenario-text">"我这两天肚子痛, 怎么办?"</span><br/>
+            <span class="scenario-tag scenario-tag-support">Support</span>
+          </button>
+          <button class="scenario-btn" data-scenario="companion">
+            <span class="scenario-num">3</span>
+            <span class="scenario-text">"今天心情不太好, 想聊聊"</span><br/>
+            <span class="scenario-tag scenario-tag-companion">Companion</span>
+          </button>
+          <button class="scenario-btn" data-scenario="hybrid">
+            <span class="scenario-num">4</span>
+            <span class="scenario-text">"帮我总结一下这周的身体状态"</span><br/>
+            <span class="scenario-tag scenario-tag-hybrid">Q&A + Reading</span>
+          </button>
+        </div>
+
+        <div class="chat-viz-body">
+          <div class="chat-conv-panel" id="chat-conv">
+            <div class="chat-conv-placeholder">← 点击上方场景卡片, 开始对话模拟</div>
+          </div>
+          <div class="chat-meta-panel" id="chat-meta">
+            <div class="chat-meta-placeholder">元数据面板<br/>选中场景后显示</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>观察要点:</strong>
+        <ul style="margin:8px 0 0;padding-left:18px;">
+          <li>Q&A 的对话最短, AI 直接给答案 + 来源</li>
+          <li>Support 里 AI 会主动追问 — 这是决策树在驱动</li>
+          <li>Companion 里 AI 提到了"上次你跟我说过" — 这是长期记忆在工作</li>
+          <li>Hybrid 场景混合了 Reading (读用户数据) + Q&A (回答问题)</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">把三种模式放回 Vitamin 的用户旅程里 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (9) Vitamin 用户旅程                                 -->
+    <!-- ================================================== -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">回到 Vitamin — 用户旅程中的三种对话</h2>
+      <p class="step-lede">一个 Vitamin 用户从"早上打开 App" 到 "睡前记录", 在不同时刻需要不同的 Chatting 模式:</p>
+
+      <div class="journey-map">
+        <div class="journey-stage">
+          <div class="journey-stage-label">早上 7:00</div>
+          <div class="journey-stage-action">问: "今天经期第几天, 能跑步吗?"</div>
+          <span class="journey-chat-type j-qa">Q&A</span>
+        </div>
+        <div class="journey-stage">
+          <div class="journey-stage-label">下午 2:00</div>
+          <div class="journey-stage-action">说: "午饭后肚子不舒服"</div>
+          <span class="journey-chat-type j-support">Support</span>
+        </div>
+        <div class="journey-stage">
+          <div class="journey-stage-label">晚上 8:00</div>
+          <div class="journey-stage-action">聊: "今天被领导说了, 心情很差"</div>
+          <span class="journey-chat-type j-companion">Companion</span>
+        </div>
+        <div class="journey-stage">
+          <div class="journey-stage-label">睡前 11:00</div>
+          <div class="journey-stage-action">问: "帮我总结今天的身体数据"</div>
+          <span class="journey-chat-type j-qa">Q&A</span>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>Vitamin 的对话功能优先级建议:</strong>
+        <table class="compare-table" style="margin-top:12px;">
+          <thead>
+            <tr>
+              <th>优先级</th>
+              <th>功能</th>
+              <th>模式</th>
+              <th>理由</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:var(--green);font-weight:700;">P0</td>
+              <td>健康知识问答</td>
+              <td><span class="pill pill-blue">Q&A</span></td>
+              <td>低风险, 高频, 1-2 周可上线</td>
+            </tr>
+            <tr>
+              <td style="color:var(--green);font-weight:700;">P0</td>
+              <td>每日/每周身体总结</td>
+              <td><span class="pill pill-green">Hybrid</span></td>
+              <td>核心功能, 有数据即可做</td>
+            </tr>
+            <tr>
+              <td style="color:var(--amber);font-weight:700;">P1</td>
+              <td>症状排查助手</td>
+              <td><span class="pill pill-amber">Support</span></td>
+              <td>中风险, 需医学决策树审核</td>
+            </tr>
+            <tr>
+              <td style="color:var(--red);font-weight:700;">P2</td>
+              <td>情绪陪伴</td>
+              <td><span class="pill pill-amber">Companion</span></td>
+              <td>高风险, 需伦理审核 + 危机机制</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"不是所有对话都该用同一种模式. Q&A 靠知识库, Support 靠决策树, Companion 靠人设和记忆. 我会按风险等级排优先级: 先上 Q&A, 再上 Support, Companion 放最后."</p>
+      </div>
+
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- (10) 一句话规则 + 作业                                -->
+    <!-- ================================================== -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">对话 ≠ 对话.<br/>先分清 Q&A / Support / Companion,<br/>再定架构、语气、Fallback.</p>
+        <p class="one-liner-foot muted">看到"要做个聊天功能", 永远先问: 用户要的是事实、解决方案、还是陪伴?</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>打开豆包 / ChatGPT, 分别模拟一个 Q&A、一个 Support、一个 Companion 场景, 观察同一个 AI 在三种场景下的表现差异. 哪种它做得最好? 哪种最差?</li>
+          <li>给 Vitamin 的"健康知识问答"功能写 5 个 Q&A 场景, 标出每个问题应该检索哪个知识来源.</li>
+          <li>画一个 Vitamin 的 Support 决策树: 用户说"不舒服" → 你会设计 AI 追问哪 3 个问题? 最终导向哪些建议?</li>
+          <li>思考: 如果 Vitamin 做 Companion 功能, 你会设计什么样的"危机检测"机制? 写 200 字.</li>
+        </ol>
+
+        <div style="margin-top:16px;">
+          <strong>资源延伸:</strong>
+          <table class="resource-table">
+            <thead>
+              <tr><th>类型</th><th>内容</th><th>来源</th><th>推荐理由</th><th>时间</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>📖</td>
+                <td>Conversational AI Design Guide</td>
+                <td><a href="https://botpress.com/blog/conversation-design" target="_blank">Botpress Blog</a></td>
+                <td>最全面的对话设计指南, 涵盖 Q&A/Support/Companion</td>
+                <td>20 min</td>
+              </tr>
+              <tr>
+                <td>📖</td>
+                <td>基于 DeepSeek 手搓 AI 智能客服</td>
+                <td><a href="https://deepseek.csdn.net/67b92d654d0686499ae144ca.html" target="_blank">CSDN</a></td>
+                <td>中文实操教程, 产品经理视角搭建 AI 客服</td>
+                <td>15 min</td>
+              </tr>
+              <tr>
+                <td>🛠</td>
+                <td>PatternFly AI Conversation Design</td>
+                <td><a href="https://www.patternfly.org/patternfly-ai/conversation-design/" target="_blank">PatternFly</a></td>
+                <td>开源设计系统的 AI 对话设计规范, 可直接复用</td>
+                <td>10 min</td>
+              </tr>
+              <tr>
+                <td>🎮</td>
+                <td>网易云信 · 情感陪伴智能体</td>
+                <td><a href="https://doc.yunxin.163.com/emotional-ai/guide" target="_blank">网易文档</a></td>
+                <td>中文情感陪伴 AI 产品文档, 看国内怎么做 Companion</td>
+                <td>15 min</td>
+              </tr>
+              <tr>
+                <td>📺</td>
+                <td>Conversation Design Best Practices</td>
+                <td><a href="https://www.conversationdesigninstitute.com/topics/best-practices" target="_blank">CDI</a></td>
+                <td>专业对话设计学院, 最佳实践集合</td>
+                <td>20 min</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ================================================== -->
+    <!-- ■ END                                                -->
+    <!-- ================================================== -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 三个"聊天" ≠ 同一种功能</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> "接 LLM 就能聊" 是错觉</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> Q&A: 线性流 + RAG</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> Support: 分支流 + 决策树</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> Companion: 循环流 + 记忆</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 三种模式 6 维度对比</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 底层架构零件清单</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> Chat Visualizer 互动体验</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 用户旅程映射</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 4:</p>
+        <p class="end-summary-big">Q&A 靠知识库, Support 靠决策树, Companion 靠人设 + 记忆.</p>
+        <p class="end-summary-sub">先分清用户要的是事实、解决方案、还是陪伴, 再定架构.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 5): ROI 评估框架</div>
+        <p>你现在知道 AI 的三种力量 — Reading, Writing, Chatting. 也知道 Chatting 里还有 Q&A / Support / Companion 三种模式.</p>
+        <p>但"知道能做什么"不等于"知道该先做哪个". 下一课, 我们用 ROI 框架来做这个决定:</p>
+        <p><strong>哪个功能值得投入? 哪个应该先上? 哪个该放弃?</strong></p>
+        <a class="walk-arrow" href="../u5-roi/index.html">继续走 → Unit 5: ROI 评估框架</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.4 · Unit 4 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

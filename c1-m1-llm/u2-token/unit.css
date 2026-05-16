@@ -1,0 +1,333 @@
+/* ============================================
+   Unit 2 · Token 是什么 — unit-specific styles
+   ============================================ */
+
+/* Token display: colored segments */
+.token-display {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 10px 12px 11px 13px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.token-display-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.token-segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 14px;
+  min-height: 44px;
+  align-items: center;
+}
+.token-seg {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  border: 2px solid;
+  transform: rotate(-0.5deg);
+  animation: tokenPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.token-seg:nth-child(odd) { transform: rotate(0.5deg); }
+
+/* Token colors (cycle through accents) */
+.token-seg.c0 { background: var(--blue-bg); border-color: var(--blue); color: var(--ink); }
+.token-seg.c1 { background: var(--green-bg); border-color: var(--green); color: var(--ink); }
+.token-seg.c2 { background: var(--amber-bg); border-color: var(--amber); color: var(--ink); }
+.token-seg.c3 { background: var(--red-bg); border-color: var(--red); color: var(--ink); }
+.token-seg.c4 { background: var(--purple-bg); border-color: var(--purple); color: var(--ink); }
+
+.token-stats {
+  display: flex;
+  gap: 24px;
+  font-size: 15px;
+  color: var(--ink-soft);
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+.token-stat-num {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  display: block;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.stat-chars .token-stat-num { color: var(--ink-muted); }
+.stat-tokens .token-stat-num { color: var(--red); }
+
+/* Interactive tokenizer widget */
+.tokenizer-widget {
+  background: var(--bg-card);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+.tokenizer-input-wrap {
+  margin-bottom: 16px;
+}
+.tokenizer-input-wrap label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+.tokenizer-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  border: 2px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-elev);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.tokenizer-input:focus {
+  border-color: var(--blue);
+}
+.tokenizer-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.preset-btn {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 13px;
+  padding: 6px 14px;
+  border: 1.5px solid var(--border-strong);
+  background: var(--bg-elev);
+  color: var(--ink-soft);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  transform: rotate(-0.3deg);
+}
+.preset-btn:nth-child(even) { transform: rotate(0.3deg); }
+.preset-btn:hover {
+  background: var(--blue-bg);
+  border-color: var(--blue);
+  color: var(--ink);
+}
+.preset-btn.active {
+  background: var(--blue-bg);
+  border-color: var(--blue);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.tokenizer-result {
+  background: var(--bg-elev);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: 10px;
+  padding: 18px 20px;
+  min-height: 100px;
+}
+
+/* BPE merge visualization */
+.bpe-demo {
+  background: var(--bg-card);
+  border: 2px solid var(--green);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+  transform: rotate(-0.3deg);
+}
+.bpe-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 15px;
+}
+.bpe-step:last-child { border-bottom: none; }
+.bpe-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--green-bg);
+  color: var(--green);
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.bpe-chars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.bpe-char {
+  display: inline-block;
+  padding: 3px 8px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: "Cascadia Code", "SF Mono", monospace;
+  font-size: 14px;
+}
+.bpe-char.merged {
+  background: var(--green-bg);
+  border-color: var(--green);
+  font-weight: 600;
+}
+.bpe-arrow {
+  color: var(--green);
+  font-weight: 600;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* Surprise comparison */
+.surprise-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 18px 0;
+}
+@media (max-width: 600px) {
+  .surprise-compare { grid-template-columns: 1fr; }
+}
+.surprise-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 10px 12px 11px 13px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+.surprise-card:first-child { transform: rotate(-0.6deg); border-color: var(--blue); }
+.surprise-card:last-child { transform: rotate(0.5deg); border-color: var(--red); }
+.surprise-word {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 8px 0;
+}
+.surprise-tokens {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+.surprise-count {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  display: block;
+  margin: 6px 0;
+}
+.surprise-card:first-child .surprise-count { color: var(--blue); }
+.surprise-card:last-child .surprise-count { color: var(--red); }
+
+/* Cost calculator mini */
+.cost-calc {
+  background: var(--bg-card);
+  border: 2px solid var(--amber);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+  transform: rotate(0.3deg);
+}
+.cost-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dotted var(--border);
+  font-size: 15px;
+}
+.cost-row:last-child { border-bottom: none; }
+.cost-label { color: var(--ink-soft); }
+.cost-value {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+}
+.cost-total {
+  background: var(--amber-bg);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 12px;
+  text-align: center;
+}
+.cost-total-num {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--red);
+}
+
+/* Subword tree */
+.subword-demo {
+  text-align: center;
+  margin: 24px 0;
+}
+.subword-full {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.subword-parts {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+}
+.subword-part {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  border: 2px solid;
+}
+.subword-part.prefix { background: var(--blue-bg); border-color: var(--blue); }
+.subword-part.stem { background: var(--green-bg); border-color: var(--green); }
+.subword-plus {
+  font-size: 24px;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+
+/* Resource table */
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 12px 0;
+}
+.resource-table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--border-strong);
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.resource-table td {
+  padding: 8px 10px;
+  border-bottom: 1px dashed var(--border);
+  vertical-align: top;
+}
+.resource-table tr:last-child td { border-bottom: none; }
+.resource-table a {
+  color: var(--blue);
+  text-decoration: none;
+}
+.resource-table a:hover { text-decoration: underline; }

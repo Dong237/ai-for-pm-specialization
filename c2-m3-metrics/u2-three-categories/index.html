@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 2 · 三大类 AI 指标 — AI for PM · M2.3</title>
+  <meta name="description" content="Quality / Adoption / Cost — AI 指标的三大分类, 每类挑 1-2 个就够用." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.3</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 · 三大类 AI 指标</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航"><ol>
+    <li><a href="#start" data-step="0">▶</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+    <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+    <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+    <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+    <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">■</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">▶</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 2<span class="title-dot">·</span><br/>三大类 AI 指标</h1>
+      <p class="hero-sub">AI 指标不是越多越好. 分三类, 每类挑 1-2 个, 就是你的指标仪表盘.</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="你">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head"/>
+            <circle cx="42" cy="28" r="2" fill="currentColor"/>
+            <circle cx="58" cy="28" r="2" fill="currentColor"/>
+            <path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 准备搭建指标体系)</figcaption>
+        </figure>
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">上一节说传统指标有盲区, 那 AI 指标到底有哪些?</p>
+          <p class="cloud-line">我看到过几十个, 不可能都上 dashboard 吧?</p>
+          <p class="cloud-line accent">—— 分三类, 每类挑 1-2 个就够了.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>把 AI 指标分为 Quality / Adoption / Cost 三大类</li>
+          <li>知道每类下面有哪些具体指标</li>
+          <li>理解三类之间的因果关系</li>
+          <li>给 Vitamin 每个功能选出 3-4 个核心指标</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">类比: 餐厅的三个问题</h2>
+      <p class="step-lede">开一家 AI 餐厅, 你要回答三个问题:</p>
+
+      <div class="cat-grid">
+        <div class="cat-card quality" data-rough="card">
+          <div class="cat-tag">问题 1</div>
+          <h3>菜好不好?</h3>
+          <p style="font-size:15px;color:var(--ink-soft);">厨师的水平怎么样? 退菜率高不高? 客人满意吗?</p>
+          <p style="font-size:13px;color:var(--blue);margin-top:8px;font-weight:600;">→ Quality (质量)</p>
+        </div>
+        <div class="cat-card adoption" data-rough="card">
+          <div class="cat-tag">问题 2</div>
+          <h3>有没有人来?</h3>
+          <p style="font-size:15px;color:var(--ink-soft);">翻台率? 回头客? 外卖订单量?</p>
+          <p style="font-size:13px;color:var(--green);margin-top:8px;font-weight:600;">→ Adoption (使用)</p>
+        </div>
+        <div class="cat-card cost" data-rough="card">
+          <div class="cat-tag">问题 3</div>
+          <h3>赚不赚钱?</h3>
+          <p style="font-size:15px;color:var(--ink-soft);">食材成本? 人均消费? 利润率?</p>
+          <p style="font-size:13px;color:var(--amber);margin-top:8px;font-weight:600;">→ Cost (成本)</p>
+        </div>
+      </div>
+
+      <p>AI 产品的指标体系, 跟餐厅一模一样 — 也是这三个问题. 只不过 "菜" 换成了 "AI 输出", "厨师" 换成了 "模型".</p>
+      <div class="step-foot">展开三大类 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">三大类: Quality / Adoption / Cost</h2>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">框架</div>
+        <p class="truth-line big">AI 指标 = 三个维度的平衡:</p>
+        <p class="truth-line giant"><span style="color:var(--blue)">Quality</span> · <span style="color:var(--green)">Adoption</span> · <span style="color:var(--amber)">Cost</span></p>
+        <p class="truth-line muted">质量好 → 用户愿意用 → 用得多就要管成本. 这是一条因果链.</p>
+      </div>
+
+      <div class="cat-grid">
+        <div class="cat-card quality" data-rough="card">
+          <div class="cat-tag">Quality 质量</div>
+          <h3>AI 输出好不好?</h3>
+          <ul>
+            <li>Acceptance Rate (接受率)</li>
+            <li>Hallucination Rate (幻觉率)</li>
+            <li>Refusal Rate (拒答率)</li>
+            <li>Regeneration Rate (重生率)</li>
+          </ul>
+        </div>
+        <div class="cat-card adoption" data-rough="card">
+          <div class="cat-tag">Adoption 使用</div>
+          <h3>用户在用吗?</h3>
+          <ul>
+            <li>Feature Adoption %</li>
+            <li>Task Completion Rate</li>
+            <li>Active AI Users</li>
+            <li>Time to Value</li>
+          </ul>
+        </div>
+        <div class="cat-card cost" data-rough="card">
+          <div class="cat-tag">Cost 成本</div>
+          <h3>花了多少钱?</h3>
+          <ul>
+            <li>Cost per Query</li>
+            <li>Cost per Successful Task</li>
+            <li>Token Efficiency</li>
+            <li>API Spend / MAU</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step-foot">逐个展开 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">Quality 类: AI 输出好不好</h2>
+      <p class="step-lede">质量是 AI 产品的根基. 如果 AI 输出不靠谱, 再多用户也没用.</p>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>核心 Quality 指标:</strong></p>
+        <ul>
+          <li><strong>Acceptance Rate:</strong> 用户直接用了 AI 输出, 没改. 越高越好 (但太高要警惕)</li>
+          <li><strong>Hallucination Rate:</strong> AI 编造信息的比例. 越低越好, 健康产品必须 < 1%</li>
+          <li><strong>Refusal Rate:</strong> AI 说 "我不知道" 的比例. 太低 = 乱答, 太高 = 没用</li>
+          <li><strong>Regen Rate:</strong> 用户点 "换一个" 的频率. 隐性的不满意信号</li>
+        </ul>
+      </div>
+
+      <p>Quality 类指标的特点: <mark class="hl">它们回答的是 "模型表现", 不是 "用户行为".</mark></p>
+      <p>一个 Acceptance Rate 仅 23% 的功能, 就算 DAU 很高, 也说明<strong>77% 的 AI 输出是废品</strong>.</p>
+      <div class="step-foot">Adoption 类 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Adoption 类: 用户真的在用吗</h2>
+      <p class="step-lede">不是 "打开了" 就是 "在用". Adoption 看的是<em>使用深度</em>.</p>
+
+      <div class="callout callout-green" data-rough="card">
+        <p><strong>核心 Adoption 指标:</strong></p>
+        <ul>
+          <li><strong>Feature Adoption %:</strong> 有多少 MAU 在用 AI 功能 (不是只打开了 App)</li>
+          <li><strong>Task Completion Rate:</strong> 用户开始了一个 AI 辅助任务, 最终完成了吗</li>
+          <li><strong>Active AI Users:</strong> 过去 7 天至少用了 1 次 AI 功能的用户数</li>
+          <li><strong>Time to Value:</strong> 从触发 AI 到用户获得有价值结果的时间</li>
+        </ul>
+      </div>
+
+      <p>Adoption 和传统的 "DAU / 留存" 很像, 但更细: 不只是 "用了 App", 而是 <mark class="hl">"用了 AI 功能, 而且用到底了"</mark>.</p>
+      <p>一个 DAU 1 万的 App, 如果只有 800 人用 AI 功能, Feature Adoption = 8%. 这说明大部分用户并不觉得 AI 有用.</p>
+      <div class="step-foot">Cost 类 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">Cost 类: 花了多少钱</h2>
+      <p class="step-lede">AI 功能不是免费的. 每次调用都有 token 成本. Cost 类指标帮你管好钱.</p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>核心 Cost 指标:</strong></p>
+        <ul>
+          <li><strong>Cost per Query:</strong> 每次 AI 对话/调用花多少钱 (token 费用)</li>
+          <li><strong>Cost per Successful Task:</strong> 每个成功完成的任务花多少钱 (含失败重试)</li>
+          <li><strong>Token Efficiency:</strong> 用更少的 token 完成同样质量的输出</li>
+          <li><strong>API Spend / MAU:</strong> 平均每个月活用户的 AI 成本</li>
+        </ul>
+      </div>
+
+      <p>为什么 Cost 这么重要? 因为 AI 产品的边际成本不为零:</p>
+      <ul>
+        <li>传统 SaaS 毛利率: 70-85%</li>
+        <li>AI-Native 产品毛利率: 50-65%</li>
+        <li>早期快速增长的 AI 公司: 毛利率可能只有 25%</li>
+      </ul>
+      <p><mark class="hl">如果你不看 Cost, 用户涨得越快, 亏得越多.</mark></p>
+      <div class="step-foot">三类之间的关系 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">三类之间的因果链</h2>
+      <p class="step-lede">这三类不是独立的, 它们是一条因果链:</p>
+
+      <div class="flow-chain">
+        <div class="flow-node q">Quality<br/><span style="font-size:12px;">质量好</span></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-node a">Adoption<br/><span style="font-size:12px;">用户愿意用</span></div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-node c">Cost<br/><span style="font-size:12px;">用得多就要管成本</span></div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>因果关系:</strong></p>
+        <ul>
+          <li>Quality 差 → Adoption 上不去 (AI 不好用, 谁用?)</li>
+          <li>Quality 好 + Adoption 高 → Cost 飙升 (大家都在用, token 费爆了)</li>
+          <li>Cost 失控 → 砍 Quality (换便宜模型) → Adoption 掉 → 恶性循环</li>
+        </ul>
+        <p class="muted">→ 三类指标不能只看一类. 只追 Quality 不管 Cost = 烧钱. 只追 Cost 不管 Quality = 用户流失.</p>
+      </div>
+
+      <div class="big-insight" data-rough="big">
+        <p class="insight-text">AI PM 的工作 =<br/>在 Quality、Adoption、Cost<br/>三角中找到<mark class="hl">最佳平衡点</mark></p>
+      </div>
+      <div class="step-foot">那怎么选具体指标? ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">不要 12 个, 每类挑 1-2 个</h2>
+      <p class="step-lede">指标越多, 注意力越分散. 经验法则:</p>
+
+      <div class="callout callout-amber" data-rough="card">
+        <p><strong>选指标的三条规则:</strong></p>
+        <ol>
+          <li><strong>每类最多 2 个:</strong> Quality 1-2 个 + Adoption 1-2 个 + Cost 1 个 = 总共 3-5 个</li>
+          <li><strong>选能动手的:</strong> 选了这个指标, 你知道怎么优化它 (改 prompt? 换模型? 加缓存?)</li>
+          <li><strong>选能拆的:</strong> 这个指标能按功能、按用户群拆开看, 不是只有一个大数字</li>
+        </ol>
+      </div>
+
+      <p><strong>反例:</strong> "AI 满意度" 听起来很好, 但你没法优化它 — 它太模糊了. 换成 "Acceptance Rate" 就能行动了: 接受率低 → 看哪些输出被拒绝 → 改 prompt.</p>
+
+      <p><strong>好的组合示例:</strong></p>
+      <ul>
+        <li><span class="pill pill-blue">Quality</span> Acceptance Rate + Refusal Rate</li>
+        <li><span class="pill pill-green">Adoption</span> Task Completion Rate</li>
+        <li><span class="pill pill-amber">Cost</span> Cost per Successful Task</li>
+      </ul>
+      <p class="muted">4 个指标, 覆盖质量 + 使用 + 成本, 够用了.</p>
+      <div class="step-foot">动手分类试试 ↓</div>
+    </section>
+
+    <!-- (8) Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手试: 指标分类器</h2>
+      <p class="step-lede">下面有 12 个 AI 指标. 先点选一个指标, 再点击对应类别把它放进去:</p>
+
+      <div class="sorter-widget" data-rough="card">
+        <div id="sorter-bank" class="sorter-bank"></div>
+
+        <div class="sorter-columns">
+          <div id="zone-quality" class="sorter-col quality" style="cursor:pointer;">
+            <div class="sorter-col-title">Quality 质量</div>
+            <div id="col-quality" class="sorter-col-items"></div>
+          </div>
+          <div id="zone-adoption" class="sorter-col adoption" style="cursor:pointer;">
+            <div class="sorter-col-title">Adoption 使用</div>
+            <div id="col-adoption" class="sorter-col-items"></div>
+          </div>
+          <div id="zone-cost" class="sorter-col cost" style="cursor:pointer;">
+            <div class="sorter-col-title">Cost 成本</div>
+            <div id="col-cost" class="sorter-col-items"></div>
+          </div>
+        </div>
+
+        <div id="sorter-score" class="sorter-score"></div>
+        <div style="text-align:center;margin-top:10px;">
+          <button id="sorter-reset" class="btn btn-ghost">重来</button>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <p><strong>提示:</strong> 想想每个指标回答的是哪个问题 — "AI 输出好不好" (Quality) vs "用户在用吗" (Adoption) vs "花了多少" (Cost).</p>
+      </div>
+      <div class="step-foot">Vitamin 的指标选择 ↓</div>
+    </section>
+
+    <!-- (9) Vitamin -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin: 每个功能的指标组合</h2>
+      <p class="step-lede">给 Vitamin 的 5 个 AI 功能, 各选一组 Q + A + C 指标:</p>
+
+      <table class="combo-table">
+        <thead>
+          <tr>
+            <th>功能</th>
+            <th><span class="pill pill-blue">Quality</span></th>
+            <th><span class="pill pill-green">Adoption</span></th>
+            <th><span class="pill pill-amber">Cost</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>AI 聊天</strong></td>
+            <td>Acceptance Rate<br/>Refusal Rate</td>
+            <td>Active AI Users</td>
+            <td>Cost / Query</td>
+          </tr>
+          <tr>
+            <td><strong>AI 日报</strong></td>
+            <td>Regen Rate</td>
+            <td>Feature Adoption %</td>
+            <td>Cost / User / Day</td>
+          </tr>
+          <tr>
+            <td><strong>AI 饮食建议</strong></td>
+            <td>Acceptance Rate</td>
+            <td>Task Completion</td>
+            <td>Cost / Task</td>
+          </tr>
+          <tr>
+            <td><strong>AI 情绪识别</strong></td>
+            <td>Correction Rate</td>
+            <td>Feature Adoption %</td>
+            <td>Cost / Query</td>
+          </tr>
+          <tr>
+            <td><strong>AI 运动推荐</strong></td>
+            <td>Acceptance Rate<br/>Refusal Rate</td>
+            <td>Task Completion</td>
+            <td>Cost / Task</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"AI 产品指标分三类: Quality 看 AI 输出好不好, Adoption 看用户在不在用, Cost 看花了多少钱. 三类之间有因果链: 质量好 → 使用多 → 成本上来. 每个功能我选 3-4 个核心指标, 放到同一个 dashboard 上看."</p>
+      </div>
+      <div class="step-foot">一句话 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">AI 指标三大类:<br/>Quality (好不好) · Adoption (用不用) · Cost (贵不贵)<br/>每类挑 1-2 个, 别超过 5 个.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>列一张表: 把你在第 8 步分类器里遇到的 12 个指标, 写清楚每个的定义和计算公式.</li>
+          <li>选一个你用过的 AI 产品 (豆包 / Notion AI / GitHub Copilot), 猜测它的 Quality 指标大概在什么水平.</li>
+          <li>给 Vitamin 再加一个新功能 (你自己想), 然后用 Q + A + C 框架给它选 3-4 个指标.</li>
+          <li>写 100 字: 为什么 "只追 Quality 不管 Cost" 是危险的?</li>
+        </ol>
+
+        <div style="margin-top:16px;padding-top:12px;border-top:1px dashed var(--border);">
+          <strong>资源延伸:</strong>
+          <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
+            <tr>
+              <td style="padding:6px 4px;">📖</td>
+              <td style="padding:6px 4px;"><a href="https://thesaasbarometer.substack.com/p/ai-metrics-that-matter-in-2025" target="_blank" style="color:var(--blue);">AI Metrics that Matter in 2025</a></td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">SaaS Barometer</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">行业数据 + 框架</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">15 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">📖</td>
+              <td style="padding:6px 4px;"><a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/from-promise-to-impact-how-companies-can-measure-and-realize-the-full-value-of-ai" target="_blank" style="color:var(--blue);">McKinsey 五层 AI 度量框架</a></td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">McKinsey</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">最权威的企业级框架</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">20 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">📖</td>
+              <td style="padding:6px 4px;"><a href="https://himatk.substack.com/p/ai-product-management-model-metrics-that-matter" target="_blank" style="color:var(--blue);">Model Metrics that Matter</a></td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">Substack</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">PM 视角的指标梳理</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">10 min</td>
+            </tr>
+            <tr>
+              <td style="padding:6px 4px;">📖</td>
+              <td style="padding:6px 4px;"><a href="https://zhuanlan.zhihu.com/p/356111124" target="_blank" style="color:var(--blue);">你必须知道的北极星指标</a></td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">知乎</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">中文, 北极星指标基础</td>
+              <td style="padding:6px 4px;color:var(--ink-muted);">15 min</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">■</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 餐厅三问题类比</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> Q / A / C 三大类</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> Quality 质量指标</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> Adoption 使用指标</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> Cost 成本指标</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 三类因果链</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 每类挑 1-2 个</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> 指标分类器</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 指标组合</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 一句话 + 作业</a>
+      </div>
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">Quality · Adoption · Cost<br/>三类指标, 每类 1-2 个, 不超过 5 个.</p>
+        <p class="end-summary-sub">质量驱动使用, 使用驱动成本. 三角平衡才是 AI PM 的活.</p>
+      </div>
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 3): Acceptance Rate</div>
+        <p>三大类里, Quality 最重要的一个指标: Acceptance Rate (接受率).</p>
+        <p><strong>用户直接用了 AI 输出, 没改 = 一次成功. 这个比例是多少?</strong></p>
+        <a class="walk-arrow" href="../u3-acceptance-rate/index.html">继续走 → Unit 3</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 2.3 · Unit 2 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

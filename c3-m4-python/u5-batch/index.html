@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 5 · 批量调用 + Rate Limiting — AI for PM · M3.4</title>
+  <meta name="description" content="AI PM 课 · M3.4 Unit 5: 100 条数据批量调 API, 学 rate limiting 防崩溃." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M3.4</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 5 · 批量调用</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="Step navigation"><ol>
+    <li><a href="#start" data-step="0">&#9654;</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li>
+    <li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li>
+    <li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li>
+    <li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li>
+    <li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">&#9632;</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 5<span class="title-dot">·</span><br/>批量调用 + Rate Limiting</h1>
+      <p class="hero-sub">100 条数据, 一条一条手动调 = 2 小时. 写个循环批量跑 = 3 分钟. 但得防 429.</p>
+
+      <div class="hero-grid">
+        <figure class="you"><svg viewBox="0 0 100 140" class="you-svg"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">我有 100 条用户问题, 想全部丢给 API 处理...</p>
+          <p class="cloud-line">直接 for 循环一口气跑, 会不会出问题?</p>
+          <p class="cloud-line accent">-- 会. 今天学怎么稳稳跑完.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步走完, 你会:</div>
+        <ul class="check-list">
+          <li>理解 API Rate Limit (频率限制) 是什么</li>
+          <li>用 time.sleep() 控制调用节奏</li>
+          <li>用进度条追踪批量处理进度</li>
+          <li>写出一个稳定的批量处理循环</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">直接 for 循环会怎样?</h2>
+      <p class="step-lede">你写了个循环, 100 条数据不带任何等待直接冲:</p>
+
+      <div class="code-block"><span class="cmt"># 天真版: 不做任何限速</span>
+results = []
+<span class="kw">for</span> q <span class="kw">in</span> questions:  <span class="cmt"># 100 条</span>
+    answer = ask_ai(q)
+    results.append(answer)
+
+<span class="err"># 跑到第 7 条: 429 RateLimitError!
+# 每分钟只能请求 60 次, 你 1 秒请求了 7 次</span></div>
+
+      <div class="callout callout-red">
+        <p><strong>问题:</strong> API 有频率限制 (比如每分钟 60 次). 你不加限制地连续调用, 几秒钟就触发 429 限频.</p>
+      </div>
+
+      <div class="step-foot">Rate Limit 到底是什么? ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">Rate Limit -- API 的 "限速牌"</h2>
+
+      <div class="truth-bubble">
+        <div class="truth-tag">类比</div>
+        <p class="truth-line big">Rate Limit 就像高速公路的限速牌:</p>
+        <p class="truth-line">路面能跑 200km/h, 但限速 120km/h. 超速了就罚款 (429 错误).</p>
+        <p class="truth-line muted">API 也一样: 服务器有容量上限, 给每个用户设了 "每分钟最多 N 次" 的限制.</p>
+      </div>
+
+      <table class="compare-table">
+        <thead><tr><th>模型</th><th>RPM (每分钟请求数)</th><th>TPM (每分钟 token 数)</th></tr></thead>
+        <tbody>
+          <tr><td>gpt-4o-mini</td><td>500</td><td>200,000</td></tr>
+          <tr><td>gpt-4o</td><td>500</td><td>30,000</td></tr>
+          <tr><td>gpt-4.1</td><td>500</td><td>200,000</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-blue">
+        <p><strong>PM 须知:</strong> 新注册账号的 Rate Limit 更低 (Tier 1 只有 60 RPM). 充值 $50 以上才能提到 500 RPM.</p>
+      </div>
+
+      <div class="step-foot">怎么解决? 最简单的一行代码 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">time.sleep() -- 最简单的限速方案</h2>
+
+      <div class="code-block"><span class="kw">import</span> time
+
+results = []
+<span class="kw">for</span> i, q <span class="kw">in</span> enumerate(questions):
+    answer = ask_ai(q)
+    results.append(answer)
+    print(<span class="str">f"[</span>{i+1}<span class="str">/</span>{len(questions)}<span class="str">] Done"</span>)
+    time.sleep(<span class="op">1</span>)  <span class="cmt"># 每次调用后等 1 秒 — 就这么简单!</span></div>
+
+      <div class="callout callout-green">
+        <p><strong>time.sleep(1)</strong> 表示 "暂停 1 秒". 100 条数据就是 100 秒 (不到 2 分钟), 完全可以接受. 远比手动复制粘贴快.</p>
+      </div>
+
+      <div class="step-foot">加上进度显示, 让等待不那么无聊 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">加进度显示 -- 知道跑到哪了</h2>
+
+      <div class="code-block"><span class="kw">import</span> time
+
+questions = [<span class="str">"问题1"</span>, <span class="str">"问题2"</span>, ...]  <span class="cmt"># 100 条</span>
+results = []
+total = len(questions)
+
+<span class="kw">for</span> i, q <span class="kw">in</span> enumerate(questions):
+    answer = ask_ai(q)
+    results.append(answer)
+
+    <span class="cmt"># 进度显示</span>
+    pct = (i + 1) / total * 100
+    print(<span class="str">f"[</span>{i+1}<span class="str">/</span>{total}<span class="str">] </span>{pct:.0f}<span class="str">% </span>{q[:20]}<span class="str">... done"</span>)
+
+    time.sleep(<span class="op">1</span>)
+
+print(<span class="str">f"\n全部完成! 共 </span>{len(results)}<span class="str"> 条"</span>)</div>
+
+      <div class="step-foot">进阶: 结合错误处理 + 限速 ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">完整版: 错误处理 + 限速 + 进度</h2>
+
+      <div class="code-block"><span class="kw">import</span> time
+
+<span class="kw">def</span> <span class="fn">batch_process</span>(questions, delay=<span class="op">1.0</span>):
+    <span class="str">"""批量处理问题列表, 带限速和错误处理."""</span>
+    results = []
+    total = len(questions)
+
+    <span class="kw">for</span> i, q <span class="kw">in</span> enumerate(questions):
+        answer = ask_ai(q)  <span class="cmt"># ask_ai 已经有 try/except</span>
+        results.append({
+            <span class="str">"index"</span>: i + 1,
+            <span class="str">"question"</span>: q,
+            <span class="str">"answer"</span>: answer,
+            <span class="str">"status"</span>: <span class="str">"error"</span> <span class="kw">if</span> <span class="str">"ERROR"</span> <span class="kw">in</span> answer <span class="kw">else</span> <span class="str">"ok"</span>
+        })
+
+        pct = (i + 1) / total * 100
+        status = <span class="str">"OK"</span> <span class="kw">if</span> <span class="str">"ERROR"</span> <span class="kw">not in</span> answer <span class="kw">else</span> <span class="str">"FAIL"</span>
+        print(<span class="str">f"[</span>{i+1}<span class="str">/</span>{total}<span class="str">] </span>{pct:.0f}<span class="str">% </span>{status}<span class="str">"</span>)
+
+        <span class="kw">if</span> i < total - 1:  <span class="cmt"># 最后一条不用等</span>
+            time.sleep(delay)
+
+    ok = sum(1 <span class="kw">for</span> r <span class="kw">in</span> results <span class="kw">if</span> r[<span class="str">"status"</span>] == <span class="str">"ok"</span>)
+    print(<span class="str">f"\n完成: </span>{ok}<span class="str">/</span>{total}<span class="str"> 成功"</span>)
+    <span class="kw">return</span> results</div>
+
+      <div class="step-foot">来看两种延迟策略的对比 ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">固定延迟 vs 指数退避 -- 哪个好?</h2>
+
+      <table class="compare-table">
+        <thead><tr><th>策略</th><th>代码</th><th>适用场景</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>固定延迟</strong></td>
+            <td><code>time.sleep(1)</code></td>
+            <td>数据量小 (<200 条), 简单可靠</td>
+          </tr>
+          <tr>
+            <td><strong>指数退避</strong></td>
+            <td><code>time.sleep(2 ** n)</code></td>
+            <td>遇到 429 时重试, 越等越久</td>
+          </tr>
+          <tr>
+            <td><strong>自适应</strong></td>
+            <td>正常时 sleep(1), 429 时退避</td>
+            <td>最佳: 快时快, 慢时慢</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-amber">
+        <p><strong>PM 建议:</strong> 100 条数据用 <code>time.sleep(1)</code> 就够了. 等到你需要跑 10,000 条时, 再考虑更复杂的策略.</p>
+      </div>
+
+      <div class="step-foot">还有一个实用技巧: 断点续跑 ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">断点续跑 -- 跑一半断了也不怕</h2>
+      <p class="step-lede">批量处理的终极保险: 每条结果即时保存, 崩了从断点继续.</p>
+
+      <div class="code-block"><span class="kw">import</span> json
+
+<span class="kw">def</span> <span class="fn">batch_with_checkpoint</span>(questions, output_file=<span class="str">"results.json"</span>):
+    <span class="cmt"># 加载已有结果 (如果之前跑过一部分)</span>
+    <span class="kw">try</span>:
+        <span class="kw">with</span> open(output_file) <span class="kw">as</span> f:
+            results = json.load(f)
+        start_from = len(results)
+        print(<span class="str">f"从第 </span>{start_from + 1}<span class="str"> 条继续..."</span>)
+    <span class="kw">except</span> FileNotFoundError:
+        results = []
+        start_from = 0
+
+    <span class="kw">for</span> i <span class="kw">in</span> range(start_from, len(questions)):
+        answer = ask_ai(questions[i])
+        results.append({<span class="str">"q"</span>: questions[i], <span class="str">"a"</span>: answer})
+
+        <span class="cmt"># 每条都保存 — 即使崩了, 已跑的都在</span>
+        <span class="kw">with</span> open(output_file, <span class="str">"w"</span>) <span class="kw">as</span> f:
+            json.dump(results, f, ensure_ascii=False, indent=2)
+
+        print(<span class="str">f"[</span>{i+1}<span class="str">/</span>{len(questions)}<span class="str">] saved"</span>)
+        time.sleep(1)</div>
+
+      <div class="callout callout-green">
+        <p><strong>PM 技巧:</strong> 跑到一半电脑没电了? 重新运行脚本, 自动从上次断点继续. 不重复调用, 不浪费钱.</p>
+      </div>
+
+      <div class="step-foot">来试试交互式 Batch Processor ↓</div>
+    </section>
+
+    <!-- (8) Interactive Widget -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">Batch Processor -- 两种模式对比</h2>
+      <p class="step-lede">点 "Run All" 看不限速直接冲的崩溃效果, 点 "Rate Limited" 看稳稳跑完的效果:</p>
+
+      <div class="batch-processor" id="batch-processor">
+        <div class="batch-title">Batch API Processor (20 条模拟)</div>
+
+        <div class="batch-modes">
+          <button class="batch-mode-btn crash">Run All (不限速)</button>
+          <button class="batch-mode-btn success">Rate Limited (限速)</button>
+        </div>
+
+        <div class="batch-progress"><div class="batch-progress-fill"></div></div>
+
+        <div class="batch-log">
+          <span class="log-info">Click a mode to start...</span>
+        </div>
+
+        <div class="batch-stats">
+          <div class="batch-stat"><span class="batch-stat-num" id="batch-success" style="color:var(--green);">0</span><span class="batch-stat-label">成功</span></div>
+          <div class="batch-stat"><span class="batch-stat-num" id="batch-fail" style="color:var(--red);">0</span><span class="batch-stat-label">失败</span></div>
+          <div class="batch-stat"><span class="batch-stat-num" id="batch-time" style="color:var(--blue);">-</span><span class="batch-stat-label">耗时</span></div>
+        </div>
+      </div>
+
+      <div class="step-foot">来看 Vitamin 的批量处理需求 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 案例 -- 100 条用例批量测试</h2>
+      <p class="step-lede">Vitamin 的 QA 流程: 准备 100 条典型用户输入, 批量调 API, 看回复质量.</p>
+
+      <div class="callout callout-blue">
+        <p><strong>Vitamin 批量测试场景:</strong></p>
+        <ul>
+          <li>20 条经期相关问题</li>
+          <li>20 条饮食建议问题</li>
+          <li>20 条运动建议问题</li>
+          <li>20 条情绪/心理问题</li>
+          <li>20 条边界测试 (奇怪输入、超长文本、空输入)</li>
+        </ul>
+        <p class="muted">time.sleep(1) 跑 100 条 = 约 2 分钟. 比手动快 60 倍.</p>
+      </div>
+
+      <div class="step-foot">作业 + 一句话总结 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话</div>
+        <p class="one-liner-text">批量调 API, 每次之间 sleep(1).<br/>简单、稳定、够用.</p>
+        <p class="one-liner-foot muted">100 条 = 2 分钟. 比手动快 60 倍, 比不限速稳 100 倍.</p>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>准备 10 个 Vitamin 相关问题的列表, 用 batch_process() 函数跑一遍.</li>
+          <li>试试把 delay 改成 0.1 (很快), 看是不是触发了 429.</li>
+          <li>实现断点续跑: 用 Step 7 的代码, 故意跑到一半 Ctrl+C 中断, 再重新运行看是否续跑.</li>
+          <li>估算: Vitamin 每天要处理 1000 条用户消息, 用 time.sleep(1) 需要多久? 够用吗?</li>
+        </ol>
+
+        <div style="margin-top:16px;">
+          <strong>资源延伸:</strong>
+          <table class="compare-table" style="margin-top:8px;">
+            <thead><tr><th>类型</th><th>资源</th><th>说明</th><th>时间</th></tr></thead>
+            <tbody>
+              <tr><td>📖</td><td><a href="https://platform.openai.com/docs/guides/rate-limits" target="_blank">OpenAI Rate Limits 文档</a></td><td>官方限频说明和各 Tier 限制</td><td>10 min</td></tr>
+              <tr><td>📖</td><td><a href="https://dev.to/shehzan/mastering-python-async-patterns-a-complete-guide-to-asyncio-in-2026-10o6" target="_blank">Python asyncio 进阶</a></td><td>想进一步加速的异步方案</td><td>20 min</td></tr>
+              <tr><td>🛠</td><td><a href="https://platform.openai.com/usage" target="_blank">OpenAI Usage Dashboard</a></td><td>实时查看你的 API 调用量</td><td>3 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 直接冲会崩溃</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> Rate Limit = 限速牌</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> time.sleep(1)</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 进度显示</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 完整批量函数</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 三种延迟策略</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 断点续跑</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> Batch Processor 对比</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 批量测试</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 5:</p>
+        <p class="end-summary-big">批量调 API: for 循环 + time.sleep(1) + 错误处理 = 稳.</p>
+        <p class="end-summary-sub">不限速 = 崩, 限速 1 秒 = 稳, 断点续跑 = 保险.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 6): CSV 输入输出</div>
+        <p>批量处理会了, 但数据从哪来? 结果往哪存?</p>
+        <p>下一节学 <strong>CSV 文件读写</strong> -- 从 Excel 到 Python 到 API, 打通数据管道.</p>
+        <a class="walk-arrow" href="../u6-csv/index.html">继续走 &rarr; Unit 6</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer"><p>AI for PM · Module 3.4 · Unit 5 · 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

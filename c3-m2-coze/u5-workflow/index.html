@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 5 · 工作流节点编排 — AI for PM · M3.2</title>
+  <meta name="description" content="拖拽节点搭建工作流: 意图识别 -> 知识库检索 -> 大模型生成." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM &middot; M3.2</span></a><div class="topbar-right"><span class="unit-label">Unit 5 &middot; 工作流</span><button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div><div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div></header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol><li><a href="#start" data-step="0">&#9654;</a></li><li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li><li><a href="#end" data-step="11">&#9632;</a></li></ol></nav>
+
+  <main class="canvas">
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 5<span class="title-dot">&middot;</span><br/>工作流: 让 Bot 按步骤办事</h1>
+      <p class="hero-sub">Bot 有了灵魂和记忆, 但复杂任务需要"按步骤来". 今天学工作流编排.</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="你"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 &middot; 准 AI PM)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">Bot 能聊天, 也能查知识库了...</p>
+          <p class="cloud-line">但如果要"先判断意图, 再决定查哪个库"呢?</p>
+          <p class="cloud-line accent">-- 这就是工作流干的事.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber"><div class="callout-head">10 步学完, 你会:</div><ul class="check-list"><li>理解工作流 = 有向无环图 (DAG)</li><li>认识 6 种节点类型</li><li>搭建 Vitamin 的 5 节点工作流</li><li>知道什么时候该用工作流, 什么时候不需要</li></ul></div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">一个 Bot 处理不了的场景</h2>
+      <p class="step-lede">用户问: "我经期第二天, 今天能跑步吗?" -- 这个问题需要 3 步才能回答好:</p>
+      <div class="callout callout-blue">
+        <ol>
+          <li><strong>识别意图</strong>: 这是"运动建议"类问题</li>
+          <li><strong>检索知识</strong>: 在知识库中找"经期运动"相关内容</li>
+          <li><strong>生成回复</strong>: 结合知识 + Persona, 用温柔语气回答</li>
+        </ol>
+      </div>
+      <p class="step-lede">没有工作流, Bot 只会一股脑把问题扔给大模型. 有了工作流, 每一步都有<mark class="hl">明确的节点</mark>负责, 质量可控.</p>
+      <div class="step-foot">工作流的核心概念: DAG ↓</div>
+    </section>
+
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">工作流 = 有向无环图 (DAG)</h2>
+      <div class="callout callout-amber">
+        <p><strong>3 个关键词:</strong></p>
+        <ul>
+          <li><strong>有向</strong> -- 数据从左到右流, 不能倒流</li>
+          <li><strong>无环</strong> -- 不能出现 A->B->C->A 的死循环 (循环节点除外)</li>
+          <li><strong>图</strong> -- 节点 + 连线组成的网络</li>
+        </ul>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>每个节点的执行条件:</strong> 所有输入边都有结果, 且至少一个成功. 这保证了数据按顺序流动.</p>
+      </div>
+      <div class="step-foot">认识 6 种节点类型 ↓</div>
+    </section>
+
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">6 种节点类型</h2>
+      <div class="node-palette">
+        <div class="palette-item"><span class="palette-icon" style="color:var(--blue);">&#129504;</span> 大模型节点</div>
+        <div class="palette-item"><span class="palette-icon" style="color:var(--amber);">&#128218;</span> 知识库节点</div>
+        <div class="palette-item"><span class="palette-icon" style="color:var(--purple);">&#128187;</span> 代码节点</div>
+        <div class="palette-item"><span class="palette-icon" style="color:var(--amber);">&#128256;</span> 条件判断</div>
+        <div class="palette-item"><span class="palette-icon" style="color:var(--green);">&#128260;</span> 循环节点</div>
+        <div class="palette-item"><span class="palette-icon" style="color:var(--blue);">&#128268;</span> 插件节点</div>
+      </div>
+      <div class="callout callout-green">
+        <p><strong>PM 最常用的 3 个:</strong></p>
+        <ul>
+          <li><span class="pill pill-blue">大模型节点</span> 做文本生成、分类、总结 -- 工作流的"大脑"</li>
+          <li><span class="pill pill-amber">知识库节点</span> 检索私有数据 -- 工作流的"记忆"</li>
+          <li><span class="pill pill-green">条件判断</span> if-else 分支 -- 工作流的"路由"</li>
+        </ul>
+      </div>
+      <div class="step-foot">用这些节点搭 Vitamin 的工作流 ↓</div>
+    </section>
+
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">Vitamin 工作流: 5 个节点</h2>
+      <p class="step-lede">点击下方每个节点, 查看它的输入输出:</p>
+
+      <div class="node-canvas">
+        <div class="node-canvas-title">Vitamin Bot 工作流 (点击节点查看详情)</div>
+        <div class="node-flow">
+          <div class="wf-node" data-type="start" data-node="start">
+            <span class="wf-node-icon">&#9654;&#65039;</span>
+            <div class="wf-node-name">开始</div>
+            <div class="wf-node-type">Start</div>
+          </div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node" data-type="llm" data-node="intent">
+            <span class="wf-node-icon">&#129504;</span>
+            <div class="wf-node-name">意图识别</div>
+            <div class="wf-node-type">LLM</div>
+          </div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node" data-type="kb" data-node="kb">
+            <span class="wf-node-icon">&#128218;</span>
+            <div class="wf-node-name">知识库检索</div>
+            <div class="wf-node-type">Knowledge</div>
+          </div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node" data-type="llm" data-node="generate">
+            <span class="wf-node-icon">&#129504;</span>
+            <div class="wf-node-name">回复生成</div>
+            <div class="wf-node-type">LLM</div>
+          </div>
+          <span class="wf-arrow">&rarr;</span>
+          <div class="wf-node" data-type="end" data-node="end">
+            <span class="wf-node-icon">&#9632;&#65039;</span>
+            <div class="wf-node-name">结束</div>
+            <div class="wf-node-type">End</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="node-detail" class="node-detail">
+        <h4>选择一个节点</h4>
+        <p class="node-desc">点击上方节点查看详情</p>
+        <div class="node-detail-io">
+          <div class="node-io-box"><h5>Input</h5><p class="node-input">-</p></div>
+          <div class="node-io-box"><h5>Output</h5><p class="node-output">-</p></div>
+        </div>
+      </div>
+      <div class="step-foot">怎么在 Coze 上实际搭? ↓</div>
+    </section>
+
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">在 Coze 上创建工作流</h2>
+      <div class="callout callout-blue">
+        <p><strong>操作步骤:</strong></p>
+        <ol>
+          <li>在 Bot 编辑页中栏, 点"工作流" -> "新建工作流"</li>
+          <li>进入可视化画布 -- 默认有开始和结束两个节点</li>
+          <li>从左侧面板拖入节点到画布</li>
+          <li>用连线连接节点 (从一个节点的输出拖到另一个的输入)</li>
+          <li>点击每个节点, 配置参数 (比如 LLM 节点要写 Prompt)</li>
+          <li>点"试运行"测试</li>
+        </ol>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>PM 注意:</strong> 工作流搭建的核心不是"怎么拖拽", 而是<mark class="hl">"怎么拆解任务"</mark>. 先在纸上画流程图, 再去 Coze 上搭, 效率高 10 倍.</p>
+      </div>
+      <div class="step-foot">每个节点怎么配? ↓</div>
+    </section>
+
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">意图识别节点怎么配</h2>
+      <div class="callout callout-green">
+        <p><strong>LLM 节点的配置:</strong></p>
+        <pre style="background:var(--bg-elev);padding:12px;border-radius:8px;font-size:12px;border:1px dashed var(--border);margin:8px 0;white-space:pre-wrap;">你是一个意图分类器. 根据用户消息, 判断意图类别.
+
+只输出以下类别之一:
+- health_query: 健康咨询类问题
+- exercise: 运动相关问题
+- diet: 饮食营养问题
+- emotion: 情绪心理问题
+- chitchat: 闲聊
+
+用户消息: {{input}}
+意图:</pre>
+        <p class="muted"><code>{{input}}</code> 是变量, 运行时会被替换成用户的实际消息.</p>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>关键:</strong> 意图识别用<span class="pill pill-blue">T=0</span> (Temperature 最低) -- 分类任务需要确定性, 不要创意.</p>
+      </div>
+      <div class="step-foot">条件分支怎么加? ↓</div>
+    </section>
+
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">进阶: 加条件分支</h2>
+      <p class="step-lede">Vitamin 的进阶版工作流可以加一个条件判断 -- 不同意图走不同路径:</p>
+      <div class="callout callout-blue">
+        <p><strong>加了条件判断后:</strong></p>
+        <ul>
+          <li>如果意图 = health_query -> 查健康知识库 -> 生成回复</li>
+          <li>如果意图 = exercise -> 查运动知识库 + 调天气插件 -> 生成回复</li>
+          <li>如果意图 = chitchat -> 直接用 LLM 闲聊, 不查知识库</li>
+        </ul>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>好处:</strong> 闲聊类问题不查知识库, 省 Token + 省时间. 这就是 M2.2 学的<mark class="hl">模型分级路由</mark>在工作流中的实现.</p>
+      </div>
+      <div class="step-foot">工作流该不该用? 决策标准 ↓</div>
+    </section>
+
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">什么时候用工作流, 什么时候不用</h2>
+      <div class="can-cant">
+        <article class="can-list">
+          <h3 class="can-head">&#10003; 该用工作流</h3>
+          <ul>
+            <li>任务有多个步骤 (先分类再检索再生成)</li>
+            <li>需要条件分支 (不同意图走不同路)</li>
+            <li>需要调用外部 API</li>
+            <li>需要精确控制每步的输入输出</li>
+          </ul>
+        </article>
+        <article class="cant-list">
+          <h3 class="cant-head">&#10007; 不需要工作流</h3>
+          <ul>
+            <li>简单的一问一答 (直接用 Bot + 知识库)</li>
+            <li>纯闲聊 (Bot + Persona 够了)</li>
+            <li>还在探索阶段 (先跑通再加工作流)</li>
+          </ul>
+        </article>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>PM 原则:</strong> <mark class="hl">先简单, 后复杂</mark>. Vitamin 第一版用 Bot + 知识库就够了. 等验证了核心逻辑, 再加工作流做精细化控制.</p>
+      </div>
+      <div class="step-foot">Vitamin 视角 ↓</div>
+    </section>
+
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 工作流规划</h2>
+      <div class="callout callout-green">
+        <p><strong>V1 (MVP):</strong> 开始 -> 知识库检索 -> LLM 生成 -> 结束 (3 节点, 够用)</p>
+        <p><strong>V2 (进阶):</strong> 开始 -> 意图识别 -> 条件分支 -> 知识库/插件 -> LLM 生成 -> 结束 (5-6 节点)</p>
+        <p><strong>V3 (终版):</strong> 多 Agent 协作, 每个 Agent 有自己的工作流 (U8 搭建)</p>
+      </div>
+      <div class="callout callout-amber">
+        <p><strong>面试金句:</strong> "Vitamin Bot 的工作流分三期迭代: MVP 只做知识检索 + 生成, 验证核心价值; 进阶版加意图路由和条件分支, 降低无效检索; 终版用多 Agent 协作, 每个 Agent 负责一个领域."</p>
+      </div>
+      <div class="step-foot">作业时间 ↓</div>
+    </section>
+
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 今晚作业</h2>
+      <div class="one-liner"><div class="one-liner-tag">一句话</div><p class="one-liner-text">工作流 = 把复杂任务拆成节点, 用 DAG 串起来.</p><p class="one-liner-foot muted">先简单后复杂. MVP 3 个节点就够, 别一上来就搭 10 个.</p></div>
+
+      <div class="callout callout-green">
+        <strong>课后作业 (今晚 30 分钟):</strong>
+        <ol>
+          <li>在 Coze 上为你的 Bot 创建一个简单工作流: 开始 -> LLM 节点 (配意图识别 Prompt) -> 结束. 测试 5 个问题看分类是否准确.</li>
+          <li>加一个知识库检索节点, 变成: 开始 -> 意图识别 -> 知识库检索 -> LLM 生成 -> 结束. 测试回答质量.</li>
+          <li>画一张 Vitamin V2 版工作流图 (纸上画即可), 标注每个节点的输入输出.</li>
+          <li>写 100 字: 工作流对 Vitamin 产品体验的影响是什么?</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue">
+        <strong>资源延伸:</strong>
+        <table style="width:100%;font-size:13px;border-collapse:collapse;margin-top:8px;">
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://www.coze.com/open/docs/guides/workflow_node" target="_blank" rel="noopener">Coze 工作流节点文档</a></td><td>coze.com</td><td>官方节点类型参考</td><td>15 min</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://medium.com/@chloe272/how-to-create-a-workflow-in-coze-666de9ea8f1e" target="_blank" rel="noopener">How to Create a Workflow</a></td><td>Medium</td><td>英文步骤教程</td><td>10 min</td></tr>
+          <tr style="border-bottom:1px dashed var(--border);"><td style="padding:6px 4px;">&#128214;</td><td><a href="https://developer.volcengine.com/articles/7523794048684195882" target="_blank" rel="noopener">Coze 工作流万字教程</a></td><td>火山引擎</td><td>中文深度教程</td><td>30 min</td></tr>
+          <tr><td style="padding:6px 4px;">&#128736;</td><td><a href="https://jimmysong.io/blog/open-source-ai-agent-workflow-comparison/" target="_blank" rel="noopener">Agent 平台对比</a></td><td>jimmysong.io</td><td>Coze vs Dify vs n8n</td><td>20 min</td></tr>
+        </table>
+      </div>
+      <div class="step-foot">走完了 -- 回顾 ↓</div>
+    </section>
+
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> 多步任务的挑战</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> DAG 概念</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 6 种节点类型</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 5 节点交互</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> Coze 上搭工作流</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 意图识别配置</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 条件分支</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 用 vs 不用</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 规划</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary"><p class="end-summary-tag">一句话记住 Unit 5:</p><p class="end-summary-big">工作流 = DAG. 把复杂任务拆成节点, 每个节点做一件事, 用连线串起来.</p><p class="end-summary-sub">先简单后复杂. MVP 3 个节点够了.</p></div>
+      <div class="next-card"><div class="next-tag">下节课 (Unit 6): 插件调用</div><p>工作流搭好了, 但 Bot 还不能"做事" -- 查天气、查数据库. 下一步接插件.</p><a class="walk-arrow" href="../u6-plugins/index.html">继续走 &rarr; Unit 6</a></div>
+    </section>
+  </main>
+  <footer class="footer"><p>AI for PM &middot; Module 3.2 &middot; Unit 5 &middot; 个人定制版</p></footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

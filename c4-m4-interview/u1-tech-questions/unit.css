@@ -1,0 +1,292 @@
+/* U1: 7大高频技术追问 — unit-specific styles */
+
+/* Interview Card Deck */
+.card-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.flip-card {
+  perspective: 800px;
+  height: 260px;
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 2px solid var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.flip-card-front {
+  background: var(--bg-card);
+  text-align: center;
+}
+
+.flip-card-back {
+  background: var(--blue-bg);
+  border-color: var(--blue);
+  transform: rotateY(180deg);
+  overflow-y: auto;
+  justify-content: flex-start;
+}
+
+.card-q-num {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+
+.card-q-text {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.card-hint {
+  margin-top: auto;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+.card-a-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+
+.card-a-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+}
+
+.card-key-phrases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.key-phrase {
+  background: var(--green-bg);
+  border: 1px solid var(--green);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+/* Star rating */
+.star-rating {
+  display: flex;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.star-rating button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  color: var(--ink-faint);
+  transition: color 0.15s;
+}
+
+.star-rating button.filled {
+  color: var(--amber);
+}
+
+.star-rating button:hover {
+  color: var(--amber);
+}
+
+/* Progress tracker */
+.deck-progress {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin: 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-card);
+}
+
+.deck-progress-bar {
+  flex: 1;
+  min-width: 120px;
+  height: 12px;
+  background: var(--bg-elev);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.deck-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  width: 0%;
+  transition: width 0.4s ease;
+  border-radius: 6px;
+}
+
+.deck-progress-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.deck-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* Decision tree */
+.decision-tree {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.tree-node {
+  background: var(--amber-bg);
+  border: 1.5px solid var(--amber);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 8px 0;
+  font-size: 15px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.tree-branch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.tree-yes, .tree-no {
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.tree-yes {
+  background: var(--green-bg);
+  border: 1.5px solid var(--green);
+}
+
+.tree-no {
+  background: var(--red-bg);
+  border: 1.5px solid var(--red);
+}
+
+.tree-arrow {
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 20px;
+}
+
+/* Q&A cards in steps */
+.qa-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin: 18px 0;
+  box-shadow: var(--shadow-card);
+}
+
+.qa-card:nth-child(odd) { transform: rotate(-0.3deg); }
+.qa-card:nth-child(even) { transform: rotate(0.3deg); }
+
+.qa-q {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--red);
+  margin: 0 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px dashed var(--border);
+}
+
+.qa-a {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.qa-a strong {
+  color: var(--ink);
+}
+
+/* Three-column layout for quick Q cards */
+.quick-qa {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+
+.quick-qa-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.quick-qa-card h4 {
+  font-family: "Excalifont", "LXGW WenKai Screen", system-ui, sans-serif;
+  font-size: 15px;
+  color: var(--red);
+  margin: 0 0 8px;
+}
+
+.quick-qa-card p {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.5;
+}

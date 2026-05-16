@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 2 · 闭源 vs 开源模型 — AI for PM</title>
+  <meta name="description" content="AI PM 课 · M1.3 Unit 2: 闭源 (GPT-5.5, Claude) vs 开源 (DeepSeek, Llama, Qwen). 怎么选?" />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-text">AI for PM · M1.3</span>
+      </a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 2 · 闭源 vs 开源</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+          <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+
+  <nav class="step-rail" aria-label="单元步骤导航">
+    <ol>
+      <li><a href="#start" data-step="0">▶</a></li>
+      <li><a href="#s1" data-step="1">1</a></li>
+      <li><a href="#s2" data-step="2">2</a></li>
+      <li><a href="#s3" data-step="3">3</a></li>
+      <li><a href="#s4" data-step="4">4</a></li>
+      <li><a href="#s5" data-step="5">5</a></li>
+      <li><a href="#s6" data-step="6">6</a></li>
+      <li><a href="#s7" data-step="7">7</a></li>
+      <li><a href="#s8" data-step="8">8</a></li>
+      <li><a href="#s9" data-step="9">9</a></li>
+      <li><a href="#s10" data-step="10">10</a></li>
+      <li><a href="#end" data-step="11">■</a></li>
+    </ol>
+  </nav>
+
+  <main class="canvas">
+
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker">
+        <span class="marker-glyph">▶</span>
+        <span class="marker-label">开始</span>
+      </div>
+
+      <h1 class="hero-title">Unit 2<span class="title-dot">·</span><br/>闭源 vs 开源模型</h1>
+      <p class="hero-sub">GPT-5.5 和 DeepSeek V4 都能干活, 一个要钱一个开源 — 怎么选?</p>
+
+      <div class="hero-grid">
+        <figure class="you" aria-label="一个纠结的 PM (你)">
+          <svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true">
+            <circle cx="50" cy="30" r="22" class="you-head" />
+            <circle cx="42" cy="28" r="2" fill="currentColor" />
+            <circle cx="58" cy="28" r="2" fill="currentColor" />
+            <path d="M44 40 Q50 36 56 40" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+            <line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <figcaption>(你 · PM · 选模型头大)</figcaption>
+        </figure>
+
+        <div class="cloud cloud-blue" data-rough="cloud">
+          <p class="cloud-line">领导说"用开源模型能省钱", 我查了下 DeepSeek 确实便宜 100 倍...</p>
+          <p class="cloud-line">但 GPT-5.5 效果确实更好啊, 万一用户反馈变差怎么办?</p>
+          <p class="cloud-line">什么叫"开源"? 开源就是免费吗? 有什么风险?</p>
+          <p class="cloud-line accent">—— 10 步, 把闭源 vs 开源的选择逻辑搞清楚.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>分清闭源 / 开源模型的本质区别</li>
+          <li>知道 2026 年主流闭源和开源模型各有哪些</li>
+          <li>掌握 3 个关键选择维度: 成本 / 控制权 / 能力边界</li>
+          <li>为 Vitamin 做出"闭源 or 开源"的初步判断</li>
+        </ul>
+      </div>
+
+      <a class="walk-arrow" href="#s1">走起 →</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">同一个问题, 两种模型, 两种价格</h2>
+      <p class="step-lede">给 Vitamin 的用户回复一句健康建议, 我们看看两个模型的成本差异:</p>
+
+      <div class="two-cards-compare">
+        <article class="model-snap model-closed" data-rough="card">
+          <div class="ms-badge">闭源</div>
+          <h3>GPT-5.5</h3>
+          <div class="ms-price">$5.00 <span class="ms-unit">/ M input tokens</span></div>
+          <div class="ms-price">$30.00 <span class="ms-unit">/ M output tokens</span></div>
+          <div class="ms-note">一句健康建议 (~200 tokens) ≈ <strong>$0.006</strong></div>
+        </article>
+        <article class="model-snap model-open" data-rough="card">
+          <div class="ms-badge ms-badge-open">开源</div>
+          <h3>DeepSeek V4 Flash</h3>
+          <div class="ms-price">$0.14 <span class="ms-unit">/ M input tokens</span></div>
+          <div class="ms-price">$0.28 <span class="ms-unit">/ M output tokens</span></div>
+          <div class="ms-note">同样一句建议 ≈ <strong>$0.00006</strong></div>
+        </article>
+      </div>
+
+      <div class="big-question">100 倍价差!</div>
+
+      <p class="step-lede">Vitamin 每月 100 万次对话的话: GPT-5.5 ≈ <strong>$6,000/月</strong>, DeepSeek V4 Flash ≈ <strong>$60/月</strong>.</p>
+      <p class="step-lede">但价格不是唯一考量. 便宜的就好吗? 贵的就傻吗?</p>
+
+      <div class="step-foot">先搞清楚 "闭源" 和 "开源" 到底什么意思 ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">"开源 = 质量差" — 这个认知过时了</h2>
+
+      <div class="two-wrong">
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错误: 开源模型效果差很多</h3>
+          <p>"免费的午餐, 哪可能和花钱的一样好?"</p>
+          <div class="wrong-why">
+            <strong>2024 年确实如此.</strong> 但 2026 年, DeepSeek V4 Pro 在大多数 agentic benchmarks 上已经<strong>追平</strong> GPT-5.5 和 Claude Opus 4.7.
+          </div>
+        </article>
+        <article class="wrong" data-rough="card">
+          <div class="wrong-mark">✗</div>
+          <h3>错误: 开源 = 不用花钱</h3>
+          <p>"开源不就是免费的吗?"</p>
+          <div class="wrong-why">
+            <strong>权重免费, 但跑模型要 GPU.</strong> 自己部署 DeepSeek V4 需要 4-8 张 A100/H100, 每月 GPU 租赁费 $5,000+. 或者用他们的 API, 也要按量付费.
+          </div>
+        </article>
+      </div>
+
+      <div class="truth-bubble" data-rough="truth">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">2026 年的现实:</p>
+        <p class="truth-line giant">能力差距基本关闭,<br/>部署取舍没有消失.</p>
+        <p class="truth-line">开源不是"免费版闭源". 它是一种<mark class="hl">不同的控制权模型</mark>.</p>
+        <p class="truth-line muted">→ 关键不是"哪个更好", 而是"哪个更适合你的场景".</p>
+        <span class="data-tag">截至 2026 年 4 月</span>
+      </div>
+
+      <div class="step-foot">先看闭源阵营 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">闭源模型: 只给 API, 不给权重</h2>
+      <p class="step-lede">你把数据发给他们的服务器, 他们处理完返回结果. 你看不到模型内部, 也不能自己部署.</p>
+
+      <div class="model-roster" data-rough="card">
+        <div class="roster-title closed-color">闭源阵营 (截至 2026 年 4 月)</div>
+        <div class="roster-grid">
+          <div class="roster-item">
+            <div class="ri-name">GPT-5.5</div>
+            <div class="ri-org">OpenAI</div>
+            <div class="ri-spec">1M context · $5/$30 per M tokens</div>
+          </div>
+          <div class="roster-item">
+            <div class="ri-name">Claude Opus 4.7</div>
+            <div class="ri-org">Anthropic</div>
+            <div class="ri-spec">1M context · Coding #1-5 · $5/$25</div>
+          </div>
+          <div class="roster-item">
+            <div class="ri-name">Gemini 3.1 Pro</div>
+            <div class="ri-org">Google</div>
+            <div class="ri-spec">1M context · $1.25/$10</div>
+          </div>
+          <div class="roster-item">
+            <div class="ri-name">Grok 4.3 Beta</div>
+            <div class="ri-org">xAI</div>
+            <div class="ri-spec">2M context · 原生视频</div>
+          </div>
+          <div class="roster-item">
+            <div class="ri-name">Doubao-Seed-2.0</div>
+            <div class="ri-org">字节跳动</div>
+            <div class="ri-spec">256K context · 中文 SuperCLUE 第一</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>闭源的核心特征:</strong>
+        <ul>
+          <li>你只能通过 API 调用, 数据必须发到对方服务器</li>
+          <li>模型权重保密, 你不能自己部署或修改</li>
+          <li>通常在最前沿的复杂推理任务上领先</li>
+          <li>价格由对方定, 可能随时调整或停服 (GPT-4o 已于 2026 年 2 月下线)</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">再看开源阵营 ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">开源模型: 权重全公开, 你自己跑</h2>
+      <p class="step-lede">"开源"在 LLM 语境下, 通常指<strong>模型权重公开下载</strong>. 你可以自己部署、微调、修改.</p>
+
+      <div class="model-roster" data-rough="card">
+        <div class="roster-title open-color">开源阵营 (截至 2026 年 4 月)</div>
+        <div class="roster-grid">
+          <div class="roster-item">
+            <div class="ri-name">DeepSeek V4 Pro</div>
+            <div class="ri-org">DeepSeek · <span class="license-tag mit">MIT</span></div>
+            <div class="ri-spec">1.6T params · 49B active · 1M context</div>
+          </div>
+          <div class="roster-item">
+            <div class="ri-name">Llama 4 Maverick</div>
+            <div class="ri-org">Meta · <span class="license-tag meta">Meta License</span></div>
+            <div class="ri-spec">400B total · 17B active · 1M context</div>
+          </div>
+          <div class="roster-item">
+            <div class="ri-name">Qwen3.6-27B</div>
+            <div class="ri-org">阿里 · <span class="license-tag apache">Apache 2.0</span></div>
+            <div class="ri-spec">27B dense · 编程 top 6 · 多模态</div>
+          </div>
+          <div class="roster-item">
+            <div class="ri-name">GLM-5</div>
+            <div class="ri-org">智谱 AI · <span class="license-tag mit">MIT</span></div>
+            <div class="ri-spec">744B total · 40B active · 全国产芯片兼容</div>
+          </div>
+          <div class="roster-item">
+            <div class="ri-name">Kimi K2.6</div>
+            <div class="ri-org">Moonshot · <span class="license-tag mit">MIT*</span></div>
+            <div class="ri-spec">1T params · 32B active · SWE-Bench 80.2%</div>
+          </div>
+          <div class="roster-item">
+            <div class="ri-name">Mistral Large 3</div>
+            <div class="ri-org">Mistral · <span class="license-tag apache">Apache 2.0</span></div>
+            <div class="ri-spec">欧洲出品 · 完全开放商用</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>开源的核心特征:</strong>
+        <ul>
+          <li>权重公开下载, 可以在自己的服务器上跑 (自部署)</li>
+          <li>可以微调 (fine-tune) 以适配你的场景</li>
+          <li>数据不需要发给第三方, 隐私可控</li>
+          <li>"免费"是指权重免费, 但运行需要 GPU 算力</li>
+          <li>许可证有差异: MIT (最宽松) > Apache 2.0 > Meta License (大用户需授权)</li>
+        </ul>
+      </div>
+
+      <div class="step-foot">知道了阵营, 该怎么选? 看 3 个关键维度 ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">维度 1: 成本 — 差距可达 100 倍</h2>
+      <p class="step-lede">这是大多数 PM 最先感受到的差异.</p>
+
+      <div class="cost-compare" data-rough="card">
+        <div class="cost-header">
+          <div>模型</div>
+          <div>Input $/M</div>
+          <div>Output $/M</div>
+          <div>类型</div>
+        </div>
+        <div class="cost-row cost-cheap">
+          <div>DeepSeek V4 Flash</div>
+          <div>$0.14</div>
+          <div>$0.28</div>
+          <div><span class="pill pill-green">开源</span></div>
+        </div>
+        <div class="cost-row cost-cheap">
+          <div>Mistral Small 4</div>
+          <div>$0.15</div>
+          <div>$0.60</div>
+          <div><span class="pill pill-green">开源</span></div>
+        </div>
+        <div class="cost-row">
+          <div>Gemini 2.5 Flash</div>
+          <div>$0.30</div>
+          <div>$2.50</div>
+          <div><span class="pill pill-blue">闭源</span></div>
+        </div>
+        <div class="cost-row">
+          <div>Kimi K2.6</div>
+          <div>$0.60</div>
+          <div>$2.50</div>
+          <div><span class="pill pill-green">开源</span></div>
+        </div>
+        <div class="cost-row cost-mid">
+          <div>Gemini 2.5 Pro</div>
+          <div>$1.25</div>
+          <div>$10.00</div>
+          <div><span class="pill pill-blue">闭源</span></div>
+        </div>
+        <div class="cost-row cost-exp">
+          <div>Claude Opus 4.7</div>
+          <div>$5.00</div>
+          <div>$25.00</div>
+          <div><span class="pill pill-blue">闭源</span></div>
+        </div>
+        <div class="cost-row cost-exp">
+          <div>GPT-5.5</div>
+          <div>$5.00</div>
+          <div>$30.00</div>
+          <div><span class="pill pill-blue">闭源</span></div>
+        </div>
+      </div>
+
+      <div class="big-insight" data-rough="big">
+        <p>算一笔账:</p>
+        <p class="insight-text">DeepSeek V4 Flash vs GPT-5.5<br/><mark class="hl">输入便宜 36 倍, 输出便宜 107 倍</mark></p>
+        <p>同样功能, 年省几十万 — 这不是优化, 这是数量级的差别.</p>
+        <span class="data-tag">截至 2026 年 4 月</span>
+      </div>
+
+      <div class="step-foot">但省钱不是全部, 还要看控制权 ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">维度 2: 控制权 — 谁掌握你的命运</h2>
+
+      <div class="control-compare">
+        <article class="ctrl-card ctrl-closed" data-rough="card">
+          <h3 class="ctrl-title closed-color">闭源: API 依赖</h3>
+          <ul>
+            <li><strong>数据流向:</strong> 用户数据发到 OpenAI / Google 服务器</li>
+            <li><strong>版本控制:</strong> 对方升级模型, 你的产品可能受影响 (GPT-4o 停服已有先例)</li>
+            <li><strong>价格权:</strong> 对方定价, 随时可调</li>
+            <li><strong>合规:</strong> 数据出境, 健康数据需要特别注意</li>
+            <li><strong>断供风险:</strong> 地缘政治 → API 断供不是不可能</li>
+          </ul>
+        </article>
+        <article class="ctrl-card ctrl-open" data-rough="card">
+          <h3 class="ctrl-title open-color">开源: 自主可控</h3>
+          <ul>
+            <li><strong>数据流向:</strong> 数据留在自己的服务器, 不出境</li>
+            <li><strong>版本控制:</strong> 你决定什么时候升级, 锁定版本无风险</li>
+            <li><strong>价格权:</strong> GPU 成本可控, 不受对方定价影响</li>
+            <li><strong>合规:</strong> 数据主权完全在你手里</li>
+            <li><strong>断供风险:</strong> 权重已经下载, 对方关门也不影响你</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>真实案例:</strong>
+        <p>2026 年 2 月, OpenAI 停服了 GPT-4o. 所有依赖 GPT-4o 的产品必须迁移到 GPT-5 系列 — 有些 prompt 不兼容, 有些产品体验变差.</p>
+        <p>而用 DeepSeek V3 的公司, 权重已经下载在自己的服务器上, 完全不受影响.</p>
+        <p class="muted">→ 控制权 = 你的产品不会因为别人的决策而挂掉.</p>
+      </div>
+
+      <div class="step-foot">第三个维度: 能力边界 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">维度 3: 能力边界 — 闭源仍在尖端领先</h2>
+      <p class="step-lede">虽然差距在缩小, 但在 2026 年 4 月, 闭源模型在某些任务上仍然更强:</p>
+
+      <div class="gap-table" data-rough="card">
+        <div class="gap-header">
+          <div>任务类型</div>
+          <div>谁领先</div>
+          <div>差距</div>
+        </div>
+        <div class="gap-row">
+          <div>日常对话 / 写作</div>
+          <div><span class="pill pill-green">持平</span></div>
+          <div>开源已经够用</div>
+        </div>
+        <div class="gap-row">
+          <div>代码生成 / Bug 修复</div>
+          <div><span class="pill pill-green">接近</span></div>
+          <div>Kimi K2.6 SWE-Bench 80.2%, 接近 Claude 87.6%</div>
+        </div>
+        <div class="gap-row">
+          <div>简单中文任务</div>
+          <div><span class="pill pill-green">持平</span></div>
+          <div>Qwen, DeepSeek 中文表现优秀</div>
+        </div>
+        <div class="gap-row">
+          <div>复杂多步推理</div>
+          <div><span class="pill pill-blue">闭源领先</span></div>
+          <div>Claude Opus 4.7 Thinking 仍是 #1</div>
+        </div>
+        <div class="gap-row">
+          <div>超长指令遵循</div>
+          <div><span class="pill pill-blue">闭源领先</span></div>
+          <div>GPT-5.5 在多约束 prompt 上更稳</div>
+        </div>
+        <div class="gap-row">
+          <div>长程 Agent 可靠性</div>
+          <div><span class="pill pill-blue">闭源领先</span></div>
+          <div>闭源在 8h+ 连续任务上更可靠</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber" data-rough="card">
+        <strong>PM 判断框架:</strong>
+        <p>你的场景需要的是"日常水平"还是"天花板水平"?</p>
+        <ul>
+          <li>如果是 80% 用户的 80% 场景 → 开源够用, 省几十倍成本</li>
+          <li>如果是高风险、复杂推理 (如医疗诊断辅助) → 闭源更稳</li>
+          <li>最聪明的做法: 混合用. 简单任务用开源, 复杂任务用闭源.</li>
+        </ul>
+        <span class="data-tag">截至 2026 年 4 月</span>
+      </div>
+
+      <div class="step-foot">到交互环节, 自己对比一下 ↓</div>
+    </section>
+
+    <!-- (8) -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">对比卡片 — 按维度排序</h2>
+      <p class="step-lede">点击不同维度, 看模型排序的变化. 感受"没有最好的模型, 只有最适合的".</p>
+
+      <!-- Interactive widget -->
+      <div class="compare-widget" id="compare-widget">
+        <div class="cw-controls">
+          <span class="cw-label">排序方式:</span>
+          <button class="btn btn-primary cw-sort active" data-sort="cost">按成本 (低→高)</button>
+          <button class="btn btn-ghost cw-sort" data-sort="capability">按能力 (高→低)</button>
+          <button class="btn btn-ghost cw-sort" data-sort="control">按控制权 (高→低)</button>
+        </div>
+
+        <div class="cw-cards" id="cw-cards">
+          <!-- Cards are generated by JS -->
+        </div>
+
+        <div class="cw-legend">
+          <span><span class="legend-dot legend-open"></span> 开源</span>
+          <span><span class="legend-dot legend-closed"></span> 闭源</span>
+          <span class="muted">数据截至 2026 年 4 月</span>
+        </div>
+      </div>
+
+      <div class="step-foot">现在把 3 个维度套到 Vitamin ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 该选闭源还是开源?</h2>
+      <p class="step-lede">一句话答案: <mark class="hl"><strong>混合用, 按场景分</strong></mark>.</p>
+
+      <div class="vitamin-decision" data-rough="card">
+        <div class="vd-row">
+          <div class="vd-task">日常对话 / 情绪识别 / 状态分类</div>
+          <div class="vd-rec"><span class="pill pill-green">开源</span> DeepSeek V4 Flash</div>
+          <div class="vd-why">高频低成本, 中文表现好, ¥0.14/M tokens</div>
+        </div>
+        <div class="vd-row">
+          <div class="vd-task">健康建议生成 / 饮食分析</div>
+          <div class="vd-rec"><span class="pill pill-green">开源</span> Qwen3.6 / 豆包 Seed</div>
+          <div class="vd-why">中文场景优化好, 成本可控</div>
+        </div>
+        <div class="vd-row">
+          <div class="vd-task">复杂医学问答 / 多步推理</div>
+          <div class="vd-rec"><span class="pill pill-blue">闭源</span> GPT-5.5 / Claude</div>
+          <div class="vd-why">低频但高风险, 需要最高准确率</div>
+        </div>
+        <div class="vd-row">
+          <div class="vd-task">数据安全 / 隐私合规</div>
+          <div class="vd-rec"><span class="pill pill-green">开源 (自部署)</span></div>
+          <div class="vd-why">健康数据不出境, 用户隐私有保障</div>
+        </div>
+      </div>
+
+      <div class="can-cant">
+        <article class="can-list" data-rough="card">
+          <h3 class="can-head">✓ 混合策略的好处</h3>
+          <ul>
+            <li>90% 请求走开源 → 成本降 10-100 倍</li>
+            <li>10% 复杂请求走闭源 → 质量有保障</li>
+            <li>健康数据自部署开源模型 → 合规无忧</li>
+            <li>模型 A 挂了切 B → 不被一家锁死</li>
+          </ul>
+        </article>
+        <article class="cant-list" data-rough="card">
+          <h3 class="cant-head">✗ 混合策略的代价</h3>
+          <ul>
+            <li>工程复杂度增加 (需要路由逻辑)</li>
+            <li>需要评估多个模型的表现</li>
+            <li>prompt 可能需要针对不同模型适配</li>
+            <li>团队需要同时管理多个 API</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="callout callout-red" data-rough="card">
+        <strong>面试金句:</strong>
+        <p>"我不会问'该用哪个模型', 而是问'哪些场景用哪个模型'. Vitamin 的日常对话用 DeepSeek 省 100 倍成本, 复杂医学问答用 Claude 保证质量, 敏感数据用自部署保合规. 这就是 AI PM 的模型路由策略."</p>
+      </div>
+
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 作业</h2>
+
+      <div class="one-liner" data-rough="big">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">闭源买的是"省心", 开源买的是"控制权".<br/>
+        聪明的 PM 不选边站 — 按场景混合用.</p>
+        <p class="one-liner-foot muted">2026 年, 开源已经够强. 不是"能不能用"的问题, 而是"怎么用"的问题.</p>
+      </div>
+
+      <div class="callout callout-green" data-rough="card">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>列出 Vitamin 的 5 个核心 AI 功能, 标注每个是用闭源还是开源更合适, 写出理由.</li>
+          <li>打开 <a href="https://lmarena.ai" target="_blank" rel="noopener">lmarena.ai</a> (Chatbot Arena), 找到最新 Elo 排名, 看看开源模型排第几. 截图记录.</li>
+          <li>计算: 如果 Vitamin 100% 用 GPT-5.5 vs 80% DeepSeek + 20% GPT-5.5, 月成本差多少?</li>
+          <li>用 200 字给技术负责人写一段话, 建议 Vitamin 采用"混合模型策略", 说清楚为什么.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-blue" data-rough="card">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead>
+            <tr><th>类型</th><th>标题</th><th>来源</th><th>为什么值得看</th><th>时间</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>📖</td>
+              <td>Open Source vs Closed LLMs: 2026 Decision Framework</td>
+              <td><a href="https://letsdatascience.com/blog/open-source-vs-closed-llms-choosing-the-right-model-in-2026" target="_blank" rel="noopener">Let's Data Science</a></td>
+              <td>最全面的开闭源对比分析, 含决策框架</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>🎮</td>
+              <td>Chatbot Arena — 实时模型排行榜</td>
+              <td><a href="https://lmarena.ai" target="_blank" rel="noopener">lmarena.ai</a></td>
+              <td>基于真实用户盲测的模型排名, 最公正</td>
+              <td>5 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>DeepSeek V4: 开源模型如何追平闭源前沿</td>
+              <td><a href="https://www.mindstudio.ai/blog/deepseek-v4-open-source-frontier-model-review" target="_blank" rel="noopener">MindStudio</a></td>
+              <td>深度分析 DeepSeek V4 的能力和局限</td>
+              <td>15 min</td>
+            </tr>
+            <tr>
+              <td>📖</td>
+              <td>开源大模型横评 2026: Llama vs DeepSeek vs GLM</td>
+              <td><a href="https://gocodelab.com/en/blog/en-open-source-llm-llama-4-gemma-4-deepseek-v4-glm-5-comparison-2026" target="_blank" rel="noopener">GoCodeLab</a></td>
+              <td>多模型实测对比, 含代码和推理任务</td>
+              <td>20 min</td>
+            </tr>
+            <tr>
+              <td>🛠</td>
+              <td>Artificial Analysis — 模型价格实时对比</td>
+              <td><a href="https://artificialanalysis.ai" target="_blank" rel="noopener">artificialanalysis.ai</a></td>
+              <td>比价神器, 一眼看清谁贵谁便宜</td>
+              <td>5 min</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker">
+        <span class="marker-glyph">■</span>
+        <span class="marker-label">终点</span>
+      </div>
+
+      <h2 class="end-title">你今天走过的 10 步</h2>
+
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell" data-rough="cell"><span class="rc-num">1</span> 同一问题, 100 倍价差</a>
+        <a href="#s2" class="recap-cell" data-rough="cell"><span class="rc-num">2</span> "开源=差" 已过时</a>
+        <a href="#s3" class="recap-cell" data-rough="cell"><span class="rc-num">3</span> 闭源阵营: GPT / Claude / Gemini</a>
+        <a href="#s4" class="recap-cell" data-rough="cell"><span class="rc-num">4</span> 开源阵营: DeepSeek / Llama / Qwen</a>
+        <a href="#s5" class="recap-cell" data-rough="cell"><span class="rc-num">5</span> 维度 1: 成本差 100 倍</a>
+        <a href="#s6" class="recap-cell" data-rough="cell"><span class="rc-num">6</span> 维度 2: 控制权</a>
+        <a href="#s7" class="recap-cell" data-rough="cell"><span class="rc-num">7</span> 维度 3: 能力边界</a>
+        <a href="#s8" class="recap-cell" data-rough="cell"><span class="rc-num">8</span> 对比卡片排序</a>
+        <a href="#s9" class="recap-cell" data-rough="cell"><span class="rc-num">9</span> Vitamin 混合策略</a>
+        <a href="#s10" class="recap-cell" data-rough="cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+
+      <div class="end-summary" data-rough="big">
+        <p class="end-summary-tag">一句话记住 Unit 2:</p>
+        <p class="end-summary-big">闭源 = 省心但贵且被动; 开源 = 便宜可控但要自己搞.<br/>聪明的 PM 按场景混合用.</p>
+        <p class="end-summary-sub">2026 年开源已追平闭源 90%+ 的能力. 差别在部署取舍, 不在模型质量.</p>
+      </div>
+
+      <div class="next-card" data-rough="card">
+        <div class="next-tag">下节课 (Unit 3): 国内主流模型现状 (2026)</div>
+        <p>中国 AI 模型百花齐放: DeepSeek V4、Qwen3.6、Kimi K2.6、GLM-5、豆包 Seed 2.0.</p>
+        <p>它们各有什么特点? 哪个最适合 Vitamin 这样的<strong>中文健康类产品</strong>?</p>
+        <a class="walk-arrow" href="../u3-china-models/index.html">继续走 → Unit 3</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 1.3 · Unit 2 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>

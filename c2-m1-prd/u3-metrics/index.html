@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Unit 3 · 效果指标定义 — AI for PM · M2.1</title>
+  <meta name="description" content="AI PM 课 · M2.1 Unit 3: 准确率/接受率/拒答率/延迟 — 每个指标的目标值和兜底策略." />
+  <meta name="theme-color" content="#fefcf7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1a24" media="(prefers-color-scheme: dark)" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" />
+  <link rel="stylesheet" href="../../shared/styles.css" />
+  <link rel="stylesheet" href="./unit.css" />
+</head>
+<body data-theme="light">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark"></span><span class="brand-text">AI for PM · M2.1</span></a>
+      <div class="topbar-right">
+        <span class="unit-label">Unit 3 · 效果指标</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"><svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      </div>
+    </div>
+    <div class="progress-rail"><div id="progress-fill" class="progress-fill"></div></div>
+  </header>
+  <nav class="step-rail" aria-label="单元步骤导航"><ol>
+    <li><a href="#start" data-step="0">&#9654;</a></li>
+    <li><a href="#s1" data-step="1">1</a></li><li><a href="#s2" data-step="2">2</a></li><li><a href="#s3" data-step="3">3</a></li><li><a href="#s4" data-step="4">4</a></li><li><a href="#s5" data-step="5">5</a></li><li><a href="#s6" data-step="6">6</a></li><li><a href="#s7" data-step="7">7</a></li><li><a href="#s8" data-step="8">8</a></li><li><a href="#s9" data-step="9">9</a></li><li><a href="#s10" data-step="10">10</a></li>
+    <li><a href="#end" data-step="11">&#9632;</a></li>
+  </ol></nav>
+
+  <main class="canvas">
+    <!-- ▶ START -->
+    <section id="start" class="step step-start" data-step="0">
+      <div class="step-marker"><span class="marker-glyph">&#9654;</span><span class="marker-label">开始</span></div>
+      <h1 class="hero-title">Unit 3<span class="title-dot">&middot;</span><br/>AI 好不好? 多好算合格?</h1>
+      <p class="hero-sub">上线后老板问 "AI 准不准?" — 你不能说 "挺准的". 你得说 "准确率 92%, 超过目标的 90%".</p>
+      <div class="hero-grid">
+        <figure class="you" aria-label="你"><svg viewBox="0 0 100 140" class="you-svg" aria-hidden="true"><circle cx="50" cy="30" r="22" class="you-head"/><circle cx="42" cy="28" r="2" fill="currentColor"/><circle cx="58" cy="28" r="2" fill="currentColor"/><path d="M42 38 Q50 42 58 38" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="50" y1="55" x2="50" y2="100" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="32" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="70" x2="68" y2="85" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="35" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="100" x2="65" y2="130" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><figcaption>(你 · 正在做 AI 效果评审)</figcaption></figure>
+        <div class="cloud cloud-blue">
+          <p class="cloud-line">老板问: AI 健康总结功能效果怎么样?</p>
+          <p class="cloud-line">我说 "挺好的"... 老板说 "有数据吗?"</p>
+          <p class="cloud-line">准确率? 接受率? 延迟? 我该定多少?</p>
+          <p class="cloud-line accent">—— 这节课给你答案.</p>
+        </div>
+      </div>
+      <div class="callout callout-amber">
+        <div class="callout-head">10 步学完, 你会:</div>
+        <ul class="check-list">
+          <li>说清楚 AI 产品的 4 大核心指标</li>
+          <li>知道每个指标怎么测量、目标值怎么定</li>
+          <li>理解指标之间的权衡关系</li>
+          <li>为 Vitamin 的 AI 功能写出指标定义表</li>
+        </ul>
+      </div>
+      <a class="walk-arrow" href="#s1">走起 &rarr;</a>
+    </section>
+
+    <!-- (1) -->
+    <section id="s1" class="step" data-step="1">
+      <div class="step-num"><span>(1)</span></div>
+      <h2 class="step-title">"AI 效果挺好的" — 这句话在产品评审里一文不值</h2>
+      <p class="step-lede">传统功能验收: "按钮能点 → 跳转正确 → 通过". 确定性的, pass/fail.</p>
+      <p class="step-lede">AI 功能验收: "AI 生成的总结... 嗯, 看起来挺合理的?" 这不是验收, 这是主观感觉.</p>
+      <div class="prompt-box">
+        <div class="prompt-leader">产品评审会上:</div>
+        <div class="prompt-text">"AI 效果<mark class="hl">多好</mark>算合格? 用<mark class="hl">什么数</mark>来衡量?"</div>
+      </div>
+      <p class="step-lede">这就是为什么 AI PRD 里必须有一个 <strong>效果指标定义</strong> 模块. 把 "挺好的" 变成 "准确率 92%, 超过目标 90%".</p>
+      <div class="step-foot">那 "准确率 > 90%" 就够了吗? ↓</div>
+    </section>
+
+    <!-- (2) -->
+    <section id="s2" class="step" data-step="2">
+      <div class="step-num"><span>(2)</span></div>
+      <h2 class="step-title">光看准确率不够 — 你至少需要 4 个指标</h2>
+      <div class="two-wrong">
+        <article class="wrong"><div class="wrong-mark">&cross;</div>
+          <h3>"准确率 > 90% 就行了"</h3><p>只看准确率, 漏掉了其他问题.</p>
+          <div class="wrong-why"><strong>反例:</strong> 准确率 95%, 但每次回答要 8 秒, 用户早走了. 或者: 准确率 95%, 但 AI 遇到不确定的问题从不拒答, 直接编一个答案.</div>
+        </article>
+        <article class="wrong"><div class="wrong-mark">&cross;</div>
+          <h3>"用户没投诉就说明 AI 好"</h3><p>没投诉 ≠ 好. 可能用户根本没用.</p>
+          <div class="wrong-why"><strong>反例:</strong> AI 总结功能准确但无聊, 用户看一眼就关了, 接受率只有 30%. 没人投诉, 但也没人觉得有价值.</div>
+        </article>
+      </div>
+      <div class="truth-bubble">
+        <div class="truth-tag">真相</div>
+        <p class="truth-line big">衡量 AI 效果, 至少需要 <mark class="hl">4 个维度</mark>:</p>
+        <p class="truth-line giant">准确率 · 接受率 · 拒答率 · 延迟</p>
+        <p class="truth-line muted">缺任何一个, 你对 AI 效果的判断都是盲人摸象.</p>
+      </div>
+      <div class="step-foot">逐个拆解 ↓</div>
+    </section>
+
+    <!-- (3) -->
+    <section id="s3" class="step" data-step="3">
+      <div class="step-num"><span>(3)</span></div>
+      <h2 class="step-title">4 大核心指标, 一个一个看</h2>
+      <div class="metric-detail-cards">
+        <div class="metric-detail">
+          <h4 style="color:var(--blue);">准确率 (Accuracy)</h4>
+          <p>AI 输出的内容, 有多少是 "正确" 的.</p>
+          <p>谁来判断 "正确": 人工标注 / 用户反馈 / 自动评测.</p>
+          <div class="metric-formula">正确回答数 / 总回答数 &times; 100%</div>
+        </div>
+        <div class="metric-detail">
+          <h4 style="color:var(--green);">接受率 (Acceptance Rate)</h4>
+          <p>用户拿到 AI 输出后, 有多少比例 "采纳" 了 (没有修改或重新生成).</p>
+          <p>反映用户对 AI 输出的信任度和实用性.</p>
+          <div class="metric-formula">用户采纳次数 / 总展示次数 &times; 100%</div>
+        </div>
+        <div class="metric-detail">
+          <h4 style="color:var(--amber);">拒答率 (Refusal Rate)</h4>
+          <p>AI 判断自己不确定, 主动拒绝回答的比例.</p>
+          <p>太高 = AI 太保守; 太低 = AI 太冒险.</p>
+          <div class="metric-formula">拒答次数 / 总请求数 &times; 100%</div>
+        </div>
+        <div class="metric-detail">
+          <h4 style="color:var(--red);">P95 延迟 (Latency)</h4>
+          <p>95% 的请求在多少秒内完成. 衡量用户体验.</p>
+          <p>P95 比平均延迟更有意义 — 那 5% 的慢请求才是用户流失点.</p>
+          <div class="metric-formula">第 95 百分位响应时间</div>
+        </div>
+      </div>
+      <div class="step-foot">每个指标怎么测? ↓</div>
+    </section>
+
+    <!-- (4) -->
+    <section id="s4" class="step" data-step="4">
+      <div class="step-num"><span>(4)</span></div>
+      <h2 class="step-title">怎么测量这些指标?</h2>
+      <p class="step-lede">不同指标的测量方法不同. PM 不需要自己算, 但需要知道 "数据从哪来":</p>
+      <table class="constraint-table" style="margin:18px 0;">
+        <thead><tr><th>指标</th><th>测量方法</th><th>数据来源</th><th>频率</th></tr></thead>
+        <tbody>
+          <tr><td><strong>准确率</strong></td><td>人工标注 / LLM-as-Judge / 用户反馈</td><td>评测集 + 线上抽样</td><td>上线前评测 + 周度抽检</td></tr>
+          <tr><td><strong>接受率</strong></td><td>用户行为埋点: 是否点击 "不准确" / 重新生成</td><td>前端埋点</td><td>实时监控</td></tr>
+          <tr><td><strong>拒答率</strong></td><td>模型返回拒答标记的次数</td><td>后端日志</td><td>实时监控</td></tr>
+          <tr><td><strong>P95 延迟</strong></td><td>服务端请求耗时的 P95</td><td>APM 工具 (如 Datadog)</td><td>实时监控</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-amber">
+        <p><strong>PM 的活:</strong> 你不需要自己搭监控, 但需要在 PRD 里写清楚: (1) 每个指标的定义, (2) 谁负责测量, (3) 多久看一次. 这样团队才知道怎么执行.</p>
+      </div>
+      <div class="step-foot">目标值怎么定? ↓</div>
+    </section>
+
+    <!-- (5) -->
+    <section id="s5" class="step" data-step="5">
+      <div class="step-num"><span>(5)</span></div>
+      <h2 class="step-title">目标值怎么定? 不同场景不同标准</h2>
+      <p class="step-lede">指标目标不是拍脑袋定的. 取决于 <mark class="hl">场景的风险等级</mark>:</p>
+
+      <table class="constraint-table" style="margin:18px 0;">
+        <thead><tr><th>场景</th><th>风险</th><th>准确率</th><th>拒答率</th><th>延迟</th></tr></thead>
+        <tbody>
+          <tr><td>闲聊 / 趣味内容</td><td style="color:var(--green);">低</td><td>&ge; 80%</td><td>&le; 10%</td><td>&le; 3s</td></tr>
+          <tr><td>健康建议 (一般)</td><td style="color:var(--amber);">中</td><td>&ge; 90%</td><td>&le; 8%</td><td>&le; 3s</td></tr>
+          <tr><td>饮食 / 运动计划</td><td style="color:var(--amber);">中</td><td>&ge; 92%</td><td>&le; 5%</td><td>&le; 2s</td></tr>
+          <tr><td>医疗相关提示</td><td style="color:var(--red);">高</td><td>&ge; 98%</td><td>&le; 2%</td><td>&le; 1s</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-blue">
+        <p><strong>定目标的 3 步法:</strong></p>
+        <ol>
+          <li><strong>基线:</strong> 先上线一个版本, 测出当前指标是多少</li>
+          <li><strong>对标:</strong> 看行业 / 竞品的指标水平</li>
+          <li><strong>定线:</strong> 基于业务风险等级, 定 "及格线" 和 "优秀线"</li>
+        </ol>
+      </div>
+      <div class="step-foot">不达标怎么办? ↓</div>
+    </section>
+
+    <!-- (6) -->
+    <section id="s6" class="step" data-step="6">
+      <div class="step-num"><span>(6)</span></div>
+      <h2 class="step-title">不达标时的预警和兜底</h2>
+      <p class="step-lede">PRD 里不仅要写目标值, 还要写 "不达标时怎么办":</p>
+      <div class="callout callout-red">
+        <p><strong>准确率 &lt; 80%:</strong> 触发告警 → 自动切换到模板兜底 → PM 和算法立即排查. 不能让低质量的 AI 输出继续展示给用户.</p>
+      </div>
+      <div class="callout callout-amber" style="transform:rotate(0.3deg);">
+        <p><strong>接受率 &lt; 70%:</strong> 表示用户不信任 AI 输出. → 检查 Prompt 质量 / 输出格式 / 是否匹配用户期望. 可能需要 A/B 测试不同的 Prompt 版本.</p>
+      </div>
+      <div class="callout callout-amber" style="transform:rotate(-0.2deg);">
+        <p><strong>拒答率 &gt; 15%:</strong> AI 太保守, 用户体验差. → 调整置信度阈值 / 扩展训练数据 / 优化 Prompt 让 AI 对更多问题有把握.</p>
+      </div>
+      <div class="callout callout-red" style="transform:rotate(0.4deg);">
+        <p><strong>P95 延迟 &gt; 5s:</strong> 用户等不住了. → 检查模型大小 / 加缓存 / 缩短 Prompt / 或在等待时展示骨架屏动画.</p>
+      </div>
+      <div class="step-foot">指标之间有时候会打架 ↓</div>
+    </section>
+
+    <!-- (7) -->
+    <section id="s7" class="step" data-step="7">
+      <div class="step-num"><span>(7)</span></div>
+      <h2 class="step-title">指标之间的权衡: 不可能全都要</h2>
+      <p class="step-lede">4 个指标之间有 <mark class="hl">天然的矛盾</mark>. PM 需要根据业务做取舍:</p>
+      <div class="tradeoff">
+        <div class="tradeoff-item" style="border-color:var(--blue);"><h4 style="color:var(--blue);">准确率 &#8593;</h4><p style="font-size:13px;color:var(--ink-soft);">用更大模型<br/>更多上下文</p></div>
+        <span class="tradeoff-vs">vs</span>
+        <div class="tradeoff-item" style="border-color:var(--red);"><h4 style="color:var(--red);">延迟 &#8593; 成本 &#8593;</h4><p style="font-size:13px;color:var(--ink-soft);">大模型更慢<br/>更多 token 更贵</p></div>
+      </div>
+      <div class="tradeoff">
+        <div class="tradeoff-item" style="border-color:var(--amber);"><h4 style="color:var(--amber);">拒答率 &#8595;</h4><p style="font-size:13px;color:var(--ink-soft);">降低阈值<br/>更多回答</p></div>
+        <span class="tradeoff-vs">vs</span>
+        <div class="tradeoff-item" style="border-color:var(--green);"><h4 style="color:var(--green);">准确率 &#8595;</h4><p style="font-size:13px;color:var(--ink-soft);">不确定的也答了<br/>错误率上升</p></div>
+      </div>
+      <div class="callout callout-blue">
+        <p><strong>PM 的判断:</strong> 健康建议场景, 宁可拒答也不瞎答 (准确率 &gt; 拒答率). 闲聊场景, 宁可偶尔不准也别不说话 (拒答率 &gt; 准确率). 这个判断写进 PRD, 就是你的产品决策.</p>
+      </div>
+      <div class="step-foot">动手调调看 ↓</div>
+    </section>
+
+    <!-- (8) Interactive -->
+    <section id="s8" class="step" data-step="8">
+      <div class="step-num"><span>(8)</span></div>
+      <h2 class="step-title">动手: 调整指标, 看仪表盘反应</h2>
+      <p class="step-lede">拖动滑块模拟 AI 系统的实际表现, 看哪些指标达标, 哪些需要预警:</p>
+
+      <div class="metrics-dashboard">
+        <div class="dash-title">Vitamin 每日总结 — AI 效果仪表盘</div>
+        <div class="dash-grid">
+          <div class="metric-card good" id="card-accuracy">
+            <div class="metric-name">准确率</div>
+            <div class="metric-value" id="val-accuracy">92</div>
+            <div class="metric-target">目标 &ge; 90%</div>
+            <div class="metric-bar-wrap"><div class="metric-bar-fill" id="bar-accuracy" style="width:92%;background:var(--green);"></div></div>
+          </div>
+          <div class="metric-card good" id="card-acceptance">
+            <div class="metric-name">接受率</div>
+            <div class="metric-value" id="val-acceptance">87</div>
+            <div class="metric-target">目标 &ge; 85%</div>
+            <div class="metric-bar-wrap"><div class="metric-bar-fill" id="bar-acceptance" style="width:87%;background:var(--green);"></div></div>
+          </div>
+          <div class="metric-card good" id="card-refusal">
+            <div class="metric-name">拒答率</div>
+            <div class="metric-value" id="val-refusal">3.0</div>
+            <div class="metric-target">目标 &le; 5%</div>
+            <div class="metric-bar-wrap"><div class="metric-bar-fill" id="bar-refusal" style="width:80%;background:var(--green);"></div></div>
+          </div>
+          <div class="metric-card good" id="card-latency">
+            <div class="metric-name">P95 延迟</div>
+            <div class="metric-value" id="val-latency">1.8</div>
+            <div class="metric-target">目标 &le; 2.0s</div>
+            <div class="metric-bar-wrap"><div class="metric-bar-fill" id="bar-latency" style="width:64%;background:var(--green);"></div></div>
+          </div>
+        </div>
+        <div class="dash-controls">
+          <div class="dash-slider-group">
+            <label>准确率: <span id="slider-accuracy-label">92</span>%</label>
+            <input type="range" id="slider-accuracy" min="50" max="100" value="92" step="1" oninput="this.previousElementSibling.querySelector('span').textContent=this.value" />
+          </div>
+          <div class="dash-slider-group">
+            <label>接受率: <span id="slider-acceptance-label">87</span>%</label>
+            <input type="range" id="slider-acceptance" min="20" max="100" value="87" step="1" oninput="this.previousElementSibling.querySelector('span').textContent=this.value" />
+          </div>
+          <div class="dash-slider-group">
+            <label>拒答率: <span id="slider-refusal-label">3.0</span>%</label>
+            <input type="range" id="slider-refusal" min="0" max="25" value="3" step="0.5" oninput="this.previousElementSibling.querySelector('span').textContent=parseFloat(this.value).toFixed(1)" />
+          </div>
+          <div class="dash-slider-group">
+            <label>P95 延迟: <span id="slider-latency-label">1.8</span>s</label>
+            <input type="range" id="slider-latency" min="0.5" max="8" value="1.8" step="0.1" oninput="this.previousElementSibling.querySelector('span').textContent=parseFloat(this.value).toFixed(1)" />
+          </div>
+        </div>
+        <div class="dash-status pass" id="dash-status">&#10004; 所有指标达标 — 可以上线</div>
+      </div>
+      <div class="step-foot">看看 Vitamin 各功能该怎么定 ↓</div>
+    </section>
+
+    <!-- (9) -->
+    <section id="s9" class="step" data-step="9">
+      <div class="step-num"><span>(9)</span></div>
+      <h2 class="step-title">Vitamin 各功能的指标目标</h2>
+      <table class="constraint-table" style="margin:18px 0;">
+        <thead><tr><th>功能</th><th>准确率</th><th>接受率</th><th>拒答率</th><th>P95 延迟</th></tr></thead>
+        <tbody>
+          <tr><td><strong>每日总结</strong></td><td>&ge; 90%</td><td>&ge; 85%</td><td>&le; 5%</td><td>&le; 3s</td></tr>
+          <tr><td><strong>健康问答</strong></td><td>&ge; 92%</td><td>&ge; 80%</td><td>&le; 8%</td><td>&le; 2s</td></tr>
+          <tr><td><strong>情绪分类</strong></td><td>&ge; 88%</td><td>&ge; 90%</td><td>&le; 3%</td><td>&le; 1s</td></tr>
+          <tr><td><strong>饮食建议</strong></td><td>&ge; 90%</td><td>&ge; 85%</td><td>&le; 5%</td><td>&le; 2s</td></tr>
+          <tr><td><strong>运动计划</strong></td><td>&ge; 93%</td><td>&ge; 82%</td><td>&le; 3%</td><td>&le; 2s</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-red">
+        <strong>面试金句:</strong>
+        <p>"AI 产品需要双重指标: 传统产品指标 (DAU、留存、NPS) + AI 效果指标 (准确率、接受率、拒答率、延迟). 我会在 PRD 里为每个 AI 功能定义 4 个核心指标的目标值和不达标的兜底策略, 因为 AI 的概率性意味着我们必须量化 '够好' 和 '不够好' 的边界."</p>
+      </div>
+      <div class="step-foot">总结 + 作业 ↓</div>
+    </section>
+
+    <!-- (10) -->
+    <section id="s10" class="step" data-step="10">
+      <div class="step-num"><span>(10)</span></div>
+      <h2 class="step-title">一句话规则 + 课后作业</h2>
+      <div class="one-liner">
+        <div class="one-liner-tag">一句话:</div>
+        <p class="one-liner-text">AI PRD 的指标模块回答一个问题:<br/>"多好算合格, 不合格怎么办?"</p>
+        <p class="one-liner-foot muted">4 个指标: 准确率 + 接受率 + 拒答率 + P95 延迟. 缺一不可.</p>
+      </div>
+      <div class="callout callout-green">
+        <strong>课后作业 (30 分钟):</strong>
+        <ol>
+          <li>为 Vitamin 的 "健康问答" 功能, 写出完整的指标定义表 (4 个指标 + 目标值 + 不达标兜底).</li>
+          <li>讨论: 如果准确率和延迟冲突, Vitamin 的健康建议场景应该优先哪个? 写 50 字理由.</li>
+          <li>打开 ChatGPT, 给它一个健康问题, 连问 5 次. 你觉得它的 "接受率" 大概是多少? (你愿意采纳几次?)</li>
+          <li>搜索一篇关于 AI 产品效果评测的文章, 总结 3 个你觉得有用的指标定义方法.</li>
+        </ol>
+      </div>
+      <div class="callout callout-green" style="transform:rotate(0.3deg);">
+        <strong>资源延伸:</strong>
+        <table class="resource-table">
+          <thead><tr><th>类型</th><th>内容</th><th>来源</th><th>推荐理由</th><th>时长</th></tr></thead>
+          <tbody>
+            <tr><td>&#128196;</td><td><a href="https://productschool.com/blog/artificial-intelligence/evaluation-metrics" target="_blank">Evaluation Metrics for AI Products</a></td><td>Product School</td><td>AI 产品指标体系全面讲解</td><td>15 min</td></tr>
+            <tr><td>&#128196;</td><td><a href="https://aipmguru.substack.com/p/the-metric-stack-i-use-in-ai-prds" target="_blank">The Metric Stack I Use in AI PRDs</a></td><td>AI PM Guru</td><td>三层指标栈: 业务/产品/模型</td><td>10 min</td></tr>
+            <tr><td>&#128196;</td><td><a href="https://cloud.google.com/transform/gen-ai-kpis-measuring-ai-success-deep-dive" target="_blank">KPIs for Gen AI</a></td><td>Google Cloud</td><td>Google 的 AI KPI 框架</td><td>20 min</td></tr>
+            <tr><td>&#128196;</td><td><a href="https://www.iamprayerson.com/p/ai-product-metrics-for-product-managers" target="_blank">AI Product Metrics for PMs (中文友好)</a></td><td>Prayerson</td><td>概率性系统的指标思维</td><td>15 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="step-foot">走完了 — 回顾 ↓</div>
+    </section>
+
+    <!-- ■ END -->
+    <section id="end" class="step step-end" data-step="11">
+      <div class="step-marker"><span class="marker-glyph">&#9632;</span><span class="marker-label">终点</span></div>
+      <h2 class="end-title">你今天走过的 10 步</h2>
+      <div class="recap-grid">
+        <a href="#s1" class="recap-cell"><span class="rc-num">1</span> "挺好的" 不算验收</a>
+        <a href="#s2" class="recap-cell"><span class="rc-num">2</span> 光看准确率不够</a>
+        <a href="#s3" class="recap-cell"><span class="rc-num">3</span> 4 大核心指标</a>
+        <a href="#s4" class="recap-cell"><span class="rc-num">4</span> 怎么测量</a>
+        <a href="#s5" class="recap-cell"><span class="rc-num">5</span> 目标值怎么定</a>
+        <a href="#s6" class="recap-cell"><span class="rc-num">6</span> 不达标怎么办</a>
+        <a href="#s7" class="recap-cell"><span class="rc-num">7</span> 指标间的权衡</a>
+        <a href="#s8" class="recap-cell"><span class="rc-num">8</span> 效果仪表盘</a>
+        <a href="#s9" class="recap-cell"><span class="rc-num">9</span> Vitamin 各功能指标</a>
+        <a href="#s10" class="recap-cell"><span class="rc-num">10</span> 规则 + 作业</a>
+      </div>
+      <div class="end-summary">
+        <p class="end-summary-tag">一句话记住 Unit 3:</p>
+        <p class="end-summary-big">AI PRD 用 4 个指标量化 "够好":<br/>准确率 + 接受率 + 拒答率 + P95 延迟.</p>
+        <p class="end-summary-sub">每个指标都要有目标值和不达标的兜底策略.</p>
+      </div>
+      <div class="next-card">
+        <div class="next-tag">下节课 (Unit 4): 错误兜底机制</div>
+        <p>知道了 "多好算合格", 下一步要回答: <strong>"不合格时怎么办?"</strong><br/>5 类兜底: 重试 / 切模型 / 切规则 / 转人工 / 直接拒答.</p>
+        <a class="walk-arrow" href="../u4-fallback/index.html">继续走 &rarr; Unit 4</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>AI for PM · Module 2.1 · Unit 3 · 个人定制版</p>
+    <p class="muted">字体: Excalifont (Latin) + LXGW WenKai (中文). 手绘元素: rough.js. 全部开源.</p>
+  </footer>
+  <script src="../../shared/rough.min.js"></script>
+  <script src="../../shared/app.js"></script>
+  <script src="./unit.js"></script>
+</body>
+</html>
